@@ -1,3 +1,3 @@
-export default function ProjectSubmit() {
+export default function SubmitProject() {
   return <div>YO!</div>;
 }
