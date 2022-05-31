@@ -4,52 +4,59 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
-const mailingLists = [
+const typologies = [
   {
     id: 1,
     title: "Woodland",
     description: "Typology description",
     users: "some stats",
+    value: "forest",
   },
   {
     id: 2,
     title: "Street Trees",
     description: "Typology description",
     users: "some stats",
+    value: "forest",
   },
   {
     id: 3,
     title: "Trees in Vacant Lands",
     description: "Typology description",
     users: "some stats",
+    value: "forest",
   },
   {
     id: 4,
     title: "Raingarden(SuDS)",
     description: "Typology description",
     users: "some stats",
+    value: "forest",
   },
   {
     id: 5,
     title: "Basin(SuDS)",
     description: "Typology description",
     users: "some stats",
+    value: "forest",
   },
   {
     id: 6,
     title: "Filter Stripes & Swales(SuDS)",
     description: "Typology description",
     users: "some stats",
+    value: "forest",
   },
   {
     id: 7,
     title: "Permeable Surfaces(SuDS)",
     description: "Typology description",
     users: "some stats",
+    value: "forest",
   },
 ];
 
-const people = [
+const activities = [
   { id: 1, name: "Planting" },
   { id: 2, name: "Pruning(early care)" },
   { id: 3, name: "Pruning(mature)" },
@@ -67,9 +74,57 @@ function classNames(...classes) {
 }
 
 export default function SubmitProject() {
-  const [selectedMailingLists, setSelectedMailingLists] = useState(
-    mailingLists[0]
-  );
+  const [projectName, setProjectName] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
+  const [minDBH, setMinDBH] = useState(0);
+  const [maxDBH, setMaxDBH] = useState(0);
+  const [areaDensity, setAreaDensity] = useState(0);
+
+  const handleMinChange = (e) => {
+    setMinDBH(e.target.value);
+  };
+
+  const handleMaxChange = (e) => {
+    setMaxDBH(e.target.value);
+  };
+
+  const getSAFOutput = () => {
+    let requestHeaders = new Headers();
+    requestHeaders.append("accept", "application/json");
+    requestHeaders.append("Content-Type", "application/json");
+    requestHeaders.append("Access-Control-Allow-Origin", "*");
+    requestHeaders.append("Authorization", "Bearer " + process.env.REACT_APP_API_TOKEN)
+
+    const payload = JSON.stringify({
+      name: projectName,
+      description: projectDescription,
+      typology: selectedTypology.value,
+      min_dbh: parseInt(minDBH),
+      max_dbh: parseInt(maxDBH),
+      maintenance_scope: 2,
+      season_growth_mean: 200,
+      season_growth_var: 7,
+      time_horizon: 50,
+      density_per_ha: parseInt(areaDensity),
+      species: ["evergreen"],
+    });
+
+    let requestOptions = {
+      method: "POST",
+      headers: requestHeaders,
+      body: payload,
+      redirect: "follow",
+    };
+
+    fetch("http://127.0.0.1:8000/api/v1/saf/run", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => console.log("error", error));
+  };
+
   return (
     <>
       <NavBar />
@@ -103,6 +158,10 @@ export default function SubmitProject() {
                       id="project-name"
                       placeholder="Title of the project"
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                      defaultValue={projectName}
+                      onChange={(e) => {
+                        setProjectName(e.target.value);
+                      }}
                     />
                   </div>
                 </div>
@@ -159,7 +218,10 @@ export default function SubmitProject() {
                       name="project-description"
                       rows={3}
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-primary rounded-2xl"
-                      defaultValue={""}
+                      defaultValue={projectDescription}
+                      onChange={(e) => {
+                        setProjectDescription(e.target.value);
+                      }}
                     />
                   </div>
                   <p className="mt-2 text-sm text-gray-500">
@@ -205,19 +267,16 @@ export default function SubmitProject() {
               </div>
             </div>
           </div>
-          <RadioGroup
-            value={selectedMailingLists}
-            onChange={setSelectedMailingLists}
-          >
+          <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
             <RadioGroup.Label className="font-medium text-primary font-spaceBold">
               Select the typology
             </RadioGroup.Label>
 
             <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
-              {mailingLists.map((mailingList) => (
+              {typologies.map((typology) => (
                 <RadioGroup.Option
-                  key={mailingList.id}
-                  value={mailingList}
+                  key={typology.id}
+                  value={typology}
                   className={({ checked, active }) =>
                     classNames(
                       checked ? "border-transparent" : "border-gray-300",
@@ -234,19 +293,19 @@ export default function SubmitProject() {
                             as="span"
                             className="block text-sm font-medium text-gray-900 font-spaceBold"
                           >
-                            {mailingList.title}
+                            {typology.title}
                           </RadioGroup.Label>
                           <RadioGroup.Description
                             as="span"
                             className="mt-1 flex items-center text-sm text-gray-500"
                           >
-                            {mailingList.description}
+                            {typology.description}
                           </RadioGroup.Description>
                           <RadioGroup.Description
                             as="span"
                             className="mt-6 text-sm font-medium text-gray-900"
                           >
-                            {mailingList.users}
+                            {typology.users}
                           </RadioGroup.Description>
                         </span>
                       </span>
@@ -292,6 +351,10 @@ export default function SubmitProject() {
                 id="area-density"
                 placeholder="Trees per ha"
                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                defaultValue={areaDensity}
+                onChange={(e) => {
+                  setAreaDensity(e.target.value);
+                }}
               />
             </div>
           </div>
@@ -301,20 +364,23 @@ export default function SubmitProject() {
               What are your activities?
             </legend>
             <div className="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
-              {people.map((person, personIdx) => (
-                <div key={personIdx} className="relative flex items-start py-4">
+              {activities.map((activity, activityIdx) => (
+                <div
+                  key={activityIdx}
+                  className="relative flex items-start py-4"
+                >
                   <div className="min-w-0 flex-1 text-sm">
                     <label
-                      htmlFor={`person-${person.id}`}
+                      htmlFor={`person-${activity.id}`}
                       className="font-medium text-gray-700 select-none"
                     >
-                      {person.name}
+                      {activity.name}
                     </label>
                   </div>
                   <div className="ml-3 flex items-center h-5">
                     <input
-                      id={`person-${person.id}`}
-                      name={`person-${person.id}`}
+                      id={`person-${activity.id}`}
+                      name={`person-${activity.id}`}
                       type="checkbox"
                       className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                     />
@@ -373,7 +439,7 @@ export default function SubmitProject() {
                 </label>
                 <div className="mt-1">
                   <input
-                    type="text"
+                    type="number"
                     disabled
                     name="project-name"
                     id="project-name"
@@ -386,46 +452,53 @@ export default function SubmitProject() {
           </div>
 
           <label
-            for="minmax-range"
+            htmlFor="minmax-range"
             className="block mb-2 text-sm font-medium text-primary font-spaceBold"
           >
             MIN DBH
           </label>
+          <p>Value: {minDBH}</p>
           <input
             id="minmax-range"
             type="range"
-            min="0"
-            max="10"
+            min="10"
+            max="50"
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            defaultValue={minDBH}
+            onMouseUp={handleMinChange}
           />
 
           <label
-            for="minmax-range"
+            htmlFor="minmax-range"
             className="block mb-2 text-sm font-medium text-primary font-spaceBold"
           >
             MAX DBH
           </label>
+          <p>Value: {maxDBH}</p>
           <input
             id="minmax-range"
             type="range"
-            min="0"
-            max="10"
+            min="10"
+            max="50"
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            defaultValue={maxDBH}
+            onMouseUp={handleMaxChange}
           />
 
-          <div className="pt-5">
+          <div className="pt-5 pb-20">
             <div className="flex justify-end">
               <button
                 type="button"
                 className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Cancel
+                Save for later
               </button>
               <button
-                type="submit"
+                type="button"
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={getSAFOutput}
               >
-                Save
+                Submit
               </button>
             </div>
           </div>
