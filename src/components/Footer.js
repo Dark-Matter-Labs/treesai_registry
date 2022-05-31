@@ -203,7 +203,7 @@ export default function Example() {
           </div>
           <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
             &copy; 2022 Trees as Infrastructure, part of Dark Matter Labs &
-            Lucmindminds
+            Lucidminds
           </p>
         </div>
       </div>
