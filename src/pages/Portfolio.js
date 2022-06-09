@@ -3,6 +3,8 @@ import mapboxgl from "mapbox-gl"
 import { useState, useCallback } from "react";
 import GlasgowJSON from "../data/VDL_selected.geojson";
 
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
 
 export default function Portfolio() {
@@ -35,14 +37,12 @@ export default function Portfolio() {
       <Source id="my-data" type="geojson" data={GlasgowJSON}>
         <Layer
           id="my-data"
-          source="my-data"
           type="fill"
           layout={{}}
           paint={{ "fill-color": "#10B981", "fill-opacity": 1 }}
         />
         <Layer
           id="outline"
-          source="my-data"
           type="line"
           layout={{}}
           paint={{ "line-color": "#000", "line-width": 2 }}
