@@ -1,4 +1,5 @@
 import ReactMapboxGL, { Source, Layer } from "react-map-gl";
+import mapboxgl from "mapbox-gl"
 import { useState, useCallback } from "react";
 import GlasgowJSON from "../data/VDL_selected.geojson";
 
