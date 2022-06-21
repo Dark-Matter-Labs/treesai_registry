@@ -6,8 +6,8 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
-        spaceRegular: ['"SpaceMono Regular"', "sans-serif"],
-        spaceBold: ['"SpaceMono Bold"', "sans-serif"],
+        spaceRegular: ['"ABCFavorit Regular"', "sans-serif"],
+        spaceBold: ['"ABCFavorit Bold"', "sans-serif"],
       },
       colors: {
         primary: "#10B981",
