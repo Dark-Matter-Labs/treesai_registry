@@ -75,6 +75,7 @@ export default function Register() {
 
             setShow(true);
             navigate("/submit-project");
+            window.location.reload();
           })
           .catch((error) => console.log("error", error));
       })

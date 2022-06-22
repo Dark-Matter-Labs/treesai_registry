@@ -48,6 +48,7 @@ export default function Login() {
 
         setShow(true);
         navigate("/submit-project");
+        window.location.reload();
       })
       .catch((error) => console.log("error", error));
   };
