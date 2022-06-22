@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import { XIcon } from "@heroicons/react/solid";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import logo from "../images/logo.svg";
@@ -143,8 +143,14 @@ export default function Register() {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Register
           </h2>
+          <p className="text-center mt-2 font-small text-gray-900">
+            Already registered? Login{" "}
+            <Link className="text-primary" to="/login">
+              here
+            </Link>
+            .
+          </p>
         </div>
-
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6">
