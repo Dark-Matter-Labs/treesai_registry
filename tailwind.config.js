@@ -10,8 +10,8 @@ module.exports = {
         spaceBold: ['"ABCFavorit Bold"', "sans-serif"],
       },
       colors: {
-        primary: "#10B981",
-        secondary: "#064E3B",
+        primary: "#1EA685",
+        secondary: "#1B3028",
         background: "#EAEAEA",
       },
     },
