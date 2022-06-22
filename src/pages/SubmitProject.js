@@ -102,7 +102,7 @@ function sumRange(array, start, end) {
   return sum;
 }
 
-export default function SubmitProject() {
+export default function SubmitProject(props) {
   const [processStage, setProcessStage] = useState(1);
   const [showNotification, setShowNotification] = useState(false);
 
@@ -329,7 +329,7 @@ export default function SubmitProject() {
           </div>
         </div>
       </>
-      <NavBar current="projectSubmit" />
+      <NavBar loggedIn={props.loggedIn} current="projectSubmit" />
       {processStage === 1 && (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <form className="space-y-8 divide-y divide-gray-200">

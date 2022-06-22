@@ -27,11 +27,11 @@ const cities = [
   },
 ];
 
-export default function Home() {
+export default function Home(props) {
   return (
     <div className="bg-white">
       <div className="relative overflow-hidden">
-        <NavBar loggedIn={false} current="home" />
+        <NavBar loggedIn={props.loggedIn} current="home" />
         <main>
           <div className="header-background center-container">
             <h1 className="text-5xl leading-12 font-lg text-white font-spaceBold center-content">

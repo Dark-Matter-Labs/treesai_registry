@@ -10,7 +10,7 @@ mapboxgl.workerClass =
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
 
-export default function Portfolio() {
+export default function Portfolio(props) {
   const [hoverInfo, setHoverInfo] = useState(null);
 
   const onHover = useCallback((event) => {
@@ -26,7 +26,7 @@ export default function Portfolio() {
 
   return (
     <>
-      <NavBar current="portfolio" />
+      <NavBar loggedIn={props.loggedIn} current="portfolio" />
       <ReactMapboxGL
         mapboxAccessToken={MAPBOX_TOKEN}
         style={{ width: "100vw", height: "80vh" }}
