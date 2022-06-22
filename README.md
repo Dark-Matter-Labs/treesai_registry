@@ -6,6 +6,10 @@ TreesAI pilot platform in Glasgow for project developers.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Setup
+
+You need to create `.env` file at project root and define `REACT_APP_MAPBOX_KEY` there.
+
 ## Available Scripts
 
 In the project directory, you can run:
