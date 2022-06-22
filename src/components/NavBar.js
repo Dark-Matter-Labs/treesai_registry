@@ -42,25 +42,55 @@ export default function NavBar(props) {
                   </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                  <span className="border-primary text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                  <span
+                    className={classNames(
+                      props.current === "home"
+                        ? "border-primary text-gray-900"
+                        : "border-transparent text-gray-500",
+                      "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    )}
+                  >
                     <Link to="/">Home</Link>
                   </span>
-                  <span className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                  <span
+                    className={classNames(
+                      props.current === "portfolio"
+                        ? "border-primary text-gray-900"
+                        : "border-transparent text-gray-500",
+                      "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    )}
+                  >
                     <Link to="/portfolio">City Portfolio</Link>
                   </span>
-                  <span className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                  <span
+                    className={classNames(
+                      props.current === "projectSubmit"
+                        ? "border-primary text-gray-900"
+                        : "border-transparent text-gray-500",
+                      "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    )}
+                  >
                     <Link to="/submit-project">Submit project</Link>
                   </span>
                   <a
                     href="#"
-                    className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    className={classNames(
+                      props.current === "learn"
+                        ? "border-primary text-gray-900"
+                        : "border-transparent text-gray-500",
+                      "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    )}
                   >
                     Learn more
                   </a>
                   <a
                     href="#"
-                    className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    className={classNames(
+                      props.current === "contact"
+                        ? "border-primary text-gray-900"
+                        : "border-transparent text-gray-500",
+                      "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    )}
                   >
                     Contact
                   </a>

@@ -26,12 +26,12 @@ export default function Portfolio() {
 
   return (
     <>
-      <NavBar />
+      <NavBar current="portfolio" />
       <ReactMapboxGL
         mapboxAccessToken={MAPBOX_TOKEN}
         style={{ width: "100vw", height: "80vh" }}
         mapStyle="mapbox://styles/mapbox/streets-v11"
-        interactiveLayerIds={["my-data"]}
+        interactiveLayerIds={["portfolio-vdl-details"]}
         onMouseMove={onHover}
         initialViewState={{
           longitude: -4.2518,
@@ -39,9 +39,9 @@ export default function Portfolio() {
           zoom: 12,
         }}
       >
-        <Source id="my-data" type="geojson" data={GlasgowJSON}>
+        <Source id="portfolio-vdl" type="geojson" data={GlasgowJSON}>
           <Layer
-            id="my-data"
+            id="portfolio-vdl-details"
             type="fill"
             layout={{}}
             paint={{ "fill-color": "#10B981", "fill-opacity": 1 }}
