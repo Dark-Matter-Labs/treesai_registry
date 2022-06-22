@@ -171,7 +171,7 @@ export default function SubmitProject() {
     requestHeaders.append("Access-Control-Allow-Origin", "*");
     requestHeaders.append(
       "Authorization",
-      "Bearer " + process.env.REACT_APP_API_TOKEN
+      "Bearer " + sessionStorage.token
     );
 
     const payload = JSON.stringify({
@@ -342,7 +342,6 @@ export default function SubmitProject() {
                         <option>Potential</option>
                         <option>Preplanning</option>
                         <option>Postplanning</option>
-                        <option>Completed</option>
                       </select>
                     </div>
                   </div>
