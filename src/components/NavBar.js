@@ -9,6 +9,11 @@ function classNames(...classes) {
 }
 
 export default function NavBar(props) {
+  const signOut = () => {
+    sessionStorage.clear();
+    window.location.reload();
+  };
+
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
@@ -156,15 +161,15 @@ export default function NavBar(props) {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="#"
+                            <span
+                              onClick={signOut}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Sign out
-                            </a>
+                            </span>
                           )}
                         </Menu.Item>
                       </Menu.Items>
