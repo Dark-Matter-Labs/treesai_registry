@@ -9,7 +9,10 @@ import Login from "./pages/Login";
 
 function App() {
   let loggedIn = false;
-  if (sessionStorage.getItem("token") !== null) {
+  if (
+    sessionStorage.getItem("token") !== null &&
+    sessionStorage.getItem("token") !== undefined
+  ) {
     loggedIn = true;
   }
 
