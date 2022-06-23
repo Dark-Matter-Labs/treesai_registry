@@ -27,16 +27,16 @@ const cities = [
   },
 ];
 
-export default function Home() {
+export default function Home(props) {
   return (
     <div className="bg-white">
       <div className="relative overflow-hidden">
-        <NavBar loggedIn={false} />
+        <NavBar loggedIn={props.loggedIn} current="home" />
         <main>
           <div className="header-background center-container">
-            <h1 className="text-5xl leading-12 font-lg text-white font-spaceBold center-content ">
-              Welcome to TreesAI Impact Planner! Check your city portfolio and
-              start your project journey.
+            <h1 className="text-5xl leading-12 font-lg text-white font-spaceBold center-content">
+              TreesAI Portfolio helps you manage your Nature-based Solutions
+              assets for the benefit of people and the planet
             </h1>
           </div>
           <div className="bg-background">

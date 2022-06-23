@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { RadioGroup } from "@headlessui/react";
-import { CheckCircleIcon } from "@heroicons/react/solid";
+import { useState, useEffect, Fragment } from "react";
+import { RadioGroup, Transition } from "@headlessui/react";
+import { CheckCircleIcon, XIcon } from "@heroicons/react/solid";
+import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import { Line } from "@nivo/line";
 import { ResponsiveBar } from "@nivo/bar";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
@@ -12,49 +14,49 @@ const typologies = [
     title: "Woodland",
     description: "Typology description",
     users: "some stats",
-    value: "forest",
+    value: "woodland",
   },
   {
     id: 2,
     title: "Street Trees",
     description: "Typology description",
     users: "some stats",
-    value: "forest",
+    value: "park",
   },
   {
     id: 3,
     title: "Trees in Vacant Lands",
     description: "Typology description",
     users: "some stats",
-    value: "forest",
+    value: "tree in VDL",
   },
   {
     id: 4,
     title: "Raingarden(SuDS)",
     description: "Typology description",
     users: "some stats",
-    value: "forest",
+    value: "raingardens and basins",
   },
   {
     id: 5,
     title: "Basin(SuDS)",
     description: "Typology description",
     users: "some stats",
-    value: "forest",
+    value: "raingardens and basins",
   },
   {
     id: 6,
     title: "Filter Stripes & Swales(SuDS)",
     description: "Typology description",
     users: "some stats",
-    value: "forest",
+    value: "raingardens and basins",
   },
   {
     id: 7,
     title: "Permeable Surfaces(SuDS)",
     description: "Typology description",
     users: "some stats",
-    value: "forest",
+    value: "raingardens and basins",
   },
 ];
 
@@ -79,7 +81,6 @@ const commonProperties = {
   enableSlices: "x",
 };
 
-//TODO these are temporary variables, to be moved to react state
 let avg_rel_array,
   avg_seq_array,
   alive_array,
@@ -102,8 +103,10 @@ function sumRange(array, start, end) {
   return sum;
 }
 
-export default function SubmitProject() {
-  const [showOutput, setShowOutput] = useState(false);
+export default function SubmitProject(props) {
+  const [processStage, setProcessStage] = useState(1);
+  const [showNotification, setShowNotification] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -111,6 +114,18 @@ export default function SubmitProject() {
   const [minDBH, setMinDBH] = useState(0);
   const [maxDBH, setMaxDBH] = useState(0);
   const [areaDensity, setAreaDensity] = useState(0);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      sessionStorage.getItem("token") === null ||
+      sessionStorage.getItem("token") === undefined
+    ) {
+      setShowNotification(true);
+      navigate("/register");
+    }
+  });
 
   const handleMinChange = (e) => {
     setMinDBH(e.target.value);
@@ -120,15 +135,63 @@ export default function SubmitProject() {
     setMaxDBH(e.target.value);
   };
 
+  const getProjectID = async () => {
+    let requestHeaders = new Headers();
+    requestHeaders.append("accept", "application/json");
+    requestHeaders.append("Content-Type", "application/json");
+    requestHeaders.append("Access-Control-Allow-Origin", "*");
+    requestHeaders.append("Authorization", "Bearer " + sessionStorage.token);
+
+    const payload = JSON.stringify({
+      title: projectName,
+      description: projectDescription,
+      in_portfolio: true,
+      project_dev: "string",
+      owner_id: sessionStorage.user_id,
+      activities: "string",
+      area: 0,
+      cost: 0,
+      stage: "string",
+      number_of_trees: 0,
+      local_authority: "string",
+      location: "string",
+      start_date: "2022-06-16T09:32:51.188Z",
+    });
+
+    let requestOptions = {
+      method: "POST",
+      headers: requestHeaders,
+      body: payload,
+      redirect: "follow",
+    };
+
+    await fetch(
+      "http://127.0.0.1:8000/api/v1/saf/users/" +
+        sessionStorage.user_id +
+        "/projects",
+      requestOptions
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        setShowError(true);
+        throw new Error("Something went wrong");
+      })
+      .then((result) => {
+        sessionStorage.setItem("project_id", JSON.stringify(result.id));
+
+        setProcessStage(2);
+      })
+      .catch((error) => console.log("error", error));
+  };
+
   const getSAFOutput = async () => {
     let requestHeaders = new Headers();
     requestHeaders.append("accept", "application/json");
     requestHeaders.append("Content-Type", "application/json");
     requestHeaders.append("Access-Control-Allow-Origin", "*");
-    requestHeaders.append(
-      "Authorization",
-      "Bearer " + process.env.REACT_APP_API_TOKEN
-    );
+    requestHeaders.append("Authorization", "Bearer " + sessionStorage.token);
 
     const payload = JSON.stringify({
       name: projectName,
@@ -141,7 +204,7 @@ export default function SubmitProject() {
       season_growth_var: 7,
       time_horizon: 50,
       density_per_ha: parseInt(areaDensity),
-      species: ["evergreen"],
+      species: "decidu",
     });
 
     let requestOptions = {
@@ -151,8 +214,21 @@ export default function SubmitProject() {
       redirect: "follow",
     };
 
-    await fetch("http://127.0.0.1:8000/api/v1/saf/run", requestOptions)
-      .then((response) => response.json())
+    await fetch(
+      "http://127.0.0.1:8000/api/v1/saf/users/" +
+        sessionStorage.user_id +
+        "/projects/" +
+        sessionStorage.project_id +
+        "/run",
+      requestOptions
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        setShowError(true);
+        throw new Error("Something went wrong");
+      })
       .then((result) => {
         console.log(result);
         avg_rel_array = Object.keys(result.Avg_Rel).map((key) => ({
@@ -210,18 +286,124 @@ export default function SubmitProject() {
           },
         ];
 
-        setShowOutput(true);
+        setProcessStage(3);
       })
       .catch((error) => console.log("error", error));
   };
 
   return (
     <>
-      <NavBar />
-      {!showOutput && (
+      <>
+        <div
+          aria-live="assertive"
+          className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+        >
+          <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+            {/* TODO: make notifications global */}
+            <Transition
+              show={showNotification}
+              as={Fragment}
+              enter="transform ease-out duration-300 transition"
+              enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+              enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                <div className="p-4">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <CheckCircleIcon
+                        className="h-6 w-6 text-green-400"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div className="ml-3 w-0 flex-1 pt-0.5">
+                      <p className="text-sm font-medium text-gray-900">
+                        Please register or login first!
+                      </p>
+                      <p className="mt-1 text-sm text-gray-500">
+                        Taking you register page.
+                      </p>
+                    </div>
+                    <div className="ml-4 flex-shrink-0 flex">
+                      <button
+                        type="button"
+                        className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={() => {
+                          setShow(false);
+                        }}
+                      >
+                        <span className="sr-only">Close</span>
+                        <XIcon className="h-5 w-5" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Transition>
+          </div>
+        </div>
+      </>
+      <>
+        <div
+          aria-live="assertive"
+          className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+        >
+          <div className="w-full flex flex-col items-center space-y-4 sm:items-end pt-20">
+            {/* TODO: make notifications global */}
+            <Transition
+              show={showError}
+              as={Fragment}
+              enter="transform ease-out duration-300 transition"
+              enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+              enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                <div className="p-4">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <ExclamationCircleIcon
+                        className="h-6 w-6 text-red-400"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div className="ml-3 w-0 flex-1 pt-0.5">
+                      <p className="text-sm font-medium text-gray-900">
+                        Sorry there was an error!
+                      </p>
+                      <p className="mt-1 text-sm text-gray-500">
+                        error details
+                      </p>
+                    </div>
+                    <div className="ml-4 flex-shrink-0 flex">
+                      <button
+                        type="button"
+                        className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={() => {
+                          setShowError(false);
+                        }}
+                      >
+                        <span className="sr-only">Close</span>
+                        <XIcon className="h-5 w-5" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Transition>
+          </div>
+        </div>
+      </>
+      <NavBar loggedIn={props.loggedIn} current="projectSubmit" />
+      {processStage === 1 && (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <form className="space-y-8 divide-y divide-gray-200">
-            <div className="space-y-8 divide-y divide-gray-200">
+            <div className="space-y-8 divide-y divide-gray-200 pb-20">
               <div>
                 <div className="mt-10">
                   <h2 className="text-4xl font-extrabold tracking-tight sm:text-4xl font-spaceBold text-primary">
@@ -291,7 +473,6 @@ export default function SubmitProject() {
                         <option>Potential</option>
                         <option>Preplanning</option>
                         <option>Postplanning</option>
-                        <option>Completed</option>
                       </select>
                     </div>
                   </div>
@@ -357,7 +538,136 @@ export default function SubmitProject() {
                   </div>
                 </div>
               </div>
+              <fieldset>
+                <legend className="text-lg font-medium text-primary font-spaceBold">
+                  What are your activities?
+                </legend>
+                <div className="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
+                  {activities.map((activity, activityIdx) => (
+                    <div
+                      key={activityIdx}
+                      className="relative flex items-start py-4"
+                    >
+                      <div className="min-w-0 flex-1 text-sm">
+                        <label
+                          htmlFor={`person-${activity.id}`}
+                          className="font-medium text-gray-700 select-none"
+                        >
+                          {activity.name}
+                        </label>
+                      </div>
+                      <div className="ml-3 flex items-center h-5">
+                        <input
+                          id={`person-${activity.id}`}
+                          name={`person-${activity.id}`}
+                          type="checkbox"
+                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </fieldset>
+
+              <div className="">
+                <label
+                  htmlFor="area-density"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Number of trees
+                </label>
+                <div className="mt-1">
+                  <input
+                    type="number"
+                    name="area-density"
+                    id="area-density"
+                    placeholder="Trees per ha"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                    defaultValue={areaDensity}
+                    onChange={(e) => {
+                      setAreaDensity(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="local-authority"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Local authority
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="local-authority"
+                    name="local-authority"
+                    type="text"
+                    placeholder="Glasgow City Council"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="location"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Location
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="location"
+                    name="location"
+                    type="text"
+                    placeholder="Location"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="start-date"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Start date
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="start-date"
+                    name="start-date"
+                    type="date"
+                    placeholder="Start date"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                  />
+                </div>
+              </div>
             </div>
+          </form>
+          <div className="pt-5 pb-20">
+            <div className="flex justify-end">
+              <button
+                type="button"
+                className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Save for later
+              </button>
+              <button
+                type="button"
+                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={getProjectID}
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {processStage === 2 && (
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <form className="space-y-8 divide-y divide-gray-200">
             <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
               <RadioGroup.Label className="font-medium text-primary font-spaceBold">
                 Select the typology
@@ -431,8 +741,7 @@ export default function SubmitProject() {
                 Define the area density
               </h3>
               <p>
-                You can choose the paramether to define how your area looks
-                like.
+                You can choose the parameter to define how your area looks like.
               </p>
               <label
                 htmlFor="area-density"
@@ -454,37 +763,6 @@ export default function SubmitProject() {
                 />
               </div>
             </div>
-
-            <fieldset>
-              <legend className="text-lg font-medium text-primary font-spaceBold">
-                What are your activities?
-              </legend>
-              <div className="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
-                {activities.map((activity, activityIdx) => (
-                  <div
-                    key={activityIdx}
-                    className="relative flex items-start py-4"
-                  >
-                    <div className="min-w-0 flex-1 text-sm">
-                      <label
-                        htmlFor={`person-${activity.id}`}
-                        className="font-medium text-gray-700 select-none"
-                      >
-                        {activity.name}
-                      </label>
-                    </div>
-                    <div className="ml-3 flex items-center h-5">
-                      <input
-                        id={`person-${activity.id}`}
-                        name={`person-${activity.id}`}
-                        type="checkbox"
-                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </fieldset>
 
             <div className="">
               <h3 className="text-primary font-spaceBold">
@@ -601,7 +879,7 @@ export default function SubmitProject() {
           </form>
         </div>
       )}
-      {showOutput && (
+      {processStage === 3 && (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <Line
             {...commonProperties}
