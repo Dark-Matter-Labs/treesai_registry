@@ -40,6 +40,7 @@ export default function Register() {
     await fetch("http://127.0.0.1:8000/api/v1/users", createUserRequestOptions)
       .then((response) => {
         if (response.ok) {
+          sessionStorage.setItem("user_name", name);
           return response.json();
         }
         setShowError(true);
