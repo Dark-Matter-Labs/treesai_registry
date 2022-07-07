@@ -3,10 +3,13 @@ import { RadioGroup, Transition } from "@headlessui/react";
 import { CheckCircleIcon, XIcon } from "@heroicons/react/solid";
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import { Line } from "@nivo/line";
-import { ResponsiveBar } from "@nivo/bar";
+import { ResponsiveBarCanvas } from "@nivo/bar";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import Breadcrumb from "../components/Breadcrumb";
+import projectImg from "../images/project-default.png";
+import tempImg from "../images/temp-map.png";
 
 const typologies = [
   {
@@ -14,7 +17,10 @@ const typologies = [
     title: "Woodland",
     description: "Typology description",
     users: "some stats",
-    value: "woodland",
+    value: "forest",
+    minDBH: 4.77,
+    maxDBH: 4.77,
+    species: "conifer",
   },
   {
     id: 2,
@@ -22,6 +28,9 @@ const typologies = [
     description: "Typology description",
     users: "some stats",
     value: "park",
+    minDBH: 15,
+    maxDBH: 15,
+    species: "conifer",
   },
   {
     id: 3,
@@ -29,61 +38,52 @@ const typologies = [
     description: "Typology description",
     users: "some stats",
     value: "tree in VDL",
-  },
-  {
-    id: 4,
-    title: "Raingarden(SuDS)",
-    description: "Typology description",
-    users: "some stats",
-    value: "raingardens and basins",
-  },
-  {
-    id: 5,
-    title: "Basin(SuDS)",
-    description: "Typology description",
-    users: "some stats",
-    value: "raingardens and basins",
-  },
-  {
-    id: 6,
-    title: "Filter Stripes & Swales(SuDS)",
-    description: "Typology description",
-    users: "some stats",
-    value: "raingardens and basins",
-  },
-  {
-    id: 7,
-    title: "Permeable Surfaces(SuDS)",
-    description: "Typology description",
-    users: "some stats",
-    value: "raingardens and basins",
+    minDBH: 7,
+    maxDBH: 30,
+    species: "conifer",
   },
 ];
 
 const activities = [
-  { id: 1, name: "Planting" },
-  { id: 2, name: "Pruning(early care)" },
-  { id: 3, name: "Pruning(mature)" },
-  { id: 4, name: "Watering" },
-  { id: 5, name: "Pest/Risks Management" },
-  { id: 5, name: "Maintenance" },
-  { id: 5, name: "Grass cutting, path & drain maintenance" },
-  { id: 5, name: "Removal & disposal" },
-  { id: 5, name: "Tree replacement" },
-  { id: 5, name: "Inspection & monitoring" },
+  { id: 0, name: "Planting", value: "planting" },
+  { id: 1, name: "Maintenance", value: "maintenance" },
+  { id: 2, name: "Restoration", value: "restoration" },
+  { id: 3, name: "Landscaping", value: "landscaping" },
+  { id: 4, name: "Preservation", value: "preservation" },
 ];
 
 const commonProperties = {
-  width: 900,
+  width: 650,
   height: 400,
-  margin: { top: 20, right: 20, bottom: 60, left: 80 },
+  margin: { top: 20, right: 20, bottom: 60, left: 40 },
   animate: true,
   enableSlices: "x",
+  theme: {
+    background: "#E5E7EB",
+    textColor: "#374151",
+  },
+  colors: "#1EA685",
+};
+
+const commonPropertiesMultiLine = {
+  width: 650,
+  height: 400,
+  margin: { top: 20, right: 50, bottom: 60, left: 50 },
+  animate: true,
+  enableSlices: "x",
+  theme: {
+    background: "#E5E7EB",
+    textColor: "#374151",
+  },
+  colors: ["#1EA685", "#374151", "#C4C4C4"],
 };
 
 let avg_rel_array,
+  avg_rel,
   avg_seq_array,
+  avg_seq,
   alive_array,
+  alive,
   cumulative_seq_array,
   released_array,
   storage_array,
@@ -109,7 +109,12 @@ export default function SubmitProject(props) {
   const [showError, setShowError] = useState(false);
 
   const [projectName, setProjectName] = useState("");
+  const [projectDev, setProjectDev] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
+  const [treeNumber, setTreeNumber] = useState(0);
+  const [selectedActivity, setSelectedActivity] = useState("");
+  const [selectedStage, setSelectedStage] = useState("potential");
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [minDBH, setMinDBH] = useState(0);
   const [maxDBH, setMaxDBH] = useState(0);
@@ -146,13 +151,13 @@ export default function SubmitProject(props) {
       title: projectName,
       description: projectDescription,
       in_portfolio: true,
-      project_dev: "string",
+      project_dev: projectDev,
       owner_id: sessionStorage.user_id,
-      activities: "string",
+      activities: selectedActivity,
       area: 0,
       cost: 0,
-      stage: "string",
-      number_of_trees: 0,
+      stage: selectedStage,
+      number_of_trees: treeNumber,
       local_authority: "string",
       location: "string",
       start_date: "2022-06-16T09:32:51.188Z",
@@ -197,14 +202,14 @@ export default function SubmitProject(props) {
       name: projectName,
       description: projectDescription,
       typology: selectedTypology.value,
-      min_dbh: parseInt(minDBH),
-      max_dbh: parseInt(maxDBH),
+      min_dbh: parseInt(selectedTypology.minDBH),
+      max_dbh: parseInt(selectedTypology.maxDBH),
       maintenance_scope: 2,
       season_growth_mean: 200,
       season_growth_var: 7,
       time_horizon: 50,
       density_per_ha: parseInt(areaDensity),
-      species: "decidu",
+      species: selectedTypology.species,
     });
 
     let requestOptions = {
@@ -230,16 +235,27 @@ export default function SubmitProject(props) {
         throw new Error("Something went wrong");
       })
       .then((result) => {
-        console.log(result);
         avg_rel_array = Object.keys(result.Avg_Rel).map((key) => ({
           x: Number(key),
           y: result.Avg_Rel[key],
         }));
 
+        let sum = 0;
+        Object.keys(result.Avg_Rel).map((key) => {
+          sum += result.Avg_Rel[key];
+        });
+        avg_rel = sum / 50;
+
         avg_seq_array = Object.keys(result.Avg_Seq).map((key) => ({
           x: Number(key),
           y: result.Avg_Seq[key],
         }));
+
+        sum = 0;
+        Object.keys(result.Avg_Seq).map((key) => {
+          sum += result.Avg_Seq[key];
+        });
+        avg_seq = sum / 50;
 
         const oneToThreeAlive = sumRange(result.Alive, 0, 4);
         const threeToTenAlive = sumRange(result.Alive, 4, 11);
@@ -252,6 +268,12 @@ export default function SubmitProject(props) {
           { years: "y10-30", trees: tenToThirtyAlive },
           { years: "y30-50", trees: thirtyToFiftyAlive },
         ];
+
+        sum = 0;
+        Object.keys(result.Alive).map((key) => {
+          sum += result.Alive[key];
+        });
+        alive = sum / 50;
 
         cumulative_seq_array = Object.keys(result.Cum_Seq).map((key) => ({
           x: Number(key),
@@ -292,7 +314,7 @@ export default function SubmitProject(props) {
   };
 
   return (
-    <>
+    <div className="bg-background">
       <>
         <div
           aria-live="assertive"
@@ -402,6 +424,7 @@ export default function SubmitProject(props) {
       <NavBar loggedIn={props.loggedIn} current="projectSubmit" />
       {processStage === 1 && (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <Breadcrumb />
           <form className="space-y-8 divide-y divide-gray-200">
             <div className="space-y-8 divide-y divide-gray-200 pb-20">
               <div>
@@ -453,11 +476,15 @@ export default function SubmitProject(props) {
                         type="text"
                         placeholder="First name and last name"
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                        defaultValue={projectDev}
+                        onChange={(e) => {
+                          setProjectDev(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
 
-                  <div className="sm:col-span-3">
+                  <div className="sm:col-span-3 ml-10">
                     <label
                       htmlFor="project-stage"
                       className="block text-sm font-medium text-gray-700"
@@ -469,10 +496,14 @@ export default function SubmitProject(props) {
                         id="project-stage"
                         name="project-stage"
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                        onChange={(e) => {
+                          setSelectedStage(e.target.value.toLowerCase());
+                        }}
                       >
                         <option>Potential</option>
                         <option>Preplanning</option>
                         <option>Postplanning</option>
+                        <option>Completed</option>
                       </select>
                     </div>
                   </div>
@@ -528,11 +559,15 @@ export default function SubmitProject(props) {
                     </label>
                     <div className="mt-1">
                       <input
-                        id="contact-emailr"
+                        id="contact-email"
                         name="contact-email"
                         type="email"
                         placeholder="example@gcc.uk"
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
+                        defaultValue={contactEmail}
+                        onChange={(e) => {
+                          setContactEmail(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -558,10 +593,13 @@ export default function SubmitProject(props) {
                       </div>
                       <div className="ml-3 flex items-center h-5">
                         <input
-                          id={`person-${activity.id}`}
-                          name={`person-${activity.id}`}
+                          id={activity.id}
+                          name={activity.id}
                           type="checkbox"
                           className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                          onChange={(e) => {
+                            setSelectedActivity(activity.value);
+                          }}
                         />
                       </div>
                     </div>
@@ -583,9 +621,9 @@ export default function SubmitProject(props) {
                     id="area-density"
                     placeholder="Trees per ha"
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
-                    defaultValue={areaDensity}
+                    defaultValue={treeNumber}
                     onChange={(e) => {
-                      setAreaDensity(e.target.value);
+                      setTreeNumber(e.target.value);
                     }}
                   />
                 </div>
@@ -656,7 +694,7 @@ export default function SubmitProject(props) {
               </button>
               <button
                 type="button"
-                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={getProjectID}
               >
                 Continue
@@ -666,7 +704,7 @@ export default function SubmitProject(props) {
         </div>
       )}
       {processStage === 2 && (
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 m-10">
           <form className="space-y-8 divide-y divide-gray-200">
             <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
               <RadioGroup.Label className="font-medium text-primary font-spaceBold">
@@ -764,101 +802,6 @@ export default function SubmitProject(props) {
               </div>
             </div>
 
-            <div className="">
-              <h3 className="text-primary font-spaceBold">
-                Tree species composition
-              </h3>
-              <p>Choose which percentage you want your species to be.</p>
-              <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                <div className="sm:col-span-2">
-                  <label
-                    htmlFor="evergreen-percent"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Evergreen percent
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="number"
-                      name="evergreen-percent"
-                      id="evergreen-percent"
-                      placeholder="evergreen-percent"
-                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2">
-                  <label
-                    htmlFor="decidious-percent"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Decidious percent
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="number"
-                      name="decidious-percent"
-                      id="decidious-percent"
-                      placeholder="decidious-percent"
-                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2">
-                  <label
-                    htmlFor="project-name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Total
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="number"
-                      disabled
-                      name="project-name"
-                      id="project-name"
-                      value={100}
-                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-primary rounded-2xl"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <label
-              htmlFor="minmax-range"
-              className="block mb-2 text-sm font-medium text-primary font-spaceBold"
-            >
-              MIN DBH
-            </label>
-            <p>Value: {minDBH}</p>
-            <input
-              id="minmax-range"
-              type="range"
-              min="10"
-              max="50"
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-              defaultValue={minDBH}
-              onMouseUp={handleMinChange}
-            />
-
-            <label
-              htmlFor="minmax-range"
-              className="block mb-2 text-sm font-medium text-primary font-spaceBold"
-            >
-              MAX DBH
-            </label>
-            <p>Value: {maxDBH}</p>
-            <input
-              id="minmax-range"
-              type="range"
-              min="10"
-              max="50"
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-              defaultValue={maxDBH}
-              onMouseUp={handleMaxChange}
-            />
-
             <div className="pt-5 pb-20">
               <div className="flex justify-end">
                 <button
@@ -869,7 +812,7 @@ export default function SubmitProject(props) {
                 </button>
                 <button
                   type="button"
-                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={getSAFOutput}
                 >
                   Submit
@@ -881,83 +824,289 @@ export default function SubmitProject(props) {
       )}
       {processStage === 3 && (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <Line
-            {...commonProperties}
-            curve="monotoneX"
-            enableArea={true}
-            data={[
-              {
-                id: "Average Carbon Release",
-                data: avg_rel_array,
-              },
-            ]}
-            xScale={{
-              type: "linear",
-              min: 0,
-              max: "auto",
-            }}
-            axisLeft={{
-              legend: "KG / p Tree",
-              legendOffset: 12,
-            }}
-            axisBottom={{
-              legend: "YEAR",
-              legendOffset: -12,
-            }}
-          />
-          <Line
-            {...commonProperties}
-            curve="monotoneX"
-            enableArea={true}
-            data={[
-              {
-                id: "Average Carbon Sequesteration",
-                data: avg_seq_array,
-              },
-            ]}
-            xScale={{
-              type: "linear",
-              min: 0,
-              max: "auto",
-            }}
-            axisLeft={{
-              legend: "KG / p Tree",
-              legendOffset: 12,
-            }}
-            axisBottom={{
-              legend: "YEAR",
-              legendOffset: -12,
-            }}
-          />
-          <div style={{ height: "400px" }}>
-            <ResponsiveBar
-              data={alive_array}
-              keys={["trees"]}
-              indexBy="years"
-              margin={{ top: 60, right: 120, bottom: 60, left: 80 }}
+          <div className="pt-10 pb-5 text-center">
+            <h2 className="text-4xl font-bold tracking-tight sm:text-4xl font-spaceBold text-primary">
+              Your Scenario Analysis result
+            </h2>
+            <p className="text-xl font-medium font-spaceRegular py-5">
+              Thank you for your patience, the analysis was successful. Below
+              you can see your data. They are also saved on your project page.
+            </p>
+          </div>
+          <div className="shadow-sm rounded-md text-center bg-white">
+            <h3 className="text-2xl font-bold tracking-tight font-spaceBold text-primary pt-5">
+              Your project information
+            </h3>
+            <hr className="border-b-1 border-primary my-5 mx-10" />
+            <div className="grid grid-cols-3 gap-y-6 gap-x-8 py-10">
+              <div className="px-5">
+                <img
+                  src={projectImg}
+                  alt="project image"
+                  className="w-42 h-42 rounded-full border-8 border-primary"
+                />
+              </div>
+              <div>
+                <h4 className="text-xl font-bold tracking-tight font-spaceBold text-primary">
+                  {projectName}
+                </h4>
+                <p className="text-left pt-5">{projectDescription}</p>
+              </div>
+              <div className="pt-10 text-left">
+                <span>
+                  Project developer:
+                  <br />
+                </span>
+                <span className="font-bold">
+                  {projectDev}
+                  <br />
+                </span>
+
+                <span>
+                  Contact mail:
+                  <br />
+                </span>
+                <span className="font-bold">
+                  {contactEmail} <br />
+                </span>
+
+                <span>
+                  Location: <br />
+                </span>
+                <span className="font-bold">
+                  Jeffrey street, 13 Glasgow city
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-y-6 gap-x-8 text-left my-5">
+            <div className="shadow-sm rounded-md bg-white px-10">
+              <h4 className="text-xl font-bold tracking-tight font-spaceBold text-primary py-5">
+                Project data overview
+              </h4>
+              <div className="grid grid-cols-2 gap-y-6 gap-x-8 py-5">
+                <div>
+                  <span>
+                    Overall time to develope the project: <br />
+                  </span>
+                  <span className="text-xl font-bold tracking-tight font-spaceBold text-primary">
+                    20 months
+                    <br />
+                  </span>
+
+                  <span>
+                    Total Carbon Sequestration Average: <br />
+                  </span>
+                  <span className="text-xl font-bold tracking-tight font-spaceBold text-primary">
+                    {Math.round(avg_seq * 100 + Number.EPSILON) / 100}
+                    <br />
+                  </span>
+
+                  <span>
+                    Total tree Species composition: <br />
+                  </span>
+                  <span className="text-xl font-bold tracking-tight font-spaceBold text-primary">
+                    Evergreen 30%
+                    <br /> Deciduous Trees 70%
+                    <br />
+                  </span>
+                </div>
+
+                <div>
+                  <span>
+                    Total Number of planned trees: <br />
+                  </span>
+                  <span className="text-xl font-bold tracking-tight font-spaceBold text-primary">
+                    {treeNumber}
+                    <br />
+                  </span>
+
+                  <span>
+                    Total Area density: <br />
+                  </span>
+                  <span className="text-xl font-bold tracking-tight font-spaceBold text-primary">
+                    {areaDensity} Ha
+                    <br />
+                  </span>
+
+                  <span>
+                    Overview of planned Activities: <br />
+                  </span>
+                  <span className="text-xl font-bold tracking-tight font-spaceBold text-primary">
+                    Planting, Maintaining
+                    <br />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <img src={tempImg} alt="temp image" className="w-full h-full" />
+            </div>
+          </div>
+
+          <h3 className="text-2xl font-bold tracking-tight font-spaceBold text-primary my-5 text-center">
+            Project impact results
+          </h3>
+
+          <div className="grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10">
+            <div className="shadow-sm rounded-md bg-white px-10 text-center">
+              <h4 className="text-xl font-bold tracking-tight font-spaceBold text-primary py-5">
+                Average Carbon Release
+              </h4>
+              <div className="my-10">
+                <span className="rounded-full bg-primary text-white font-spaceBold p-10">
+                  {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
+                </span>
+              </div>
+              <p className="pt-10 text-left">
+                By reducing energy demand and absorbing carbon dioxide, trees
+                and vegetation decrease the production and negative effects of
+                air pollution and greenhouse gas emissions.
+              </p>
+            </div>
+            <div className="">
+              <Line
+                {...commonProperties}
+                curve="monotoneX"
+                enableArea={true}
+                data={[
+                  {
+                    id: "Average Carbon Release",
+                    data: avg_rel_array,
+                  },
+                ]}
+                xScale={{
+                  type: "linear",
+                  min: 0,
+                  max: "auto",
+                }}
+                axisLeft={{
+                  legend: "KG / p Tree",
+                  legendOffset: 12,
+                }}
+                axisBottom={{
+                  legend: "YEAR",
+                  legendOffset: -12,
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10">
+            <div>
+              <Line
+                {...commonProperties}
+                curve="monotoneX"
+                enableArea={true}
+                data={[
+                  {
+                    id: "Average Carbon Sequesteration",
+                    data: avg_seq_array,
+                  },
+                ]}
+                xScale={{
+                  type: "linear",
+                  min: 0,
+                  max: "auto",
+                }}
+                axisLeft={{
+                  legend: "KG / p Tree",
+                  legendOffset: 12,
+                }}
+                axisBottom={{
+                  legend: "YEAR",
+                  legendOffset: -12,
+                }}
+              />
+            </div>
+            <div className="shadow-sm rounded-md bg-white ml-5 pl-20 text-center">
+              <h4 className="text-xl font-bold tracking-tight font-spaceBold text-primary py-5">
+                Average Carbon Sequestration
+              </h4>
+              <div className="my-10">
+                <span className="rounded-full bg-primary text-white font-spaceBold p-10">
+                  {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
+                </span>
+              </div>
+              <p className="pt-10 text-left">
+                By reducing energy demand and absorbing carbon dioxide, trees
+                and vegetation decrease the production and negative effects of
+                air pollution and greenhouse gas emissions.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10">
+            <div className="shadow-sm rounded-md bg-white px-10 text-center">
+              <h4 className="text-xl font-bold tracking-tight font-spaceBold text-primary py-5">
+                Tree health plot
+              </h4>
+              <div className="my-10">
+                <span className="rounded-full bg-primary text-white font-spaceBold p-10">
+                  {Math.round(alive * 100 + Number.EPSILON) / 100} years
+                </span>
+              </div>
+              <p className="pt-10 text-left">
+                By reducing energy demand and absorbing carbon dioxide, trees
+                and vegetation decrease the production and negative effects of
+                air pollution and greenhouse gas emissions.
+              </p>
+            </div>
+            <div style={{ height: "400px" }}>
+              <ResponsiveBarCanvas
+                data={alive_array}
+                keys={["trees"]}
+                indexBy="years"
+                padding={0.3}
+                margin={{ top: 80, right: 20, bottom: 60, left: 40 }}
+                axisBottom={{
+                  legend: "YEARS RANGES",
+                  legendOffset: 40,
+                }}
+                colors="#1EA685"
+                theme={{
+                  background: "#E5E7EB",
+                  textColor: "#374151",
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="shadow-sm rounded-md bg-white text-center my-10 mx-40">
+            <h4 className="text-xl font-bold tracking-tight font-spaceBold text-primary py-5">
+              Tree health plot
+            </h4>
+            <Line
+              {...commonPropertiesMultiLine}
+              curve="monotoneX"
+              data={cumulative_array}
+              xScale={{
+                type: "linear",
+                min: 0,
+                max: "auto",
+              }}
+              axisLeft={{
+                legend: "KG / p Tree",
+                legendOffset: 12,
+              }}
+              axisBottom={{
+                legend: "YEAR",
+                legendOffset: -12,
+              }}
             />
           </div>
-          <Line
-            {...commonProperties}
-            curve="monotoneX"
-            data={cumulative_array}
-            xScale={{
-              type: "linear",
-              min: 0,
-              max: "auto",
-            }}
-            axisLeft={{
-              legend: "KG / p Tree",
-              legendOffset: 12,
-            }}
-            axisBottom={{
-              legend: "YEAR",
-              legendOffset: -12,
-            }}
-          />
+          <div className="text-center py-20">
+            <button
+              type="button"
+              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Go to project page
+            </button>
+          </div>
         </div>
       )}
       <Footer />
-    </>
+    </div>
   );
 }
