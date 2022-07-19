@@ -1,6 +1,7 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
-import {fromJS} from 'immutable';
+import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+import { fromJS } from 'immutable';
 import MAP_STYLE from '../utils/map-style.json';
 
 const defaultMapStyle = fromJS(MAP_STYLE);
@@ -15,7 +16,7 @@ const layerSelector = {
   parks: /park/,
   buildings: /building/,
   roads: /bridge|road|tunnel/,
-  labels: /label|place|poi/
+  labels: /label|place|poi/,
 };
 
 // Layer color class by type
@@ -23,19 +24,19 @@ const colorClass = {
   line: 'line-color',
   fill: 'fill-color',
   background: 'background-color',
-  symbol: 'text-color'
+  symbol: 'text-color',
 };
 
-function getMapStyle({visibility, color}) {
+function getMapStyle({ visibility, color }) {
   const layers = defaultLayers
-    .filter(layer => {
+    .filter((layer) => {
       const id = layer.get('id');
-      return categories.every(name => visibility[name] || !layerSelector[name].test(id));
+      return categories.every((name) => visibility[name] || !layerSelector[name].test(id));
     })
-    .map(layer => {
+    .map((layer) => {
       const id = layer.get('id');
       const type = layer.get('type');
-      const category = categories.find(name => layerSelector[name].test(id));
+      const category = categories.find((name) => layerSelector[name].test(id));
       if (category && colorClass[type]) {
         return layer.setIn(['paint', colorClass[type]], color[category]);
       }
@@ -52,7 +53,7 @@ function StyleControls(props) {
     buildings: true,
     roads: true,
     labels: true,
-    background: true
+    background: true,
   });
 
   const [color, setColor] = useState({
@@ -61,41 +62,45 @@ function StyleControls(props) {
     buildings: '#c0c0c8',
     roads: '#ffffff',
     labels: '#78888a',
-    background: '#EBF0F0'
+    background: '#EBF0F0',
   });
 
   useEffect(() => {
-    props.onChange(getMapStyle({visibility, color}));
+    props.onChange(getMapStyle({ visibility, color }));
   }, [visibility, color]);
 
   const onColorChange = (name, value) => {
-    setColor({...color, [name]: value});
+    setColor({ ...color, [name]: value });
   };
 
   const onVisibilityChange = (name, value) => {
-    setVisibility({...visibility, [name]: value});
+    setVisibility({ ...visibility, [name]: value });
   };
 
   return (
-    <div className="control-panel">
-      {categories.map(name => (
-        <div key={name} className="input">
+    <div className='control-panel'>
+      {categories.map((name) => (
+        <div key={name} className='input'>
           <label>{name}</label>
           <input
-            type="checkbox"
+            type='checkbox'
             checked={visibility[name]}
-            onChange={evt => onVisibilityChange(name, evt.target.checked)}
+            onChange={(evt) => onVisibilityChange(name, evt.target.checked)}
           />
           <input
-            type="color"
+            type='color'
             value={color[name]}
             disabled={!visibility[name]}
-            onChange={evt => onColorChange(name, evt.target.value)}
+            onChange={(evt) => onColorChange(name, evt.target.value)}
           />
         </div>
       ))}
     </div>
   );
 }
+
+StyleControls.propTypes = {
+  onChange: PropTypes.func,
+};
 
 export default React.memo(StyleControls);

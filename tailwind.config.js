@@ -1,20 +1,20 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
-        spaceRegular: ['"ABCFavorit Regular"', "sans-serif"],
-        spaceBold: ['"ABCFavorit Bold"', "sans-serif"],
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        spaceRegular: ['"ABCFavorit Regular"', 'sans-serif'],
+        spaceBold: ['"ABCFavorit Bold"', 'sans-serif'],
       },
       colors: {
-        primary: "#1EA685",
-        secondary: "#1B3028",
-        background: "#F9FAFB",
+        primary: '#1EA685',
+        secondary: '#1B3028',
+        background: '#F9FAFB',
       },
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require('@tailwindcss/forms')],
 };

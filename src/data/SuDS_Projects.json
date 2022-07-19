@@ -1,23 +1,422 @@
 [
-{ "type": "Feature", "properties": { "Name": "Hillington and Cardoland Ph2 - Queensland Gardens", "Stage": "Post-Planning Application", "Activity": "Planting \/ Landscaping", "Typology": "raingardens, swales, infiltration (shallow basin)", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "August 2022", "Portfolio": 0, "id": "GL-SD-05", "District": "Cardonald" }, "geometry": { "type": "Point", "coordinates": [ -4.341359289306684, 55.852360321206582 ] } },
-{ "type": "Feature", "properties": { "Name": "High Knightswood Surface Water Management Plan", "Stage": "Pre-Planning Application", "Activity": "Planting \/ landscaping", "Typology": "swales, raingardens, basins and attenuation storage", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "January 2023", "Portfolio": 1, "id": "GL-SD-08", "District": "Drumchapel" }, "geometry": { "type": "Point", "coordinates": [ -4.333595002466941, 55.896641096508922 ] } },
-{ "type": "Feature", "properties": { "Name": "Croftfoot and King's Park", "Stage": "Pre-Planning Application", "Activity": "Planting \/ Landscaping", "Typology": "raingardens and basins", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Ciaran Ferry", "Start_date": "Jan 2023", "Portfolio": 1, "id": "GL-SD-03", "District": "Linn" }, "geometry": { "type": "Point", "coordinates": [ -4.230633878567311, 55.816909538255651 ] } },
-{ "type": "Feature", "properties": { "Name": "Mount Florida", "Stage": "Pre-Planning Application", "Activity": "Planting \/ Landscaping", "Typology": "drainage infratructure, raingarens and retrofitting", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "-", "Portfolio": 0, "id": "GL-SD-10", "District": "Southside Central" }, "geometry": { "type": "Point", "coordinates": [ -4.248268402728843, 55.829552923842478 ] } },
-{ "type": "Feature", "properties": { "Name": "Hillington and Cardonald Ph1 - Halfway Community Park", "Stage": "Completed", "Activity": "Planting \/ landscaping", "Typology": "raingardens, swales, permeable paving, detention basin, geocellular storage, fil", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "2023\/2024", "Portfolio": 0, "id": "GL-SD-04", "District": "Cardonald" }, "geometry": { "type": "Point", "coordinates": [ -4.34122336813199, 55.847536866906957 ] } },
-{ "type": "Feature", "properties": { "Name": "Eastern Springburn SWMP - Red Road TRA", "Stage": "Post-Planning Application", "Activity": "Planting & Restoration", "Typology": "wetland", "Local_Auth": "Glasgow City", "Developer": "Glasgow City Council, Housing", "Area_Ha": null, "Contact_P": "Jodi", "Start_date": "November 2022", "Portfolio": 0, "id": "GL-SD-11", "District": "Springburn" }, "geometry": { "type": "Point", "coordinates": [ -4.209201963525574, 55.879854102162618 ] } },
-{ "type": "Feature", "properties": { "Name": "Hillington and Cardonadl Ph 3- Penilee Park", "Stage": "Completed", "Activity": "landscaping", "Typology": "swales and basins", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "April 2022", "Portfolio": 0, "id": "GL-SD-06", "District": "Cardonald" }, "geometry": { "type": "Point", "coordinates": [ -4.370194522405588, 55.852667155980313 ] } },
-{ "type": "Feature", "properties": { "Name": "Castlemilk Surface Water Management Plans", "Stage": "Post-Planning Application", "Activity": "Planting \/ landscaping", "Typology": "-", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "-", "Portfolio": 0, "id": "GL-SD-02", "District": "Linn" }, "geometry": { "type": "Point", "coordinates": [ -4.229299646459163, 55.811406230398312 ] } },
-{ "type": "Feature", "properties": { "Name": "Flood Control Target Aera Glasgow Centre East", "Stage": "Pre-Planning Application", "Activity": "Planting \/ Landscaping", "Typology": "-", "Local_Auth": "Glasgow City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "James Murray", "Start_date": "2027", "Portfolio": 0, "id": "GL-SD-17", "District": "City\/Yorkhill" }, "geometry": { "type": "Point", "coordinates": [ -4.25319255826563, 55.862867446993732 ] } },
-{ "type": "Feature", "properties": { "Name": "Yokermains SWMP - Lincoln Avenue", "Stage": "Pre-Planning Application", "Activity": "Landscaping", "Typology": "Swales, planters, pond", "Local_Auth": "West_Durbanshire", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "2026\/2027", "Portfolio": 0, "id": "GL-SD-14", "District": "Scotstounhill" }, "geometry": { "type": "Point", "coordinates": [ -4.350630394164986, 55.894875173167819 ] } },
-{ "type": "Feature", "properties": { "Name": "Allander Water", "Stage": "Post-Planning Application", "Activity": "Restoration", "Typology": "river restoration", "Local_Auth": "East Durbartonshire", "Developer": "SEPA", "Area_Ha": null, "Contact_P": null, "Start_date": "2023", "Portfolio": 0, "id": "GL-SD-20", "District": "Milngavie" }, "geometry": { "type": "Point", "coordinates": [ -4.321884059763973, 55.948755426446766 ] } },
-{ "type": "Feature", "properties": { "Name": "Brock Burn", "Stage": "Post-Planning Application", "Activity": "Restoration", "Typology": "river restoration", "Local_Auth": "Glasgow City", "Developer": "SEPA", "Area_Ha": null, "Contact_P": null, "Start_date": "2023", "Portfolio": 0, "id": "GL-SD-19", "District": "Greater Pollock" }, "geometry": { "type": "Point", "coordinates": [ -4.358789854995994, 55.799259646566945 ] } },
-{ "type": "Feature", "properties": { "Name": "Drumchapel Surface Water Management Plans Ph 4", "Stage": "Pre-Planning Application", "Activity": "Planting \/ Landscaping", "Typology": "-", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "James Murray", "Start_date": "2024", "Portfolio": 0, "id": "GL-SD-07", "District": "Drumchapel" }, "geometry": { "type": "Point", "coordinates": [ -4.356504793172503, 55.910787998370694 ] } },
-{ "type": "Feature", "properties": { "Name": "Cranhill Park", "Stage": "Completed", "Activity": "Planting \/ Landscaping", "Typology": "SuDS basin", "Local_Auth": "Glasgow City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "James Murray", "Start_date": "August 2018", "Portfolio": 0, "id": "GL-SD-09", "District": "East Centre" }, "geometry": { "type": "Point", "coordinates": [ -4.156047479357594, 55.865254092590163 ] } },
-{ "type": "Feature", "properties": { "Name": "Camlachie Burn", "Stage": "Construction", "Activity": "Planting \/ Landscaping", "Typology": "-", "Local_Auth": "Glasgow_City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Chan", "Start_date": "Jan 2022", "Portfolio": 0, "id": "GL-SD-01", "District": "Parkhead" }, "geometry": { "type": "Point", "coordinates": [ -4.196772592568738, 55.855019058358636 ] } },
-{ "type": "Feature", "properties": { "Name": "Fullarton Avenue - St Paul's Primary", "Stage": "Post-Planning Application", "Activity": "Landscaping", "Typology": "raingardens, swales and basins", "Local_Auth": "Glasgow City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "2023", "Portfolio": 1, "id": "GL-SD-16", "District": "Shettleston" }, "geometry": { "type": "Point", "coordinates": [ -4.172111614908848, 55.845547567752924 ] } },
-{ "type": "Feature", "properties": { "Name": "Maryhill North", "Stage": "Post-Planning Application", "Activity": "Landscaping", "Typology": "dry swale, storage facilities", "Local_Auth": "Glasgow City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Jodi", "Start_date": "2023", "Portfolio": 1, "id": "GL-SD-18", "District": "Maryhill" }, "geometry": { "type": "Point", "coordinates": [ -4.293983292262431, 55.898258053519577 ] } },
-{ "type": "Feature", "properties": { "Name": "Eastern Springburn SWMP Ph 1 - St. Martha's Primary School", "Stage": "Post-Planning Application", "Activity": "Landscaping", "Typology": "raingardens, detention basin and rainwater collection", "Local_Auth": "Glasgow City", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "James Murray", "Start_date": "July 2022", "Portfolio": 0, "id": "GL-SD-12", "District": "Springburn" }, "geometry": { "type": "Point", "coordinates": [ -4.216625363504048, 55.886770320005688 ] } },
-{ "type": "Feature", "properties": { "Name": "Yokermains SWMP - Dumbarton Rd", "Stage": "Pre-Planning Application", "Activity": "Maintenance", "Typology": "sediment removal", "Local_Auth": "West Durbanshire", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "2026", "Portfolio": 0, "id": "GL-SD-13", "District": "Scotstounhill" }, "geometry": { "type": "Point", "coordinates": [ -4.385602369393535, 55.891181346990983 ] } },
-{ "type": "Feature", "properties": { "Name": "Yokermains SWMP - Riddon Place", "Stage": "Pre-Planning Application", "Activity": "Landscaping", "Typology": "water butts", "Local_Auth": "West Durbanshire", "Developer": "MGSDP & GCC", "Area_Ha": null, "Contact_P": "Gaye", "Start_date": "2026", "Portfolio": 0, "id": "GL-SD-15", "District": "Scotstounhill" }, "geometry": { "type": "Point", "coordinates": [ -4.37778876315004, 55.897414054453193 ] } }
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Hillington and Cardoland Ph2 - Queensland Gardens",
+      "Stage": "Post-Planning Application",
+      "Activity": "Planting / Landscaping",
+      "Typology": "raingardens, swales, infiltration (shallow basin)",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "August 2022",
+      "Portfolio": 0,
+      "id": "GL-SD-05",
+      "District": "Cardonald"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.341359289306684, 55.852360321206582]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "High Knightswood Surface Water Management Plan",
+      "Stage": "Pre-Planning Application",
+      "Activity": "Planting / landscaping",
+      "Typology": "swales, raingardens, basins and attenuation storage",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "January 2023",
+      "Portfolio": 1,
+      "id": "GL-SD-08",
+      "District": "Drumchapel"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.333595002466941, 55.896641096508922]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Croftfoot and King's Park",
+      "Stage": "Pre-Planning Application",
+      "Activity": "Planting / Landscaping",
+      "Typology": "raingardens and basins",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Ciaran Ferry",
+      "Start_date": "Jan 2023",
+      "Portfolio": 1,
+      "id": "GL-SD-03",
+      "District": "Linn"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.230633878567311, 55.816909538255651]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Mount Florida",
+      "Stage": "Pre-Planning Application",
+      "Activity": "Planting / Landscaping",
+      "Typology": "drainage infratructure, raingarens and retrofitting",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "-",
+      "Portfolio": 0,
+      "id": "GL-SD-10",
+      "District": "Southside Central"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.248268402728843, 55.829552923842478]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Hillington and Cardonald Ph1 - Halfway Community Park",
+      "Stage": "Completed",
+      "Activity": "Planting / landscaping",
+      "Typology": "raingardens, swales, permeable paving, detention basin, geocellular storage, fil",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "2023/2024",
+      "Portfolio": 0,
+      "id": "GL-SD-04",
+      "District": "Cardonald"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.34122336813199, 55.847536866906957]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Eastern Springburn SWMP - Red Road TRA",
+      "Stage": "Post-Planning Application",
+      "Activity": "Planting & Restoration",
+      "Typology": "wetland",
+      "Local_Auth": "Glasgow City",
+      "Developer": "Glasgow City Council, Housing",
+      "Area_Ha": null,
+      "Contact_P": "Jodi",
+      "Start_date": "November 2022",
+      "Portfolio": 0,
+      "id": "GL-SD-11",
+      "District": "Springburn"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.209201963525574, 55.879854102162618]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Hillington and Cardonadl Ph 3- Penilee Park",
+      "Stage": "Completed",
+      "Activity": "landscaping",
+      "Typology": "swales and basins",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "April 2022",
+      "Portfolio": 0,
+      "id": "GL-SD-06",
+      "District": "Cardonald"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.370194522405588, 55.852667155980313]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Castlemilk Surface Water Management Plans",
+      "Stage": "Post-Planning Application",
+      "Activity": "Planting / landscaping",
+      "Typology": "-",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "-",
+      "Portfolio": 0,
+      "id": "GL-SD-02",
+      "District": "Linn"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.229299646459163, 55.811406230398312]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Flood Control Target Aera Glasgow Centre East",
+      "Stage": "Pre-Planning Application",
+      "Activity": "Planting / Landscaping",
+      "Typology": "-",
+      "Local_Auth": "Glasgow City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "James Murray",
+      "Start_date": "2027",
+      "Portfolio": 0,
+      "id": "GL-SD-17",
+      "District": "City/Yorkhill"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.25319255826563, 55.862867446993732]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Yokermains SWMP - Lincoln Avenue",
+      "Stage": "Pre-Planning Application",
+      "Activity": "Landscaping",
+      "Typology": "Swales, planters, pond",
+      "Local_Auth": "West_Durbanshire",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "2026/2027",
+      "Portfolio": 0,
+      "id": "GL-SD-14",
+      "District": "Scotstounhill"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.350630394164986, 55.894875173167819]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Allander Water",
+      "Stage": "Post-Planning Application",
+      "Activity": "Restoration",
+      "Typology": "river restoration",
+      "Local_Auth": "East Durbartonshire",
+      "Developer": "SEPA",
+      "Area_Ha": null,
+      "Contact_P": null,
+      "Start_date": "2023",
+      "Portfolio": 0,
+      "id": "GL-SD-20",
+      "District": "Milngavie"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.321884059763973, 55.948755426446766]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Brock Burn",
+      "Stage": "Post-Planning Application",
+      "Activity": "Restoration",
+      "Typology": "river restoration",
+      "Local_Auth": "Glasgow City",
+      "Developer": "SEPA",
+      "Area_Ha": null,
+      "Contact_P": null,
+      "Start_date": "2023",
+      "Portfolio": 0,
+      "id": "GL-SD-19",
+      "District": "Greater Pollock"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.358789854995994, 55.799259646566945]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Drumchapel Surface Water Management Plans Ph 4",
+      "Stage": "Pre-Planning Application",
+      "Activity": "Planting / Landscaping",
+      "Typology": "-",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "James Murray",
+      "Start_date": "2024",
+      "Portfolio": 0,
+      "id": "GL-SD-07",
+      "District": "Drumchapel"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.356504793172503, 55.910787998370694]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Cranhill Park",
+      "Stage": "Completed",
+      "Activity": "Planting / Landscaping",
+      "Typology": "SuDS basin",
+      "Local_Auth": "Glasgow City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "James Murray",
+      "Start_date": "August 2018",
+      "Portfolio": 0,
+      "id": "GL-SD-09",
+      "District": "East Centre"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.156047479357594, 55.865254092590163]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Camlachie Burn",
+      "Stage": "Construction",
+      "Activity": "Planting / Landscaping",
+      "Typology": "-",
+      "Local_Auth": "Glasgow_City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Chan",
+      "Start_date": "Jan 2022",
+      "Portfolio": 0,
+      "id": "GL-SD-01",
+      "District": "Parkhead"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.196772592568738, 55.855019058358636]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Fullarton Avenue - St Paul's Primary",
+      "Stage": "Post-Planning Application",
+      "Activity": "Landscaping",
+      "Typology": "raingardens, swales and basins",
+      "Local_Auth": "Glasgow City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "2023",
+      "Portfolio": 1,
+      "id": "GL-SD-16",
+      "District": "Shettleston"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.172111614908848, 55.845547567752924]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Maryhill North",
+      "Stage": "Post-Planning Application",
+      "Activity": "Landscaping",
+      "Typology": "dry swale, storage facilities",
+      "Local_Auth": "Glasgow City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Jodi",
+      "Start_date": "2023",
+      "Portfolio": 1,
+      "id": "GL-SD-18",
+      "District": "Maryhill"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.293983292262431, 55.898258053519577]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Eastern Springburn SWMP Ph 1 - St. Martha's Primary School",
+      "Stage": "Post-Planning Application",
+      "Activity": "Landscaping",
+      "Typology": "raingardens, detention basin and rainwater collection",
+      "Local_Auth": "Glasgow City",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "James Murray",
+      "Start_date": "July 2022",
+      "Portfolio": 0,
+      "id": "GL-SD-12",
+      "District": "Springburn"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.216625363504048, 55.886770320005688]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Yokermains SWMP - Dumbarton Rd",
+      "Stage": "Pre-Planning Application",
+      "Activity": "Maintenance",
+      "Typology": "sediment removal",
+      "Local_Auth": "West Durbanshire",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "2026",
+      "Portfolio": 0,
+      "id": "GL-SD-13",
+      "District": "Scotstounhill"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.385602369393535, 55.891181346990983]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {
+      "Name": "Yokermains SWMP - Riddon Place",
+      "Stage": "Pre-Planning Application",
+      "Activity": "Landscaping",
+      "Typology": "water butts",
+      "Local_Auth": "West Durbanshire",
+      "Developer": "MGSDP & GCC",
+      "Area_Ha": null,
+      "Contact_P": "Gaye",
+      "Start_date": "2026",
+      "Portfolio": 0,
+      "id": "GL-SD-15",
+      "District": "Scotstounhill"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-4.37778876315004, 55.897414054453193]
+    }
+  }
 ]
-
