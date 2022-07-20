@@ -57,6 +57,7 @@ const commonProperties = {
   height: 400,
   margin: { top: 20, right: 20, bottom: 60, left: 40 },
   animate: true,
+  yFormat: " >-.2f",
   enableSlices: "x",
   theme: {
     background: "#E5E7EB",
@@ -70,6 +71,7 @@ const commonPropertiesMultiLine = {
   height: 400,
   margin: { top: 20, right: 50, bottom: 60, left: 50 },
   animate: true,
+  yFormat: " >-.2f",
   enableSlices: "x",
   theme: {
     background: "#E5E7EB",
