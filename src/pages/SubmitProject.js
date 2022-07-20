@@ -1,8 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { RadioGroup, Transition } from '@headlessui/react';
-import { CheckCircleIcon, XIcon } from '@heroicons/react/solid';
-import { ExclamationCircleIcon } from '@heroicons/react/outline';
+import { RadioGroup } from '@headlessui/react';
+import { CheckCircleIcon } from '@heroicons/react/solid';
 import { Line } from '@nivo/line';
 import { ResponsiveBarCanvas } from '@nivo/bar';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +10,8 @@ import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import projectImg from '../images/project-default.png';
 import tempImg from '../images/temp-map.png';
+
+import toast, { Toaster } from 'react-hot-toast';
 
 const typologies = [
   {
@@ -108,10 +109,6 @@ function sumRange(array, start, end) {
 
 export default function SubmitProject(props) {
   const [processStage, setProcessStage] = useState(1);
-  const [showNotification, setShowNotification] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [serverError, setServerError] = useState('');
-
   const [projectName, setProjectName] = useState('');
   const [projectDev, setProjectDev] = useState('');
   const [contactEmail, setContactEmail] = useState('');
@@ -126,7 +123,7 @@ export default function SubmitProject(props) {
 
   useEffect(() => {
     if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
-      setShowNotification(true);
+      toast.error('You must be logged in to submit a project.');
       navigate('/register');
     }
   });
@@ -168,12 +165,10 @@ export default function SubmitProject(props) {
         requestOptions,
       );
     } catch (ex) {
-      setShowError(true);
-      return setServerError(ex);
+      return toast.error(ex);
     }
     if (!response.ok) {
-      setShowError(true);
-      return setServerError(response.status + ' : ' + response.statusText);
+      return toast.error(response.status + ' : ' + response.statusText);
     }
     if (response.ok) {
       let data = await response.json();
@@ -223,7 +218,7 @@ export default function SubmitProject(props) {
         if (response.ok) {
           return response.json();
         }
-        setShowError(true);
+        toast.error('Could not run SAF');
         throw new Error('Something went wrong');
       })
       .then((result) => {
@@ -307,102 +302,6 @@ export default function SubmitProject(props) {
 
   return (
     <div className='bg-background'>
-      <>
-        <div
-          aria-live='assertive'
-          className='fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start'
-        >
-          <div className='w-full flex flex-col items-center space-y-4 sm:items-end'>
-            {/* TODO: make notifications global */}
-            <Transition
-              show={showNotification}
-              as={Fragment}
-              enter='transform ease-out duration-300 transition'
-              enterFrom='translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2'
-              enterTo='translate-y-0 opacity-100 sm:translate-x-0'
-              leave='transition ease-in duration-100'
-              leaveFrom='opacity-100'
-              leaveTo='opacity-0'
-            >
-              <div className='max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden'>
-                <div className='p-4'>
-                  <div className='flex items-start'>
-                    <div className='flex-shrink-0'>
-                      <CheckCircleIcon className='h-6 w-6 text-green-400' aria-hidden='true' />
-                    </div>
-                    <div className='ml-3 w-0 flex-1 pt-0.5'>
-                      <p className='text-sm font-medium text-gray-900'>
-                        Please register or login first!
-                      </p>
-                      <p className='mt-1 text-sm text-gray-500'>Taking you register page.</p>
-                    </div>
-                    <div className='ml-4 flex-shrink-0 flex'>
-                      <button
-                        type='button'
-                        className='bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                        onClick={() => {
-                          setShowNotification(false);
-                        }}
-                      >
-                        <span className='sr-only'>Close</span>
-                        <XIcon className='h-5 w-5' aria-hidden='true' />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Transition>
-          </div>
-        </div>
-      </>
-      <>
-        <div
-          aria-live='assertive'
-          className='fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start'
-        >
-          <div className='w-full flex flex-col items-center space-y-4 sm:items-end pt-20'>
-            {/* TODO: make notifications global */}
-            <Transition
-              show={showError}
-              as={Fragment}
-              enter='transform ease-out duration-300 transition'
-              enterFrom='translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2'
-              enterTo='translate-y-0 opacity-100 sm:translate-x-0'
-              leave='transition ease-in duration-100'
-              leaveFrom='opacity-100'
-              leaveTo='opacity-0'
-            >
-              <div className='max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden'>
-                <div className='p-4'>
-                  <div className='flex items-start'>
-                    <div className='flex-shrink-0'>
-                      <ExclamationCircleIcon className='h-6 w-6 text-red-400' aria-hidden='true' />
-                    </div>
-                    <div className='ml-3 w-0 flex-1 pt-0.5'>
-                      <p className='text-sm font-medium text-gray-900'>
-                        Sorry there was an error with your entry!
-                      </p>
-                      <p className='mt-1 text-sm text-gray-500'>{serverError.toString()}</p>
-                    </div>
-                    <div className='ml-4 flex-shrink-0 flex'>
-                      <button
-                        type='button'
-                        className='bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                        onClick={() => {
-                          setShowError(false);
-                        }}
-                      >
-                        <span className='sr-only'>Close</span>
-                        <XIcon className='h-5 w-5' aria-hidden='true' />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Transition>
-          </div>
-        </div>
-      </>
       <NavBar loggedIn={props.loggedIn} current='projectSubmit' />
       {processStage === 1 && (
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
@@ -1063,6 +962,7 @@ export default function SubmitProject(props) {
         </div>
       )}
       <Footer />
+      <Toaster position='top-right' />
     </div>
   );
 }
