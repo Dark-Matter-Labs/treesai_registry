@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMapboxGL, {
   Source,
@@ -11,7 +10,7 @@ import ReactMapboxGL, {
   GeolocateControl,
 } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import MapControlPanel from '../components/MapControlPanel';
 import VDLLayer from '../data/VDL_selected.geojson';
 import SuDSLayerJSON from '../data/SuDS_Projects.json';
