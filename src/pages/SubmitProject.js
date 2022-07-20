@@ -58,12 +58,13 @@ const commonProperties = {
   height: 400,
   margin: { top: 20, right: 20, bottom: 60, left: 40 },
   animate: true,
-  enableSlices: 'x',
+  yFormat: " >-.2f",
+  enableSlices: "x",
   theme: {
-    background: '#E5E7EB',
-    textColor: '#374151',
+    background: "#E5E7EB",
+    textColor: "#374151"
   },
-  colors: '#1EA685',
+  colors: "#1EA685"
 };
 
 const commonPropertiesMultiLine = {
@@ -71,12 +72,13 @@ const commonPropertiesMultiLine = {
   height: 400,
   margin: { top: 20, right: 50, bottom: 60, left: 50 },
   animate: true,
-  enableSlices: 'x',
+  yFormat: " >-.2f",
+  enableSlices: "x",
   theme: {
-    background: '#E5E7EB',
-    textColor: '#374151',
+    background: "#E5E7EB",
+    textColor: "#374151"
   },
-  colors: ['#1EA685', '#374151', '#C4C4C4'],
+  colors: ["#1EA685", "#374151", "#C4C4C4"]
 };
 
 let avg_rel_array,
@@ -108,6 +110,7 @@ export default function SubmitProject(props) {
   const [processStage, setProcessStage] = useState(1);
   const [showNotification, setShowNotification] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [serverError, setServerError] = useState("");
 
   const [projectName, setProjectName] = useState('');
   const [projectDev, setProjectDev] = useState('');
@@ -146,35 +149,40 @@ export default function SubmitProject(props) {
       cost: 0,
       stage: selectedStage,
       number_of_trees: treeNumber,
-      local_authority: 'string',
-      location: 'string',
-      start_date: '2022-06-16T09:32:51.188Z',
+      local_authority: "string",
+      location: "string",
+      start_date: "2022-06-16T09:32:51.188Z"
     });
 
     let requestOptions = {
       method: 'POST',
       headers: requestHeaders,
       body: payload,
-      redirect: 'follow',
+      redirect: "follow"
     };
 
-    await fetch(
-      'http://127.0.0.1:8000/api/v1/saf/users/' + sessionStorage.user_id + '/projects',
-      requestOptions,
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        setShowError(true);
-        throw new Error('Something went wrong');
-      })
-      .then((result) => {
-        sessionStorage.setItem('project_id', JSON.stringify(result.id));
-
-        setProcessStage(2);
-      })
-      .catch((error) => console.log('error', error));
+    let response;
+    try {
+      response = await fetch(
+        "http://127.0.0.1:8000/api/v1/saf/users/" +
+          sessionStorage.user_id +
+          "/projects",
+        requestOptions
+      );
+    } catch (ex) {
+      setShowError(true);
+      return setServerError(ex);
+    }
+    if (!response.ok) {
+      setShowError(true);
+      return setServerError(response.status + " : " + response.statusText);
+    }
+    if (response.ok) {
+      let data = await response.json();
+      console.log(data);
+      sessionStorage.setItem("project_id", JSON.stringify(data.id));
+      setProcessStage(2);
+    }
   };
 
   const getSAFOutput = async () => {
@@ -195,14 +203,14 @@ export default function SubmitProject(props) {
       season_growth_var: 7,
       time_horizon: 50,
       density_per_ha: parseInt(areaDensity),
-      species: selectedTypology.species,
+      species: selectedTypology.species
     });
 
     let requestOptions = {
       method: 'POST',
       headers: requestHeaders,
       body: payload,
-      redirect: 'follow',
+      redirect: "follow"
     };
 
     await fetch(
@@ -223,7 +231,7 @@ export default function SubmitProject(props) {
       .then((result) => {
         avg_rel_array = Object.keys(result.Avg_Rel).map((key) => ({
           x: Number(key),
-          y: result.Avg_Rel[key],
+          y: result.Avg_Rel[key]
         }));
 
         let sum = 0;
@@ -234,7 +242,7 @@ export default function SubmitProject(props) {
 
         avg_seq_array = Object.keys(result.Avg_Seq).map((key) => ({
           x: Number(key),
-          y: result.Avg_Seq[key],
+          y: result.Avg_Seq[key]
         }));
 
         sum = 0;
@@ -249,10 +257,10 @@ export default function SubmitProject(props) {
         const thirtyToFiftyAlive = sumRange(result.Alive, 31, 50);
 
         alive_array = [
-          { years: 'y1-2', trees: oneToThreeAlive },
-          { years: 'y3-10', trees: threeToTenAlive },
-          { years: 'y10-30', trees: tenToThirtyAlive },
-          { years: 'y30-50', trees: thirtyToFiftyAlive },
+          { years: "y1-2", trees: oneToThreeAlive },
+          { years: "y3-10", trees: threeToTenAlive },
+          { years: "y10-30", trees: tenToThirtyAlive },
+          { years: "y30-50", trees: thirtyToFiftyAlive }
         ];
 
         sum = 0;
@@ -263,35 +271,35 @@ export default function SubmitProject(props) {
 
         cumulative_seq_array = Object.keys(result.Cum_Seq).map((key) => ({
           x: Number(key),
-          y: result.Cum_Seq[key],
+          y: result.Cum_Seq[key]
         }));
 
         released_array = Object.keys(result.Released).map((key) => ({
           x: Number(key),
-          y: result.Released[key],
+          y: result.Released[key]
         }));
 
         storage_array = Object.keys(result.Storage).map((key) => ({
           x: Number(key),
-          y: result.Storage[key],
+          y: result.Storage[key]
         }));
 
         cumulative_array = [
           {
-            id: 'seq',
-            color: 'hsl(135, 70%, 50%)',
-            data: cumulative_seq_array,
+            id: "seq",
+            color: "hsl(135, 70%, 50%)",
+            data: cumulative_seq_array
           },
           {
-            id: 'release',
-            color: 'hsl(347, 70%, 50%)',
-            data: released_array,
+            id: "release",
+            color: "hsl(347, 70%, 50%)",
+            data: released_array
           },
           {
-            id: 'storage',
-            color: 'hsl(31, 70%, 50%)',
-            data: storage_array,
-          },
+            id: "storage",
+            color: "hsl(31, 70%, 50%)",
+            data: storage_array
+          }
         ];
 
         setProcessStage(3);
@@ -372,9 +380,13 @@ export default function SubmitProject(props) {
                     <div className='flex-shrink-0'>
                       <ExclamationCircleIcon className='h-6 w-6 text-red-400' aria-hidden='true' />
                     </div>
-                    <div className='ml-3 w-0 flex-1 pt-0.5'>
-                      <p className='text-sm font-medium text-gray-900'>Sorry there was an error!</p>
-                      <p className='mt-1 text-sm text-gray-500'>error details</p>
+                    <div className="ml-3 w-0 flex-1 pt-0.5">
+                      <p className="text-sm font-medium text-gray-900">
+                        Sorry there was an error with your entry!
+                      </p>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {serverError.toString()}
+                      </p>
                     </div>
                     <div className='ml-4 flex-shrink-0 flex'>
                       <button
@@ -920,22 +932,22 @@ export default function SubmitProject(props) {
                 enableArea={true}
                 data={[
                   {
-                    id: 'Average Carbon Release',
-                    data: avg_rel_array,
-                  },
+                    id: "Average Carbon Release",
+                    data: avg_rel_array
+                  }
                 ]}
                 xScale={{
                   type: 'linear',
                   min: 0,
-                  max: 'auto',
+                  max: "auto"
                 }}
                 axisLeft={{
-                  legend: 'KG / p Tree',
-                  legendOffset: 12,
+                  legend: "KG / p Tree",
+                  legendOffset: 12
                 }}
                 axisBottom={{
-                  legend: 'YEAR',
-                  legendOffset: -12,
+                  legend: "YEAR",
+                  legendOffset: -12
                 }}
               />
             </div>
@@ -949,22 +961,22 @@ export default function SubmitProject(props) {
                 enableArea={true}
                 data={[
                   {
-                    id: 'Average Carbon Sequesteration',
-                    data: avg_seq_array,
-                  },
+                    id: "Average Carbon Sequesteration",
+                    data: avg_seq_array
+                  }
                 ]}
                 xScale={{
                   type: 'linear',
                   min: 0,
-                  max: 'auto',
+                  max: "auto"
                 }}
                 axisLeft={{
-                  legend: 'KG / p Tree',
-                  legendOffset: 12,
+                  legend: "KG / p Tree",
+                  legendOffset: 12
                 }}
                 axisBottom={{
-                  legend: 'YEAR',
-                  legendOffset: -12,
+                  legend: "YEAR",
+                  legendOffset: -12
                 }}
               />
             </div>
@@ -1009,13 +1021,13 @@ export default function SubmitProject(props) {
                 padding={0.3}
                 margin={{ top: 80, right: 20, bottom: 60, left: 40 }}
                 axisBottom={{
-                  legend: 'YEARS RANGES',
-                  legendOffset: 40,
+                  legend: "YEARS RANGES",
+                  legendOffset: 40
                 }}
                 colors='#1EA685'
                 theme={{
-                  background: '#E5E7EB',
-                  textColor: '#374151',
+                  background: "#E5E7EB",
+                  textColor: "#374151"
                 }}
               />
             </div>
@@ -1032,15 +1044,15 @@ export default function SubmitProject(props) {
               xScale={{
                 type: 'linear',
                 min: 0,
-                max: 'auto',
+                max: "auto"
               }}
               axisLeft={{
-                legend: 'KG / p Tree',
-                legendOffset: 12,
+                legend: "KG / p Tree",
+                legendOffset: 12
               }}
               axisBottom={{
-                legend: 'YEAR',
-                legendOffset: -12,
+                legend: "YEAR",
+                legendOffset: -12
               }}
             />
           </div>
