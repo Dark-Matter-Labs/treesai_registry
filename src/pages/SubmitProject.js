@@ -2,7 +2,6 @@ import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/solid';
-import { ResponsiveBarCanvas } from '@nivo/bar';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -850,24 +849,6 @@ export default function SubmitProject(props) {
               </p>
             </div>
             <BarCanvas data={alive_array} />
-            <div style={{ height: '400px' }}>
-              <ResponsiveBarCanvas
-                data={alive_array}
-                keys={['trees']}
-                indexBy='years'
-                padding={0.3}
-                margin={{ top: 80, right: 20, bottom: 60, left: 40 }}
-                axisBottom={{
-                  legend: 'YEARS RANGES',
-                  legendOffset: 40,
-                }}
-                colors='#1EA685'
-                theme={{
-                  background: '#E5E7EB',
-                  textColor: '#374151',
-                }}
-              />
-            </div>
           </div>
 
           <div className='shadow-sm rounded-md bg-white text-center my-10 mx-40'>
