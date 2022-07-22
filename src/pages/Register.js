@@ -16,7 +16,6 @@ export default function Register() {
     const createUserRequestHeaders = new Headers();
     createUserRequestHeaders.append('accept', 'application/json');
     createUserRequestHeaders.append('Content-Type', 'application/json');
-    createUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
 
     const createUserPayload = JSON.stringify({
       name: name,
@@ -28,7 +27,6 @@ export default function Register() {
       method: 'POST',
       headers: createUserRequestHeaders,
       body: createUserPayload,
-      redirect: 'follow',
     };
 
     await fetch('https://saf-api-folwijmtga-ew.a.run.app/api/v1/users', createUserRequestOptions)
