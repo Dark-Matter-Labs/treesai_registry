@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { RadioGroup, Transition } from '@headlessui/react';
 import { CheckCircleIcon, XIcon } from '@heroicons/react/solid';
 import { ExclamationCircleIcon } from '@heroicons/react/outline';
-import { Line } from '@nivo/line';
 import { ResponsiveBarCanvas } from '@nivo/bar';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
@@ -11,6 +10,9 @@ import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import projectImg from '../images/project-default.png';
 import tempImg from '../images/temp-map.png';
+// Charts
+import ChartMultiLine from '../components/charts/ChartMultiLine';
+import ChartSingleLine from '../components/charts/ChartSingleLine';
 
 const typologies = [
   {
@@ -53,44 +55,7 @@ const activities = [
   { id: 4, name: 'Preservation', value: 'preservation' },
 ];
 
-const commonProperties = {
-  width: 650,
-  height: 400,
-  margin: { top: 20, right: 20, bottom: 60, left: 40 },
-  animate: true,
-  yFormat: ' >-.2f',
-  enableSlices: 'x',
-  theme: {
-    background: '#E5E7EB',
-    textColor: '#374151',
-  },
-  colors: '#1EA685',
-};
-
-const commonPropertiesMultiLine = {
-  width: 650,
-  height: 400,
-  margin: { top: 20, right: 50, bottom: 60, left: 50 },
-  animate: true,
-  yFormat: ' >-.2f',
-  enableSlices: 'x',
-  theme: {
-    background: '#E5E7EB',
-    textColor: '#374151',
-  },
-  colors: ['#1EA685', '#374151', '#C4C4C4'],
-};
-
-let avg_rel_array,
-  avg_rel,
-  avg_seq_array,
-  avg_seq,
-  alive_array,
-  alive,
-  cumulative_seq_array,
-  released_array,
-  storage_array,
-  cumulative_array;
+let avg_rel, avg_seq, alive_array, alive, cumulative_seq_array, released_array, storage_array;
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -121,6 +86,10 @@ export default function SubmitProject(props) {
   const [selectedStage, setSelectedStage] = useState('potential');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [areaDensity, setAreaDensity] = useState(0);
+
+  const [cumulative_array, setCumulativeArray] = useState([]);
+  const [avg_rel_array, setAvgRelArray] = useState([]);
+  const [avg_seq_array, setAvgSeqArray] = useState([]);
 
   const navigate = useNavigate();
 
@@ -227,10 +196,11 @@ export default function SubmitProject(props) {
         throw new Error('Something went wrong');
       })
       .then((result) => {
-        avg_rel_array = Object.keys(result.Avg_Rel).map((key) => ({
+        let foo = Object.keys(result.Avg_Rel).map((key) => ({
           x: Number(key),
           y: result.Avg_Rel[key],
         }));
+        setAvgRelArray(foo);
 
         let sum = 0;
         Object.keys(result.Avg_Rel).map((key) => {
@@ -238,10 +208,11 @@ export default function SubmitProject(props) {
         });
         avg_rel = sum / 50;
 
-        avg_seq_array = Object.keys(result.Avg_Seq).map((key) => ({
+        let bar = Object.keys(result.Avg_Seq).map((key) => ({
           x: Number(key),
           y: result.Avg_Seq[key],
         }));
+        setAvgSeqArray(bar);
 
         sum = 0;
         Object.keys(result.Avg_Seq).map((key) => {
@@ -282,7 +253,7 @@ export default function SubmitProject(props) {
           y: result.Storage[key],
         }));
 
-        cumulative_array = [
+        setCumulativeArray([
           {
             id: 'seq',
             color: 'hsl(135, 70%, 50%)',
@@ -298,7 +269,7 @@ export default function SubmitProject(props) {
             color: 'hsl(31, 70%, 50%)',
             data: storage_array,
           },
-        ];
+        ]);
 
         setProcessStage(3);
       })
@@ -922,58 +893,26 @@ export default function SubmitProject(props) {
               </p>
             </div>
             <div className=''>
-              <Line
-                {...commonProperties}
-                curve='monotoneX'
-                enableArea={true}
+              <ChartSingleLine
                 data={[
                   {
                     id: 'Average Carbon Release',
                     data: avg_rel_array,
                   },
                 ]}
-                xScale={{
-                  type: 'linear',
-                  min: 0,
-                  max: 'auto',
-                }}
-                axisLeft={{
-                  legend: 'KG / p Tree',
-                  legendOffset: 12,
-                }}
-                axisBottom={{
-                  legend: 'YEAR',
-                  legendOffset: -12,
-                }}
               />
             </div>
           </div>
 
           <div className='grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10'>
             <div>
-              <Line
-                {...commonProperties}
-                curve='monotoneX'
-                enableArea={true}
+              <ChartSingleLine
                 data={[
                   {
                     id: 'Average Carbon Sequesteration',
                     data: avg_seq_array,
                   },
                 ]}
-                xScale={{
-                  type: 'linear',
-                  min: 0,
-                  max: 'auto',
-                }}
-                axisLeft={{
-                  legend: 'KG / p Tree',
-                  legendOffset: 12,
-                }}
-                axisBottom={{
-                  legend: 'YEAR',
-                  legendOffset: -12,
-                }}
               />
             </div>
             <div className='shadow-sm rounded-md bg-white ml-5 pl-20 text-center'>
@@ -1033,24 +972,7 @@ export default function SubmitProject(props) {
             <h4 className='text-xl font-bold tracking-tight font-spaceBold text-primary py-5'>
               Tree health plot
             </h4>
-            <Line
-              {...commonPropertiesMultiLine}
-              curve='monotoneX'
-              data={cumulative_array}
-              xScale={{
-                type: 'linear',
-                min: 0,
-                max: 'auto',
-              }}
-              axisLeft={{
-                legend: 'KG / p Tree',
-                legendOffset: 12,
-              }}
-              axisBottom={{
-                legend: 'YEAR',
-                legendOffset: -12,
-              }}
-            />
+            <ChartMultiLine data={cumulative_array} />
           </div>
           <div className='text-center py-20'>
             <button
