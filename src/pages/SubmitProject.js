@@ -12,6 +12,7 @@ import tempImg from '../images/temp-map.png';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
 import ChartSingleLine from '../components/charts/ChartSingleLine';
+import BarCanvas from '../components/charts/BarCanvas';
 
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -56,7 +57,7 @@ const activities = [
   { id: 4, name: 'Preservation', value: 'preservation' },
 ];
 
-let avg_rel, avg_seq, alive_array, alive, cumulative_seq_array, released_array, storage_array;
+let avg_rel, avg_seq, alive, cumulative_seq_array, released_array, storage_array;
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -87,6 +88,7 @@ export default function SubmitProject(props) {
   const [cumulative_array, setCumulativeArray] = useState([]);
   const [avg_rel_array, setAvgRelArray] = useState([]);
   const [avg_seq_array, setAvgSeqArray] = useState([]);
+  const [alive_array, setAliveArray] = useState([]);
 
   const navigate = useNavigate();
 
@@ -220,12 +222,12 @@ export default function SubmitProject(props) {
         const tenToThirtyAlive = sumRange(result.Alive, 11, 31);
         const thirtyToFiftyAlive = sumRange(result.Alive, 31, 50);
 
-        alive_array = [
+        setAliveArray([
           { years: 'y1-2', trees: oneToThreeAlive },
           { years: 'y3-10', trees: threeToTenAlive },
           { years: 'y10-30', trees: tenToThirtyAlive },
           { years: 'y30-50', trees: thirtyToFiftyAlive },
-        ];
+        ]);
 
         sum = 0;
         Object.keys(result.Alive).map((key) => {
@@ -847,6 +849,7 @@ export default function SubmitProject(props) {
                 emissions.
               </p>
             </div>
+            <BarCanvas data={alive_array} />
             <div style={{ height: '400px' }}>
               <ResponsiveBarCanvas
                 data={alive_array}
