@@ -36,7 +36,7 @@ export default function Login() {
       redirect: 'follow',
     };
 
-    await fetch('http://127.0.0.1:8000/api/v1/token', getTokenRequestOptions)
+    await fetch('http://saf-api-folwijmtga-ew.a.run.app/api/v1/token', getTokenRequestOptions)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -59,7 +59,7 @@ export default function Login() {
           redirect: 'follow',
         };
 
-        fetch('http://127.0.0.1:8000/api/v1/users/me/', getUserRequestOptions)
+        fetch('http://saf-api-folwijmtga-ew.a.run.app/api/v1/users/me/', getUserRequestOptions)
           .then((response) => {
             if (response.ok) {
               return response.json();
