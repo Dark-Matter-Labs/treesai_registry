@@ -31,7 +31,7 @@ export default function Register() {
       redirect: 'follow',
     };
 
-    await fetch('http://saf-api-folwijmtga-ew.a.run.app/api/v1/users', createUserRequestOptions)
+    await fetch('https://saf-api-folwijmtga-ew.a.run.app/api/v1/users', createUserRequestOptions)
       .then((response) => {
         if (response.ok) {
           sessionStorage.setItem('user_name', name);
@@ -67,7 +67,7 @@ export default function Register() {
           redirect: 'follow',
         };
 
-        fetch('http://saf-api-folwijmtga-ew.a.run.app/api/v1/token', getTokenRequestOptions)
+        fetch('https://saf-api-folwijmtga-ew.a.run.app/api/v1/token', getTokenRequestOptions)
           .then((response) => {
             if (response.ok) {
               return response.json();

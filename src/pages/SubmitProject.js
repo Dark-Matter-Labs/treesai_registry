@@ -161,7 +161,7 @@ export default function SubmitProject(props) {
     let response;
     try {
       response = await fetch(
-        'http://saf-api-folwijmtga-ew.a.run.app/api/v1/saf/users/' + sessionStorage.user_id + '/projects',
+        'https://saf-api-folwijmtga-ew.a.run.app/api/v1/saf/users/' + sessionStorage.user_id + '/projects',
         requestOptions,
       );
     } catch (ex) {
@@ -207,7 +207,7 @@ export default function SubmitProject(props) {
     };
 
     await fetch(
-      'http://saf-api-folwijmtga-ew.a.run.app/api/v1/saf/users/' +
+      'https://saf-api-folwijmtga-ew.a.run.app/api/v1/saf/users/' +
         sessionStorage.user_id +
         '/projects/' +
         sessionStorage.project_id +
