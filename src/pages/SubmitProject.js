@@ -95,7 +95,7 @@ export default function SubmitProject(props) {
   function processSAFData() {
     /* SAF Related processing */
 
-    /* 0.Helper functions */
+    /* Helper functions */
     function makeChartArray(dict) {
       let chartArray = [];
       chartArray = Object.keys(dict).map((key) => ({
@@ -186,7 +186,7 @@ export default function SubmitProject(props) {
     ]);
   }
 
-  /* DATA logic changes on receiving the SAF output */
+  /* Data logic changes on receiving the SAF output */
   useEffect(() => {
     processSAFData();
   }, [safOutput]);
