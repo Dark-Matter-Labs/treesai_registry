@@ -89,9 +89,9 @@ export default function SubmitProject(props) {
   const [avg_rel_array, setAvgRelArray] = useState([]);
   const [avg_seq_array, setAvgSeqArray] = useState([]);
   const [alive_array, setAliveArray] = useState([]);
-  const [avg_rel, setAvgRel] = useState(0);
-  const [avg_seq, setAvgSeq] = useState(0);
-  const [alive, setAlive] = useState(0);
+  const [avg_rel, setAvgRel] = useState(1);
+  const [avg_seq, setAvgSeq] = useState(1);
+  const [alive, setAlive] = useState(1);
 
   const navigate = useNavigate();
 
@@ -99,37 +99,37 @@ export default function SubmitProject(props) {
     /* SAF Related processing */
 
     /* 0.Helper functions */
-    function makeChartArray(array) {
-      if (array.length !== 0) {
-        let chartArray = [];
-        chartArray = Object.keys(array).map((key) => ({
-          x: Number(key),
-          y: array[key],
-        }));
-        return chartArray;
+    function makeChartArray(dict) {
+      let chartArray = [];
+      chartArray = Object.keys(dict).map((key) => ({
+        x: Number(key),
+        y: dict[key],
+      }));
+      return chartArray;
+    }
+
+    function calcAverage(dict) {
+      // Calculates the average of an array
+      if (Object.keys(dict).length === 0) {
+        console.log('Empty array');
+        return 0;
       } else {
-        return [];
+        let sum = 0;
+        Object.keys(dict).forEach((key) => {
+          sum += dict[key];
+        });
+        console.log('Sum: ', sum);
+        console.log('Average: ', sum / Object.keys(dict).length);
+        return sum / Object.keys(dict).length;
       }
     }
 
-    function calcAverage(array) {
-      // Calculates the average of an array
-      if (array.length !== 0) {
-        let sum = 0;
-        for (let index = 0; index < array.length; index++) {
-          sum += array[index];
-        }
-        return sum / array.length;
-      } else return 0;
-    }
-    function calcSum(array) {
+    function calcSum(dict) {
       // Calculates the sum of an array
       let sum = 0;
-      for (let index = 0; index < array.length; index++) {
-        if (array[index] !== undefined) {
-          sum += array[index];
-        }
-      }
+      Object.keys(dict).forEach((key) => {
+        sum += dict[key];
+      });
       return sum;
     }
 
@@ -748,7 +748,7 @@ export default function SubmitProject(props) {
                     Total Carbon Sequestration Average: <br />
                   </span>
                   <span className='text-xl font-bold tracking-tight font-spaceBold text-primary'>
-                    {Math.round({ avg_seq } * 100 + Number.EPSILON) / 100}
+                    {avg_seq} tCO2
                     <br />
                   </span>
 
@@ -805,7 +805,7 @@ export default function SubmitProject(props) {
               </h4>
               <div className='my-10'>
                 <span className='rounded-full bg-primary text-white font-spaceBold p-10'>
-                  {Math.round({ avg_rel } * 100 + Number.EPSILON) / 100} tCO2
+                  {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
                 </span>
               </div>
               <p className='pt-10 text-left'>
@@ -843,7 +843,7 @@ export default function SubmitProject(props) {
               </h4>
               <div className='my-10'>
                 <span className='rounded-full bg-primary text-white font-spaceBold p-10'>
-                  {Math.round({ avg_seq } * 100 + Number.EPSILON) / 100} tCO2
+                  {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
                 </span>
               </div>
               <p className='pt-10 text-left'>
@@ -861,7 +861,7 @@ export default function SubmitProject(props) {
               </h4>
               <div className='my-10'>
                 <span className='rounded-full bg-primary text-white font-spaceBold p-10'>
-                  {Math.round({ alive } * 100 + Number.EPSILON) / 100} years
+                  {Math.round(alive * 100 + Number.EPSILON) / 100} years
                 </span>
               </div>
               <p className='pt-10 text-left'>
