@@ -61,16 +61,6 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function sumRange(array, start, end) {
-  let sum = 0;
-
-  for (let index = start; index < end; index++) {
-    sum += array[index];
-  }
-
-  return sum;
-}
-
 export default function SubmitProject(props) {
   const [processStage, setProcessStage] = useState(1);
   const [projectName, setProjectName] = useState('');
@@ -134,6 +124,16 @@ export default function SubmitProject(props) {
       Object.keys(dict).forEach((key) => {
         sum += dict[key];
       });
+      return sum;
+    }
+
+    function sumRange(array, start, end) {
+      let sum = 0;
+
+      for (let index = start; index < end; index++) {
+        sum += array[index];
+      }
+
       return sum;
     }
 
