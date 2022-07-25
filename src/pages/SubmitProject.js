@@ -95,6 +95,13 @@ export default function SubmitProject(props) {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
+      toast.error('You must be logged in to submit a project.');
+      navigate('/register');
+    }
+  });
+
   function processSAFData() {
     /* SAF Related processing */
 
@@ -181,13 +188,6 @@ export default function SubmitProject(props) {
       },
     ]);
   }
-
-  useEffect(() => {
-    if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
-      toast.error('You must be logged in to submit a project.');
-      navigate('/register');
-    }
-  });
 
   /* DATA logic changes on receiving the SAF output */
   useEffect(() => {
