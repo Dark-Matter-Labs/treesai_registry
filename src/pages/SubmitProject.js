@@ -14,6 +14,7 @@ import ChartSingleLine from '../components/charts/ChartSingleLine';
 import BarCanvas from '../components/charts/BarCanvas';
 
 import toast, { Toaster } from 'react-hot-toast';
+import { saf_data } from '../utils/saf_data_model';
 
 const typologies = [
   {
