@@ -57,8 +57,6 @@ const activities = [
   { id: 4, name: 'Preservation', value: 'preservation' },
 ];
 
-let avg_rel, avg_seq, alive, cumulative_seq_array, released_array, storage_array;
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -85,12 +83,104 @@ export default function SubmitProject(props) {
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [areaDensity, setAreaDensity] = useState(0);
 
+  /* SAF Related variables */
+  const [safOutput, setSafOutput] = useState(saf_data);
   const [cumulative_array, setCumulativeArray] = useState([]);
   const [avg_rel_array, setAvgRelArray] = useState([]);
   const [avg_seq_array, setAvgSeqArray] = useState([]);
   const [alive_array, setAliveArray] = useState([]);
+  const [avg_rel, setAvgRel] = useState(0);
+  const [avg_seq, setAvgSeq] = useState(0);
+  const [alive, setAlive] = useState(0);
 
   const navigate = useNavigate();
+
+  function processSAFData() {
+    /* SAF Related processing */
+
+    /* 0.Helper functions */
+    function makeChartArray(array) {
+      if (array.length !== 0) {
+        let chartArray = [];
+        chartArray = Object.keys(array).map((key) => ({
+          x: Number(key),
+          y: array[key],
+        }));
+        return chartArray;
+      } else {
+        return [];
+      }
+    }
+
+    function calcAverage(array) {
+      // Calculates the average of an array
+      if (array.length !== 0) {
+        let sum = 0;
+        for (let index = 0; index < array.length; index++) {
+          sum += array[index];
+        }
+        return sum / array.length;
+      } else return 0;
+    }
+    function calcSum(array) {
+      // Calculates the sum of an array
+      let sum = 0;
+      for (let index = 0; index < array.length; index++) {
+        if (array[index] !== undefined) {
+          sum += array[index];
+        }
+      }
+      return sum;
+    }
+
+    /* Calculate */
+
+    // Calculates the cumulative array
+    setAlive(calcSum(safOutput.Alive));
+    // Format all the arrays for the charts
+    setAvgRelArray(makeChartArray(safOutput.Avg_Rel));
+    setAvgSeqArray(makeChartArray(safOutput.Avg_Seq));
+    // Calculate the average of the arrays
+    setAvgRel(calcAverage(safOutput.Avg_Rel));
+    setAvgSeq(calcAverage(safOutput.Avg_Seq));
+
+    // Buckets
+    const oneToThreeAlive = sumRange(safOutput.Alive, 0, 4);
+    const threeToTenAlive = sumRange(safOutput.Alive, 4, 11);
+    const tenToThirtyAlive = sumRange(safOutput.Alive, 11, 31);
+    const thirtyToFiftyAlive = sumRange(safOutput.Alive, 31, 50);
+
+    setAliveArray([
+      { years: 'y1-2', trees: oneToThreeAlive },
+      { years: 'y3-10', trees: threeToTenAlive },
+      { years: 'y10-30', trees: tenToThirtyAlive },
+      { years: 'y30-50', trees: thirtyToFiftyAlive },
+    ]);
+
+    let cumulative_seq_array, released_array, storage_array;
+
+    cumulative_seq_array = makeChartArray(safOutput.Cum_Seq);
+    released_array = makeChartArray(safOutput.Released);
+    storage_array = makeChartArray(safOutput.Storage);
+
+    setCumulativeArray([
+      {
+        id: 'seq',
+        color: 'hsl(135, 70%, 50%)',
+        data: cumulative_seq_array,
+      },
+      {
+        id: 'release',
+        color: 'hsl(347, 70%, 50%)',
+        data: released_array,
+      },
+      {
+        id: 'storage',
+        color: 'hsl(31, 70%, 50%)',
+        data: storage_array,
+      },
+    ]);
+  }
 
   useEffect(() => {
     if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
@@ -98,6 +188,11 @@ export default function SubmitProject(props) {
       navigate('/register');
     }
   });
+
+  /* DATA logic changes on receiving the SAF output */
+  useEffect(() => {
+    processSAFData();
+  }, [safOutput]);
 
   const getProjectID = async () => {
     let requestHeaders = new Headers();
@@ -193,81 +288,7 @@ export default function SubmitProject(props) {
         throw new Error('Something went wrong');
       })
       .then((result) => {
-        let foo = Object.keys(result.Avg_Rel).map((key) => ({
-          x: Number(key),
-          y: result.Avg_Rel[key],
-        }));
-        setAvgRelArray(foo);
-
-        let sum = 0;
-        Object.keys(result.Avg_Rel).map((key) => {
-          sum += result.Avg_Rel[key];
-        });
-        avg_rel = sum / 50;
-
-        let bar = Object.keys(result.Avg_Seq).map((key) => ({
-          x: Number(key),
-          y: result.Avg_Seq[key],
-        }));
-        setAvgSeqArray(bar);
-
-        sum = 0;
-        Object.keys(result.Avg_Seq).map((key) => {
-          sum += result.Avg_Seq[key];
-        });
-        avg_seq = sum / 50;
-
-        const oneToThreeAlive = sumRange(result.Alive, 0, 4);
-        const threeToTenAlive = sumRange(result.Alive, 4, 11);
-        const tenToThirtyAlive = sumRange(result.Alive, 11, 31);
-        const thirtyToFiftyAlive = sumRange(result.Alive, 31, 50);
-
-        setAliveArray([
-          { years: 'y1-2', trees: oneToThreeAlive },
-          { years: 'y3-10', trees: threeToTenAlive },
-          { years: 'y10-30', trees: tenToThirtyAlive },
-          { years: 'y30-50', trees: thirtyToFiftyAlive },
-        ]);
-
-        sum = 0;
-        Object.keys(result.Alive).map((key) => {
-          sum += result.Alive[key];
-        });
-        alive = sum / 50;
-
-        cumulative_seq_array = Object.keys(result.Cum_Seq).map((key) => ({
-          x: Number(key),
-          y: result.Cum_Seq[key],
-        }));
-
-        released_array = Object.keys(result.Released).map((key) => ({
-          x: Number(key),
-          y: result.Released[key],
-        }));
-
-        storage_array = Object.keys(result.Storage).map((key) => ({
-          x: Number(key),
-          y: result.Storage[key],
-        }));
-
-        setCumulativeArray([
-          {
-            id: 'seq',
-            color: 'hsl(135, 70%, 50%)',
-            data: cumulative_seq_array,
-          },
-          {
-            id: 'release',
-            color: 'hsl(347, 70%, 50%)',
-            data: released_array,
-          },
-          {
-            id: 'storage',
-            color: 'hsl(31, 70%, 50%)',
-            data: storage_array,
-          },
-        ]);
-
+        setSafOutput(result);
         setProcessStage(3);
       })
       .catch((error) => console.log('error', error));
@@ -727,7 +748,7 @@ export default function SubmitProject(props) {
                     Total Carbon Sequestration Average: <br />
                   </span>
                   <span className='text-xl font-bold tracking-tight font-spaceBold text-primary'>
-                    {Math.round(avg_seq * 100 + Number.EPSILON) / 100}
+                    {Math.round({ avg_seq } * 100 + Number.EPSILON) / 100}
                     <br />
                   </span>
 
@@ -784,7 +805,7 @@ export default function SubmitProject(props) {
               </h4>
               <div className='my-10'>
                 <span className='rounded-full bg-primary text-white font-spaceBold p-10'>
-                  {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
+                  {Math.round({ avg_rel } * 100 + Number.EPSILON) / 100} tCO2
                 </span>
               </div>
               <p className='pt-10 text-left'>
@@ -822,7 +843,7 @@ export default function SubmitProject(props) {
               </h4>
               <div className='my-10'>
                 <span className='rounded-full bg-primary text-white font-spaceBold p-10'>
-                  {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
+                  {Math.round({ avg_seq } * 100 + Number.EPSILON) / 100} tCO2
                 </span>
               </div>
               <p className='pt-10 text-left'>
@@ -840,7 +861,7 @@ export default function SubmitProject(props) {
               </h4>
               <div className='my-10'>
                 <span className='rounded-full bg-primary text-white font-spaceBold p-10'>
-                  {Math.round(alive * 100 + Number.EPSILON) / 100} years
+                  {Math.round({ alive } * 100 + Number.EPSILON) / 100} years
                 </span>
               </div>
               <p className='pt-10 text-left'>
