@@ -118,15 +118,12 @@ export default function SubmitProject(props) {
     function calcAverage(dict) {
       // Calculates the average of an array
       if (Object.keys(dict).length === 0) {
-        console.log('Empty array');
         return 0;
       } else {
         let sum = 0;
         Object.keys(dict).forEach((key) => {
           sum += dict[key];
         });
-        console.log('Sum: ', sum);
-        console.log('Average: ', sum / Object.keys(dict).length);
         return sum / Object.keys(dict).length;
       }
     }
@@ -238,7 +235,6 @@ export default function SubmitProject(props) {
     }
     if (response.ok) {
       let data = await response.json();
-      console.log(data);
       sessionStorage.setItem('project_id', JSON.stringify(data.id));
       setProcessStage(2);
     }
