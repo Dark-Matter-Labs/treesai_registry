@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/solid';
@@ -161,7 +162,8 @@ export default function SubmitProject(props) {
     let response;
     try {
       response = await fetch(
-        'https://saf-api-folwijmtga-ew.a.run.app/api/v1/saf/users/' +
+        process.env.REACT_APP_API_ENDPOINT +
+          '/api/v1/saf/users/' +
           sessionStorage.user_id +
           '/projects',
         requestOptions,
@@ -209,7 +211,8 @@ export default function SubmitProject(props) {
     };
 
     await fetch(
-      'https://saf-api-folwijmtga-ew.a.run.app/api/v1/saf/users/' +
+      process.env.REACT_APP_API_ENDPOINT +
+        '/api/v1/saf/users/' +
         sessionStorage.user_id +
         '/projects/' +
         sessionStorage.project_id +
@@ -304,6 +307,11 @@ export default function SubmitProject(props) {
 
   return (
     <div className='bg-background'>
+      {process.env.NODE_ENV === 'production' && (
+        <Helmet>
+          <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
+        </Helmet>
+      )}
       <NavBar loggedIn={props.loggedIn} current='projectSubmit' />
       {processStage === 1 && (
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
@@ -970,5 +978,5 @@ export default function SubmitProject(props) {
 }
 
 SubmitProject.propTypes = {
-  loggedIn: PropTypes.boolean,
+  loggedIn: PropTypes.bool,
 };
