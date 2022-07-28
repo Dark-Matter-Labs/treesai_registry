@@ -14,7 +14,7 @@ You need to create `.env` file at project root and define `REACT_APP_MAPBOX_KEY`
 
 In the project directory, you can run:
 
-### `yarn start`
+### `yarn start:dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
