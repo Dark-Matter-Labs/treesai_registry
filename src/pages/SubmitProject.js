@@ -3,16 +3,19 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/solid';
-import { Line } from '@nivo/line';
-import { ResponsiveBarCanvas } from '@nivo/bar';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import projectImg from '../images/project-default.png';
 import tempImg from '../images/temp-map.png';
+// Charts
+import ChartMultiLine from '../components/charts/ChartMultiLine';
+import ChartSingleLine from '../components/charts/ChartSingleLine';
+import BarCanvas from '../components/charts/BarCanvas';
 
 import toast, { Toaster } from 'react-hot-toast';
+import { saf_data } from '../utils/saf_data_model';
 
 const typologies = [
   {
@@ -55,57 +58,8 @@ const activities = [
   { id: 4, name: 'Preservation', value: 'preservation' },
 ];
 
-const commonProperties = {
-  width: 650,
-  height: 400,
-  margin: { top: 20, right: 20, bottom: 60, left: 40 },
-  animate: true,
-  yFormat: ' >-.2f',
-  enableSlices: 'x',
-  theme: {
-    background: '#E5E7EB',
-    textColor: '#374151',
-  },
-  colors: '#1EA685',
-};
-
-const commonPropertiesMultiLine = {
-  width: 650,
-  height: 400,
-  margin: { top: 20, right: 50, bottom: 60, left: 50 },
-  animate: true,
-  yFormat: ' >-.2f',
-  enableSlices: 'x',
-  theme: {
-    background: '#E5E7EB',
-    textColor: '#374151',
-  },
-  colors: ['#1EA685', '#374151', '#C4C4C4'],
-};
-
-let avg_rel_array,
-  avg_rel,
-  avg_seq_array,
-  avg_seq,
-  alive_array,
-  alive,
-  cumulative_seq_array,
-  released_array,
-  storage_array,
-  cumulative_array;
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
-}
-
-function sumRange(array, start, end) {
-  let sum = 0;
-
-  for (let index = start; index < end; index++) {
-    sum += array[index];
-  }
-
-  return sum;
 }
 
 export default function SubmitProject(props) {
@@ -120,6 +74,16 @@ export default function SubmitProject(props) {
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [areaDensity, setAreaDensity] = useState(0);
 
+  /* SAF Related variables */
+  const [safOutput, setSafOutput] = useState(saf_data);
+  const [cumulative_array, setCumulativeArray] = useState([]);
+  const [avg_rel_array, setAvgRelArray] = useState([]);
+  const [avg_seq_array, setAvgSeqArray] = useState([]);
+  const [alive_array, setAliveArray] = useState([]);
+  const [avg_rel, setAvgRel] = useState(1);
+  const [avg_seq, setAvgSeq] = useState(1);
+  const [alive, setAlive] = useState(1);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -128,6 +92,105 @@ export default function SubmitProject(props) {
       navigate('/register');
     }
   });
+
+  function processSAFData() {
+    /* SAF Related processing */
+
+    /* Helper functions */
+    function makeChartArray(dict) {
+      let chartArray = [];
+      chartArray = Object.keys(dict).map((key) => ({
+        x: Number(key),
+        y: dict[key],
+      }));
+      return chartArray;
+    }
+
+    function calcAverage(dict) {
+      // Calculates the average of an array
+      if (Object.keys(dict).length === 0) {
+        return 0;
+      } else {
+        let sum = 0;
+        Object.keys(dict).forEach((key) => {
+          sum += dict[key];
+        });
+        return sum / Object.keys(dict).length;
+      }
+    }
+
+    function calcSum(dict) {
+      // Calculates the sum of an array
+      let sum = 0;
+      Object.keys(dict).forEach((key) => {
+        sum += dict[key];
+      });
+      return sum;
+    }
+
+    function sumRange(array, start, end) {
+      let sum = 0;
+
+      for (let index = start; index < end; index++) {
+        sum += array[index];
+      }
+
+      return sum;
+    }
+
+    /* Calculate */
+
+    // Calculates the cumulative array
+    setAlive(calcSum(safOutput.Alive));
+    // Format all the arrays for the charts
+    setAvgRelArray(makeChartArray(safOutput.Avg_Rel));
+    setAvgSeqArray(makeChartArray(safOutput.Avg_Seq));
+    // Calculate the average of the arrays
+    setAvgRel(calcAverage(safOutput.Avg_Rel));
+    setAvgSeq(calcAverage(safOutput.Avg_Seq));
+
+    // Buckets
+    const oneToThreeAlive = sumRange(safOutput.Alive, 0, 4);
+    const threeToTenAlive = sumRange(safOutput.Alive, 4, 11);
+    const tenToThirtyAlive = sumRange(safOutput.Alive, 11, 31);
+    const thirtyToFiftyAlive = sumRange(safOutput.Alive, 31, 50);
+
+    setAliveArray([
+      { years: 'y1-2', trees: oneToThreeAlive },
+      { years: 'y3-10', trees: threeToTenAlive },
+      { years: 'y10-30', trees: tenToThirtyAlive },
+      { years: 'y30-50', trees: thirtyToFiftyAlive },
+    ]);
+
+    let cumulative_seq_array, released_array, storage_array;
+
+    cumulative_seq_array = makeChartArray(safOutput.Cum_Seq);
+    released_array = makeChartArray(safOutput.Released);
+    storage_array = makeChartArray(safOutput.Storage);
+
+    setCumulativeArray([
+      {
+        id: 'seq',
+        color: 'hsl(135, 70%, 50%)',
+        data: cumulative_seq_array,
+      },
+      {
+        id: 'release',
+        color: 'hsl(347, 70%, 50%)',
+        data: released_array,
+      },
+      {
+        id: 'storage',
+        color: 'hsl(31, 70%, 50%)',
+        data: storage_array,
+      },
+    ]);
+  }
+
+  /* Data logic changes on receiving the SAF output */
+  useEffect(() => {
+    processSAFData();
+  }, [safOutput]);
 
   const getProjectID = async () => {
     let requestHeaders = new Headers();
@@ -176,7 +239,6 @@ export default function SubmitProject(props) {
     }
     if (response.ok) {
       let data = await response.json();
-      console.log(data);
       sessionStorage.setItem('project_id', JSON.stringify(data.id));
       setProcessStage(2);
     }
@@ -227,79 +289,7 @@ export default function SubmitProject(props) {
         throw new Error('Something went wrong');
       })
       .then((result) => {
-        avg_rel_array = Object.keys(result.Avg_Rel).map((key) => ({
-          x: Number(key),
-          y: result.Avg_Rel[key],
-        }));
-
-        let sum = 0;
-        Object.keys(result.Avg_Rel).map((key) => {
-          sum += result.Avg_Rel[key];
-        });
-        avg_rel = sum / 50;
-
-        avg_seq_array = Object.keys(result.Avg_Seq).map((key) => ({
-          x: Number(key),
-          y: result.Avg_Seq[key],
-        }));
-
-        sum = 0;
-        Object.keys(result.Avg_Seq).map((key) => {
-          sum += result.Avg_Seq[key];
-        });
-        avg_seq = sum / 50;
-
-        const oneToThreeAlive = sumRange(result.Alive, 0, 4);
-        const threeToTenAlive = sumRange(result.Alive, 4, 11);
-        const tenToThirtyAlive = sumRange(result.Alive, 11, 31);
-        const thirtyToFiftyAlive = sumRange(result.Alive, 31, 50);
-
-        alive_array = [
-          { years: 'y1-2', trees: oneToThreeAlive },
-          { years: 'y3-10', trees: threeToTenAlive },
-          { years: 'y10-30', trees: tenToThirtyAlive },
-          { years: 'y30-50', trees: thirtyToFiftyAlive },
-        ];
-
-        sum = 0;
-        Object.keys(result.Alive).map((key) => {
-          sum += result.Alive[key];
-        });
-        alive = sum / 50;
-
-        cumulative_seq_array = Object.keys(result.Cum_Seq).map((key) => ({
-          x: Number(key),
-          y: result.Cum_Seq[key],
-        }));
-
-        released_array = Object.keys(result.Released).map((key) => ({
-          x: Number(key),
-          y: result.Released[key],
-        }));
-
-        storage_array = Object.keys(result.Storage).map((key) => ({
-          x: Number(key),
-          y: result.Storage[key],
-        }));
-
-        cumulative_array = [
-          {
-            id: 'seq',
-            color: 'hsl(135, 70%, 50%)',
-            data: cumulative_seq_array,
-          },
-          {
-            id: 'release',
-            color: 'hsl(347, 70%, 50%)',
-            data: released_array,
-          },
-          {
-            id: 'storage',
-            color: 'hsl(31, 70%, 50%)',
-            data: storage_array,
-          },
-        ];
-
+        setSafOutput(result);
         setProcessStage(3);
       })
       .catch((error) => console.log('error', error));
@@ -764,7 +754,7 @@ export default function SubmitProject(props) {
                     Total Carbon Sequestration Average: <br />
                   </span>
                   <span className='text-xl font-bold tracking-tight font-spaceBold text-primary'>
-                    {Math.round(avg_seq * 100 + Number.EPSILON) / 100}
+                    {avg_seq} tCO2
                     <br />
                   </span>
 
@@ -831,58 +821,26 @@ export default function SubmitProject(props) {
               </p>
             </div>
             <div className=''>
-              <Line
-                {...commonProperties}
-                curve='monotoneX'
-                enableArea={true}
+              <ChartSingleLine
                 data={[
                   {
                     id: 'Average Carbon Release',
                     data: avg_rel_array,
                   },
                 ]}
-                xScale={{
-                  type: 'linear',
-                  min: 0,
-                  max: 'auto',
-                }}
-                axisLeft={{
-                  legend: 'KG / p Tree',
-                  legendOffset: 12,
-                }}
-                axisBottom={{
-                  legend: 'YEAR',
-                  legendOffset: -12,
-                }}
               />
             </div>
           </div>
 
           <div className='grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10'>
             <div>
-              <Line
-                {...commonProperties}
-                curve='monotoneX'
-                enableArea={true}
+              <ChartSingleLine
                 data={[
                   {
                     id: 'Average Carbon Sequesteration',
                     data: avg_seq_array,
                   },
                 ]}
-                xScale={{
-                  type: 'linear',
-                  min: 0,
-                  max: 'auto',
-                }}
-                axisLeft={{
-                  legend: 'KG / p Tree',
-                  legendOffset: 12,
-                }}
-                axisBottom={{
-                  legend: 'YEAR',
-                  legendOffset: -12,
-                }}
               />
             </div>
             <div className='shadow-sm rounded-md bg-white ml-5 pl-20 text-center'>
@@ -918,48 +876,14 @@ export default function SubmitProject(props) {
                 emissions.
               </p>
             </div>
-            <div style={{ height: '400px' }}>
-              <ResponsiveBarCanvas
-                data={alive_array}
-                keys={['trees']}
-                indexBy='years'
-                padding={0.3}
-                margin={{ top: 80, right: 20, bottom: 60, left: 40 }}
-                axisBottom={{
-                  legend: 'YEARS RANGES',
-                  legendOffset: 40,
-                }}
-                colors='#1EA685'
-                theme={{
-                  background: '#E5E7EB',
-                  textColor: '#374151',
-                }}
-              />
-            </div>
+            <BarCanvas data={alive_array} />
           </div>
 
           <div className='shadow-sm rounded-md bg-white text-center my-10 mx-40'>
             <h4 className='text-xl font-bold tracking-tight font-spaceBold text-primary py-5'>
               Tree health plot
             </h4>
-            <Line
-              {...commonPropertiesMultiLine}
-              curve='monotoneX'
-              data={cumulative_array}
-              xScale={{
-                type: 'linear',
-                min: 0,
-                max: 'auto',
-              }}
-              axisLeft={{
-                legend: 'KG / p Tree',
-                legendOffset: 12,
-              }}
-              axisBottom={{
-                legend: 'YEAR',
-                legendOffset: -12,
-              }}
-            />
+            <ChartMultiLine data={cumulative_array} />
           </div>
           <div className='text-center py-20'>
             <button
