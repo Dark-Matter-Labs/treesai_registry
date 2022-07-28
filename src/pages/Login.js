@@ -36,7 +36,7 @@ export default function Login() {
       redirect: 'follow',
     };
 
-    await fetch('http://127.0.0.1:8000/api/v1/token', getTokenRequestOptions)
+    await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -59,7 +59,7 @@ export default function Login() {
           redirect: 'follow',
         };
 
-        fetch('http://127.0.0.1:8000/api/v1/users/me/', getUserRequestOptions)
+        fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/', getUserRequestOptions)
           .then((response) => {
             if (response.ok) {
               return response.json();

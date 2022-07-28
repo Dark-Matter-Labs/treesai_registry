@@ -207,5 +207,5 @@ export default function Home(props) {
 }
 
 Home.propTypes = {
-  loggedIn: PropTypes.boolean,
+  loggedIn: PropTypes.bool,
 };

@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import logo from '../images/logo.svg';
@@ -16,7 +17,6 @@ export default function Register() {
     const createUserRequestHeaders = new Headers();
     createUserRequestHeaders.append('accept', 'application/json');
     createUserRequestHeaders.append('Content-Type', 'application/json');
-    createUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
 
     const createUserPayload = JSON.stringify({
       name: name,
@@ -28,10 +28,9 @@ export default function Register() {
       method: 'POST',
       headers: createUserRequestHeaders,
       body: createUserPayload,
-      redirect: 'follow',
     };
 
-    await fetch('http://127.0.0.1:8000/api/v1/users', createUserRequestOptions)
+    await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users', createUserRequestOptions)
       .then((response) => {
         if (response.ok) {
           sessionStorage.setItem('user_name', name);
@@ -67,7 +66,7 @@ export default function Register() {
           redirect: 'follow',
         };
 
-        fetch('http://127.0.0.1:8000/api/v1/token', getTokenRequestOptions)
+        fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
           .then((response) => {
             if (response.ok) {
               return response.json();
@@ -94,6 +93,11 @@ export default function Register() {
 
   return (
     <>
+      {process.env.NODE_ENV === 'production' && (
+        <Helmet>
+          <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
+        </Helmet>
+      )}
       <NavBar />
       <div className='min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>

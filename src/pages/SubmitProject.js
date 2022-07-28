@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/solid';
@@ -42,7 +43,7 @@ const typologies = [
     title: 'Trees in Vacant Lands',
     description: 'Typology description',
     users: 'some stats',
-    value: 'tree _in_VDL',
+    value: 'tree in VDL',
     minDBH: 7,
     maxDBH: 30,
     species: 'conifer',
@@ -224,7 +225,10 @@ export default function SubmitProject(props) {
     let response;
     try {
       response = await fetch(
-        'http://127.0.0.1:8000/api/v1/saf/users/' + sessionStorage.user_id + '/projects',
+        process.env.REACT_APP_API_ENDPOINT +
+          '/api/v1/saf/users/' +
+          sessionStorage.user_id +
+          '/projects',
         requestOptions,
       );
     } catch (ex) {
@@ -269,7 +273,8 @@ export default function SubmitProject(props) {
     };
 
     await fetch(
-      'http://127.0.0.1:8000/api/v1/saf/users/' +
+      process.env.REACT_APP_API_ENDPOINT +
+        '/api/v1/saf/users/' +
         sessionStorage.user_id +
         '/projects/' +
         sessionStorage.project_id +
@@ -292,6 +297,11 @@ export default function SubmitProject(props) {
 
   return (
     <div className='bg-background'>
+      {process.env.NODE_ENV === 'production' && (
+        <Helmet>
+          <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
+        </Helmet>
+      )}
       <NavBar loggedIn={props.loggedIn} current='projectSubmit' />
       {processStage === 1 && (
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
@@ -892,5 +902,5 @@ export default function SubmitProject(props) {
 }
 
 SubmitProject.propTypes = {
-  loggedIn: PropTypes.boolean,
+  loggedIn: PropTypes.bool,
 };
