@@ -17,7 +17,6 @@
     "mapbox-gl": "^2.8.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-helmet": "^6.1.0",
     "react-hot-toast": "^2.3.0",
     "react-map-gl": "^7.0.15",
     "react-router-dom": "^6.3.0",
@@ -47,6 +46,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.20.0",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
