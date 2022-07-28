@@ -69,7 +69,7 @@ export default function SubmitProject(props) {
   const [contactEmail, setContactEmail] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [treeNumber, setTreeNumber] = useState(0);
-  const [selectedActivity, setSelectedActivity] = useState('');
+  const [selectedActivity, setSelectedActivity] = useState('planting');
   const [selectedStage, setSelectedStage] = useState('potential');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [areaDensity, setAreaDensity] = useState(0);
