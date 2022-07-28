@@ -39,7 +39,7 @@ const typologies = [
     title: 'Trees in Vacant Lands',
     description: 'Typology description',
     users: 'some stats',
-    value: 'tree _in_VDL',
+    value: 'tree in VDL',
     minDBH: 7,
     maxDBH: 30,
     species: 'conifer',
