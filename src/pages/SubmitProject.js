@@ -161,7 +161,9 @@ export default function SubmitProject(props) {
     let response;
     try {
       response = await fetch(
-        'https://saf-api-folwijmtga-ew.a.run.app/api/v1/saf/users/' + sessionStorage.user_id + '/projects',
+        'https://saf-api-folwijmtga-ew.a.run.app/api/v1/saf/users/' +
+          sessionStorage.user_id +
+          '/projects',
         requestOptions,
       );
     } catch (ex) {
