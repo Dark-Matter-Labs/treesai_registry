@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import logo from '../images/logo.svg';
+import logo from '../images/logo-black.svg';
 
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -102,10 +102,10 @@ export default function Register() {
       <div className='min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <img className='mx-auto h-12 w-auto' src={logo} alt='TreesAI logo' />
-          <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>Register</h2>
+          <h2 className='mt-6 text-center text-gray-900'>Register</h2>
           <p className='text-center mt-2 font-small text-gray-900'>
             Already registered? Login{' '}
-            <Link className='text-primary' to='/login'>
+            <Link className='text-green-600' to='/login'>
               here
             </Link>
             .

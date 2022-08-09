@@ -1,3 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  h1 {
+    @apply font-favorit font-medium text-5xl leading-6;
+  }
+
+  h2 {
+    @apply font-favorit font-bold text-4xl leading-6;
+  }
+
+  h3 {
+    @apply font-favorit font-book text-3xl leading-5;
+  }
+
+  .book-info-sm {
+    @apply font-favorit font-book text-sm leading-4;
+  }
+
+  .book-info-md {
+    @apply font-favorit font-book text-base leading-4;
+  }
+
+  .book-intro-sm {
+    @apply font-favoritBook text-md leading-4;
+  }
+
+  .book-intro-md {
+    @apply font-favoritBook font-book text-xl leading-4;
+  }
+
+  .book-intro-lg {
+    @apply font-favoritBook font-book text-2xl leading-5;
+  }
+
+  .medium-intro-sm {
+    @apply font-favorit font-medium text-base leading-4;
+  }
+
+  .medium-intro-md {
+    @apply font-favorit font-medium text-xl leading-4;
+  }
+
+  .medium-intro-lg {
+    @apply font-favorit font-medium text-2xl leading-5;
+  }
+
+  .bold-intro-sm {
+    @apply font-favorit font-bold text-md leading-4;
+  }
+
+  .bold-intro-md {
+    @apply font-favorit font-bold text-xl leading-4;
+  }
+
+  .bold-intro-lg {
+    @apply font-favorit font-bold text-2xl leading-5;
+  }
+}
+
 .header-background {
   background: url(images/header-background.png) no-repeat center center;
   background-size: cover;
@@ -54,16 +116,27 @@
   outline: none;
 }
 
-label {
-  display: inline-block;
-  width: 150px;
-}
-
-input {
-  margin-left: 20px;
-}
-
 .onMap {
   position: absolute;
   max-width: 400px;
+}
+
+.title-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-background-shape {
+  background: url('data:image/svg+xml;utf8,<svg width="357" height="247" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 140C0 62.6801 62.6801 0 140 0H314V206H0V140Z" fill="%23EFF4F1"/><path d="M357 107C357 184.32 294.32 247 217 247L44 247L44 40L357 40L357 107Z" fill="%23EFF4F1"/></svg>')
+    top no-repeat;
+}
+
+.title-box {
+  border-top-left-radius: 10rem;
+}
+
+.title-box-info {
+  border-top-left-radius: 10rem;
+  border-top-right-radius: 10rem;
 }

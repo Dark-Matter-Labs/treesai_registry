@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
-import logo from '../images/logo.svg';
+import logo from '../images/logo-black.svg';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -32,7 +32,7 @@ export default function NavBar(props) {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className='flex-1 flex items-center justify-center sm:items-stretch sm:justify-start font-spaceRegular'>
+              <div className='flex-1 flex items-center justify-center sm:items-stretch sm:justify-start '>
                 <div className='flex-shrink-0 flex items-center'>
                   <Link to='/'>
                     <img
@@ -41,7 +41,7 @@ export default function NavBar(props) {
                       alt='TreesAI Impact Planner logo'
                     />
                     <img
-                      className='hidden lg:block h-8 w-auto'
+                      className='hidden lg:block h-6 w-auto'
                       src={logo}
                       alt='TreesAI Impact Planner logo'
                     />
@@ -51,40 +51,40 @@ export default function NavBar(props) {
                   <span
                     className={classNames(
                       props.current === 'home'
-                        ? 'border-primary text-gray-900'
-                        : 'border-transparent text-gray-500',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
+                        ? 'border-green-600 text-dark-wood-800'
+                        : 'border-transparent text-dark-wood-600',
+                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
                     )}
                   >
                     <Link to='/'>Home</Link>
                   </span>
                   <span
                     className={classNames(
-                      props.current === 'portfolio'
-                        ? 'border-primary text-gray-900'
-                        : 'border-transparent text-gray-500',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
+                      props.current === 'projectSubmit'
+                        ? 'border-green-600 text-dark-wood-800'
+                        : 'border-transparent text-dark-wood-600',
+                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
                     )}
                   >
-                    <Link to='/portfolio'>City Portfolio</Link>
+                    <Link to='/submit-project'>Impact Explorer</Link>
                   </span>
                   <span
                     className={classNames(
-                      props.current === 'projectSubmit'
-                        ? 'border-primary text-gray-900'
-                        : 'border-transparent text-gray-500',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
+                      props.current === 'portfolio'
+                        ? 'border-green-600 text-dark-wood-800'
+                        : 'border-transparent text-dark-wood-600',
+                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
                     )}
                   >
-                    <Link to='/submit-project'>Submit project</Link>
+                    <Link to='/portfolio'>Project Atlas</Link>
                   </span>
                   <a
                     href='#'
                     className={classNames(
                       props.current === 'learn'
-                        ? 'border-primary text-gray-900'
-                        : 'border-transparent text-gray-500',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
+                        ? 'border-green-600 text-dark-wood-800'
+                        : 'border-transparent text-dark-wood-600',
+                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
                     )}
                   >
                     Learn more
@@ -93,9 +93,9 @@ export default function NavBar(props) {
                     href='#'
                     className={classNames(
                       props.current === 'contact'
-                        ? 'border-primary text-gray-900'
-                        : 'border-transparent text-gray-500',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
+                        ? 'border-green-600 text-dark-wood-800'
+                        : 'border-transparent text-dark-wood-600',
+                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
                     )}
                   >
                     Contact
@@ -117,7 +117,9 @@ export default function NavBar(props) {
                     <div>
                       <Menu.Button className='bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
                         <span className='sr-only'>Open user menu</span>
-                        {sessionStorage.getItem('user_name')}
+                        <span className='medium-intro-sm'>
+                          {sessionStorage.getItem('user_name')}
+                        </span>
                       </Menu.Button>
                     </div>
                     <Transition
@@ -136,7 +138,7 @@ export default function NavBar(props) {
                               href='#'
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700',
+                                'block px-4 py-2 medium-intro-sm text-gray-700',
                               )}
                             >
                               Your Profile
@@ -149,7 +151,7 @@ export default function NavBar(props) {
                               href='#'
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700',
+                                'block px-4 py-2 medium-intro-sm text-gray-700',
                               )}
                             >
                               Settings
@@ -162,7 +164,7 @@ export default function NavBar(props) {
                               onClick={signOut}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700',
+                                'block px-4 py-2 medium-intro-sm text-gray-700',
                               )}
                             >
                               Sign out
@@ -177,13 +179,13 @@ export default function NavBar(props) {
                 <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
                   <button
                     type='button'
-                    className='inline-flex items-center px-4 py-2 border border-primary text-sm font-medium font-spaceRegular rounded-full shadow-sm text-primary bg-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-2'
+                    className='inline-flex items-center px-4 py-2 border border-green-600 text-sm font-medium font-medium rounded-full shadow-sm text-green-600 bg-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-2'
                   >
                     <Link to='/register'>Sign up</Link>
                   </button>
                   <button
                     type='button'
-                    className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium font-spaceRegular rounded-full shadow-sm text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium font-medium rounded-full shadow-sm text-white bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                   >
                     <Link to='/login'>Login</Link>
                   </button>

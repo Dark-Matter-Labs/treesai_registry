@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../images/logo-white.svg';
 
 const navigation = {
   solutions: [{ name: 'Q & A', href: '#' }],
@@ -78,7 +79,7 @@ const navigation = {
 
 export default function Example() {
   return (
-    <footer className='bg-secondary' aria-labelledby='footer-heading'>
+    <footer className='bg-dark-wood-700 title-box-info ' aria-labelledby='footer-heading'>
       <h2 id='footer-heading' className='sr-only'>
         Footer
       </h2>
@@ -86,44 +87,19 @@ export default function Example() {
         <div className='xl:grid xl:grid-cols-3 xl:gap-8'>
           <div className='grid grid-cols-2 gap-8 xl:col-span-2'>
             <div className='md:grid md:grid-cols-2 md:gap-8'>
-              <div>
-                <h3 className='text-sm font-semibold text-gray-400 tracking-wider uppercase'>
-                  Glossary
-                </h3>
-                <ul role='list' className='mt-4 space-y-4'>
-                  {navigation.solutions.map((item) => (
-                    <li key={item.name}>
-                      <a href={item.href} className='text-base text-gray-300 hover:text-white'>
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
               <div className='mt-12 md:mt-0'>
-                <h3 className='text-sm font-semibold text-gray-400 tracking-wider uppercase'>
-                  Support
-                </h3>
-                <ul role='list' className='mt-4 space-y-4'>
-                  {navigation.support.map((item) => (
-                    <li key={item.name}>
-                      <a href={item.href} className='text-base text-gray-300 hover:text-white'>
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <img className='h-8 w-auto' src={logo} alt='TreesAI Impact Planner logo' />
               </div>
             </div>
             <div className='md:grid md:grid-cols-2 md:gap-8'>
               <div>
-                <h3 className='text-sm font-semibold text-gray-400 tracking-wider uppercase'>
+                <h3 className='text-sm font-bold text-dark-wood-300 tracking-wider uppercase'>
                   Company
                 </h3>
                 <ul role='list' className='mt-4 space-y-4'>
                   {navigation.company.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className='text-base text-gray-300 hover:text-white'>
+                      <a href={item.href} className='text-base text-dark-wood-300 hover:text-white'>
                         {item.name}
                       </a>
                     </li>
@@ -131,13 +107,13 @@ export default function Example() {
                 </ul>
               </div>
               <div className='mt-12 md:mt-0'>
-                <h3 className='text-sm font-semibold text-gray-400 tracking-wider uppercase'>
+                <h3 className='text-sm font-bold text-dark-wood-300 tracking-wider uppercase'>
                   Legal
                 </h3>
                 <ul role='list' className='mt-4 space-y-4'>
                   {navigation.legal.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className='text-base text-gray-300 hover:text-white'>
+                      <a href={item.href} className='text-base text-dark-wood-300 hover:text-white'>
                         {item.name}
                       </a>
                     </li>
@@ -147,10 +123,10 @@ export default function Example() {
             </div>
           </div>
           <div className='mt-8 xl:mt-0'>
-            <h3 className='text-sm font-semibold text-gray-400 tracking-wider uppercase'>
+            <h3 className='text-sm font-bold text-dark-wood-300 tracking-wider uppercase'>
               Subscribe to our newsletter
             </h3>
-            <p className='mt-4 text-base text-gray-300'>
+            <p className='mt-4 text-base text-dark-wood-300'>
               The latest news, articles, and resources, sent to your inbox weekly.
             </p>
             <form className='mt-4 sm:flex sm:max-w-md'>
@@ -169,7 +145,7 @@ export default function Example() {
               <div className='mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0'>
                 <button
                   type='submit'
-                  className='w-full bg-primary border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500'
+                  className='w-full bg-green-600 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500'
                 >
                   Subscribe
                 </button>
@@ -180,14 +156,24 @@ export default function Example() {
         <div className='mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between'>
           <div className='flex space-x-6 md:order-2'>
             {navigation.social.map((item) => (
-              <a key={item.name} href={item.href} className='text-gray-400 hover:text-gray-300'>
+              <a
+                key={item.name}
+                href={item.href}
+                className='text-dark-wood-300 hover:text-gray-300'
+              >
                 <span className='sr-only'>{item.name}</span>
                 <item.icon className='h-6 w-6' aria-hidden='true' />
               </a>
             ))}
           </div>
-          <p className='mt-8 text-base text-gray-400 md:mt-0 md:order-1'>
+          <p className='mt-8 text-base text-dark-wood-300 md:mt-0 md:order-1'>
             &copy; 2022 Trees as Infrastructure, part of Dark Matter Labs & Lucidminds
+          </p>
+          <p className='mt-8 text-base text-dark-wood-300 md:mt-0 md:order-2'>
+            Typeface by{' '}
+            <a href='https://abcdinamo.com/' target='_blank' rel='noopener noreferrer'>
+              Dinamo
+            </a>
           </p>
         </div>
       </div>
