@@ -3,19 +3,15 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'SpaceMono Bold';
-  src: local('SpaceMono Bold'), local('SpaceMono-Bold'),
-    url('./fonts/ABCFavorit-Bold-Trial.woff2') format('woff2'),
-    url('./fonts/ABCFavorit-Bold-Trial.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
+  font-family: 'ABCFavorit';
+  src: local('ABCFavorit'), local('ABCFavorit'),
+    url('./fonts/ABCFavoritVariable.woff2') format('woff2'),
+    url('./fonts/ABCFavoritVariable.woff') format('woff');
 }
 
 @font-face {
-  font-family: 'SpaceMono Regular';
-  src: local('SpaceMono Regular'), local('SpaceMono-Regular'),
-    url('./fonts/ABCFavorit-Regular-Trial.woff2') format('woff2'),
-    url('./fonts/ABCFavorit-Regular-Trial.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+  font-family: 'ABCFavorit Book';
+  src: local('ABCFavorit Book'), local('ABCFavorit-Book'),
+    url('./fonts/ABCFavoritVariable.woff2') format('woff2'),
+    url('./fonts/ABCFavoritVariable.woff') format('woff');
 }
