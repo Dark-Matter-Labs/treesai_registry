@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import logo from '../images/logo.svg';
+import logo from '../images/logo-black.svg';
 
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -85,7 +85,7 @@ export default function Login() {
       <div className='min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <img className='mx-auto h-12 w-auto' src={logo} alt='TreesAI logo' />
-          <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>Login</h2>
+          <h2 className='mt-6 text-center text-gray-900'>Login</h2>
         </div>
 
         <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
