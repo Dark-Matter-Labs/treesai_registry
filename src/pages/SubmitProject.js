@@ -16,46 +16,14 @@ import BarCanvas from '../components/charts/BarCanvas';
 
 import toast, { Toaster } from 'react-hot-toast';
 import { saf_data } from '../utils/saf_data_model';
+import { get_typologies } from '../utils/saf_utils';
 
-const typologies = [
-  {
-    id: 1,
-    title: 'Woodland',
-    description: 'Typology description',
-    users: 'some stats',
-    value: 'forest',
-    minDBH: 4.77,
-    maxDBH: 4.77,
-    species: 'conifer',
-  },
-  {
-    id: 2,
-    title: 'Street Trees',
-    description: 'Typology description',
-    users: 'some stats',
-    value: 'park',
-    minDBH: 15,
-    maxDBH: 15,
-    species: 'conifer',
-  },
-  {
-    id: 3,
-    title: 'Trees in Vacant Lands',
-    description: 'Typology description',
-    users: 'some stats',
-    value: 'tree in VDL',
-    minDBH: 7,
-    maxDBH: 30,
-    species: 'conifer',
-  },
-];
+const typologies = get_typologies();
 
 const activities = [
-  { id: 0, name: 'Planting', value: 'planting' },
-  { id: 1, name: 'Maintenance', value: 'maintenance' },
-  { id: 2, name: 'Restoration', value: 'restoration' },
-  { id: 3, name: 'Landscaping', value: 'landscaping' },
-  { id: 4, name: 'Preservation', value: 'preservation' },
+  { id: 0, name: 'Maintenance', value: 'maintenance' },
+  { id: 1, name: 'Developing', value: 'landscaping' },
+  { id: 2, name: 'Preservation', value: 'preservation' },
 ];
 
 function classNames(...classes) {
