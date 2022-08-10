@@ -23,10 +23,10 @@ export function getCouncils() {
 
 export function getCouncilInfo(cc_name) {
   let data = JSON.parse(JSON.stringify(Flood_Buildings));
-  let cc_info = {};
+  let cc_info = [];
   for (let i = 0; i < data.features.length; i++) {
     if (data.features[i].properties.cc_name === cc_name) {
-      cc_info = data.features[i];
+      cc_info = data.features[i].properties;
     }
   }
   return cc_info;
