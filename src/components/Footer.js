@@ -87,7 +87,7 @@ export default function Example() {
         <div className='xl:grid xl:grid-cols-3 xl:gap-8'>
           <div className='grid grid-cols-2 gap-8 xl:col-span-2'>
             <div className='md:grid md:grid-cols-2 md:gap-8'>
-              <div className='mt-12 md:mt-0'>
+              <div className='mt-12 ml-10 md:mt-0'>
                 <img className='h-8 w-auto' src={logo} alt='TreesAI Impact Planner logo' />
               </div>
             </div>
