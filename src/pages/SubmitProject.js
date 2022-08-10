@@ -504,7 +504,7 @@ export default function SubmitProject(props) {
               <div className='sm:col-span-3'>
                 <label
                   htmlFor='project-description'
-                  className='book-info-md text-dark-wood-800 text-gray-700 pl-5'
+                  className='book-info-md text-dark-wood-800 pl-5'
                 >
                   Project Description
                 </label>
@@ -622,7 +622,7 @@ export default function SubmitProject(props) {
                   ))}
                 </select>
               </div>
-              <div className='hidden sm:block col-span-4 flex justify-self-center'>
+              <div className='hidden sm:block col-span-4 justify-self-center'>
                 <nav className='flex space-x-4' aria-label='Tabs'>
                   {typologyTabs.map((tab) => (
                     <button
@@ -881,7 +881,7 @@ export default function SubmitProject(props) {
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
           <div className='pt-10 pb-5 text-center'>
             <h2 className='text-green-600'>Your Scenario Analysis result</h2>
-            <p className='text-xl font-medium font-medium py-5'>
+            <p className='text-xl font-medium py-5'>
               Thank you for your patience, the analysis was successful. Below you can see your data.
               They are also saved on your project page.
             </p>
@@ -898,9 +898,7 @@ export default function SubmitProject(props) {
                 />
               </div>
               <div>
-                <h4 className='text-xl font-bold tracking-tight font-bold text-green-600'>
-                  {projectName}
-                </h4>
+                <h4 className='text-xl font-bold tracking-tight text-green-600'>{projectName}</h4>
                 <p className='text-left pt-5'>{projectDescription}</p>
               </div>
               <div className='pt-10 text-left'>
@@ -923,7 +921,7 @@ export default function SubmitProject(props) {
 
           <div className='grid grid-cols-2 gap-y-6 gap-x-8 text-left my-5'>
             <div className='shadow-sm rounded-md bg-white px-10'>
-              <h4 className='text-xl font-bold tracking-tight font-bold text-green-600 py-5'>
+              <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
                 Project data overview
               </h4>
               <div className='grid grid-cols-2 gap-y-6 gap-x-8 py-5'>
@@ -931,7 +929,7 @@ export default function SubmitProject(props) {
                   <span>
                     Overall time to develope the project: <br />
                   </span>
-                  <span className='text-xl font-bold tracking-tight font-bold text-green-600'>
+                  <span className='text-xl font-bold tracking-tight text-green-600'>
                     20 months
                     <br />
                   </span>
@@ -939,7 +937,7 @@ export default function SubmitProject(props) {
                   <span>
                     Total Carbon Sequestration Average: <br />
                   </span>
-                  <span className='text-xl font-bold tracking-tight font-bold text-green-600'>
+                  <span className='text-xl font-bold tracking-tight text-green-600'>
                     {avg_seq} tCO2
                     <br />
                   </span>
@@ -947,7 +945,7 @@ export default function SubmitProject(props) {
                   <span>
                     Total tree Species composition: <br />
                   </span>
-                  <span className='text-xl font-bold tracking-tight font-bold text-green-600'>
+                  <span className='text-xl font-bold tracking-tight text-green-600'>
                     Evergreen 30%
                     <br /> Deciduous Trees 70%
                     <br />
@@ -958,7 +956,7 @@ export default function SubmitProject(props) {
                   <span>
                     Total Number of planned trees: <br />
                   </span>
-                  <span className='text-xl font-bold tracking-tight font-bold text-green-600'>
+                  <span className='text-xl font-bold tracking-tight text-green-600'>
                     {treeNumber}
                     <br />
                   </span>
@@ -966,7 +964,7 @@ export default function SubmitProject(props) {
                   <span>
                     Total Area density: <br />
                   </span>
-                  <span className='text-xl font-bold tracking-tight font-bold text-green-600'>
+                  <span className='text-xl font-bold tracking-tight text-green-600'>
                     {areaDensity} Ha
                     <br />
                   </span>
@@ -974,7 +972,7 @@ export default function SubmitProject(props) {
                   <span>
                     Overview of planned Activities: <br />
                   </span>
-                  <span className='text-xl font-bold tracking-tight font-bold text-green-600'>
+                  <span className='text-xl font-bold tracking-tight text-green-600'>
                     Planting, Maintaining
                     <br />
                   </span>
@@ -990,7 +988,7 @@ export default function SubmitProject(props) {
 
           <div className='grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10'>
             <div className='shadow-sm rounded-md bg-white px-10 text-center'>
-              <h4 className='text-xl font-bold tracking-tight font-bold text-green-600 py-5'>
+              <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
                 Average Carbon Release
               </h4>
               <div className='my-10'>
@@ -1028,7 +1026,7 @@ export default function SubmitProject(props) {
               />
             </div>
             <div className='shadow-sm rounded-md bg-white ml-5 pl-20 text-center'>
-              <h4 className='text-xl font-bold tracking-tight font-bold text-green-600 py-5'>
+              <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
                 Average Carbon Sequestration
               </h4>
               <div className='my-10'>
@@ -1046,11 +1044,11 @@ export default function SubmitProject(props) {
 
           <div className='grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10'>
             <div className='shadow-sm rounded-md bg-white px-10 text-center'>
-              <h4 className='text-xl font-bold tracking-tight font-bold text-green-600 py-5'>
+              <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
                 Tree health plot
               </h4>
               <div className='my-10'>
-                <span className='rounded-full bg-green-600 text-white font-bold p-10'>
+                <span className='rounded-full bg-green-600 text-white p-10'>
                   {Math.round(alive * 100 + Number.EPSILON) / 100} years
                 </span>
               </div>
@@ -1064,7 +1062,7 @@ export default function SubmitProject(props) {
           </div>
 
           <div className='shadow-sm rounded-md bg-white text-center my-10 mx-40'>
-            <h4 className='text-xl font-bold tracking-tight font-bold text-green-600 py-5'>
+            <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
               Tree health plot
             </h4>
             <ChartMultiLine data={cumulative_array} />
