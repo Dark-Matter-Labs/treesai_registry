@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
+import LoadingSpinner from '../components/LoadingSpinner';
 import logo from '../images/logo-black.svg';
 
 import toast, { Toaster } from 'react-hot-toast';
@@ -9,6 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const loginUser = async () => {
@@ -36,12 +38,14 @@ export default function Login() {
       redirect: 'follow',
     };
 
+    setIsLoading(true);
     await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
       .then((response) => {
         if (response.ok) {
           return response.json();
         }
         toast.error('Something went wrong');
+        setIsLoading(false);
         throw new Error('Something went wrong');
       })
       .then((result) => {
@@ -65,11 +69,13 @@ export default function Login() {
               return response.json();
             }
             toast.error('Something went wrong');
+            setIsLoading(false);
             throw new Error('Something went wrong');
           })
           .then((result) => {
             sessionStorage.setItem('user_id', JSON.stringify(result.id));
             sessionStorage.setItem('user_name', JSON.stringify(result.name));
+            setIsLoading(false);
             toast.success('Welcome ' + result.name);
             navigate('/submit-project');
             window.location.reload();
@@ -134,8 +140,9 @@ export default function Login() {
                 <button
                   onClick={loginUser}
                   type='button'
-                  className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                  className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white-200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                 >
+                  {isLoading && <LoadingSpinner />}
                   Login
                 </button>
               </div>
