@@ -24,8 +24,10 @@ import infoImage from '../images/info_eye.svg';
 import ChartMultiLine from '../components/charts/ChartMultiLine';
 import ChartSingleLine from '../components/charts/ChartSingleLine';
 import BarCanvas from '../components/charts/BarCanvas';
+import LocationRiskChart from '../components/charts/LocationRisk';
 
 import { saf_data } from '../utils/saf_data_model';
+
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import {
   get_typologies_types,
@@ -1048,6 +1050,7 @@ export default function SubmitProject(props) {
               Go to project page
             </button>
           </div>
+          <LocationRiskChart />
         </div>
       )}
       <Footer />
