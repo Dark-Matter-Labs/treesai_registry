@@ -11,10 +11,10 @@ import ReactMapboxGL, {
 } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import React, { useState, useMemo } from 'react';
-import MapControlPanel from '../components/MapControlPanel';
+import MapControlPanel from '../components/map/MapControlPanel';
 import VDLLayer from '../data/VDL_selected.geojson';
 import SuDSLayerJSON from '../data/SuDS_Projects.json';
-import Pin from '../components/Pin';
+import Pin from '../components/map/Pin';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import projectImg from '../images/project-default.png';

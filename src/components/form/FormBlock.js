@@ -13,7 +13,7 @@ export default function FormBlock(props) {
         'bg-white-200 mx-10 px-20 py-10 rounded-3xl border',
       )}
     >
-      <div className='grid grid-cols-3 gap-12'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12'>
         <div>
           <h3 className=''>{props.title}</h3>
           <p className='book-intro-sm pt-20 text-dark-wood-800 max-w-sm'>{props.description}</p>
