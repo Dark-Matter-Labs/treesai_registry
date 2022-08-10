@@ -28,6 +28,10 @@ import BarCanvas from '../components/charts/BarCanvas';
 import { saf_data } from '../utils/saf_data_model';
 import { get_typologies } from '../utils/saf_utils';
 
+import { getCouncils } from '../utils/geojson_utils';
+
+const listCouncils = getCouncils();
+
 const typologies = get_typologies();
 
 const typologyTabs = [
@@ -415,12 +419,16 @@ export default function SubmitProject(props) {
                 type='general'
               />
 
-              <TextInput
+              <Dropdown
                 span='sm:col-span-2'
                 label='neighbourhood'
                 title='Neighbourhood'
                 placeholder='Sighthill'
                 type='general'
+                onChange={(e) => {
+                  setSelectedStage(e.target.value.toLowerCase());
+                }}
+                options={listCouncils}
               />
 
               <TextInput
