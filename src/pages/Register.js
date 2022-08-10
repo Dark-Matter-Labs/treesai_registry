@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
+import LoadingSpinner from '../components/LoadingSpinner';
 import logo from '../images/logo-black.svg';
 
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,6 +12,7 @@ export default function Register() {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const registerUser = async () => {
@@ -30,6 +32,7 @@ export default function Register() {
       body: createUserPayload,
     };
 
+    setIsLoading(true);
     await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users', createUserRequestOptions)
       .then((response) => {
         if (response.ok) {
@@ -37,6 +40,7 @@ export default function Register() {
           return response.json();
         }
         toast.error('Something went wrong');
+        setIsLoading(false);
         throw new Error('Something went wrong');
       })
       .then((result) => {
@@ -71,12 +75,13 @@ export default function Register() {
             if (response.ok) {
               return response.json();
             }
+            setIsLoading(false);
             throw new Error('Something went wrong');
           })
           .then((result) => {
             console.log(result);
             sessionStorage.setItem('token', JSON.stringify(result.access_token));
-
+            setIsLoading(false);
             toast.success('Successfully registered!');
             navigate('/submit-project');
             window.location.reload();
@@ -178,6 +183,7 @@ export default function Register() {
                   type='button'
                   className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                 >
+                  {isLoading && <LoadingSpinner />}
                   Register
                 </button>
               </div>
