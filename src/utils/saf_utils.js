@@ -47,6 +47,16 @@ const typologies_names = [
   },
 ];
 
+const maintenance_types = [
+  { name: 'Low', enabled: true, value: 0 },
+  { name: 'Medium', enabled: true, value: 1 },
+  { name: 'High', enabled: true, value: 2 },
+];
+
 export function get_typologies() {
   return typologies_names;
+}
+
+export function get_maintenance_scopes() {
+  return maintenance_types;
 }
