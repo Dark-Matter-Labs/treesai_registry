@@ -23,6 +23,7 @@ export default function NumberInput(props) {
           )}
           defaultValue={props.defaultValue}
           onChange={props.onChange}
+          min="1" 
         />
       </div>
     </div>

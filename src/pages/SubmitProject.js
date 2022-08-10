@@ -9,13 +9,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
-import FormHeader from '../components/FormHeader';
-import FormBlock from '../components/FormBlock';
-import TextInput from '../components/TextInput';
-import NumberInput from '../components/NumberInput';
-import Dropdown from '../components/Dropdown';
-import Toggle from '../components/Toggle';
-import RadioSelector from '../components/RadioSelector';
+import FormHeader from '../components/form/FormHeader';
+import FormBlock from '../components/form/FormBlock';
+import TextInput from '../components/form/TextInput';
+import NumberInput from '../components/form/NumberInput';
+import Dropdown from '../components/form/Dropdown';
+import Toggle from '../components/form/Toggle';
+import RadioSelector from '../components/form/RadioSelector';
 // Images
 import projectImg from '../images/project-default.png';
 import tempImg from '../images/temp-map.png';
@@ -26,64 +26,29 @@ import ChartSingleLine from '../components/charts/ChartSingleLine';
 import BarCanvas from '../components/charts/BarCanvas';
 
 import { saf_data } from '../utils/saf_data_model';
-import { get_typologies } from '../utils/saf_utils';
+import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
+import {
+  get_typologies_types,
+  get_stages,
+  get_land_use,
+  get_activity_types,
+  get_budget_types,
+  get_raised_types,
+} from '../utils/project_details';
 
 import { getCouncils } from '../utils/geojson_utils';
 
 const listCouncils = getCouncils();
 
 const typologies = get_typologies();
+const maintenanceTypes = get_maintenance_scopes();
 
-const typologyTabs = [
-  { name: 'Trees', current: true },
-  { name: 'SuDS(Coming soon)', current: false },
-];
-
-const stages = [
-  'Strategic Development',
-  'Pre-planning Application',
-  'Post-planning Application',
-  'Construction',
-  'Maintenance & Monitoring',
-  'Completed/Archived',
-];
-
-const landUse = [
-  'Recreation',
-  'Transport',
-  'Residential',
-  'Industrial and Commercial',
-  'Administrative',
-  'Vacant Land',
-];
-
-const activityTypes = [
-  { name: 'Developing', enabled: true },
-  { name: 'Maintenance', enabled: true },
-  { name: 'Preservation', enabled: false },
-];
-
-const maintenanceTypes = [
-  { name: 'Low', enabled: true, value: 0 },
-  { name: 'Medium', enabled: true, value: 1 },
-  { name: 'High', enabled: true, value: 2 },
-];
-
-const budgetTypes = [
-  { name: '£0,00', enabled: true, value: 0 },
-  { name: '£0 - 50K', enabled: true, value: 1 },
-  { name: '£51 - 100K', enabled: true, value: 2 },
-  { name: '£101 - 500K', enabled: true, value: 3 },
-  { name: '£2M +', enabled: true, value: 4 },
-];
-
-const raisedTypes = [
-  { name: '£0,00', enabled: true, value: 0 },
-  { name: '£0 - 50K', enabled: true, value: 1 },
-  { name: '£51 - 100K', enabled: true, value: 2 },
-  { name: '£101 - 500K', enabled: true, value: 3 },
-  { name: '£2M +', enabled: true, value: 4 },
-];
+const typologyTabs = get_typologies_types();
+const stages = get_stages();
+const landUse = get_land_use();
+const activityTypes = get_activity_types();
+const budgetTypes = get_budget_types();
+const raisedTypes = get_raised_types();
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');

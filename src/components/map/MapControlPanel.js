@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { fromJS } from 'immutable';
-import MAP_STYLE from '../utils/map-style.json';
+import MAP_STYLE from '../../utils/map-style.json';
 
 const defaultMapStyle = fromJS(MAP_STYLE);
 const defaultLayers = defaultMapStyle.get('layers');
