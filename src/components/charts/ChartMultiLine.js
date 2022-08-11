@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import { dummyData } from './dummyData/dataLine.js';
 
 const commonPropertiesMultiLine = {
-  width: 420,
-  height: 400,
   margin: { top: 20, right: 20, bottom: 60, left: 50 },
   animate: true,
   yFormat: ' >-.2f',
