@@ -153,7 +153,7 @@ export default function Example() {
             </form>
           </div>
         </div>
-        <div className='mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between'>
+        <div className='mt-8 border-t border-dark-wood-300 pt-8 md:flex md:items-center md:justify-between'>
           <div className='flex space-x-6 md:order-2'>
             {navigation.social.map((item) => (
               <a

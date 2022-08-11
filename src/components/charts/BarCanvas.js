@@ -21,11 +21,13 @@ const BarCanvas = (props) => {
           legend: 'YEARS RANGES',
           legendOffset: 40,
         }}
-        colors='#1EA685'
+        colors='#1A0789'
         theme={{
-          background: '#E5E7EB',
-          textColor: '#374151',
+          background: '#FCFCFC',
+          textColor: '#1A0789',
         }}
+        enableGridX={false}
+        enableGridY={false}
       />
     </div>
   );

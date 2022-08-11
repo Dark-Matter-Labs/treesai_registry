@@ -10,16 +10,16 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import SAFLoadingScreen from '../components/SAFLoadingScreen';
-import FormHeader from '../components/form/FormHeader';
+import SectionHeader from '../components/SectionHeader';
 import FormBlock from '../components/form/FormBlock';
 import TextInput from '../components/form/TextInput';
 import NumberInput from '../components/form/NumberInput';
 import Dropdown from '../components/form/Dropdown';
 import Toggle from '../components/form/Toggle';
 import RadioSelector from '../components/form/RadioSelector';
+import ResultBlock from '../components/ResultBlock';
 // Images
 import projectImg from '../images/project-default.png';
-import tempImg from '../images/temp-map.png';
 import infoImage from '../images/info_eye.svg';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
@@ -68,7 +68,8 @@ export default function SubmitProject(props) {
   const [projectLength, setProjectLength] = useState(0);
   const [projectDescription, setProjectDescription] = useState('');
   const [treeNumber, setTreeNumber] = useState(1);
-  const [selectedStage, setSelectedStage] = useState('potential');
+  const [selectedStage, setSelectedStage] = useState(stages[0]);
+  const [selectedCC, setSelectecCC] = useState(listCouncils[0]);
   const [selectedLandUse, setSelectedLandUse] = useState('Recreation');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [areaDensity, setAreaDensity] = useState(1);
@@ -338,7 +339,7 @@ export default function SubmitProject(props) {
                   </h1>
                 </div>
 
-                <div className='bg-green-600 title-box-info p-10 mt-10 text-center'>
+                <div className='bg-green-600 title-box-info px-40 py-10 mt-10 text-center'>
                   <p className='mt-1 medium-intro-md text-dark-wood-800'>
                     Just tell us basic information about your project and let our impact models
                     simulate long term outcomes of the project. If you have any question don’t
@@ -363,7 +364,7 @@ export default function SubmitProject(props) {
               </div>
             </div>
             <div className='py-10'>
-              <FormHeader title='General Project Information' type='general' />
+              <SectionHeader title='General Project Information' type='general' />
               <FormBlock
                 title='Your project’s information'
                 description='Insert the name of the Project, insert address, neighbourhood and/or postcode of project location.'
@@ -401,11 +402,10 @@ export default function SubmitProject(props) {
                 <Dropdown
                   span='sm:col-span-2'
                   label='neighbourhood'
-                  title='Neighbourhood'
-                  placeholder='Sighthill'
+                  title='Community Council'
                   type='general'
                   onChange={(e) => {
-                    setSelectedStage(e.target.value.toLowerCase());
+                    setSelectecCC(e.target.value);
                   }}
                   options={listCouncils}
                 />
@@ -588,7 +588,7 @@ export default function SubmitProject(props) {
               </FormBlock>
             </div>
             <div className='py-10'>
-              <FormHeader title='Typology Based Information' type='typology' />
+              <SectionHeader title='Typology Based Information' type='typology' />
               <FormBlock
                 title='Define the Green Infrastructure Typology'
                 description='Select the typology of project your would like to develop. At the moment we only provide trees project, but in the near future we will add new typologies as SUDS and others. '
@@ -756,7 +756,7 @@ export default function SubmitProject(props) {
               </FormBlock>
             </div>
             <div className='py-10'>
-              <FormHeader title='Cost of the project' type='cost' />
+              <SectionHeader title='Cost of the project' type='cost' />
               <FormBlock
                 title='Project budgeting'
                 description='TreesAI can help you in investing in your project. More you give us details and more we would be able to understand your needs.'
@@ -806,7 +806,7 @@ export default function SubmitProject(props) {
             </div>
 
             <div className='py-10'>
-              <FormHeader title='Additional information' type='info' />
+              <SectionHeader title='Additional information' type='info' />
               <FormBlock
                 title='Can you share the planning application?'
                 description='In this form we asked you the minimum of information required to be able to define if a project can be. '
@@ -866,204 +866,302 @@ export default function SubmitProject(props) {
           </div>
         ))}
       {processStage === 2 && (
-        <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
-          <div className='pt-10 pb-5 text-center'>
-            <h2 className='text-green-600'>Your Scenario Analysis result</h2>
-            <p className='text-xl font-medium py-5'>
-              Thank you for your patience, the analysis was successful. Below you can see your data.
-              They are also saved on your project page.
-            </p>
+        <div className='mx-10 sm:px-6 lg:px-8'>
+          <div className='title-box py-20 mt-4 bg-dark-wood-800'>
+            <h2 className='text-white-200 text-center'>
+              Draft page for your Scenario Analysis result
+            </h2>
+            <h2 className='text-white-200 text-center pt-10'>{projectName}</h2>
           </div>
-          <div className='shadow-sm rounded-md text-center bg-white'>
-            <h3 className='text-green-600 pt-5'>Your project information</h3>
-            <hr className='border-b-1 border-green-600 my-5 mx-10' />
-            <div className='grid grid-cols-3 gap-y-6 gap-x-8 py-10'>
-              <div className='px-5'>
+          <div className='my-10 grid'>
+            <div className='max-w-3xl place-self-center text-dark-wood-700 '>
+              <p className='pb-4 book-intro-lg'>
+                Thank you for your patience, the analysis was successful.
+              </p>
+              <hr className='border-dark-wood-600' />
+              <p className='pt-4 book-intro-md'>
+                Below you can check the impact of your project, edit parts and run new simulations
+                if needed!
+              </p>
+            </div>
+          </div>
+
+          <SectionHeader title='Overview' type='typology' />
+          <div className='bg-white-200 py-10 rounded-3xl border border-green-600 grid grid-cols-1 sm:grid-cols-4 mb-20'>
+            <div className='px-8 border-r border-green-600'>
+              <div className='flex justify-center items-center'>
                 <img
                   src={projectImg}
                   alt='project image'
-                  className='w-42 h-42 rounded-full border-8 border-green-600'
+                  className='w-36 h-36 rounded-full border-8 border-green-600'
                 />
               </div>
-              <div>
-                <h4 className='text-xl font-bold tracking-tight text-green-600'>{projectName}</h4>
-                <p className='text-left pt-5'>{projectDescription}</p>
-              </div>
-              <div className='pt-10 text-left'>
-                <span>
-                  Project developer:
-                  <br />
-                </span>
-                <span className='font-bold'>
-                  {projectDev}
-                  <br />
-                </span>
-
-                <span>
-                  Location: <br />
-                </span>
-                <span className='font-bold'>Jeffrey street, 13 Glasgow city</span>
-              </div>
-            </div>
-          </div>
-
-          <div className='grid grid-cols-2 gap-y-6 gap-x-8 text-left my-5'>
-            <div className='shadow-sm rounded-md bg-white px-10'>
-              <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
-                Project data overview
-              </h4>
-              <div className='grid grid-cols-2 gap-y-6 gap-x-8 py-5'>
-                <div>
-                  <span>
-                    Overall time to develope the project: <br />
-                  </span>
-                  <span className='text-xl font-bold tracking-tight text-green-600'>
-                    20 months
-                    <br />
-                  </span>
-
-                  <span>
-                    Total Carbon Sequestration Average: <br />
-                  </span>
-                  <span className='text-xl font-bold tracking-tight text-green-600'>
-                    {avg_seq} tCO2
-                    <br />
-                  </span>
-
-                  <span>
-                    Total tree Species composition: <br />
-                  </span>
-                  <span className='text-xl font-bold tracking-tight text-green-600'>
-                    Evergreen 30%
-                    <br /> Deciduous Trees 70%
-                    <br />
-                  </span>
-                </div>
-
-                <div>
-                  <span>
-                    Total Number of planned trees: <br />
-                  </span>
-                  <span className='text-xl font-bold tracking-tight text-green-600'>
-                    {treeNumber}
-                    <br />
-                  </span>
-
-                  <span>
-                    Total Area density: <br />
-                  </span>
-                  <span className='text-xl font-bold tracking-tight text-green-600'>
-                    {areaDensity} Ha
-                    <br />
-                  </span>
-
-                  <span>
-                    Overview of planned Activities: <br />
-                  </span>
-                  <span className='text-xl font-bold tracking-tight text-green-600'>
-                    Planting, Maintaining
-                    <br />
-                  </span>
+              <p className='pt-10 bold-intro-sm'>{projectDescription}</p>
+              <div className='mt-8 flex flex-col'>
+                <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
+                  <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
+                    <div className='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-2xl'>
+                      <div className='bg-green-600 py-4 pl-4'>
+                        <span className='text-left medium-intro-sm text-white-200 uppercase'>
+                          Project information
+                        </span>
+                      </div>
+                      <table className='min-w-full divide-y divide-white-200'>
+                        <tbody className='divide-y divide-white-200 bg-green-300'>
+                          <tr>
+                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                              Project developer:
+                            </td>
+                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                              {projectDev}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                              Typology:
+                            </td>
+                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                              {selectedTypology.title}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                              Number of trees planted:
+                            </td>
+                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                              {treeNumber}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                              Number of trees maintained:
+                            </td>
+                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                              {treeNumber}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                              Project stage:
+                            </td>
+                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                              {selectedStage}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                              Project status:
+                            </td>
+                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                              To be reviewed
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div>
-              <img src={tempImg} alt='temp image' className='w-full h-full' />
-            </div>
-          </div>
 
-          <h3 className='text-green-600 my-5 text-center'>Project impact results</h3>
-
-          <div className='grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10'>
-            <div className='shadow-sm rounded-md bg-white px-10 text-center'>
-              <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
-                Average Carbon Release
-              </h4>
-              <div className='my-10'>
-                <span className='rounded-full bg-green-600 text-white font-bold p-10'>
+            <div className='px-8 border-r border-green-600'>
+              <h3 className='text-dark-wood-800'>Project Impact</h3>
+              <p className='book-info-sm text-dark-wood-800 pt-4'>
+                Considering the combination of your project typology, activity, location, and other
+                factors, you could help achieve the following estimated potential impact:
+              </p>
+              <div className='my-10 flex justify-center items-center flex-col'>
+                <span className='rounded-full bg-green-600 text-white bold-intro-sm px-4 py-11'>
                   {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
                 </span>
+                <span className='pt-2 bold-intro-sm text-green-600'>Average Carbon Release</span>
               </div>
-              <p className='pt-10 text-left'>
-                By reducing energy demand and absorbing carbon dioxide, trees and vegetation
-                decrease the production and negative effects of air pollution and greenhouse gas
-                emissions.
-              </p>
-            </div>
-            <div className=''>
-              <ChartSingleLine
-                data={[
-                  {
-                    id: 'Average Carbon Release',
-                    data: avg_rel_array,
-                  },
-                ]}
-              />
-            </div>
-          </div>
 
-          <div className='grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10'>
-            <div>
-              <ChartSingleLine
-                data={[
-                  {
-                    id: 'Average Carbon Sequesteration',
-                    data: avg_seq_array,
-                  },
-                ]}
-              />
-            </div>
-            <div className='shadow-sm rounded-md bg-white ml-5 pl-20 text-center'>
-              <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
-                Average Carbon Sequestration
-              </h4>
-              <div className='my-10'>
-                <span className='rounded-full bg-green-600 text-white font-bold p-10'>
+              <div className='my-10 flex justify-center items-center flex-col'>
+                <span className='rounded-full bg-green-600 text-white bold-intro-sm px-4 py-11'>
                   {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
                 </span>
-              </div>
-              <p className='pt-10 text-left'>
-                By reducing energy demand and absorbing carbon dioxide, trees and vegetation
-                decrease the production and negative effects of air pollution and greenhouse gas
-                emissions.
-              </p>
-            </div>
-          </div>
-
-          <div className='grid grid-cols-2 gap-y-6 gap-x-0 mx-10 my-10'>
-            <div className='shadow-sm rounded-md bg-white px-10 text-center'>
-              <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
-                Tree health plot
-              </h4>
-              <div className='my-10'>
-                <span className='rounded-full bg-green-600 text-white p-10'>
-                  {Math.round(alive * 100 + Number.EPSILON) / 100} years
+                <span className='pt-2 bold-intro-sm text-green-600'>
+                  Average Carbon Sequestration
                 </span>
               </div>
-              <p className='pt-10 text-left'>
-                By reducing energy demand and absorbing carbon dioxide, trees and vegetation
-                decrease the production and negative effects of air pollution and greenhouse gas
-                emissions.
-              </p>
             </div>
-            <BarCanvas data={alive_array} />
+            <div className='px-8 sm:col-span-2'>
+              <h3 className='text-dark-wood-800'>Project Cost</h3>
+              <p className='book-info-sm text-dark-wood-800 pt-4'>
+                Considering the combination of your project typology, activity, location, and other
+                factors, you could help achieve the following estimated potential impact:
+              </p>
+              <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
+              <p>
+                Low: £
+                {Math.round((treeNumber / areaDensity / 10000) * selectedTypology.costLow).toFixed(
+                  2,
+                )}
+              </p>
+              <p>
+                Medium: £
+                {Math.round((treeNumber / areaDensity / 10000) * selectedTypology.costMed).toFixed(
+                  2,
+                )}
+              </p>
+              <p className='pb-5'>
+                High: £
+                {Math.round((treeNumber / areaDensity / 10000) * selectedTypology.costHigh).toFixed(
+                  2,
+                )}
+              </p>
+
+              <h3 className='text-dark-wood-800 pt-5 border-t border-green-600'>Location Risk</h3>
+              <p className='book-info-sm text-dark-wood-800 pt-4'>
+                Overall risk score aggregating hazard, exposure and vulnerability:
+              </p>
+              <LocationRiskChart cc_name={selectedCC} />
+            </div>
           </div>
 
-          <div className='shadow-sm rounded-md bg-white text-center my-10 mx-40'>
-            <h4 className='text-xl font-bold tracking-tight text-green-600 py-5'>
-              Tree health plot
-            </h4>
-            <ChartMultiLine data={cumulative_array} />
+          <SectionHeader title='In details' type='details' />
+          <ResultBlock
+            title='Project Impact'
+            description='Output of Scenario Analysis Framework. Considering  the combination of typology, activity, location, and other factors calculated via an agent-based scenario analysis framework (i) across 50 years, your project could help achieve the following estimated potential impact:'
+            type='impact'
+          />
+          <hr className='mx-20 border-indigo-600 border-8' />
+          <ResultBlock
+            title='Explore - CARBON'
+            description='Little intro in the topic of carbon? How to look into this data? What are the highlights? '
+            type='impact'
+          >
+            <div className='grid grid-cols-1 md:grid-cols-1  lg:grid-cols-2 gap-x-8 gap-y-10'>
+              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-10'>
+                <div className=' rounded-3xl border border-indigo-600 px-10 text-center'>
+                  <h3 className='text-indigo-600 py-5'>Carbon Release</h3>
+                  <div className='my-10'>
+                    <span className='rounded-full bg-indigo-600 text-white bold-intro-sm px-4 py-11'>
+                      {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
+                    </span>
+                  </div>
+                  <p className='pt-10 text-left book-info-sm text-indigo-600'>
+                    By reducing energy demand and absorbing carbon dioxide, trees and vegetation
+                    decrease the production and negative effects of air pollution and greenhouse gas
+                    emissions.
+                  </p>
+                </div>
+                <div className='rounded-3xl border border-indigo-600 col-span-2 px-10 pt-5'>
+                  <ChartSingleLine
+                    data={[
+                      {
+                        id: 'Average Carbon Release',
+                        data: avg_rel_array,
+                      },
+                    ]}
+                  />
+                </div>
+              </div>
+
+              <div className='grid grid-cols-3 my-10'>
+                <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
+                  <h3 className='text-indigo-600 py-5'>Carbon Sequestration</h3>
+                  <div className='my-10'>
+                    <span className='rounded-full bg-indigo-600 text-white bold-intro-sm px-4 py-11'>
+                      {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
+                    </span>
+                  </div>
+                  <p className='pt-10 text-left book-info-sm text-indigo-600'>
+                    By reducing energy demand and absorbing carbon dioxide, trees and vegetation
+                    decrease the production and negative effects of air pollution and greenhouse gas
+                    emissions.
+                  </p>
+                </div>
+                <div className='rounded-3xl border border-indigo-600 col-span-2 px-10 pt-5'>
+                  <ChartSingleLine
+                    data={[
+                      {
+                        id: 'Average Carbon Sequesteration',
+                        data: avg_seq_array,
+                      },
+                    ]}
+                  />
+                </div>
+              </div>
+
+              <div className='grid grid-cols-3 my-10'>
+                <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
+                  <h3 className='text-indigo-600 py-5'>Tree health plot</h3>
+                  <div className='my-10'>
+                    <span className='rounded-full bg-indigo-600 text-white bold-intro-sm px-4 py-11'>
+                      {Math.round(alive * 100 + Number.EPSILON) / 100} years
+                    </span>
+                  </div>
+                  <p className='pt-10 text-left book-info-sm text-indigo-600'>
+                    By reducing energy demand and absorbing carbon dioxide, trees and vegetation
+                    decrease the production and negative effects of air pollution and greenhouse gas
+                    emissions.
+                  </p>
+                </div>
+                <div className='rounded-3xl border border-indigo-600 col-span-2 px-10 pt-5'>
+                  <BarCanvas data={alive_array} />
+                </div>
+              </div>
+
+              <div className='grid grid-cols-3 my-10'>
+                <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
+                  <h3 className='text-indigo-600 py-5'>Comparative Analysis</h3>
+
+                  <p className='pt-10 text-left book-info-sm text-indigo-600'>
+                    By reducing energy demand and absorbing carbon dioxide, trees and vegetation
+                    decrease the production and negative effects of air pollution and greenhouse gas
+                    emissions.
+                  </p>
+                </div>
+                <div className='rounded-3xl border border-indigo-600 col-span-2 px-10 pt-5'>
+                  <ChartMultiLine data={cumulative_array} />
+                </div>
+              </div>
+            </div>
+          </ResultBlock>
+
+          <div className='h-10' />
+
+          <ResultBlock
+            title='Project Costs*'
+            description='The tables will give you an estimate of the cost in 50 years. *this is a project cost estimate which does not include any commercial mark-ups. These costs only reflect the direct infrastructure cost of your NbS project.'
+            type='impact'
+          />
+          <hr className='mx-20 border-indigo-600 border-8' />
+
+          <div className='grid pb-20 pt-10'>
+            <div className='py-4 max-w-3xl place-self-center text-center'>
+              <h3 className=''>
+                You can now publish your project and view it in the ATLAS. Or you can save it for
+                later and check the project on your profile page.
+              </h3>
+            </div>
+            <div className='place-self-center pt-4'>
+              <button
+                type='button'
+                className='inline-flex justify-center py-2 px-8 border border-transparent shadow-sm bold-intro-sm rounded-full text-white-200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+              >
+                Publish
+              </button>
+              <button
+                type='button'
+                className='ml-10 bg-dark-wood-800 py-2 px-8 border border-gray-300 rounded-full shadow-sm bold-intro-sm text-white-200 hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+              >
+                Save for later
+              </button>
+
+              <button
+                type='button'
+                onClick={() => {
+                  setProcessStage(1);
+                }}
+                className='ml-10 bg-dark-wood-800 py-2 px-8 border border-gray-300 rounded-full shadow-sm bold-intro-sm text-white-200 hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+              >
+                Edit/add project info
+              </button>
+            </div>
           </div>
-          <div className='text-center py-20'>
-            <button
-              type='button'
-              className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-            >
-              Go to project page
-            </button>
-          </div>
-          <LocationRiskChart />
         </div>
       )}
       <Footer />
