@@ -14,6 +14,10 @@ let dummyCouncilInfo = {
   vulnerability: 36.86601221679058,
 };
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
 const LocationRiskChart = (props) => {
   const [councilInfo, setCouncilInfo] = useState(dummyCouncilInfo);
 
@@ -24,43 +28,23 @@ const LocationRiskChart = (props) => {
   }, [props.cc_name]);
 
   return (
-    <div className='location-risk-chart bg-white-300 m-8'>
+    <div className='location-risk-chart'>
       <div className='location-risk-chart-header'>
-        <h3 className='location-risk-chart-header-title'>
-          Location Risk for {councilInfo.cc_name}
-        </h3>
-        <p className='location-risk-chart-header-description'>
-          The impact of your project is highly dependent n its specific location within the city.
-          Here you can find the environmental and socio-economic risks that climate change poses to
-          the area of your project:
+        <p className='pt-2'>
+          Community Council: <span className='text-green-600'>{councilInfo.cc_name}</span>
         </p>
       </div>
       <div className='location-risk-chart-content'>
-        <div className='location-risk-chart-content-header'>
-          <h3 className='location-risk-chart-content-header-title'>Location Risk</h3>
-          <p className='location-risk-chart-content-header-description'>
-            This is a description of the location risk.
-          </p>
-          <div className='flex space-x-4'>
-            <button
-              type='button'
-              className='inline-flex justify-center py-2 px-8 border border-transparent shadow-sm bold-intro-sm rounded-full text-white-200 bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-            >
-              {councilInfo.class}
-            </button>
-            <button
-              type='button'
-              className='inline-flex justify-center py-2 px-8 border border-transparent shadow-sm bold-intro-sm rounded-full text-white-200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-            >
-              Other Button
-            </button>
-            <button
-              type='button'
-              className='inline-flex justify-center py-2 px-8 border border-transparent shadow-sm bold-intro-sm rounded-full text-white-200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-            >
-              Third button
-            </button>
-          </div>
+        <div className='location-risk-chart-content-header text-center py-4'>
+          <span
+            className={classNames(
+              councilInfo.class === 'high' ? ' bg-red-700' : ' bg-green-600',
+              'inline-flex justify-center py-4 uppercase px-8 border border-transparent shadow-sm bold-intro-sm rounded-xl text-white-200',
+            )}
+          >
+            {councilInfo.class}
+          </span>
+          <p className='bold-intro-sm pt-1'>Flooding of sewers due to heavy rainfall</p>
         </div>
       </div>
     </div>
