@@ -5,17 +5,20 @@ import PropTypes from 'prop-types';
 import { dummyData } from './dummyData/dataLine.js';
 
 const commonProperties = {
-  width: 650,
+  width: 400,
   height: 400,
   margin: { top: 20, right: 20, bottom: 60, left: 40 },
   animate: true,
   yFormat: ' >-.2f',
   enableSlices: 'x',
   theme: {
-    background: '#E5E7EB',
-    textColor: '#374151',
+    background: '#FCFCFC',
+    textColor: '#1A0789',
   },
-  colors: '#1EA685',
+  colors: '#1A0789',
+  enablePoints: false,
+  enableGridX: false,
+  enableGridY: false,
 };
 
 const ChartSingleLine = (props) => {
