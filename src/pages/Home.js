@@ -3,199 +3,82 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import map from '../images/map.png';
-import ecosystem from '../images/ecosystem.png';
-
-const cities = [
-  {
-    name: 'Dublin',
-    imageUrl: 'assets/cities/Dublin.png',
-  },
-  {
-    name: 'London',
-    imageUrl: 'assets/cities/London.png',
-  },
-  {
-    name: 'Paris',
-    imageUrl: 'assets/cities/Paris.png',
-  },
-  {
-    name: 'Milan',
-    imageUrl: 'assets/cities/Milan.png',
-  },
-  {
-    name: 'Berlin',
-    imageUrl: 'assets/cities/Berlin.png',
-  },
-];
+import explorerImage from '../images/explorer-preview.png';
 
 export default function Home(props) {
   return (
-    <div className='bg-white font-favorit'>
+    <div className='font-favorit'>
       <div className='relative overflow-hidden'>
         <NavBar loggedIn={props.loggedIn} current='home' />
-        <main>
-          <div className='header-background center-container'>
-            <h1 className='text-white center-content'>
+        <main className='bg-white-200 mx-10 pb-20'>
+          <div className='title-box py-40 mt-4 bg-indigo-600'>
+            <h2 className='text-white-200 text-center'>Welcome to TreesAI</h2>
+            <h3 className='pt-8 text-white-200 text-center'>
               TreesAI Portfolio helps you manage your Nature-based Solutions assets for the benefit
               of people and the planet
-            </h1>
+            </h3>
           </div>
-          <div className='bg-white-300'>
-            <div className='max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8'>
-              <h2 className='text-green-600'>
-                <span className='block'>Submit your project</span>
-              </h2>
-              <p className='font-medium text-lg mt-5'>
-                Understand long term outcomes of your project and get funded as a portfolio.
-              </p>
-              <div className='mt-8 flex justify-center'>
-                <div className='inline-flex rounded-md'>
-                  <Link to='/submit-project'>
-                    <span className='inline-flex items-center px-6 py-2 border border-transparent text-base font-medium font-large rounded-full text-white bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
-                      Start journey
-                    </span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='bg-green-600'>
-            <div className='max-w-4xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8'>
-              <p className='font-medium text-2xl text-left mt-5 text-white'>
-                TreesAI pilot platform is an easy to use map based interface that helps project
-                developers exchange valuable design information like location and impact so that
-                they can get funded as portfolios rather than on a project-by-project basis.
-              </p>
+          <div className='bg-dark-wood-300 grid py-5'>
+            <div className='place-self-center pt-4'>
+              <Link to='/submit-project'>
+                <button
+                  type='button'
+                  className='inline-flex justify-center py-2 px-8 border border-transparent shadow-sm bold-intro-sm rounded-full text-white-200 bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                >
+                  Impact Explorer
+                </button>
+              </Link>
+              <Link to='/portfolio'>
+                <button
+                  type='button'
+                  className='ml-10 bg-indigo-600 py-2 px-8 border border-gray-300 rounded-full shadow-sm bold-intro-sm text-white-200 hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                >
+                  Project Atlas
+                </button>
+              </Link>
             </div>
           </div>
-          <div className='bg-white-300'>
-            <div className='max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8'>
-              <h2 className='text-4xl font-bold tracking-tight sm:text-4xl font-bold text-green-600'>
-                <span className='block'>From Project Finance to Portfolio Finance</span>
-              </h2>
-              <p className='font-medium text-lg mt-5'>
-                Do you want to know more before submitting a project?
-              </p>
-              <div className='mt-8 flex justify-center'>
-                <div className='inline-flex rounded-md'>
-                  <a
-                    href='#'
-                    className='inline-flex items-center px-6 py-2 text-base font-medium font-large rounded-full text-white bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                  >
-                    Learn more
-                  </a>
+
+          <div className='text-center py-20'>
+            <h2 className='text-dark-wood-800 text-center pb-4'>
+              Discover our 3 easy steps for Nature-based Solutions:
+            </h2>
+
+            <div className='grid grid-cols-3 gap-x-0 text-center'>
+              <div>
+                <div className='title-text-container plan-background-shape py-20'>
+                  <h1 className='text-center text-white-200'>Plan</h1>
                 </div>
+                <p className='book-info-lg mt-4'>
+                  Start now planning and viewing your Portfolio of projects
+                </p>
+              </div>
+              <div>
+                <div className='title-text-container measure-background-shape py-20'>
+                  <h1 className='text-center text-white-200'>Measure</h1>
+                </div>
+                <p className='book-info-lg mt-4'>
+                  Measure the impact of your projects with single or Multi typologies
+                </p>
+              </div>
+              <div>
+                <div className='title-text-container list-background-shape py-20'>
+                  <h1 className='text-center text-white-200'>List</h1>
+                </div>
+                <p className='book-info-lg mt-4'>
+                  Upload you project and add your project to TreesAI Portfolio
+                </p>
               </div>
             </div>
           </div>
-          <div className='relative bg-green-600'>
-            <div className='md:grid-cols-2 lg:grid lg:grid-cols-2 sm:grid-cols-1'>
-              <div className='bg-green-600 py-16 px-4'>
-                <div className='max-w-lg mx-auto'>
-                  <h2 className='font-bold text-4xl text-white sm:text-4xl'>
-                    What is TreesAI pilot?
-                  </h2>
-                  <div className='pt-2 pb-2'>
-                    <p className='mt-3 text-lg font-regular font-medium leading-5 text-white'>
-                      TreesAI pilot platform is an easy to use map based interface that helps
-                      project developers exchange valuable design information like location and
-                      impact so that they can get funded as portfolios rather than on a
-                      project-by-project basis.
-                    </p>
-                  </div>
-                </div>
+
+          <div className='title-box bg-green-300'>
+            <div className='grid grid-cols-2'>
+              <div className=''>
+                <h3 className='pt-20 pl-8'>Discover and try our Impact Planner</h3>
               </div>
-              <div className='saf-demo mt-10 mb-10'></div>
-            </div>
-            <div className='bg-white-300'>
-              <div className='max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8'>
-                <h2 className='text-4xl font-bold tracking-tight sm:text-4xl font-bold text-green-600'>
-                  <span className='block'>Glasgow Portfolio Overview</span>
-                </h2>
-                <div className='md:grid-cols-2 lg:grid lg:grid-cols-2 sm:grid-cols-1'>
-                  <div className='m-5'>
-                    <img src={map} />
-                  </div>
-                  <div>
-                    <p className='font-medium text-md text-left mt-5'>
-                      Glasgow city overview pilot platform is an easy to use map based interface
-                      that helps project developers exchange valuable design information like
-                      location and impact so that they can get funded as portfolios rather than on a
-                      project-by-project basis.
-                    </p>
-                    <div className='mt-8 flex justify-center'>
-                      <div className='inline-flex rounded-md'>
-                        <a
-                          href='#'
-                          className='inline-flex items-center px-4 py-2 text-base font-medium font-large rounded-full text-white bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                        >
-                          View detailed portfolio
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='bg-green-600'>
-              <div className='max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8'>
-                <h2 className='text-4xl font-bold tracking-tight sm:text-4xl font-bold text-white'>
-                  <span className='block'>Other cities coming soon!</span>
-                </h2>
-                <div className='space-y-12 m-10'>
-                  <ul
-                    role='list'
-                    className='mx-auto sm:grid sm:grid-cols-2 sm:gap-16 sm:space-y-0 lg:grid-cols-5 lg:max-w-8xl'
-                  >
-                    {cities.map((city) => (
-                      <li key={city.name}>
-                        <div className='space-y-6'>
-                          <img
-                            className='mx-auto h-30 w-40 rounded-full'
-                            src={city.imageUrl}
-                            alt=''
-                          />
-                          <div className='space-y-2'>
-                            <div className='text-lg leading-5 font-medium space-y-1'>
-                              <p className='text-white font-medium'>{city.name}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className='bg-white-300'>
-              <div className='max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8'>
-                <h2 className='text-4xl font-bold tracking-tight sm:text-4xl font-bold text-green-600'>
-                  <span className='block'>TreesAI ecosystem of products</span>
-                </h2>
-                <div className='md:grid-cols-2 lg:grid lg:grid-cols-2 sm:grid-cols-1'>
-                  <div className='m-5'>
-                    <img src={ecosystem} />
-                  </div>
-                  <div>
-                    <p className='font-medium text-md text-left mt-5'>
-                      TreesAI ecosystem of products is an easy to use map based interface that helps
-                      project developers exchange valuable design information like location and
-                      impact so that they can get funded as portfolios rather than on a
-                      project-by-project basis.
-                    </p>
-                    <div className='mt-8 flex justify-center'>
-                      <div className='inline-flex rounded-md'>
-                        <a
-                          href='#'
-                          className='inline-flex items-center px-4 py-2 text-base font-medium font-large rounded-full text-white bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                        >
-                          Learn more
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className='py-10 max-w-xl'>
+                <img src={explorerImage} alt='explorer preview image' />
               </div>
             </div>
           </div>

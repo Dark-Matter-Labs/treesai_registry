@@ -154,6 +154,21 @@
     top no-repeat;
 }
 
+.plan-background-shape {
+  background: url('data:image/svg+xml;utf8,<svg width="339" height="206" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 140C0 62.6801 62.6801 0 140 0L185 0L185 206L0 206L0 140Z" fill="%232F3130"/><rect x="66" y="1" width="273" height="205" rx="102.5" fill="%232F3130"/></svg>')
+    top no-repeat;
+}
+
+.measure-background-shape {
+  background: url('data:image/svg+xml;utf8,<svg width="313" height="207" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M313 67C313 144.32 250.32 207 173 207L-3.05176e-05 207L-1.24211e-05 3.15425e-06L313 3.05176e-05L313 67Z" fill="%231EB792"/></svg>')
+    top no-repeat;
+}
+
+.list-background-shape {
+  background: url('data:image/svg+xml;utf8,<svg width="338" height="186" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338 46C338 123.32 275.32 186 198 186L0 186L1.62606e-05 -2.95489e-05L338 0L338 46Z" fill="%234F46E5"/></svg>')
+    top no-repeat;
+}
+
 .title-box {
   border-top-left-radius: 10rem;
 }

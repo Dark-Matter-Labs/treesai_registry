@@ -16,7 +16,7 @@ export default function NavBar(props) {
   };
 
   return (
-    <Disclosure as='nav' className='bg-white shadow'>
+    <Disclosure as='nav' className='bg-white-200 shadow'>
       {({ open }) => (
         <>
           <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8'>
@@ -106,7 +106,7 @@ export default function NavBar(props) {
                 <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
                   <button
                     type='button'
-                    className='bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    className='bg-white-200 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                   >
                     <span className='sr-only'>View notifications</span>
                     <BellIcon className='h-6 w-6' aria-hidden='true' />
@@ -115,7 +115,7 @@ export default function NavBar(props) {
                   {/* Profile dropdown */}
                   <Menu as='div' className='ml-3 relative'>
                     <div>
-                      <Menu.Button className='bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+                      <Menu.Button className='bg-white-200 rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
                         <span className='sr-only'>Open user menu</span>
                         <span className='medium-intro-sm'>
                           {sessionStorage.getItem('user_name')}
