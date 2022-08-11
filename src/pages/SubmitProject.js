@@ -896,7 +896,7 @@ export default function SubmitProject(props) {
                   className='w-36 h-36 rounded-full border-8 border-green-600'
                 />
               </div>
-              <p className='pt-10 bold-intro-sm'>{projectDescription}</p>
+              <p className='pt-10 bold-intro-sm para-break'>{projectDescription}</p>
               <div className='mt-8 flex flex-col'>
                 <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                   <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
