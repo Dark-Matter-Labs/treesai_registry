@@ -5,7 +5,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function FormHeader(props) {
+export default function SectionHeader(props) {
   return (
     <div
       className={classNames(
@@ -18,7 +18,7 @@ export default function FormHeader(props) {
   );
 }
 
-FormHeader.propTypes = {
+SectionHeader.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
 };
