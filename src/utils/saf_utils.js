@@ -13,6 +13,9 @@ const typologies_names = [
     maxDBH: 15,
     species: 'conifer',
     image: streetTreeImage,
+    costLow: 2262,
+    costMed: 2397,
+    costHigh: 2532,
   },
   {
     id: 1,
@@ -23,6 +26,9 @@ const typologies_names = [
     maxDBH: 15,
     species: 'conifer',
     image: urbanParksImage,
+    costLow: 1,
+    costMed: 1,
+    costHigh: 1,
   },
   {
     id: 2,
@@ -33,6 +39,9 @@ const typologies_names = [
     maxDBH: 15,
     species: 'conifer',
     image: woodlandsImage,
+    costLow: 406,
+    costMed: 483,
+    costHigh: 514,
   },
 
   {
@@ -44,6 +53,9 @@ const typologies_names = [
     maxDBH: 30,
     species: 'conifer',
     image: vdlImage,
+    costLow: 12.85,
+    costMed: 12.85,
+    costHigh: 12.85,
   },
 ];
 
