@@ -887,7 +887,7 @@ export default function SubmitProject(props) {
           </div>
 
           <SectionHeader title='Overview' type='typology' />
-          <div className='bg-white-200 py-10 rounded-3xl border border-green-600 grid grid-cols-1 sm:grid-cols-4 mb-20'>
+          <div className='bg-white-200 py-10 rounded-3xl border border-green-600 grid grid-cols-1 sm:grid-cols-4 mb-20 '>
             <div className='px-8 border-r border-green-600'>
               <div className='flex justify-center items-center'>
                 <img
@@ -1059,7 +1059,7 @@ export default function SubmitProject(props) {
                 </div>
               </div>
 
-              <div className='grid grid-cols-3 my-10'>
+              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-10'>
                 <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
                   <h3 className='text-indigo-600 py-5'>Carbon Sequestration</h3>
                   <div className='my-10'>
@@ -1085,7 +1085,7 @@ export default function SubmitProject(props) {
                 </div>
               </div>
 
-              <div className='grid grid-cols-3 my-10'>
+              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-10'>
                 <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
                   <h3 className='text-indigo-600 py-5'>Tree health plot</h3>
                   <div className='my-10'>
@@ -1104,7 +1104,7 @@ export default function SubmitProject(props) {
                 </div>
               </div>
 
-              <div className='grid grid-cols-3 my-10'>
+              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-10'>
                 <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
                   <h3 className='text-indigo-600 py-5'>Comparative Analysis</h3>
 
