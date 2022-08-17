@@ -13,6 +13,7 @@ import SAFLoadingScreen from '../components/SAFLoadingScreen';
 import SectionHeader from '../components/SectionHeader';
 import FormBlock from '../components/form/FormBlock';
 import TextInput from '../components/form/TextInput';
+import AddressInput from '../components/form/AddressInput';
 import NumberInput from '../components/form/NumberInput';
 import Dropdown from '../components/form/Dropdown';
 import Toggle from '../components/form/Toggle';
@@ -29,8 +30,9 @@ import LocationRiskChart from '../components/charts/LocationRisk';
 
 import { saf_data } from '../utils/saf_data_model';
 
-import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
+import { get_typologies } from '../utils/saf_utils';
 import {
+  get_cities,
   get_typologies_types,
   get_stages,
   get_land_use,
@@ -41,11 +43,12 @@ import {
 
 import { getCouncils } from '../utils/geojson_utils';
 
-const listCouncils = getCouncils();
-
+// set SAF parameters
 const typologies = get_typologies();
-const maintenanceTypes = get_maintenance_scopes();
 
+// set project parameters
+const cities = get_cities();
+const listCouncils = getCouncils();
 const typologyTabs = get_typologies_types();
 const stages = get_stages();
 const landUse = get_land_use();
@@ -73,8 +76,8 @@ export default function SubmitProject(props) {
   const [selectedLandUse, setSelectedLandUse] = useState('Recreation');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [areaDensity, setAreaDensity] = useState(1);
+  const [totalArea, setTotalArea] = useState(1);
   const [activityType, setActivityType] = useState(activityTypes[0]);
-  const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [budgetType, setBudetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
 
@@ -203,19 +206,37 @@ export default function SubmitProject(props) {
     requestHeaders.append('Access-Control-Allow-Origin', '*');
     requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
 
-    const payload = JSON.stringify({
-      name: projectName,
-      description: projectDescription,
-      typology: selectedTypology.value,
-      min_dbh: parseInt(selectedTypology.minDBH),
-      max_dbh: parseInt(selectedTypology.maxDBH),
-      maintenance_scope: maintenanceType.value,
-      season_growth_mean: 200,
-      season_growth_var: 7,
-      time_horizon: 50,
-      density_per_ha: parseInt(treeNumber / areaDensity),
-      species: selectedTypology.species,
-    });
+    let payload;
+
+    if (activityType.name === 'Developing') {
+      payload = JSON.stringify({
+        name: projectName,
+        description: projectDescription,
+        typology: selectedTypology.value,
+        min_dbh: parseInt(selectedTypology.fixedDBH),
+        max_dbh: parseInt(selectedTypology.fixedDBH),
+        maintenance_scope: parseInt(selectedTypology.maintenance_type),
+        season_growth_mean: 200,
+        season_growth_var: 7,
+        time_horizon: 50,
+        density_per_ha: parseInt(treeNumber / areaDensity),
+        species: selectedTypology.species,
+      });
+    } else {
+      payload = JSON.stringify({
+        name: projectName,
+        description: projectDescription,
+        typology: selectedTypology.value,
+        min_dbh: parseInt(selectedTypology.minDBH),
+        max_dbh: parseInt(selectedTypology.maxDBH),
+        maintenance_scope: parseInt(selectedTypology.maintenance_type),
+        season_growth_mean: 200,
+        season_growth_var: 7,
+        time_horizon: 50,
+        density_per_ha: parseInt(treeNumber / areaDensity),
+        species: selectedTypology.species,
+      });
+    }
 
     let requestOptions = {
       method: 'POST',
@@ -332,11 +353,8 @@ export default function SubmitProject(props) {
                     Want to know more?
                   </button>
                 </div>
-                <div className='title-text-container text-background-shape py-20'>
-                  <h1 className='text-center text-indigo-600'>
-                    Run Impact <br />
-                    Explorer
-                  </h1>
+                <div className='title-text-container text-background-shape py-24'>
+                  <h1 className='text-center text-indigo-600'>Measure</h1>
                 </div>
 
                 <div className='bg-green-600 title-box-info px-40 py-10 mt-10 text-center'>
@@ -351,8 +369,9 @@ export default function SubmitProject(props) {
               <div className='my-10 grid'>
                 <div className='max-w-3xl place-self-center text-dark-wood-700 book-intro-md'>
                   <p className='pb-4'>
-                    We will ask you to fill in all info that we need to generate your scenario
-                    analysis. You can save them and change them any time.
+                    Welcome to TreesAI NbS impact assessment tool! Please fill out the below form to
+                    learn more about your project impact. If you are missing and information, you
+                    can save the form and update it later.
                   </p>
                   <hr className='border-dark-wood-600' />
                   <p className='pt-4 '>
@@ -364,10 +383,10 @@ export default function SubmitProject(props) {
               </div>
             </div>
             <div className='py-10'>
-              <SectionHeader title='General Project Information' type='general' />
+              <SectionHeader title='General project information' type='general' />
               <FormBlock
                 title='Your project’s information'
-                description='Insert the name of the Project, insert address, neighbourhood and/or postcode of project location.'
+                description='Please share some general information about your project.'
               >
                 <TextInput
                   span='sm:col-span-5'
@@ -381,17 +400,17 @@ export default function SubmitProject(props) {
                   }}
                 />
 
-                <TextInput
+                <Dropdown
                   span='sm:col-span-3'
                   label='city'
                   title='Project city'
-                  placeholder='City and country'
                   type='general'
+                  options={cities}
                 />
 
                 <div className='sm:col-span-2' />
 
-                <TextInput
+                <AddressInput
                   span='sm:col-span-3'
                   label='address'
                   title='Project address'
@@ -413,8 +432,8 @@ export default function SubmitProject(props) {
                 <TextInput
                   span='sm:col-span-5'
                   label='project-developer'
-                  title='Project Developer'
-                  placeholder='Name of institution'
+                  title='Project developer'
+                  placeholder='Name of the institution that is in charge of developing the project'
                   type='general'
                   defaultValue={projectDev}
                   onChange={(e) => {
@@ -436,15 +455,20 @@ export default function SubmitProject(props) {
                 <NumberInput
                   span='sm:col-span-3'
                   label='total_area'
-                  title='Total area of project in m2'
+                  title='Total area of project'
+                  unit='m2'
                   placeholder='200'
                   type='general'
+                  defaultValue={totalArea}
+                  onChange={(e) => {
+                    setTotalArea(e.target.value);
+                  }}
                 />
               </FormBlock>
               <hr className='mx-20 border-indigo-600 border-8' />
               <FormBlock
                 title='Land use and Land history'
-                description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
+                description='How your land was used prior to your intervention is a key determinant of your project future impact. Tell us more.'
               >
                 <TextInput
                   span='sm:col-span-5'
@@ -485,8 +509,7 @@ export default function SubmitProject(props) {
               <hr className='mx-20 border-indigo-600 border-8' />
               <FormBlock
                 title='Project description and cover image'
-                description='Quick summary of what the project will deliver, where and the involved partners. Images can give us a better understanding of the project for different purpouses: understadn story and trace the developments.
-          Upload jpg./png. that can represent the projet such as a render or a site plan.'
+                description='A project impact is not only dependent on numbers, so tell us more about your project story, its location, and who you are working with to make it happen.'
               >
                 <div className='sm:col-span-3'>
                   <label
@@ -508,7 +531,8 @@ export default function SubmitProject(props) {
                     />
                   </div>
                   <p className='mt-2 medium-intro-sm text-gray-500'>
-                    Describe your project here within 300 words
+                    There is no word limit, but we suggest you keep this under 250 words to make it
+                    more readable by all.
                   </p>
                 </div>
 
@@ -557,18 +581,18 @@ export default function SubmitProject(props) {
               <hr className='mx-20 border-indigo-600 border-8' />
               <FormBlock
                 title='Date and timing'
-                description='We would like to know the duration of the project and expected planting season. Input month and year'
+                description='We would like to know the duration of the project and expected start date.'
               >
                 <div className='sm:col-span-3'>
                   <label htmlFor='start-date' className='book-info-md text-dark-wood-800 pl-5'>
-                    Start date
+                    Start date MM.YYYY
                   </label>
                   <div className='mt-1'>
                     <input
                       id='start-date'
                       name='start-date'
-                      type='date'
-                      placeholder='Start date'
+                      type='month'
+                      defaultValue='2022-09'
                       className='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-indigo-600 rounded-2xl'
                     />
                   </div>
@@ -577,9 +601,10 @@ export default function SubmitProject(props) {
                 <NumberInput
                   span='sm:col-span-3'
                   label='project-length'
-                  title='Expected length of project in months'
+                  title='Expected length of project'
                   placeholder='12'
                   type='general'
+                  unit='months'
                   defaultValue={projectLength}
                   onChange={(e) => {
                     setProjectLength(e.target.value);
@@ -588,10 +613,10 @@ export default function SubmitProject(props) {
               </FormBlock>
             </div>
             <div className='py-10'>
-              <SectionHeader title='Typology Based Information' type='typology' />
+              <SectionHeader title='Project layout' type='typology' />
               <FormBlock
-                title='Define the Green Infrastructure Typology'
-                description='Select the typology of project your would like to develop. At the moment we only provide trees project, but in the near future we will add new typologies as SUDS and others. '
+                title='Select the typologies of green infrastructure developed by your project'
+                description='We know that projects can be made up of multiple types of green infrastructure. Please, select the typologies that you will develop in your project. At the moment we only provide trees project, but soon you will be able to add new typologies as SUDS and others. '
                 type='typology'
               >
                 <div className='sm:hidden'>
@@ -686,14 +711,31 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-green-600 border-8' />
               <FormBlock
+                title='What activities are you running on this typology?'
+                description='Developing (if this typology is a new intervention)- Maintaining (if this typology already existed and we will maintain it)- Other (if you are running an different activity from the above)'
+                type='typology'
+              >
+                <RadioSelector
+                  span='sm:col-span-5'
+                  label='activity-type'
+                  title='Predominant activity type'
+                  type='typology'
+                  setRadioType={setActivityType}
+                  radioType={activityType}
+                  radioTypes={activityTypes}
+                />
+              </FormBlock>
+              <hr className='mx-20 border-green-600 border-8' />
+              <FormBlock
                 title='Define your typology area'
-                description='Define in Ha your project area'
+                description={`Your project is ${totalArea} m2. What is the area occupied by the ${selectedTypology.title} typology?`}
                 type='typology'
               >
                 <NumberInput
                   span='sm:col-span-3'
                   label='area-density'
-                  title='The effective area used by typology in Ha'
+                  title='The effective area used by typology'
+                  unit='Ha'
                   placeholder=''
                   type='typology'
                   defaultValue={areaDensity}
@@ -714,6 +756,7 @@ export default function SubmitProject(props) {
                   title='Number of new trees to be planted'
                   placeholder='100'
                   type='typology'
+                  unit='trees'
                   defaultValue={treeNumber}
                   onChange={(e) => {
                     setTreeNumber(e.target.value);
@@ -723,40 +766,15 @@ export default function SubmitProject(props) {
                 <NumberInput
                   span='sm:col-span-3'
                   label='existing-trees'
+                  unit='trees'
                   title='Number of existing trees to be maintained'
                   placeholder='100'
                   type='typology'
                 />
               </FormBlock>
-              <hr className='mx-20 border-green-600 border-8' />
-              <FormBlock
-                title='What are your activities?'
-                description='In your project you will work specifically on certain activites. We would like to ask you to choose the main one among the many. Mantainance can be low, medium or high.'
-                type='typology'
-              >
-                <RadioSelector
-                  span='sm:col-span-5'
-                  label='activity-type'
-                  title='Predominant activity type'
-                  type='typology'
-                  setRadioType={setActivityType}
-                  radioType={activityType}
-                  radioTypes={activityTypes}
-                />
-
-                <RadioSelector
-                  span='sm:col-span-5'
-                  label='maintenance-type'
-                  title='Maintenance type'
-                  type='typology'
-                  setRadioType={setMaintenanceType}
-                  radioType={maintenanceType}
-                  radioTypes={maintenanceTypes}
-                />
-              </FormBlock>
             </div>
             <div className='py-10'>
-              <SectionHeader title='Cost of the project' type='cost' />
+              <SectionHeader title='Project costs' type='cost' />
               <FormBlock
                 title='Project budgeting'
                 description='TreesAI can help you in investing in your project. More you give us details and more we would be able to understand your needs.'
@@ -784,32 +802,34 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-indigo-600 border-8' />
               <FormBlock
-                title='Project CAPEX and OPEX'
-                description='Here you can add some more precise information, they can be difficult to define and don’t worry if you don’t have them.'
+                title='Project initial and ongoing costs'
+                description='Please tell us more about your project costs across its lifetime.  Capital expenditure refers to the initial costs or developing the project and operational expenditure to the costs of maintaining it.'
                 type='cost'
               >
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='opex'
-                  title='Total operational expenditure'
-                  placeholder='£200'
-                  type='cost'
-                />
                 <NumberInput
                   span='sm:col-span-3'
                   label='capex'
                   title='Total capital expenditure  '
                   placeholder='£200'
+                  unit='£'
+                  type='cost'
+                />
+                <NumberInput
+                  span='sm:col-span-3'
+                  label='opex'
+                  title='Total operational expenditure'
+                  placeholder='£200'
+                  unit='£'
                   type='cost'
                 />
               </FormBlock>
             </div>
 
             <div className='py-10'>
-              <SectionHeader title='Additional information' type='info' />
+              <SectionHeader title='More information' type='info' />
               <FormBlock
-                title='Can you share the planning application?'
-                description='In this form we asked you the minimum of information required to be able to define if a project can be. '
+                title='Would you like to add more information? '
+                description='If you share more information about your project specifications (such as your planning application, bills of quantity or any other design packages) your measurements will be more accurate.'
                 type='cost'
               >
                 <TextInput
@@ -841,9 +861,10 @@ export default function SubmitProject(props) {
             <div className='grid pb-20'>
               <div className='py-4 max-w-3xl place-self-center text-center'>
                 <h3 className=''>
-                  Thanks for your patience and for all the information you have filled in. Now you
-                  can run the Impact or if you need to add more information you can also save for
-                  later and check your project on your profile page.{' '}
+                  Thanks for your patience and for filling out all these information! Click
+                  &quot;Run Impact&quot; to view your project impact assessment. If you need to add
+                  more information you can always save and come back later. You can find back your
+                  project on your profile page.
                 </h3>
               </div>
               <div className='place-self-center pt-4'>
@@ -965,7 +986,7 @@ export default function SubmitProject(props) {
             </div>
 
             <div className='px-8 border-r border-green-600'>
-              <h3 className='text-dark-wood-800'>Project Impact</h3>
+              <h3 className='text-dark-wood-800'>Project impact for 50 years</h3>
               <p className='book-info-sm text-dark-wood-800 pt-4'>
                 Considering the combination of your project typology, activity, location, and other
                 factors, you could help achieve the following estimated potential impact:
@@ -995,26 +1016,49 @@ export default function SubmitProject(props) {
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
               <p>
                 Low: £
-                {Math.round((treeNumber / areaDensity / 10000) * selectedTypology.costLow).toFixed(
-                  2,
-                )}
+                {Math.round(
+                  ((treeNumber / areaDensity) * selectedTypology.costLow) / 10000,
+                ).toFixed(2)}
               </p>
               <p>
                 Medium: £
-                {Math.round((treeNumber / areaDensity / 10000) * selectedTypology.costMed).toFixed(
-                  2,
-                )}
+                {Math.round(
+                  ((treeNumber / areaDensity) * selectedTypology.costMed) / 10000,
+                ).toFixed(2)}
               </p>
               <p className='pb-5'>
                 High: £
-                {Math.round((treeNumber / areaDensity / 10000) * selectedTypology.costHigh).toFixed(
-                  2,
-                )}
+                {Math.round(
+                  ((treeNumber / areaDensity) * selectedTypology.costHigh) / 10000,
+                ).toFixed(2)}
+              </p>
+              <p className='text-green-600'>Total Project Cost over 50 years</p>
+              <p>
+                Low: £
+                {Math.round(
+                  (((treeNumber / areaDensity) * selectedTypology.costLow) / 10000) * totalArea,
+                ).toFixed(2)}
+              </p>
+              <p>
+                Medium: £
+                {Math.round(
+                  (((treeNumber / areaDensity) * selectedTypology.costMed) / 10000) * totalArea,
+                ).toFixed(2)}
+              </p>
+              <p className='pb-5'>
+                High: £
+                {Math.round(
+                  (((treeNumber / areaDensity) * selectedTypology.costHigh) / 10000) * totalArea,
+                ).toFixed(2)}
               </p>
 
-              <h3 className='text-dark-wood-800 pt-5 border-t border-green-600'>Location Risk</h3>
+              <h3 className='text-dark-wood-800 pt-5 border-t border-green-600'>
+                Risk to be addressed
+              </h3>
               <p className='book-info-sm text-dark-wood-800 pt-4'>
-                Overall risk score aggregating hazard, exposure and vulnerability:
+                The impact of your project is highly dependent on its specific location within the
+                city. Here you can find the environmental and socio-economic risks that climate
+                change poses to the area of your project:
               </p>
               <LocationRiskChart cc_name={selectedCC} />
             </div>
