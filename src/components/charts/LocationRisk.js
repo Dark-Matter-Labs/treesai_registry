@@ -38,7 +38,7 @@ const LocationRiskChart = (props) => {
         <div className='location-risk-chart-content-header text-center py-4'>
           <span
             className={classNames(
-              councilInfo.class === 'high' ? ' bg-red-700' : ' bg-green-600',
+              councilInfo.class === 'high' ? ' bg-indigo-700' : ' bg-indigo-400',
               'inline-flex justify-center py-4 uppercase px-8 border border-transparent shadow-sm bold-intro-sm rounded-xl text-white-200',
             )}
           >

@@ -46,7 +46,7 @@ export default function Home(props) {
 
             <div className='grid grid-cols-3 gap-x-0 text-center'>
               <div>
-                <div className='title-text-container plan-background-shape py-20'>
+                <div className='title-text-container plan-background-shape py-24'>
                   <h1 className='text-center text-white-200'>Plan</h1>
                 </div>
                 <p className='book-info-lg mt-4'>
@@ -54,7 +54,7 @@ export default function Home(props) {
                 </p>
               </div>
               <div>
-                <div className='title-text-container measure-background-shape py-20'>
+                <div className='title-text-container measure-background-shape py-24'>
                   <h1 className='text-center text-white-200'>Measure</h1>
                 </div>
                 <p className='book-info-lg mt-4'>

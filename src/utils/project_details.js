@@ -1,3 +1,5 @@
+const cities = ['Glasgow', 'Other'];
+
 const typologyTabs = [
   { name: 'Trees', current: true },
   { name: 'SuDS(Coming soon)', current: false },
@@ -22,9 +24,9 @@ const landUse = [
 ];
 
 const activityTypes = [
-  { name: 'Development', enabled: true },
-  { name: 'Maintenance', enabled: true },
-  { name: 'Preservation', enabled: false },
+  { name: 'Developing', enabled: true },
+  { name: 'Maintaining', enabled: true },
+  { name: 'Preserving', enabled: false },
 ];
 
 const budgetTypes = [
@@ -42,6 +44,10 @@ const raisedTypes = [
   { name: '£101 - 500K', enabled: true, value: 3 },
   { name: '£2M +', enabled: true, value: 4 },
 ];
+
+export function get_cities() {
+  return cities;
+}
 
 export function get_typologies_types() {
   return typologyTabs;

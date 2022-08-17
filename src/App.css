@@ -160,7 +160,7 @@
 }
 
 .measure-background-shape {
-  background: url('data:image/svg+xml;utf8,<svg width="313" height="207" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M313 67C313 144.32 250.32 207 173 207L-3.05176e-05 207L-1.24211e-05 3.15425e-06L313 3.05176e-05L313 67Z" fill="%231EB792"/></svg>')
+  background: url('data:image/svg+xml;utf8,<svg idth="357" height="247" viewBox="0 0 357 247" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 140C0 62.6801 62.6801 0 140 0H314V206H0V140Z" fill="%231EB792"/><path d="M357 107C357 184.32 294.32 247 217 247L44 247L44 40L357 40L357 107Z" fill="%231EB792"/></svg>')
     top no-repeat;
 }
 
@@ -179,5 +179,5 @@
 }
 
 .para-break {
-  word-wrap: break-word
+  word-wrap: break-word;
 }
