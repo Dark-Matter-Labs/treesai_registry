@@ -26,7 +26,6 @@ const landUse = [
 const activityTypes = [
   { name: 'Developing', enabled: true },
   { name: 'Maintaining', enabled: true },
-  { name: 'Preserving', enabled: false },
 ];
 
 const budgetTypes = [
