@@ -30,7 +30,7 @@ import LocationRiskChart from '../components/charts/LocationRisk';
 
 import { saf_data } from '../utils/saf_data_model';
 
-import { get_typologies } from '../utils/saf_utils';
+import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import {
   get_cities,
   get_typologies_types,
@@ -45,6 +45,7 @@ import { getCouncils } from '../utils/geojson_utils';
 
 // set SAF parameters
 const typologies = get_typologies();
+const maintenanceTypes = get_maintenance_scopes();
 
 // set project parameters
 const cities = get_cities();
@@ -71,14 +72,16 @@ export default function SubmitProject(props) {
   const [projectLength, setProjectLength] = useState(0);
   const [projectDescription, setProjectDescription] = useState('');
   const [treeNumber, setTreeNumber] = useState(1);
+  const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
   const [selectedStage, setSelectedStage] = useState(stages[0]);
   const [selectedCC, setSelectecCC] = useState(listCouncils[0]);
   const [selectedLandUse, setSelectedLandUse] = useState('Recreation');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
+  const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [areaDensity, setAreaDensity] = useState(1);
   const [totalArea, setTotalArea] = useState(1);
   const [activityType, setActivityType] = useState(activityTypes[0]);
-  const [budgetType, setBudetType] = useState(budgetTypes[0]);
+  const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
 
   /* SAF Related variables */
@@ -215,11 +218,11 @@ export default function SubmitProject(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.fixedDBH),
         max_dbh: parseInt(selectedTypology.fixedDBH),
-        maintenance_scope: parseInt(selectedTypology.maintenance_type),
+        maintenance_scope: maintenanceType.value,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt(treeNumber / areaDensity),
+        density_per_ha: parseInt((treeNumber + treeNumberMaintain) / areaDensity),
         species: selectedTypology.species,
       });
     } else {
@@ -229,11 +232,11 @@ export default function SubmitProject(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.minDBH),
         max_dbh: parseInt(selectedTypology.maxDBH),
-        maintenance_scope: parseInt(selectedTypology.maintenance_type),
+        maintenance_scope: maintenanceType.value,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt(treeNumber / areaDensity),
+        density_per_ha: parseInt((treeNumber + treeNumberMaintain) / areaDensity),
         species: selectedTypology.species,
       });
     }
@@ -291,7 +294,7 @@ export default function SubmitProject(props) {
       area: 0,
       cost: 0,
       stage: selectedStage + selectedLandUse + landOwner,
-      number_of_trees: treeNumber,
+      number_of_trees: treeNumber + treeNumberMaintain,
       local_authority: 'string',
       location: 'string',
       start_date: '2022-06-16T09:32:51.188Z',
@@ -712,7 +715,7 @@ export default function SubmitProject(props) {
               <hr className='mx-20 border-8 border-green-600' />
               <FormBlock
                 title='What activities are you running on this typology?'
-                description='Developing (if this typology is a new intervention)- Maintaining (if this typology already existed and we will maintain it)- Other (if you are running an different activity from the above)'
+                description='Developing (if this typology is a new intervention)- Maintaining (if this typology already existed and we will maintain it)'
                 type='typology'
               >
                 <RadioSelector
@@ -724,27 +727,41 @@ export default function SubmitProject(props) {
                   radioType={activityType}
                   radioTypes={activityTypes}
                 />
-              </FormBlock>
-              <hr className='mx-20 border-8 border-green-600' />
-              <FormBlock
-                title='Define your typology area'
-                description={`Your project is ${totalArea} m2. What is the area occupied by the ${selectedTypology.title} typology?`}
-                type='typology'
-              >
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='area-density'
-                  title='The effective area used by typology'
-                  unit='Ha'
-                  placeholder=''
+                <RadioSelector
+                  span='sm:col-span-5'
+                  label='maintenance-type'
+                  title='Maintenance type'
                   type='typology'
-                  defaultValue={areaDensity}
-                  onChange={(e) => {
-                    setAreaDensity(e.target.value);
-                  }}
+                  setRadioType={setMaintenanceType}
+                  radioType={maintenanceType}
+                  radioTypes={maintenanceTypes}
                 />
               </FormBlock>
               <hr className='mx-20 border-8 border-green-600' />
+              {selectedTypology.id !== 0 && (
+                <>
+                  <FormBlock
+                    title='Define your typology area'
+                    description={`Your project is ${totalArea} m2. What is the area occupied by the ${selectedTypology.title} typology?`}
+                    type='typology'
+                  >
+                    <NumberInput
+                      span='sm:col-span-3'
+                      label='area-density'
+                      title='The effective area used by typology'
+                      unit='Ha'
+                      placeholder=''
+                      type='typology'
+                      defaultValue={areaDensity}
+                      onChange={(e) => {
+                        setAreaDensity(e.target.value);
+                      }}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-green-600' />
+                </>
+              )}
+
               <FormBlock
                 title='How many trees does your site contain? '
                 description='We would like to know the numbers of trees your project will work on. Please insert total number of trees, both new and the one that will be maintained.'
@@ -762,15 +779,20 @@ export default function SubmitProject(props) {
                     setTreeNumber(e.target.value);
                   }}
                 />
-
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='existing-trees'
-                  unit='trees'
-                  title='Number of existing trees to be maintained'
-                  placeholder='100'
-                  type='typology'
-                />
+                {(selectedTypology.id === 1 || selectedTypology.id === 2) && (
+                  <NumberInput
+                    span='sm:col-span-3'
+                    label='existing-trees'
+                    unit='trees'
+                    title='Number of existing trees to be maintained'
+                    placeholder='100'
+                    type='typology'
+                    defaultValue={treeNumberMaintain}
+                    onChange={(e) => {
+                      setTreeNumberMaintain(e.target.value);
+                    }}
+                  />
+                )}
               </FormBlock>
             </div>
             <div className='py-10'>
@@ -785,7 +807,7 @@ export default function SubmitProject(props) {
                   label='project-budget'
                   title='What is your project budget?'
                   type='cost'
-                  setRadioType={setBudetType}
+                  setRadioType={setBudgetType}
                   radioType={budgetType}
                   radioTypes={budgetTypes}
                 />
@@ -953,14 +975,16 @@ export default function SubmitProject(props) {
                               {treeNumber}
                             </td>
                           </tr>
-                          <tr>
-                            <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
-                              Number of trees maintained:
-                            </td>
-                            <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
-                              {treeNumber}
-                            </td>
-                          </tr>
+                          {(selectedTypology.id === 1 || selectedTypology.id === 2) && (
+                            <tr>
+                              <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
+                                Number of trees maintained:
+                              </td>
+                              <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
+                                {treeNumberMaintain}
+                              </td>
+                            </tr>
+                          )}
                           <tr>
                             <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
                               Project stage:
