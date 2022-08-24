@@ -108,22 +108,22 @@ export default function Portfolio(props) {
               </div>
             </Popup>
           )}
-          <div className='shadow-sm rounded-md text-center bg-white onMap ml-20 mt-5 pr-'>
-            <h3 className='text-2xl font-bold tracking-tight font-spaceBold text-primary pt-5'>
+          <div className='onMap pr- ml-20 mt-5 rounded-md bg-white text-center shadow-sm'>
+            <h3 className='font-spaceBold text-primary pt-5 text-2xl font-bold tracking-tight'>
               Projects:
             </h3>
             <div className='pl-5'>
               <img
                 src={projectImg}
                 alt='project image'
-                className='w-42 h-42 rounded-full border-8 border-primary'
+                className='w-42 h-42 border-primary rounded-full border-8'
               />
             </div>
 
             <hr className='border-b-1 border-primary my-5 mx-10' />
 
-            <div className=' pl-10 mb-5'>
-              <h4 className='text-xl font-bold tracking-tight font-spaceBold text-left text-primary'>
+            <div className=' mb-5 pl-10'>
+              <h4 className='font-spaceBold text-primary text-left text-xl font-bold tracking-tight'>
                 Impact overview
               </h4>
               <div className='pt-10 text-left'>

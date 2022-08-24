@@ -4,23 +4,23 @@
 
 @layer components {
   h1 {
-    @apply font-favorit font-medium text-5xl leading-6;
+    @apply font-favorit text-5xl font-medium leading-6;
   }
 
   h2 {
-    @apply font-favorit font-bold text-4xl leading-6;
+    @apply font-favorit text-4xl font-bold leading-6;
   }
 
   h3 {
-    @apply font-favorit font-book text-3xl leading-5;
+    @apply font-favorit text-3xl font-book leading-5;
   }
 
   .book-info-sm {
-    @apply font-favorit font-book text-sm leading-4;
+    @apply font-favorit text-sm font-book leading-4;
   }
 
   .book-info-md {
-    @apply font-favorit font-book text-base leading-4;
+    @apply font-favorit text-base font-book leading-4;
   }
 
   .book-intro-sm {
@@ -28,35 +28,35 @@
   }
 
   .book-intro-md {
-    @apply font-favoritBook font-book text-xl leading-4;
+    @apply font-favoritBook text-xl font-book leading-4;
   }
 
   .book-intro-lg {
-    @apply font-favoritBook font-book text-2xl leading-5;
+    @apply font-favoritBook text-2xl font-book leading-5;
   }
 
   .medium-intro-sm {
-    @apply font-favorit font-medium text-base leading-4;
+    @apply font-favorit text-base font-medium leading-4;
   }
 
   .medium-intro-md {
-    @apply font-favorit font-medium text-xl leading-4;
+    @apply font-favorit text-xl font-medium leading-4;
   }
 
   .medium-intro-lg {
-    @apply font-favorit font-medium text-2xl leading-5;
+    @apply font-favorit text-2xl font-medium leading-5;
   }
 
   .bold-intro-sm {
-    @apply font-favorit font-bold text-md leading-4;
+    @apply font-favorit text-md font-bold leading-4;
   }
 
   .bold-intro-md {
-    @apply font-favorit font-bold text-xl leading-4;
+    @apply font-favorit text-xl font-bold leading-4;
   }
 
   .bold-intro-lg {
-    @apply font-favorit font-bold text-2xl leading-5;
+    @apply font-favorit text-2xl font-bold leading-5;
   }
 }
 

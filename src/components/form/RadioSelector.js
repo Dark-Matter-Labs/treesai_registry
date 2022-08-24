@@ -10,7 +10,7 @@ export default function RadioSelector(props) {
   return (
     <div className={props.span}>
       <div className='flex items-center justify-between'></div>
-      <label htmlFor={props.label} className='book-info-md text-dark-wood-800 pl-5'>
+      <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
         {props.title}
       </label>
       <RadioGroup value={props.radioType} onChange={props.setRadioType} className='mt-2'>
@@ -25,12 +25,12 @@ export default function RadioSelector(props) {
                   classNames(
                     option.enabled
                       ? 'cursor-pointer focus:outline-none'
-                      : 'opacity-25 cursor-not-allowed',
-                    active ? 'ring-2 ring-offset-2 ring-green-600' : '',
+                      : 'cursor-not-allowed opacity-25',
+                    active ? 'ring-2 ring-green-600 ring-offset-2' : '',
                     checked
-                      ? 'bg-green-600 border-transparent text-white hover:bg-green-700'
-                      : 'bg-white border-dark-wood-500 text-gray-900 hover:bg-gray-50',
-                    'border  rounded-full py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1',
+                      ? 'border-transparent bg-green-600 text-white hover:bg-green-700'
+                      : 'border-dark-wood-500 bg-white text-gray-900 hover:bg-gray-50',
+                    'flex  items-center justify-center rounded-full border py-3 px-3 text-sm font-medium uppercase sm:flex-1',
                   )
                 }
                 disabled={!option.enabled}
@@ -45,12 +45,12 @@ export default function RadioSelector(props) {
                   classNames(
                     option.enabled
                       ? 'cursor-pointer focus:outline-none'
-                      : 'opacity-25 cursor-not-allowed',
-                    active ? 'ring-2 ring-offset-2 ring-indigo-600' : '',
+                      : 'cursor-not-allowed opacity-25',
+                    active ? 'ring-2 ring-indigo-600 ring-offset-2' : '',
                     checked
-                      ? 'bg-indigo-600 border-transparent text-white hover:bg-indigo-700'
-                      : 'bg-white border-dark-wood-500 text-gray-900 hover:bg-gray-50',
-                    'border  rounded-full py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1',
+                      ? 'border-transparent bg-indigo-600 text-white hover:bg-indigo-700'
+                      : 'border-dark-wood-500 bg-white text-gray-900 hover:bg-gray-50',
+                    'flex  items-center justify-center rounded-full border py-3 px-3 text-sm font-medium uppercase sm:flex-1',
                   )
                 }
                 disabled={!option.enabled}

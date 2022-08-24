@@ -8,7 +8,7 @@ function classNames(...classes) {
 export default function TextInput(props) {
   return (
     <div className={props.span}>
-      <label htmlFor={props.label} className='book-info-md text-dark-wood-800 pl-5'>
+      <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
         {props.title}
       </label>
       <div className='mt-1'>
@@ -19,7 +19,7 @@ export default function TextInput(props) {
           placeholder={props.placeholder}
           className={classNames(
             props.type === 'typology' ? 'border-green-600 ' : 'border-indigo-600',
-            'shadow-sm block w-full rounded-2xl medium-intro-sm py-2',
+            'medium-intro-sm block w-full rounded-2xl py-2 shadow-sm',
           )}
           defaultValue={props.defaultValue}
           onChange={props.onChange}

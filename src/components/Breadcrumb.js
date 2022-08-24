@@ -8,7 +8,7 @@ const pages = [
 export default function Breadcrumb() {
   return (
     <nav className='flex' aria-label='Breadcrumb'>
-      <ol role='list' className='flex items-center space-x-4 mt-5'>
+      <ol role='list' className='mt-5 flex items-center space-x-4'>
         {pages.map((page) => (
           <li key={page.name}>
             <div className='flex items-center'>
@@ -20,7 +20,7 @@ export default function Breadcrumb() {
                 {page.name}
               </a>
               <svg
-                className='flex-shrink-0 h-5 w-5 text-gray-300'
+                className='h-5 w-5 flex-shrink-0 text-gray-300'
                 xmlns='http://www.w3.org/2000/svg'
                 fill='currentColor'
                 viewBox='0 0 20 20'

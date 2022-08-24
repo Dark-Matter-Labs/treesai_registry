@@ -10,7 +10,7 @@ export default function SectionHeader(props) {
     <div
       className={classNames(
         props.type === 'typology' ? 'bg-green-600 ' : 'bg-indigo-600',
-        'p-5 title-box-info max-w-2xl flex justify-center mx-auto',
+        'title-box-info mx-auto flex max-w-2xl justify-center p-5',
       )}
     >
       <h2 className='text-white-200'>{props.title}</h2>

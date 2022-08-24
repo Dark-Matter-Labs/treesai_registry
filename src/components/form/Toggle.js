@@ -9,14 +9,14 @@ function classNames(...classes) {
 export default function Toggle(props) {
   return (
     <div className={props.span}>
-      <label htmlFor={props.label} className='book-info-md text-dark-wood-800 pl-5'>
+      <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
         {props.title}
       </label>
-      <div className='mt-1 border border-indigo-600 rounded-full  flex justify-center py-2'>
+      <div className='mt-1 flex justify-center rounded-full  border border-indigo-600 py-2'>
         <span
           className={classNames(
             props.type === 'typology' ? 'text-green-600 ' : 'text-indigo-600',
-            'bold-intro-md uppercase mr-2',
+            'bold-intro-md mr-2 uppercase',
           )}
         >
           {props.firstChoice}
@@ -26,7 +26,7 @@ export default function Toggle(props) {
           onChange={props.onChange}
           className={classNames(
             props.checked ? 'bg-indigo-600' : 'bg-gray-200',
-            'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500',
+            'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
           )}
         >
           <span className='sr-only'>{props.title}</span>
@@ -34,14 +34,14 @@ export default function Toggle(props) {
             aria-hidden='true'
             className={classNames(
               props.checked ? 'translate-x-5' : 'translate-x-0',
-              'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
+              'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
             )}
           />
         </Switch>
         <span
           className={classNames(
             props.type === 'typology' ? 'text-green-600' : 'text-indigo-600',
-            'bold-intro-md uppercase ml-2',
+            'bold-intro-md ml-2 uppercase',
           )}
         >
           {props.secondChoice}
