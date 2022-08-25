@@ -66,7 +66,7 @@ export default function NavBar(props) {
                       'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                     )}
                   >
-                    <Link to='/submit-project'>Impact Explorer</Link>
+                    <Link to='/measure'>Measure</Link>
                   </span>
                   <span
                     className={classNames(
@@ -76,7 +76,7 @@ export default function NavBar(props) {
                       'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                     )}
                   >
-                    <Link to='/portfolio'>Project Atlas</Link>
+                    <Link to='/plan'>Plan</Link>
                   </span>
                   <a
                     href='#'

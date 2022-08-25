@@ -25,7 +25,7 @@ export default function Home(props) {
                   type='button'
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
-                  Impact Explorer
+                  Measure
                 </button>
               </Link>
               <Link to='/portfolio'>
@@ -33,7 +33,7 @@ export default function Home(props) {
                   type='button'
                   className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
-                  Project Atlas
+                  Plan
                 </button>
               </Link>
             </div>
@@ -63,7 +63,7 @@ export default function Home(props) {
               </div>
               <div>
                 <div className='title-text-container list-background-shape py-20'>
-                  <h1 className='text-center text-white-200'>List</h1>
+                  <h1 className='text-center text-white-200'>Finance</h1>
                 </div>
                 <p className='book-info-lg mt-4'>
                   Upload you project and add your project to TreesAI Portfolio
