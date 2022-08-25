@@ -10,7 +10,7 @@ export default function ResultBlock(props) {
     <div
       className={classNames(
         props.type === 'typology' ? 'border-green-600 ' : 'border-indigo-600',
-        'bg-white-200  px-20 py-10 rounded-3xl border',
+        'rounded-3xl  border bg-white-200 px-20 py-10',
       )}
     >
       <div className='grid grid-cols-1 sm:grid-cols-2'>
@@ -18,7 +18,7 @@ export default function ResultBlock(props) {
           <h3 className=''>{props.title}</h3>
         </div>
         <div>
-          <p className='book-intro-sm text-dark-wood-800 max-w-sm'>{props.description}</p>
+          <p className='book-intro-sm max-w-sm text-dark-wood-800'>{props.description}</p>
         </div>
       </div>
       {props.children}

@@ -7,8 +7,7 @@ const typologies_names = [
   {
     id: 0,
     title: 'Street Trees',
-    description:
-      'A street tree is any tree growing within the public-right-of-way and is thus managed by the city.',
+    description: 'A street tree is any tree growing within the public-right-of-way',
     value: 'park',
 
     species: 'conifer',
@@ -33,7 +32,7 @@ const typologies_names = [
     id: 1,
     title: 'Urban Parks',
     description:
-      'Areas of land normally enclosed, designed, constructed, managed and maintained as a public park or garden. These may be owned or managed by community groups.',
+      'Area of land normally enclosed, designed, constructed, maintained and managed  as a public park or garden',
     value: 'park',
     species: 'conifer',
     image: urbanParksImage,
@@ -57,7 +56,7 @@ const typologies_names = [
     id: 2,
     title: 'Woodland',
     description:
-      'Woodlands are areas of land composed of trees established through planting and/or deliberate seeding and which are being actively managed for provisioning services, climate regulation or both.',
+      'Area of land composed of trees established through planting and/or deliberate seeding',
     value: 'forest',
     species: 'conifer',
     image: woodlandsImage,
@@ -82,7 +81,7 @@ const typologies_names = [
     id: 3,
     title: 'Trees in Vacant Lands',
     description:
-      'Degraded lands present potential locations for tree plantations and tree preservation. Managed well, they can restore soil, sequester carbon, and produce wood resources in a more sustainable way.',
+      'Degraded lands present potential locations for tree plantations and tree preservation',
     value: 'tree in VDL',
     species: 'conifer',
     image: vdlImage,

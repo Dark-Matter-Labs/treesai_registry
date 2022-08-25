@@ -8,7 +8,7 @@ function classNames(...classes) {
 export default function NumberInput(props) {
   return (
     <div className={props.span}>
-      <label htmlFor={props.label} className='book-info-md text-dark-wood-800 pl-5'>
+      <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
         {props.title}
       </label>
       <div className='mt-1 flex'>
@@ -19,7 +19,7 @@ export default function NumberInput(props) {
           placeholder={props.placeholder}
           className={classNames(
             props.type === 'typology' ? 'border-green-600 ' : 'border-indigo-600',
-            'flex-1 shadow-sm block w-full rounded-l-2xl medium-intro-sm py-2',
+            'medium-intro-sm block w-full flex-1 rounded-l-2xl py-2 shadow-sm',
           )}
           defaultValue={props.defaultValue}
           onChange={props.onChange}
@@ -28,7 +28,7 @@ export default function NumberInput(props) {
         <span
           className={classNames(
             props.type === 'typology' ? 'border-green-600 ' : 'border-indigo-600',
-            'inline-flex items-center px-3 rounded-r-2xl border text-dark-wood-800 medium-intro-sm py-2',
+            'medium-intro-sm inline-flex items-center rounded-r-2xl border px-3 py-2 text-dark-wood-800',
           )}
         >
           {props.unit}

@@ -19,11 +19,11 @@ export default function NavBar(props) {
     <Disclosure as='nav' className='bg-white-200 shadow'>
       {({ open }) => (
         <>
-          <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8'>
-            <div className='relative flex justify-between h-16'>
+          <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
+            <div className='relative flex h-16 justify-between'>
               <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
                 {/* Mobile menu button */}
-                <Disclosure.Button className='inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                <Disclosure.Button className='inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
                   <span className='sr-only'>Open main menu</span>
                   {open ? (
                     <XIcon className='block h-6 w-6' aria-hidden='true' />
@@ -32,16 +32,16 @@ export default function NavBar(props) {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className='flex-1 flex items-center justify-center sm:items-stretch sm:justify-start '>
-                <div className='flex-shrink-0 flex items-center'>
+              <div className='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start '>
+                <div className='flex flex-shrink-0 items-center'>
                   <Link to='/'>
                     <img
-                      className='block lg:hidden h-8 w-auto'
+                      className='block h-8 w-auto lg:hidden'
                       src={logo}
                       alt='TreesAI Impact Planner logo'
                     />
                     <img
-                      className='hidden lg:block h-6 w-auto'
+                      className='hidden h-6 w-auto lg:block'
                       src={logo}
                       alt='TreesAI Impact Planner logo'
                     />
@@ -53,7 +53,7 @@ export default function NavBar(props) {
                       props.current === 'home'
                         ? 'border-green-600 text-dark-wood-800'
                         : 'border-transparent text-dark-wood-600',
-                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
+                      'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                     )}
                   >
                     <Link to='/'>Home</Link>
@@ -63,20 +63,20 @@ export default function NavBar(props) {
                       props.current === 'projectSubmit'
                         ? 'border-green-600 text-dark-wood-800'
                         : 'border-transparent text-dark-wood-600',
-                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
+                      'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                     )}
                   >
-                    <Link to='/submit-project'>Impact Explorer</Link>
+                    <Link to='/measure'>Measure</Link>
                   </span>
                   <span
                     className={classNames(
                       props.current === 'portfolio'
                         ? 'border-green-600 text-dark-wood-800'
                         : 'border-transparent text-dark-wood-600',
-                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
+                      'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                     )}
                   >
-                    <Link to='/portfolio'>Project Atlas</Link>
+                    <Link to='/plan'>Plan</Link>
                   </span>
                   <a
                     href='#'
@@ -84,7 +84,7 @@ export default function NavBar(props) {
                       props.current === 'learn'
                         ? 'border-green-600 text-dark-wood-800'
                         : 'border-transparent text-dark-wood-600',
-                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
+                      'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                     )}
                   >
                     Learn more
@@ -95,7 +95,7 @@ export default function NavBar(props) {
                       props.current === 'contact'
                         ? 'border-green-600 text-dark-wood-800'
                         : 'border-transparent text-dark-wood-600',
-                      'inline-flex items-center px-1 pt-1 border-b-2 medium-intro-sm',
+                      'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                     )}
                   >
                     Contact
@@ -106,16 +106,16 @@ export default function NavBar(props) {
                 <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
                   <button
                     type='button'
-                    className='bg-white-200 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    className='rounded-full bg-white-200 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                   >
                     <span className='sr-only'>View notifications</span>
                     <BellIcon className='h-6 w-6' aria-hidden='true' />
                   </button>
 
                   {/* Profile dropdown */}
-                  <Menu as='div' className='ml-3 relative'>
+                  <Menu as='div' className='relative ml-3'>
                     <div>
-                      <Menu.Button className='bg-white-200 rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+                      <Menu.Button className='flex rounded-full bg-white-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
                         <span className='sr-only'>Open user menu</span>
                         <span className='medium-intro-sm'>
                           {sessionStorage.getItem('user_name')}
@@ -131,14 +131,14 @@ export default function NavBar(props) {
                       leaveFrom='transform opacity-100 scale-100'
                       leaveTo='transform opacity-0 scale-95'
                     >
-                      <Menu.Items className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                      <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                         <Menu.Item>
                           {({ active }) => (
                             <a
                               href='#'
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 medium-intro-sm text-gray-700',
+                                'medium-intro-sm block px-4 py-2 text-gray-700',
                               )}
                             >
                               Your Profile
@@ -151,7 +151,7 @@ export default function NavBar(props) {
                               href='#'
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 medium-intro-sm text-gray-700',
+                                'medium-intro-sm block px-4 py-2 text-gray-700',
                               )}
                             >
                               Settings
@@ -164,7 +164,7 @@ export default function NavBar(props) {
                               onClick={signOut}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 medium-intro-sm text-gray-700',
+                                'medium-intro-sm block px-4 py-2 text-gray-700',
                               )}
                             >
                               Sign out
@@ -179,13 +179,13 @@ export default function NavBar(props) {
                 <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
                   <button
                     type='button'
-                    className='inline-flex items-center px-4 py-2 border border-green-600 text-sm font-medium font-medium rounded-full shadow-sm text-green-600 bg-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-2'
+                    className='mr-2 inline-flex items-center rounded-full border border-green-600 bg-white px-4 py-2 text-sm font-medium font-medium text-green-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                   >
                     <Link to='/register'>Sign up</Link>
                   </button>
                   <button
                     type='button'
-                    className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium font-medium rounded-full shadow-sm text-white bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    className='inline-flex items-center rounded-full border border-transparent bg-green-600 px-4 py-2 text-sm font-medium font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                   >
                     <Link to='/login'>Login</Link>
                   </button>
@@ -195,33 +195,33 @@ export default function NavBar(props) {
           </div>
 
           <Disclosure.Panel className='sm:hidden'>
-            <div className='pt-2 pb-4 space-y-1'>
+            <div className='space-y-1 pt-2 pb-4'>
               {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
               <Disclosure.Button
                 as='a'
                 href='#'
-                className='bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                className='block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700'
               >
                 City Portfolio
               </Disclosure.Button>
               <Disclosure.Button
                 as='a'
                 href='#'
-                className='border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
               >
                 Submit Project
               </Disclosure.Button>
               <Disclosure.Button
                 as='a'
                 href='#'
-                className='border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
               >
                 Learn more
               </Disclosure.Button>
               <Disclosure.Button
                 as='a'
                 href='#'
-                className='border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
+                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
               >
                 Contact
               </Disclosure.Button>

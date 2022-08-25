@@ -35,11 +35,11 @@ const LocationRiskChart = (props) => {
         </p>
       </div>
       <div className='location-risk-chart-content'>
-        <div className='location-risk-chart-content-header text-center py-4'>
+        <div className='location-risk-chart-content-header py-4 text-center'>
           <span
             className={classNames(
               councilInfo.class === 'high' ? ' bg-indigo-700' : ' bg-indigo-400',
-              'inline-flex justify-center py-4 uppercase px-8 border border-transparent shadow-sm bold-intro-sm rounded-xl text-white-200',
+              'bold-intro-sm inline-flex justify-center rounded-xl border border-transparent py-4 px-8 uppercase text-white-200 shadow-sm',
             )}
           >
             {councilInfo.class}

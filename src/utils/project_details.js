@@ -7,11 +7,11 @@ const typologyTabs = [
 
 const stages = [
   'Strategic Development',
-  'Pre-planning Application',
-  'Post-planning Application',
+  'Pre-Planning Application',
+  'Post-Planning Application',
   'Construction',
   'Maintenance & Monitoring',
-  'Completed/Archived',
+  'Completed',
 ];
 
 const landUse = [
@@ -26,7 +26,6 @@ const landUse = [
 const activityTypes = [
   { name: 'Developing', enabled: true },
   { name: 'Maintaining', enabled: true },
-  { name: 'Preserving', enabled: false },
 ];
 
 const budgetTypes = [

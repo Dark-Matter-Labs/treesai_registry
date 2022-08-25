@@ -30,7 +30,7 @@ import LocationRiskChart from '../components/charts/LocationRisk';
 
 import { saf_data } from '../utils/saf_data_model';
 
-import { get_typologies } from '../utils/saf_utils';
+import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import {
   get_cities,
   get_typologies_types,
@@ -45,6 +45,7 @@ import { getCouncils } from '../utils/geojson_utils';
 
 // set SAF parameters
 const typologies = get_typologies();
+const maintenanceTypes = get_maintenance_scopes();
 
 // set project parameters
 const cities = get_cities();
@@ -71,14 +72,16 @@ export default function SubmitProject(props) {
   const [projectLength, setProjectLength] = useState(0);
   const [projectDescription, setProjectDescription] = useState('');
   const [treeNumber, setTreeNumber] = useState(1);
+  const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
   const [selectedStage, setSelectedStage] = useState(stages[0]);
   const [selectedCC, setSelectecCC] = useState(listCouncils[0]);
   const [selectedLandUse, setSelectedLandUse] = useState('Recreation');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
+  const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [areaDensity, setAreaDensity] = useState(1);
   const [totalArea, setTotalArea] = useState(1);
   const [activityType, setActivityType] = useState(activityTypes[0]);
-  const [budgetType, setBudetType] = useState(budgetTypes[0]);
+  const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
 
   /* SAF Related variables */
@@ -215,11 +218,11 @@ export default function SubmitProject(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.fixedDBH),
         max_dbh: parseInt(selectedTypology.fixedDBH),
-        maintenance_scope: parseInt(selectedTypology.maintenance_type),
+        maintenance_scope: maintenanceType.value,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt(treeNumber / areaDensity),
+        density_per_ha: parseInt((treeNumber + treeNumberMaintain) / areaDensity),
         species: selectedTypology.species,
       });
     } else {
@@ -229,11 +232,11 @@ export default function SubmitProject(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.minDBH),
         max_dbh: parseInt(selectedTypology.maxDBH),
-        maintenance_scope: parseInt(selectedTypology.maintenance_type),
+        maintenance_scope: maintenanceType.value,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt(treeNumber / areaDensity),
+        density_per_ha: parseInt((treeNumber + treeNumberMaintain) / areaDensity),
         species: selectedTypology.species,
       });
     }
@@ -291,7 +294,7 @@ export default function SubmitProject(props) {
       area: 0,
       cost: 0,
       stage: selectedStage + selectedLandUse + landOwner,
-      number_of_trees: treeNumber,
+      number_of_trees: treeNumber + treeNumberMaintain,
       local_authority: 'string',
       location: 'string',
       start_date: '2022-06-16T09:32:51.188Z',
@@ -344,11 +347,11 @@ export default function SubmitProject(props) {
           <div className=''>
             <div className='mx-10 sm:px-6 lg:px-8'>
               <Breadcrumb />
-              <div className='title-box pt-8 mt-4 grid grid-cols-1 bg-indigo-600'>
+              <div className='title-box mt-4 grid grid-cols-1 bg-indigo-600 pt-8'>
                 <div className='place-self-end pr-10'>
                   <button
                     type='button'
-                    className='w-lg flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm bold-intro-sm text-white-200 bg-green-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    className='w-lg bold-intro-sm flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-4 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                   >
                     Want to know more?
                   </button>
@@ -357,8 +360,8 @@ export default function SubmitProject(props) {
                   <h1 className='text-center text-indigo-600'>Measure</h1>
                 </div>
 
-                <div className='bg-green-600 title-box-info px-40 py-10 mt-10 text-center'>
-                  <p className='mt-1 medium-intro-md text-dark-wood-800'>
+                <div className='title-box-info mt-10 bg-green-600 px-40 py-10 text-center'>
+                  <p className='medium-intro-md mt-1 text-dark-wood-800'>
                     Just tell us basic information about your project and let our impact models
                     simulate long term outcomes of the project. If you have any question don’t
                     hesitate to contact us.
@@ -367,7 +370,7 @@ export default function SubmitProject(props) {
               </div>
 
               <div className='my-10 grid'>
-                <div className='max-w-3xl place-self-center text-dark-wood-700 book-intro-md'>
+                <div className='book-intro-md max-w-3xl place-self-center text-dark-wood-700'>
                   <p className='pb-4'>
                     Welcome to TreesAI NbS impact assessment tool! Please fill out the below form to
                     learn more about your project impact. If you are missing and information, you
@@ -376,7 +379,7 @@ export default function SubmitProject(props) {
                   <hr className='border-dark-wood-600' />
                   <p className='pt-4 '>
                     The information with * are mandatory to be able to continue in the process.
-                    Clicking on this icon <img className='inline-block w-12 h-12' src={infoImage} />{' '}
+                    Clicking on this icon <img className='inline-block h-12 w-12' src={infoImage} />{' '}
                     will show you detailed information.{' '}
                   </p>
                 </div>
@@ -465,7 +468,7 @@ export default function SubmitProject(props) {
                   }}
                 />
               </FormBlock>
-              <hr className='mx-20 border-indigo-600 border-8' />
+              <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
                 title='Land use and Land history'
                 description='How your land was used prior to your intervention is a key determinant of your project future impact. Tell us more.'
@@ -506,7 +509,7 @@ export default function SubmitProject(props) {
                   secondChoice='Yes'
                 />
               </FormBlock>
-              <hr className='mx-20 border-indigo-600 border-8' />
+              <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
                 title='Project description and cover image'
                 description='A project impact is not only dependent on numbers, so tell us more about your project story, its location, and who you are working with to make it happen.'
@@ -514,7 +517,7 @@ export default function SubmitProject(props) {
                 <div className='sm:col-span-3'>
                   <label
                     htmlFor='project-description'
-                    className='book-info-md text-dark-wood-800 pl-5'
+                    className='book-info-md pl-5 text-dark-wood-800'
                   >
                     Project Description
                   </label>
@@ -523,25 +526,25 @@ export default function SubmitProject(props) {
                       id='project-description'
                       name='project-description'
                       rows={3}
-                      className='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-indigo-600 pb-20 rounded-2xl'
+                      className='block w-full rounded-2xl border border-indigo-600 pb-20 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                       defaultValue={projectDescription}
                       onChange={(e) => {
                         setProjectDescription(e.target.value);
                       }}
                     />
                   </div>
-                  <p className='mt-2 medium-intro-sm text-gray-500'>
+                  <p className='medium-intro-sm mt-2 text-gray-500'>
                     There is no word limit, but we suggest you keep this under 250 words to make it
                     more readable by all.
                   </p>
                 </div>
 
                 <div className='sm:col-span-3  '>
-                  <label htmlFor='cover-photo' className='book-info-md text-dark-wood-800 pl-5'>
+                  <label htmlFor='cover-photo' className='book-info-md pl-5 text-dark-wood-800'>
                     Cover photo
                   </label>
-                  <div className='mt-1 sm:mt-0 sm:col-span-2'>
-                    <div className='max-w-lg flex justify-center px-6 pt-5 pb-6 border border-indigo-600  rounded-full'>
+                  <div className='mt-1 sm:col-span-2 sm:mt-0'>
+                    <div className='flex max-w-lg justify-center rounded-full border border-indigo-600 px-6 pt-5  pb-6'>
                       <div className='space-y-1 text-center'>
                         <svg
                           className='mx-auto h-12 w-12 text-gray-400'
@@ -557,10 +560,10 @@ export default function SubmitProject(props) {
                             strokeLinejoin='round'
                           />
                         </svg>
-                        <div className='flex book-info-md text-dark-wood-800'>
+                        <div className='book-info-md flex text-dark-wood-800'>
                           <label
                             htmlFor='file-upload'
-                            className='relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500'
+                            className='relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500'
                           >
                             <span>Upload a file</span>
                             <input
@@ -578,13 +581,13 @@ export default function SubmitProject(props) {
                   </div>
                 </div>
               </FormBlock>
-              <hr className='mx-20 border-indigo-600 border-8' />
+              <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
                 title='Date and timing'
                 description='We would like to know the duration of the project and expected start date.'
               >
                 <div className='sm:col-span-3'>
-                  <label htmlFor='start-date' className='book-info-md text-dark-wood-800 pl-5'>
+                  <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
                     Start date MM.YYYY
                   </label>
                   <div className='mt-1'>
@@ -593,7 +596,7 @@ export default function SubmitProject(props) {
                       name='start-date'
                       type='month'
                       defaultValue='2022-09'
-                      className='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-indigo-600 rounded-2xl'
+                      className='block w-full rounded-2xl border-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                     />
                   </div>
                 </div>
@@ -626,7 +629,7 @@ export default function SubmitProject(props) {
                   <select
                     id='typology-type'
                     name='typology-type'
-                    className='block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
+                    className='block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
                     defaultValue={typologyTabs.find((tab) => tab.current).name}
                   >
                     {typologyTabs.map((tab) => (
@@ -634,7 +637,7 @@ export default function SubmitProject(props) {
                     ))}
                   </select>
                 </div>
-                <div className='hidden sm:block col-span-4 justify-self-center'>
+                <div className='col-span-4 hidden justify-self-center sm:block'>
                   <nav className='flex space-x-4' aria-label='Tabs'>
                     {typologyTabs.map((tab) => (
                       <button
@@ -642,8 +645,8 @@ export default function SubmitProject(props) {
                         className={classNames(
                           tab.current
                             ? 'bg-green-600 text-white'
-                            : 'text-dark-wood-500 pointer-events-none bg-white-300',
-                          'px-4 py-4 rounded-full bold-intro-md',
+                            : 'pointer-events-none bg-white-300 text-dark-wood-500',
+                          'bold-intro-md rounded-full px-4 py-4',
                         )}
                         aria-current={tab.current ? 'page' : undefined}
                       >
@@ -663,24 +666,24 @@ export default function SubmitProject(props) {
                             classNames(
                               checked ? 'border-transparent' : 'border-dark-wood-500',
                               active ? 'border-green-600 ring-2 ring-green-600' : '',
-                              'relative bg-white border rounded-3xl p-4 flex cursor-pointer focus:outline-none',
+                              'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
                             )
                           }
                         >
                           {({ checked, active }) => (
                             <>
-                              <span className='flex-1 flex'>
-                                <img src={typology.image} />
+                              <span className='flex flex-1'>
+                                <img className='h-24 rounded-full' src={typology.image} />
                                 <span className='flex flex-col'>
                                   <RadioGroup.Label
                                     as='span'
-                                    className='block bold-intro-sm text-dark-wood-600 uppercase border-b border-dark-wood-800 pb-2'
+                                    className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
                                   >
                                     {typology.title}
                                   </RadioGroup.Label>
                                   <RadioGroup.Description
                                     as='span'
-                                    className='mt-1 flex items-center book-info-sm text-dark-wood-600 pt-2 pl-2'
+                                    className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
                                   >
                                     {typology.description}
                                   </RadioGroup.Description>
@@ -697,7 +700,7 @@ export default function SubmitProject(props) {
                                 className={classNames(
                                   active ? 'border' : 'border-2',
                                   checked ? 'border-green-600' : 'border-transparent',
-                                  'absolute -inset-px rounded-3xl pointer-events-none',
+                                  'pointer-events-none absolute -inset-px rounded-3xl',
                                 )}
                                 aria-hidden='true'
                               />
@@ -709,10 +712,10 @@ export default function SubmitProject(props) {
                   </RadioGroup>
                 </div>
               </FormBlock>
-              <hr className='mx-20 border-green-600 border-8' />
+              <hr className='mx-20 border-8 border-green-600' />
               <FormBlock
                 title='What activities are you running on this typology?'
-                description='Developing (if this typology is a new intervention)- Maintaining (if this typology already existed and we will maintain it)- Other (if you are running an different activity from the above)'
+                description='Developing (if this typology is a new intervention)- Maintaining (if this typology already existed and we will maintain it)'
                 type='typology'
               >
                 <RadioSelector
@@ -724,27 +727,41 @@ export default function SubmitProject(props) {
                   radioType={activityType}
                   radioTypes={activityTypes}
                 />
-              </FormBlock>
-              <hr className='mx-20 border-green-600 border-8' />
-              <FormBlock
-                title='Define your typology area'
-                description={`Your project is ${totalArea} m2. What is the area occupied by the ${selectedTypology.title} typology?`}
-                type='typology'
-              >
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='area-density'
-                  title='The effective area used by typology'
-                  unit='Ha'
-                  placeholder=''
+                <RadioSelector
+                  span='sm:col-span-5'
+                  label='maintenance-type'
+                  title='Maintenance type'
                   type='typology'
-                  defaultValue={areaDensity}
-                  onChange={(e) => {
-                    setAreaDensity(e.target.value);
-                  }}
+                  setRadioType={setMaintenanceType}
+                  radioType={maintenanceType}
+                  radioTypes={maintenanceTypes}
                 />
               </FormBlock>
-              <hr className='mx-20 border-green-600 border-8' />
+              <hr className='mx-20 border-8 border-green-600' />
+              {selectedTypology.id !== 0 && (
+                <>
+                  <FormBlock
+                    title='Define your typology area'
+                    description={`Your project is ${totalArea} m2. What is the area occupied by the ${selectedTypology.title} typology?`}
+                    type='typology'
+                  >
+                    <NumberInput
+                      span='sm:col-span-3'
+                      label='area-density'
+                      title='The effective area used by typology'
+                      unit='Ha'
+                      placeholder=''
+                      type='typology'
+                      defaultValue={areaDensity}
+                      onChange={(e) => {
+                        setAreaDensity(e.target.value);
+                      }}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-green-600' />
+                </>
+              )}
+
               <FormBlock
                 title='How many trees does your site contain? '
                 description='We would like to know the numbers of trees your project will work on. Please insert total number of trees, both new and the one that will be maintained.'
@@ -762,15 +779,20 @@ export default function SubmitProject(props) {
                     setTreeNumber(e.target.value);
                   }}
                 />
-
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='existing-trees'
-                  unit='trees'
-                  title='Number of existing trees to be maintained'
-                  placeholder='100'
-                  type='typology'
-                />
+                {(selectedTypology.id === 1 || selectedTypology.id === 2) && (
+                  <NumberInput
+                    span='sm:col-span-3'
+                    label='existing-trees'
+                    unit='trees'
+                    title='Number of existing trees to be maintained'
+                    placeholder='100'
+                    type='typology'
+                    defaultValue={treeNumberMaintain}
+                    onChange={(e) => {
+                      setTreeNumberMaintain(e.target.value);
+                    }}
+                  />
+                )}
               </FormBlock>
             </div>
             <div className='py-10'>
@@ -785,7 +807,7 @@ export default function SubmitProject(props) {
                   label='project-budget'
                   title='What is your project budget?'
                   type='cost'
-                  setRadioType={setBudetType}
+                  setRadioType={setBudgetType}
                   radioType={budgetType}
                   radioTypes={budgetTypes}
                 />
@@ -800,7 +822,7 @@ export default function SubmitProject(props) {
                   radioTypes={raisedTypes}
                 />
               </FormBlock>
-              <hr className='mx-20 border-indigo-600 border-8' />
+              <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
                 title='Project initial and ongoing costs'
                 description='Please tell us more about your project costs across its lifetime.  Capital expenditure refers to the initial costs or developing the project and operational expenditure to the costs of maintaining it.'
@@ -859,7 +881,7 @@ export default function SubmitProject(props) {
             </div>
 
             <div className='grid pb-20'>
-              <div className='py-4 max-w-3xl place-self-center text-center'>
+              <div className='max-w-3xl place-self-center py-4 text-center'>
                 <h3 className=''>
                   Thanks for your patience and for filling out all these information! Click
                   &quot;Run Impact&quot; to view your project impact assessment. If you need to add
@@ -871,14 +893,14 @@ export default function SubmitProject(props) {
                 <button
                   type='button'
                   disabled={isLoading}
-                  className='inline-flex justify-center py-2 px-8 border border-transparent shadow-sm bold-intro-sm rounded-full text-white-200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                   onClick={getProjectID}
                 >
                   Run Impact
                 </button>
                 <button
                   type='button'
-                  className='ml-10 bg-dark-wood-800 py-2 px-8 border border-gray-300 rounded-full shadow-sm bold-intro-sm text-white-200 hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                  className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
                   Save for later
                 </button>
@@ -888,19 +910,19 @@ export default function SubmitProject(props) {
         ))}
       {processStage === 2 && (
         <div className='mx-10 sm:px-6 lg:px-8'>
-          <div className='title-box py-20 mt-4 bg-dark-wood-800'>
-            <h2 className='text-white-200 text-center'>
+          <div className='title-box mt-4 bg-dark-wood-800 py-20'>
+            <h2 className='text-center text-white-200'>
               Draft page for your Scenario Analysis result
             </h2>
-            <h2 className='text-white-200 text-center pt-10'>{projectName}</h2>
+            <h2 className='pt-10 text-center text-white-200'>{projectName}</h2>
           </div>
           <div className='my-10 grid'>
             <div className='max-w-3xl place-self-center text-dark-wood-700 '>
-              <p className='pb-4 book-intro-lg'>
+              <p className='book-intro-lg pb-4'>
                 Thank you for your patience, the analysis was successful.
               </p>
               <hr className='border-dark-wood-600' />
-              <p className='pt-4 book-intro-md'>
+              <p className='book-intro-md pt-4'>
                 Below you can check the impact of your project, edit parts and run new simulations
                 if needed!
               </p>
@@ -908,72 +930,74 @@ export default function SubmitProject(props) {
           </div>
 
           <SectionHeader title='Overview' type='typology' />
-          <div className='bg-white-200 py-10 rounded-3xl border border-green-600 grid grid-cols-1 sm:grid-cols-4 mb-20 '>
-            <div className='px-8 border-r border-green-600'>
-              <div className='flex justify-center items-center'>
+          <div className='mb-20 grid grid-cols-1 rounded-3xl border border-green-600 bg-white-200 py-10 sm:grid-cols-3'>
+            <div className='border-r border-green-600 px-8'>
+              <div className='flex items-center justify-center'>
                 <img
                   src={projectImg}
                   alt='project image'
-                  className='w-36 h-36 rounded-full border-8 border-green-600'
+                  className='h-36 w-36 rounded-full border-8 border-green-600'
                 />
               </div>
-              <p className='pt-10 bold-intro-sm para-break'>{projectDescription}</p>
+              <p className='bold-intro-sm para-break pt-10'>{projectDescription}</p>
               <div className='mt-8 flex flex-col'>
                 <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                   <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
                     <div className='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-2xl'>
                       <div className='bg-green-600 py-4 pl-4'>
-                        <span className='text-left medium-intro-sm text-white-200 uppercase'>
+                        <span className='medium-intro-sm text-left uppercase text-white-200'>
                           Project information
                         </span>
                       </div>
                       <table className='min-w-full divide-y divide-white-200'>
                         <tbody className='divide-y divide-white-200 bg-green-300'>
                           <tr>
-                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                            <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
                               Project developer:
                             </td>
-                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                            <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
                               {projectDev}
                             </td>
                           </tr>
                           <tr>
-                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                            <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
                               Typology:
                             </td>
-                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                            <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
                               {selectedTypology.title}
                             </td>
                           </tr>
                           <tr>
-                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                            <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
                               Number of trees planted:
                             </td>
-                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                            <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
                               {treeNumber}
                             </td>
                           </tr>
+                          {(selectedTypology.id === 1 || selectedTypology.id === 2) && (
+                            <tr>
+                              <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
+                                Number of trees maintained:
+                              </td>
+                              <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
+                                {treeNumberMaintain}
+                              </td>
+                            </tr>
+                          )}
                           <tr>
-                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
-                              Number of trees maintained:
-                            </td>
-                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
-                              {treeNumber}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                            <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
                               Project stage:
                             </td>
-                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                            <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
                               {selectedStage}
                             </td>
                           </tr>
                           <tr>
-                            <td className='whitespace-nowrap py-4 pl-4 pr-3 book-info-sm text-dark-wood-800 sm:pl-6'>
+                            <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
                               Project status:
                             </td>
-                            <td className='whitespace-nowrap px-3 py-4 book-info-sm text-green-600'>
+                            <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
                               To be reviewed
                             </td>
                           </tr>
@@ -985,31 +1009,31 @@ export default function SubmitProject(props) {
               </div>
             </div>
 
-            <div className='px-8 border-r border-green-600'>
+            <div className='border-r border-green-600 px-8'>
               <h3 className='text-dark-wood-800'>Project impact for 50 years</h3>
-              <p className='book-info-sm text-dark-wood-800 pt-4'>
+              <p className='book-info-sm pt-4 text-dark-wood-800'>
                 Considering the combination of your project typology, activity, location, and other
                 factors, you could help achieve the following estimated potential impact:
               </p>
-              <div className='my-10 flex justify-center items-center flex-col'>
-                <span className='rounded-full bg-green-600 text-white bold-intro-sm px-4 py-11'>
+              <div className='my-10 flex flex-col items-center justify-center'>
+                <span className='bold-intro-sm rounded-full bg-green-600 px-4 py-11 text-white'>
                   {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
                 </span>
-                <span className='pt-2 bold-intro-sm text-green-600'>Average Carbon Release</span>
+                <span className='bold-intro-sm pt-2 text-green-600'>Average Carbon Release</span>
               </div>
 
-              <div className='my-10 flex justify-center items-center flex-col'>
-                <span className='rounded-full bg-green-600 text-white bold-intro-sm px-4 py-11'>
+              <div className='my-10 flex flex-col items-center justify-center'>
+                <span className='bold-intro-sm rounded-full bg-green-600 px-4 py-11 text-white'>
                   {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
                 </span>
-                <span className='pt-2 bold-intro-sm text-green-600'>
+                <span className='bold-intro-sm pt-2 text-green-600'>
                   Average Carbon Sequestration
                 </span>
               </div>
             </div>
-            <div className='px-8 sm:col-span-2'>
+            <div className='px-8 '>
               <h3 className='text-dark-wood-800'>Project Cost</h3>
-              <p className='book-info-sm text-dark-wood-800 pt-4'>
+              <p className='book-info-sm pt-4 text-dark-wood-800'>
                 Considering the combination of your project typology, activity, location, and other
                 factors, you could help achieve the following estimated potential impact:
               </p>
@@ -1052,10 +1076,10 @@ export default function SubmitProject(props) {
                 ).toFixed(2)}
               </p>
 
-              <h3 className='text-dark-wood-800 pt-5 border-t border-green-600'>
+              <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>
                 Risk to be addressed
               </h3>
-              <p className='book-info-sm text-dark-wood-800 pt-4'>
+              <p className='book-info-sm pt-4 text-dark-wood-800'>
                 The impact of your project is highly dependent on its specific location within the
                 city. Here you can find the environmental and socio-economic risks that climate
                 change poses to the area of your project:
@@ -1070,28 +1094,28 @@ export default function SubmitProject(props) {
             description='Output of Scenario Analysis Framework. Considering  the combination of typology, activity, location, and other factors calculated via an agent-based scenario analysis framework (i) across 50 years, your project could help achieve the following estimated potential impact:'
             type='impact'
           />
-          <hr className='mx-20 border-indigo-600 border-8' />
+          <hr className='mx-20 border-8 border-indigo-600' />
           <ResultBlock
             title='Explore - CARBON'
             description='Little intro in the topic of carbon? How to look into this data? What are the highlights? '
             type='impact'
           >
-            <div className='grid grid-cols-1 md:grid-cols-1  lg:grid-cols-2 gap-x-8 gap-y-10'>
-              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-10'>
+            <div className=''>
+              <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
                 <div className=' rounded-3xl border border-indigo-600 px-10 text-center'>
-                  <h3 className='text-indigo-600 py-5'>Carbon Release</h3>
+                  <h3 className='py-5 text-indigo-600'>Carbon Release</h3>
                   <div className='my-10'>
-                    <span className='rounded-full bg-indigo-600 text-white bold-intro-sm px-4 py-11'>
+                    <span className='bold-intro-sm rounded-full bg-indigo-600 px-4 py-11 text-white'>
                       {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
                     </span>
                   </div>
-                  <p className='pt-10 text-left book-info-sm text-indigo-600'>
+                  <p className='book-info-sm pt-10 text-left text-indigo-600'>
                     By reducing energy demand and absorbing carbon dioxide, trees and vegetation
                     decrease the production and negative effects of air pollution and greenhouse gas
                     emissions.
                   </p>
                 </div>
-                <div className='rounded-3xl border border-indigo-600 col-span-2 px-10 pt-5'>
+                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
                   <ChartSingleLine
                     data={[
                       {
@@ -1103,21 +1127,21 @@ export default function SubmitProject(props) {
                 </div>
               </div>
 
-              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-10'>
+              <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
                 <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
-                  <h3 className='text-indigo-600 py-5'>Carbon Sequestration</h3>
+                  <h3 className='py-5 text-indigo-600'>Carbon Sequestration</h3>
                   <div className='my-10'>
-                    <span className='rounded-full bg-indigo-600 text-white bold-intro-sm px-4 py-11'>
+                    <span className='bold-intro-sm rounded-full bg-indigo-600 px-4 py-11 text-white'>
                       {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
                     </span>
                   </div>
-                  <p className='pt-10 text-left book-info-sm text-indigo-600'>
+                  <p className='book-info-sm pt-10 text-left text-indigo-600'>
                     By reducing energy demand and absorbing carbon dioxide, trees and vegetation
                     decrease the production and negative effects of air pollution and greenhouse gas
                     emissions.
                   </p>
                 </div>
-                <div className='rounded-3xl border border-indigo-600 col-span-2 px-10 pt-5'>
+                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
                   <ChartSingleLine
                     data={[
                       {
@@ -1129,36 +1153,36 @@ export default function SubmitProject(props) {
                 </div>
               </div>
 
-              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-10'>
+              <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
                 <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
-                  <h3 className='text-indigo-600 py-5'>Tree health plot</h3>
+                  <h3 className='py-5 text-indigo-600'>Tree health plot</h3>
                   <div className='my-10'>
-                    <span className='rounded-full bg-indigo-600 text-white bold-intro-sm px-4 py-11'>
+                    <span className='bold-intro-sm rounded-full bg-indigo-600 px-4 py-11 text-white'>
                       {Math.round(alive * 100 + Number.EPSILON) / 100} years
                     </span>
                   </div>
-                  <p className='pt-10 text-left book-info-sm text-indigo-600'>
+                  <p className='book-info-sm pt-10 text-left text-indigo-600'>
                     By reducing energy demand and absorbing carbon dioxide, trees and vegetation
                     decrease the production and negative effects of air pollution and greenhouse gas
                     emissions.
                   </p>
                 </div>
-                <div className='rounded-3xl border border-indigo-600 col-span-2 px-10 pt-5'>
+                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
                   <BarCanvas data={alive_array} />
                 </div>
               </div>
 
-              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-10'>
+              <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
                 <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
-                  <h3 className='text-indigo-600 py-5'>Comparative Analysis</h3>
+                  <h3 className='py-5 text-indigo-600'>Comparative Analysis</h3>
 
-                  <p className='pt-10 text-left book-info-sm text-indigo-600'>
+                  <p className='book-info-sm pt-10 text-left text-indigo-600'>
                     By reducing energy demand and absorbing carbon dioxide, trees and vegetation
                     decrease the production and negative effects of air pollution and greenhouse gas
                     emissions.
                   </p>
                 </div>
-                <div className='rounded-3xl border border-indigo-600 col-span-2 px-10 pt-5'>
+                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
                   <ChartMultiLine data={cumulative_array} />
                 </div>
               </div>
@@ -1172,10 +1196,10 @@ export default function SubmitProject(props) {
             description='The tables will give you an estimate of the cost in 50 years. *this is a project cost estimate which does not include any commercial mark-ups. These costs only reflect the direct infrastructure cost of your NbS project.'
             type='impact'
           />
-          <hr className='mx-20 border-indigo-600 border-8' />
+          <hr className='mx-20 border-8 border-indigo-600' />
 
           <div className='grid pb-20 pt-10'>
-            <div className='py-4 max-w-3xl place-self-center text-center'>
+            <div className='max-w-3xl place-self-center py-4 text-center'>
               <h3 className=''>
                 You can now publish your project and view it in the ATLAS. Or you can save it for
                 later and check the project on your profile page.
@@ -1184,13 +1208,13 @@ export default function SubmitProject(props) {
             <div className='place-self-center pt-4'>
               <button
                 type='button'
-                className='inline-flex justify-center py-2 px-8 border border-transparent shadow-sm bold-intro-sm rounded-full text-white-200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
               >
                 Publish
               </button>
               <button
                 type='button'
-                className='ml-10 bg-dark-wood-800 py-2 px-8 border border-gray-300 rounded-full shadow-sm bold-intro-sm text-white-200 hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
               >
                 Save for later
               </button>
@@ -1200,7 +1224,7 @@ export default function SubmitProject(props) {
                 onClick={() => {
                   setProcessStage(1);
                 }}
-                className='ml-10 bg-dark-wood-800 py-2 px-8 border border-gray-300 rounded-full shadow-sm bold-intro-sm text-white-200 hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
               >
                 Edit/add project info
               </button>

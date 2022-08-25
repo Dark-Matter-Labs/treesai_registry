@@ -8,7 +8,7 @@ function classNames(...classes) {
 export default function Dropdown(props) {
   return (
     <div className={props.span}>
-      <label htmlFor={props.label} className='book-info-md text-dark-wood-800 pl-5'>
+      <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
         {props.title}
       </label>
       <div className='mt-1'>
@@ -17,7 +17,7 @@ export default function Dropdown(props) {
           name={props.label}
           className={classNames(
             props.type === 'typology' ? 'border-green-600 ' : 'border-indigo-600',
-            'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full medium-intro-sm rounded-2xl',
+            'medium-intro-sm block w-full rounded-2xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500',
           )}
           onChange={props.onChange}
         >
