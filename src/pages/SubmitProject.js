@@ -673,7 +673,7 @@ export default function SubmitProject(props) {
                           {({ checked, active }) => (
                             <>
                               <span className='flex flex-1'>
-                                <img src={typology.image} />
+                                <img className='h-24 rounded-full' src={typology.image} />
                                 <span className='flex flex-col'>
                                   <RadioGroup.Label
                                     as='span'
@@ -930,7 +930,7 @@ export default function SubmitProject(props) {
           </div>
 
           <SectionHeader title='Overview' type='typology' />
-          <div className='mb-20 grid grid-cols-1 rounded-3xl border border-green-600 bg-white-200 py-10 sm:grid-cols-4 '>
+          <div className='mb-20 grid grid-cols-1 rounded-3xl border border-green-600 bg-white-200 py-10 sm:grid-cols-3'>
             <div className='border-r border-green-600 px-8'>
               <div className='flex items-center justify-center'>
                 <img
@@ -1031,7 +1031,7 @@ export default function SubmitProject(props) {
                 </span>
               </div>
             </div>
-            <div className='px-8 sm:col-span-2'>
+            <div className='px-8 '>
               <h3 className='text-dark-wood-800'>Project Cost</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
                 Considering the combination of your project typology, activity, location, and other
@@ -1100,7 +1100,7 @@ export default function SubmitProject(props) {
             description='Little intro in the topic of carbon? How to look into this data? What are the highlights? '
             type='impact'
           >
-            <div className='grid grid-cols-1 gap-x-8  gap-y-10 md:grid-cols-1 lg:grid-cols-2'>
+            <div className=''>
               <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
                 <div className=' rounded-3xl border border-indigo-600 px-10 text-center'>
                   <h3 className='py-5 text-indigo-600'>Carbon Release</h3>
