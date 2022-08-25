@@ -20,7 +20,7 @@ export default function Home(props) {
           </div>
           <div className='grid bg-dark-wood-300 py-5'>
             <div className='place-self-center pt-4'>
-              <Link to='/submit-project'>
+              <Link to='/measure'>
                 <button
                   type='button'
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
@@ -28,7 +28,7 @@ export default function Home(props) {
                   Measure
                 </button>
               </Link>
-              <Link to='/portfolio'>
+              <Link to='/plan'>
                 <button
                   type='button'
                   className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'

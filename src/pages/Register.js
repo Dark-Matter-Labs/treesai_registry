@@ -83,7 +83,7 @@ export default function Register() {
             sessionStorage.setItem('token', JSON.stringify(result.access_token));
             setIsLoading(false);
             toast.success('Successfully registered!');
-            navigate('/submit-project');
+            navigate('/measure');
             window.location.reload();
           })
           .catch((error) => {
