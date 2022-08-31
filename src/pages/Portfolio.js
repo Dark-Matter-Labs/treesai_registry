@@ -1,139 +1,141 @@
 import PropTypes from 'prop-types';
-import ReactMapboxGL, {
-  Source,
-  Layer,
-  Marker,
-  Popup,
-  NavigationControl,
-  FullscreenControl,
-  ScaleControl,
-  GeolocateControl,
-} from 'react-map-gl';
+import ReactMapboxGL, { Marker, Popup } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
-import React, { useState, useMemo } from 'react';
-import MapControlPanel from '../components/map/MapControlPanel';
-import VDLLayer from '../data/VDL_selected.geojson';
-import SuDSLayerJSON from '../data/SuDS_Projects.json';
+import React, { useState, useRef } from 'react';
+import SuDSLayerJSON from '../data/Woodland_GeoJSON.json';
 import Pin from '../components/map/Pin';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import projectImg from '../images/project-default.png';
+import Dropdown from '../components/form/Dropdown';
+import { get_stages } from '../utils/project_details';
 
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
 
+const stages = ['All'].concat(get_stages());
+
 export default function Portfolio(props) {
-  const [mapStyle, setMapStyle] = useState(null);
+  const mapRef = useRef();
+
+  const [viewState, setViewState] = useState({
+    longitude: -4.2518,
+    latitude: 55.8642,
+    zoom: 11,
+  });
   const [popupInfo, setPopupInfo] = useState(null);
 
-  const pins = useMemo(
-    () =>
-      SuDSLayerJSON.map((city, index) => (
-        <Marker
-          key={`marker-${index}`}
-          longitude={city.geometry.coordinates[0]}
-          latitude={city.geometry.coordinates[1]}
-          anchor='bottom'
-          onClick={(e) => {
-            // If we let the click event propagates to the map, it will immediately close the popup
-            // with `closeOnClick: true`
-            e.originalEvent.stopPropagation();
-            setPopupInfo(city);
-          }}
-        >
-          <Pin />
-        </Marker>
-      )),
-    [],
-  );
+  const [data, setData] = useState(SuDSLayerJSON);
+
+  const selectProject = (current) => {  
+    mapRef.current?.flyTo({
+      center: [current.geometry.coordinates[0], current.geometry.coordinates[1]],
+      duration: 2000,
+      zoom: 12,
+    });
+    setPopupInfo(current);
+
+  };
 
   return (
     <>
       <NavBar loggedIn={props.loggedIn} current='portfolio' />
-      <ReactMapboxGL
-        mapboxAccessToken={MAPBOX_TOKEN}
-        style={{ width: '100vw', height: '80vh' }}
-        interactiveLayerIds={['portfolio-vdl-details']}
-        initialViewState={{
-          longitude: -4.2518,
-          latitude: 55.8642,
-          zoom: 12,
+      <Dropdown
+        span='sm:col-span-3'
+        label='city'
+        title='Filter by Stage'
+        type='general'
+        options={stages}
+        onChange={(e) => {
+          if (e.target.value === 'All') {
+            setData(SuDSLayerJSON);
+          } else {
+            const filteredData = SuDSLayerJSON.filter((item) =>
+              item.properties.stage.includes(e.target.value),
+            );
+            setData(filteredData);
+          }
         }}
-        mapStyle={mapStyle && mapStyle.toJS()}
-        styleDifing
-      >
-        <>
-          <Source id='portfolio-vdl' type='geojson' data={VDLLayer}>
-            <Layer
-              id='portfolio-vdl-details'
-              type='fill'
-              layout={{}}
-              paint={{ 'fill-color': '#10B981', 'fill-opacity': 1 }}
-            />
-            <Layer
-              id='outline'
-              type='line'
-              layout={{}}
-              paint={{ 'line-color': '#000', 'line-width': 2 }}
-            />
-          </Source>
-          <MapControlPanel onChange={setMapStyle} />
-          <GeolocateControl position='top-left' />
-          <FullscreenControl position='top-left' />
-          <NavigationControl position='top-left' />
-          <ScaleControl />
-
-          {pins}
-
-          {popupInfo && (
-            <Popup
-              anchor='top'
-              longitude={Number(popupInfo.geometry.coordinates[0])}
-              latitude={Number(popupInfo.geometry.coordinates[1])}
-              onClose={() => setPopupInfo(null)}
-            >
-              <div>
-                Name: <b>{popupInfo.properties.Name}</b> <br />
-                Stage: <b>{popupInfo.properties.Stage}</b> <br />
-                Typology: <b>{popupInfo.properties.Typology}</b> <br />
-                Developer: <b>{popupInfo.properties.Developer}</b> <br />
-                Start date: <b>{popupInfo.properties.Start_date}</b> <br />
-                {/* <a
-                target="_new"
-                href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}
+      />
+      <div className='grid grid-cols-3'>
+        <div>
+          <ul role='list' className='divide-y divide-gray-200 '>
+            {data.map((message) => (
+              <li
+                key={message.properties.id}
+                className='relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600'
+                onClick={() => {
+                  selectProject(message);
+                }}
               >
-                Wikipedia
-              </a> */}
-              </div>
-            </Popup>
-          )}
-          <div className='onMap pr- ml-20 mt-5 rounded-md bg-white text-center shadow-sm'>
-            <h3 className='font-spaceBold text-primary pt-5 text-2xl font-bold tracking-tight'>
-              Projects:
-            </h3>
-            <div className='pl-5'>
-              <img
-                src={projectImg}
-                alt='project image'
-                className='w-42 h-42 border-primary rounded-full border-8'
-              />
-            </div>
+                <div className='flex justify-between space-x-3'>
+                  <div className='min-w-0 flex-1'>
+                    <a href='#' className='block focus:outline-none'>
+                      <span className='absolute inset-0' aria-hidden='true' />
+                      <p className='text-sm font-medium text-gray-900 truncate'>
+                        {message.properties.project_name}
+                      </p>
+                      <p className='text-sm text-gray-500 truncate'>{message.properties.stage}</p>
+                    </a>
+                  </div>
+                </div>
+                <div className='mt-1'>
+                  <p className='line-clamp-2 text-sm text-gray-600'>
+                    {message.properties.typology}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className='col-span-2'>
+          <ReactMapboxGL
+            ref={mapRef}
+            mapboxAccessToken={MAPBOX_TOKEN}
+            {...viewState}
+            onMove={(evt) => setViewState(evt.viewState)}
+            mapStyle='mapbox://styles/mapbox/light-v10'
+            style={{ width: '100vw', height: '100vh' }}
+          >
+            <>
+              {data.map((city, index) => (
+                <Marker
+                  key={`marker-${index}`}
+                  color='#828784'
+                  longitude={city.geometry.coordinates[0]}
+                  latitude={city.geometry.coordinates[1]}
+                  anchor='bottom'
+                  onClick={(e) => {
+                    // If we let the click event propagates to the map, it will immediately close the popup
+                    // with `closeOnClick: true`
+                    e.originalEvent.stopPropagation();
+                    selectProject(city);
+                  }}
+                >
+                  <Pin />
+                </Marker>
+              ))}
 
-            <hr className='border-b-1 border-primary my-5 mx-10' />
+              {popupInfo && (
+                <Popup
+                  anchor='top'
+                  longitude={Number(popupInfo.geometry.coordinates[0])}
+                  latitude={Number(popupInfo.geometry.coordinates[1])}
+                  onClose={() => setPopupInfo(null)}
+                >
+                  <div>
+                    Name: <b>{popupInfo.properties.project_name}</b> <br />
+                    Stage: <b>{popupInfo.properties.stage}</b> <br />
+                    Typology: <b>{popupInfo.properties.typology}</b> <br />
+                    Developer: <b>{popupInfo.properties.project_developer}</b> <br />
+                  </div>
+                </Popup>
+              )}
+            </>
+          </ReactMapboxGL>
+        </div>
+      </div>
 
-            <div className=' mb-5 pl-10'>
-              <h4 className='font-spaceBold text-primary text-left text-xl font-bold tracking-tight'>
-                Impact overview
-              </h4>
-              <div className='pt-10 text-left'>
-                <p className='text-left'>Carbon average: 00</p>
-                <span>City info: 00</span>
-              </div>
-            </div>
-          </div>
-        </>
-      </ReactMapboxGL>
       <Footer />
     </>
   );
