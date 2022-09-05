@@ -181,3 +181,24 @@
 .para-break {
   word-wrap: break-word;
 }
+
+.mapboxgl-popup {
+ 
+
+}
+
+.mapboxgl-popup-content {
+  border-radius: 30px !important;
+  padding-top: 0 !important;
+ padding-bottom: 30px !important;
+ padding-left: 0px !important;
+ padding-right: 0px !important;
+ margin: 0 !important;
+ border-width: 1px !important;
+ border-color: #1EB792 !important;
+
+}
+
+.mapboxgl-popup-close-button {
+  padding-right: 20px;
+}
