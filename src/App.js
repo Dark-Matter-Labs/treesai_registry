@@ -3,7 +3,7 @@ import './App.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Home from './pages/Home';
 import SubmitProject from './pages/SubmitProject';
-import Portfolio from './pages/PortfolioTest';
+import Portfolio from './pages/Portfolio';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
