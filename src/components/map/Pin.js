@@ -7,13 +7,19 @@ const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,
 
 const pinStyle = {
   cursor: 'pointer',
-  fill: '#d00',
+  fill: '#f0f0f0',
   stroke: 'none',
 };
 
-function Pin({ size = 20 }) {
+const pinStyleA = {
+  cursor: 'pointer',
+  fill: '#000',
+  stroke: 'none',
+};
+
+function Pin(props, { size = 20 }) {
   return (
-    <svg height={size} viewBox='0 0 24 24' style={pinStyle}>
+    <svg height={size} viewBox='0 0 24 24' style={props.isActive ? pinStyleA : pinStyle}>
       <path d={ICON} />
     </svg>
   );
@@ -21,6 +27,7 @@ function Pin({ size = 20 }) {
 
 Pin.propTypes = {
   size: PropTypes.number,
+  isActive: PropTypes.bool,
 };
 
 export default React.memo(Pin);
