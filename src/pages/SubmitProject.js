@@ -98,6 +98,7 @@ export default function SubmitProject(props) {
   const [avg_seq, setAvgSeq] = useState(1);
   const [alive, setAlive] = useState(1);
   const [comparativeSeq, setComparativeSeq] = useState([])
+  const [comparativeStorage, setComparativeStorage] = useState([])
 
   const navigate = useNavigate();
 
@@ -119,9 +120,8 @@ export default function SubmitProject(props) {
   }
 
   function processSAFData() {
-    /* SAF Related processing */
 
-  
+    /* SAF Related processing */
     function calcAverage(dict) {
       // Calculates the average of an array
       if (Object.keys(dict).length === 0) {
@@ -227,6 +227,30 @@ export default function SubmitProject(props) {
     ]);
   }
 
+  function makeComparativeStorageChart() {
+    let storage_0 = makeChartArray(safOutput0.Storage);
+    let storage_1 =  makeChartArray(safOutput1.Storage);
+    let storage_2 = makeChartArray(safOutput2.Storage);
+
+    setComparativeStorage([
+      {
+        id: 'Low maintenance',
+        color: 'hsl(135, 70%, 50%)',
+        data: storage_0,
+      },
+      {
+        id: 'Hedium maintenance',
+        color: 'hsl(347, 70%, 50%)',
+        data: storage_1,
+      },
+      {
+        id: 'High maintenance',
+        color: 'hsl(31, 70%, 50%)',
+        data: storage_2,
+      },
+    ]);
+  }
+
   /* Data logic changes on receiving the SAF output */
   useEffect(() => {
     processSAFData();
@@ -234,6 +258,7 @@ export default function SubmitProject(props) {
 
   useEffect(() => {
     makeComparativeSeqChart();
+    makeComparativeStorageChart();
   }, [safOutput0, safOutput1, safOutput2]);
 
   const getSAFOutput = async () => {
@@ -1182,6 +1207,9 @@ export default function SubmitProject(props) {
                       },
                     ]}
                   />
+                </div>
+                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
+                  <ChartMultiLine data={comparativeStorage} />
                 </div>
               </div>
 
