@@ -67,6 +67,7 @@ export default function SubmitProject(props) {
   /* Form variables, to be refactored to react-hook-form */
   const [projectName, setProjectName] = useState('');
   const [projectDev, setProjectDev] = useState('');
+  const [projectLocation, setProjectLocation] = useState(null);
   const [landOwner, setLandOwner] = useState('');
   const [landUseChange, setLandUseChange] = useState(false);
   const [projectLength, setProjectLength] = useState(0);
@@ -74,7 +75,7 @@ export default function SubmitProject(props) {
   const [treeNumber, setTreeNumber] = useState(1);
   const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
   const [selectedStage, setSelectedStage] = useState(stages[0]);
-  const [selectedCC, setSelectecCC] = useState(listCouncils[0]);
+  const [selectedCC, setSelectedCC] = useState(listCouncils[0]);
   const [selectedLandUse, setSelectedLandUse] = useState('Recreation');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
@@ -83,6 +84,7 @@ export default function SubmitProject(props) {
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
+  const [communityEngage, setCommunityEngage] = useState(false);
 
   /* SAF Related variables */
   const [safOutput, setSafOutput] = useState(saf_data);
@@ -213,7 +215,7 @@ export default function SubmitProject(props) {
 
     if (activityType.name === 'Developing') {
       payload = JSON.stringify({
-        name: projectName,
+        title: projectName,
         description: projectDescription,
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.fixedDBH),
@@ -227,7 +229,7 @@ export default function SubmitProject(props) {
       });
     } else {
       payload = JSON.stringify({
-        name: projectName,
+        title: projectName,
         description: projectDescription,
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.minDBH),
@@ -288,6 +290,7 @@ export default function SubmitProject(props) {
       title: projectName,
       description: projectDescription,
       in_portfolio: true,
+      publish: true,
       project_dev: projectDev,
       owner_id: sessionStorage.user_id,
       activities: 'maintenance',
@@ -333,7 +336,7 @@ export default function SubmitProject(props) {
   };
 
   return (
-    <div className='bg-white-300 font-favorit'>
+    <div className='bg-white-300 font-favorit '>
       {process.env.NODE_ENV === 'production' && (
         <Helmet>
           <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
@@ -344,7 +347,7 @@ export default function SubmitProject(props) {
         (isLoading ? (
           <SAFLoadingScreen />
         ) : (
-          <div className=''>
+          <div className='max-w-screen-2xl mx-auto'>
             <div className='mx-10 sm:px-6 lg:px-8'>
               <Breadcrumb />
               <div className='title-box mt-4 grid grid-cols-1 bg-indigo-600 pt-8'>
@@ -419,6 +422,8 @@ export default function SubmitProject(props) {
                   title='Project address'
                   placeholder='Street, street number, postal code'
                   type='general'
+                  defaultValue={projectLocation}
+                  onChange={setProjectLocation}
                 />
 
                 <Dropdown
@@ -427,7 +432,7 @@ export default function SubmitProject(props) {
                   title='Community Council'
                   type='general'
                   onChange={(e) => {
-                    setSelectecCC(e.target.value);
+                    setSelectedCC(e.target.value);
                   }}
                   options={listCouncils}
                 />
@@ -501,7 +506,7 @@ export default function SubmitProject(props) {
                 <Toggle
                   checked={landUseChange}
                   span='sm:col-span-2'
-                  label='and-use-change'
+                  label='land-use-change'
                   title='Is the land-use going to change?'
                   type='general'
                   onChange={setLandUseChange}
@@ -612,6 +617,23 @@ export default function SubmitProject(props) {
                   onChange={(e) => {
                     setProjectLength(e.target.value);
                   }}
+                />
+              </FormBlock>
+              <hr className='mx-20 border-8 border-indigo-600' />
+              <FormBlock
+                title='Are you engaging the community?'
+                description='We would like to know about the 
+                engagement of the community.'
+              >
+                <Toggle
+                  checked={communityEngage}
+                  span='sm:col-span-2'
+                  label='community-engage'
+                  title=''
+                  type='general'
+                  onChange={setCommunityEngage}
+                  firstChoice='No'
+                  secondChoice='Yes'
                 />
               </FormBlock>
             </div>
