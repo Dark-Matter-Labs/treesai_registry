@@ -8,7 +8,13 @@ function classNames(...classes) {
 export default function Dropdown(props) {
   return (
     <div className={props.span}>
-      <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
+      <label
+        htmlFor={props.label}
+        className={classNames(
+          props.type === 'map' ? 'text-white-200' : 'text-dark-wood-800',
+          'book-info-md pl-5',
+        )}
+      >
         {props.title}
       </label>
       <div className='mt-1'>
