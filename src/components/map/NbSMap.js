@@ -12,7 +12,7 @@ export default function NbSMap(props) {
   const [viewState, setViewState] = useState({
     longitude: -4.2518,
     latitude: 55.8642,
-    zoom: 12,
+    zoom: 11,
   });
   return (
     <ReactMapboxGL
@@ -52,11 +52,12 @@ export default function NbSMap(props) {
           >
             <div className='medium-intro-sm text-white-200 bg-green-600 p-4 rounded-t-3xl'>
               {props.popupInfo.properties.project_name}
-             
             </div>
-            Stage: <b>{props.popupInfo.properties.stage}</b> <br />
+            <div className='py-2 px-2 medium-intro-sm'>
+              Stage: <b>{props.popupInfo.properties.stage}</b> <br />
               Typology: <b>{props.popupInfo.properties.typology}</b> <br />
               Developer: <b>{props.popupInfo.properties.project_developer}</b> <br />
+            </div>
           </Popup>
         )}
       </>
