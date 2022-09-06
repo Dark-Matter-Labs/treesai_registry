@@ -13,17 +13,17 @@ const typologies_names = [
     costLow: 2262,
     costMed: 2397,
     costHigh: 2532,
-    imperviousPercent: 90,  // not in use, delete
-    perviousPercent: 10,  // not in use, delete
+    imperviousPercent: 90, // not in use, delete
+    perviousPercent: 10, // not in use, delete
     minDensity: 10, // autofill median!
-    maxDensity: 30, 
-    evergreenPercent: 60,  // not in use, delete
-    decidiousPercent: 40,  // not in use, delete
+    maxDensity: 30,
+    evergreenPercent: 60, // not in use, delete
+    decidiousPercent: 40, // not in use, delete
     fixedDBH: 7,
     minDBH: 7,
     maxDBH: 15,
-    minHeight: 5,  // not in use, delete
-    maxHeight: 12,  // not in use, delete
+    minHeight: 5, // not in use, delete
+    maxHeight: 12, // not in use, delete
     maintenance_type: 2, // not in use, delete
   },
   {

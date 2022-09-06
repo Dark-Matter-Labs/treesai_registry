@@ -72,6 +72,7 @@ export default function SubmitProject(props) {
   const [landUseChange, setLandUseChange] = useState(false);
   const [projectLength, setProjectLength] = useState(0);
   const [projectDescription, setProjectDescription] = useState('');
+  const [stakeholderEngt, setStakeholderEngt] = useState('');
   const [treeNumber, setTreeNumber] = useState(1);
   const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
   const [totalTreeNumber, setTotalTreeNumber] = useState(0);
@@ -85,7 +86,6 @@ export default function SubmitProject(props) {
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
-  const [communityEngage, setCommunityEngage] = useState(false);
 
   /* SAF Related variables */
   const [safOutput0, setSafOutput0] = useState(saf_data);
@@ -255,7 +255,7 @@ export default function SubmitProject(props) {
         data: storage_0,
       },
       {
-        id: 'Hedium maintenance',
+        id: 'Medium maintenance',
         color: 'hsl(347, 70%, 50%)',
         data: storage_1,
       },
@@ -341,6 +341,7 @@ export default function SubmitProject(props) {
         throw new Error('Something went wrong');
       })
       .then((result) => {
+        console.log(result);
         setSafOutput0(result['0']);
         setSafOutput1(result['1']);
         setSafOutput2(result['2']);
@@ -436,14 +437,15 @@ export default function SubmitProject(props) {
                   </button>
                 </div>
                 <div className='title-text-container text-background-shape py-24'>
-                  <h1 className='text-center text-indigo-600'>Measure</h1>
+                  <h1 className='text-center text-indigo-600'>Develop</h1>
                 </div>
 
                 <div className='title-box-info mt-10 bg-green-600 px-40 py-10 text-center'>
+                  <p className='book-intro-md mt-1 text-dark-wood-800'>
+                    Welcome to TreesAI NbS impact assessment tool
+                  </p>
                   <p className='medium-intro-md mt-1 text-dark-wood-800'>
-                    Just tell us basic information about your project and let our impact models
-                    simulate long term outcomes of the project. If you have any question don’t
-                    hesitate to contact us.
+                    If you have any question don’t hesitate to contact us.
                   </p>
                 </div>
               </div>
@@ -451,29 +453,28 @@ export default function SubmitProject(props) {
               <div className='my-10 grid'>
                 <div className='book-intro-md max-w-3xl place-self-center text-dark-wood-700'>
                   <p className='pb-4'>
-                    Welcome to TreesAI NbS impact assessment tool! Please fill out the below form to
-                    learn more about your project impact. If you are missing and information, you
-                    can save the form and update it later.
+                    By filling in this form you’ll be able to forecast costs, model impacts and
+                    publish your project on our NbS map. If you are missing any information, you can
+                    save the form and update it later.
                   </p>
                   <hr className='border-dark-wood-600' />
                   <p className='pt-4 '>
-                    The information with * are mandatory to be able to continue in the process.
-                    Clicking on this icon <img className='inline-block h-12 w-12' src={infoImage} />{' '}
-                    will show you detailed information.{' '}
+                    The information with * are mandatory. Click on this icon{' '}
+                    <img className='inline-block h-12 w-12' src={infoImage} /> to know more.
                   </p>
                 </div>
               </div>
             </div>
             <div className='py-10'>
-              <SectionHeader title='General project information' type='general' />
+              <SectionHeader title='Project information' type='general' />
               <FormBlock
-                title='Your project’s information'
-                description='Please share some general information about your project.'
+                title='Project Information'
+                description='Tell us who you are and a bit about your project.'
               >
                 <TextInput
                   span='sm:col-span-5'
                   label='project-name'
-                  title='Project name'
+                  title='Project Name *'
                   placeholder='Title of the project'
                   type='general'
                   defaultValue={projectName}
@@ -485,7 +486,7 @@ export default function SubmitProject(props) {
                 <Dropdown
                   span='sm:col-span-3'
                   label='city'
-                  title='Project city'
+                  title='City'
                   type='general'
                   options={cities}
                 />
@@ -495,7 +496,7 @@ export default function SubmitProject(props) {
                 <AddressInput
                   span='sm:col-span-3'
                   label='address'
-                  title='Project address'
+                  title='Project Location *'
                   placeholder='Street, street number, postal code'
                   type='general'
                   defaultValue={projectLocation}
@@ -505,7 +506,7 @@ export default function SubmitProject(props) {
                 <Dropdown
                   span='sm:col-span-2'
                   label='neighbourhood'
-                  title='Community Council'
+                  title='Community Council *'
                   type='general'
                   onChange={(e) => {
                     setSelectedCC(e.target.value);
@@ -516,7 +517,7 @@ export default function SubmitProject(props) {
                 <TextInput
                   span='sm:col-span-5'
                   label='project-developer'
-                  title='Project developer'
+                  title='Project Developer *'
                   placeholder='Name of the institution that is in charge of developing the project'
                   type='general'
                   defaultValue={projectDev}
@@ -528,7 +529,7 @@ export default function SubmitProject(props) {
                 <Dropdown
                   span='sm:col-span-3'
                   label='project-stage'
-                  title='Stage of the project *'
+                  title='Current stage'
                   type='general'
                   onChange={(e) => {
                     setSelectedStage(e.target.value.toLowerCase());
@@ -539,7 +540,7 @@ export default function SubmitProject(props) {
                 <NumberInput
                   span='sm:col-span-3'
                   label='total_area'
-                  title='Total area of project'
+                  title='Total area of the project *'
                   unit='m2'
                   placeholder='200'
                   type='general'
@@ -551,8 +552,8 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
-                title='Land use and Land history'
-                description='How your land was used prior to your intervention is a key determinant of your project future impact. Tell us more.'
+                title='Land use'
+                description='Land usage prior to your intervention is a key determinant of a project’s future impact.'
               >
                 <TextInput
                   span='sm:col-span-5'
@@ -569,7 +570,7 @@ export default function SubmitProject(props) {
                 <Dropdown
                   span='sm:col-span-3'
                   label='land-use'
-                  title='Existing land use'
+                  title='How would you describe the land-use prior to your project?'
                   type='general'
                   onChange={(e) => {
                     setSelectedLandUse(e.target.value.toLowerCase());
@@ -592,16 +593,14 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
-                title='Project description and cover image'
-                description='A project impact is not only dependent on numbers, so tell us more about your project story, its location, and who you are working with to make it happen.'
+                title='Describe your project'
+                description='Tell us about your project, it’s location, what you hope to deliver, who you’re working with to make it happen. '
               >
                 <div className='sm:col-span-3'>
                   <label
                     htmlFor='project-description'
                     className='book-info-md pl-5 text-dark-wood-800'
-                  >
-                    Project Description
-                  </label>
+                  ></label>
                   <div className='mt-1'>
                     <textarea
                       id='project-description'
@@ -615,8 +614,8 @@ export default function SubmitProject(props) {
                     />
                   </div>
                   <p className='medium-intro-sm mt-2 text-gray-500'>
-                    There is no word limit, but we suggest you keep this under 250 words to make it
-                    more readable by all.
+                    There is no word limit, but for readability’s sake, we suggest you keep the
+                    description under 250 words.
                   </p>
                 </div>
 
@@ -669,7 +668,7 @@ export default function SubmitProject(props) {
               >
                 <div className='sm:col-span-3'>
                   <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
-                    Start date MM.YYYY
+                    Expected starting date (MM/YY) *
                   </label>
                   <div className='mt-1'>
                     <input
@@ -685,7 +684,7 @@ export default function SubmitProject(props) {
                 <NumberInput
                   span='sm:col-span-3'
                   label='project-length'
-                  title='Expected length of project'
+                  title='Expected length of the project in months (if possible) *'
                   placeholder='12'
                   type='general'
                   unit='months'
@@ -697,27 +696,37 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
-                title='Are you engaging the community?'
-                description='We would like to know about the 
-                engagement of the community.'
+                title='Stakeholder engagement'
+                description='Who are the stakeholders or communities affected by the implementation of the project? How were they identified and how are they being engaged?'
               >
-                <Toggle
-                  checked={communityEngage}
-                  span='sm:col-span-2'
-                  label='community-engage'
-                  title=''
-                  type='general'
-                  onChange={setCommunityEngage}
-                  firstChoice='No'
-                  secondChoice='Yes'
-                />
+                <div className='sm:col-span-6'>
+                  <label
+                    htmlFor='project-description'
+                    className='book-info-md pl-5 text-dark-wood-800'
+                  ></label>
+                  <div className='mt-1'>
+                    <textarea
+                      id='stakeholder-engagement'
+                      name='stakeholder-engagement'
+                      rows={3}
+                      className='block w-full rounded-2xl border border-indigo-600 pb-20 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                      defaultValue={stakeholderEngt}
+                      onChange={(e) => {
+                        setStakeholderEngt(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <p className='medium-intro-sm mt-2 text-gray-500'>
+                    Tell us about stakeholder engagement.
+                  </p>
+                </div>
               </FormBlock>
             </div>
             <div className='py-10'>
-              <SectionHeader title='Project layout' type='typology' />
+              <SectionHeader title='Project Layout *' type='typology' />
               <FormBlock
-                title='Select the typologies of green infrastructure developed by your project'
-                description='We know that projects can be made up of multiple types of green infrastructure. Please, select the typologies that you will develop in your project. At the moment we only provide trees project, but soon you will be able to add new typologies as SUDS and others. '
+                title='Select the relevant typology'
+                description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project. Right now, the platform only recognises  tree-based projects, but we’ll soon add more typologies such as SuDS'
                 type='typology'
               >
                 <div className='sm:hidden'>
@@ -1009,9 +1018,7 @@ export default function SubmitProject(props) {
       {processStage === 2 && (
         <div className='mx-10 sm:px-6 lg:px-8'>
           <div className='title-box mt-4 bg-dark-wood-800 py-20'>
-            <h2 className='text-center text-white-200'>
-              Draft page for your Scenario Analysis result
-            </h2>
+            <h2 className='text-center text-white-200'>Scenario Analysis</h2>
             <h2 className='pt-10 text-center text-white-200'>{projectName}</h2>
           </div>
           <div className='my-10 grid'>
@@ -1108,14 +1115,14 @@ export default function SubmitProject(props) {
             </div>
 
             <div className='border-r border-green-600 px-8'>
-              <h3 className='text-dark-wood-800'>Project impact for 50 years</h3>
+              <h3 className='text-dark-wood-800'>Your project&rsquo;s impact for 50 years</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
                 Considering the combination of your project typology, activity, location, and other
                 factors, you could help achieve the following estimated potential impact:
               </p>
               <div className='my-10 flex flex-col items-center justify-center'>
                 <span className='bold-intro-sm rounded-full bg-green-600 px-4 py-11 text-white'>
-                  {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
+                  {Math.round(avg_rel * 100 + Number.EPSILON) / 100}
                 </span>
                 <span className='bold-intro-sm pt-2 text-green-600'>Average Carbon Release</span>
               </div>
