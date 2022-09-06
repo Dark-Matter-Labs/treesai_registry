@@ -87,7 +87,9 @@ export default function SubmitProject(props) {
   const [communityEngage, setCommunityEngage] = useState(false);
 
   /* SAF Related variables */
-  const [safOutput, setSafOutput] = useState(saf_data);
+  const [safOutput0, setSafOutput0] = useState(saf_data);
+  const [safOutput1, setSafOutput1] = useState(saf_data);
+  const [safOutput2, setSafOutput2] = useState(saf_data);
   const [cumulative_array, setCumulativeArray] = useState([]);
   const [avg_rel_array, setAvgRelArray] = useState([]);
   const [avg_seq_array, setAvgSeqArray] = useState([]);
@@ -95,6 +97,8 @@ export default function SubmitProject(props) {
   const [avg_rel, setAvgRel] = useState(1);
   const [avg_seq, setAvgSeq] = useState(1);
   const [alive, setAlive] = useState(1);
+  const [comparativeSeq, setComparativeSeq] = useState([])
+  const [comparativeStorage, setComparativeStorage] = useState([])
 
   const navigate = useNavigate();
 
@@ -105,19 +109,19 @@ export default function SubmitProject(props) {
     }
   });
 
+  /* Helper functions */
+  function makeChartArray(dict) {
+    let chartArray = [];
+    chartArray = Object.keys(dict).map((key) => ({
+      x: Number(key),
+      y: dict[key],
+    }));
+    return chartArray;
+  }
+
   function processSAFData() {
+
     /* SAF Related processing */
-
-    /* Helper functions */
-    function makeChartArray(dict) {
-      let chartArray = [];
-      chartArray = Object.keys(dict).map((key) => ({
-        x: Number(key),
-        y: dict[key],
-      }));
-      return chartArray;
-    }
-
     function calcAverage(dict) {
       // Calculates the average of an array
       if (Object.keys(dict).length === 0) {
@@ -153,19 +157,19 @@ export default function SubmitProject(props) {
     /* Calculate */
 
     // Calculates the cumulative array
-    setAlive(calcSum(safOutput.Alive));
+    setAlive(calcSum(safOutput0.Alive));
     // Format all the arrays for the charts
-    setAvgRelArray(makeChartArray(safOutput.Avg_Rel));
-    setAvgSeqArray(makeChartArray(safOutput.Avg_Seq));
+    setAvgRelArray(makeChartArray(safOutput0.Avg_Rel));
+    setAvgSeqArray(makeChartArray(safOutput0.Avg_Seq));
     // Calculate the average of the arrays
-    setAvgRel(calcAverage(safOutput.Avg_Rel));
-    setAvgSeq(calcAverage(safOutput.Avg_Seq));
+    setAvgRel(calcAverage(safOutput0.Avg_Rel));
+    setAvgSeq(calcAverage(safOutput0.Avg_Seq));
 
     // Buckets
-    const oneToThreeAlive = sumRange(safOutput.Alive, 0, 4);
-    const threeToTenAlive = sumRange(safOutput.Alive, 4, 11);
-    const tenToThirtyAlive = sumRange(safOutput.Alive, 11, 31);
-    const thirtyToFiftyAlive = sumRange(safOutput.Alive, 31, 50);
+    const oneToThreeAlive = sumRange(safOutput0.Alive, 0, 4);
+    const threeToTenAlive = sumRange(safOutput0.Alive, 4, 11);
+    const tenToThirtyAlive = sumRange(safOutput0.Alive, 11, 31);
+    const thirtyToFiftyAlive = sumRange(safOutput0.Alive, 31, 50);
 
     setAliveArray([
       { years: 'y1-2', trees: oneToThreeAlive },
@@ -176,9 +180,9 @@ export default function SubmitProject(props) {
 
     let cumulative_seq_array, released_array, storage_array;
 
-    cumulative_seq_array = makeChartArray(safOutput.Cum_Seq);
-    released_array = makeChartArray(safOutput.Released);
-    storage_array = makeChartArray(safOutput.Storage);
+    cumulative_seq_array = makeChartArray(safOutput0.Cum_Seq);
+    released_array = makeChartArray(safOutput0.Released);
+    storage_array = makeChartArray(safOutput0.Storage);
 
     setCumulativeArray([
       {
@@ -199,10 +203,63 @@ export default function SubmitProject(props) {
     ]);
   }
 
+  function makeComparativeSeqChart() {
+    let seq_0 = makeChartArray(safOutput0.Avg_Seq);
+    let seq_1 =  makeChartArray(safOutput1.Avg_Seq);
+    let seq_2 = makeChartArray(safOutput2.Avg_Seq);
+
+    setComparativeSeq([
+      {
+        id: 'Low maintenance',
+        color: 'hsl(135, 70%, 50%)',
+        data: seq_0,
+      },
+      {
+        id: 'Hedium maintenance',
+        color: 'hsl(347, 70%, 50%)',
+        data: seq_1,
+      },
+      {
+        id: 'High maintenance',
+        color: 'hsl(31, 70%, 50%)',
+        data: seq_2,
+      },
+    ]);
+  }
+
+  function makeComparativeStorageChart() {
+    let storage_0 = makeChartArray(safOutput0.Storage);
+    let storage_1 =  makeChartArray(safOutput1.Storage);
+    let storage_2 = makeChartArray(safOutput2.Storage);
+
+    setComparativeStorage([
+      {
+        id: 'Low maintenance',
+        color: 'hsl(135, 70%, 50%)',
+        data: storage_0,
+      },
+      {
+        id: 'Hedium maintenance',
+        color: 'hsl(347, 70%, 50%)',
+        data: storage_1,
+      },
+      {
+        id: 'High maintenance',
+        color: 'hsl(31, 70%, 50%)',
+        data: storage_2,
+      },
+    ]);
+  }
+
   /* Data logic changes on receiving the SAF output */
   useEffect(() => {
     processSAFData();
-  }, [safOutput]);
+  }, [safOutput0]);
+
+  useEffect(() => {
+    makeComparativeSeqChart();
+    makeComparativeStorageChart();
+  }, [safOutput0, safOutput1, safOutput2]);
 
   const getSAFOutput = async () => {
     let requestHeaders = new Headers();
@@ -256,7 +313,7 @@ export default function SubmitProject(props) {
         sessionStorage.user_id +
         '/projects/' +
         sessionStorage.project_id +
-        '/run',
+        '/runs',
       requestOptions,
     )
       .then((response) => {
@@ -268,7 +325,10 @@ export default function SubmitProject(props) {
         throw new Error('Something went wrong');
       })
       .then((result) => {
-        setSafOutput(result);
+        setSafOutput0(result['0']);
+        setSafOutput1(result['1']);
+        setSafOutput2(result['2']);
+
         setIsLoading(false);
         window.scrollTo(0, 0);
         setProcessStage(2);
@@ -1138,6 +1198,7 @@ export default function SubmitProject(props) {
                   </p>
                 </div>
                 <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
+                  
                   <ChartSingleLine
                     data={[
                       {
@@ -1146,6 +1207,9 @@ export default function SubmitProject(props) {
                       },
                     ]}
                   />
+                </div>
+                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
+                  <ChartMultiLine data={comparativeStorage} />
                 </div>
               </div>
 
@@ -1172,6 +1236,9 @@ export default function SubmitProject(props) {
                       },
                     ]}
                   />
+                </div>
+                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
+                  <ChartMultiLine data={comparativeSeq} />
                 </div>
               </div>
 
