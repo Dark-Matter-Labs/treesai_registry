@@ -74,6 +74,7 @@ export default function SubmitProject(props) {
   const [projectDescription, setProjectDescription] = useState('');
   const [treeNumber, setTreeNumber] = useState(1);
   const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
+  const [totalTreeNumber, setTotalTreeNumber] = useState(0);
   const [selectedStage, setSelectedStage] = useState(stages[0]);
   const [selectedCC, setSelectedCC] = useState(listCouncils[0]);
   const [selectedLandUse, setSelectedLandUse] = useState('Recreation');
@@ -97,8 +98,8 @@ export default function SubmitProject(props) {
   const [avg_rel, setAvgRel] = useState(1);
   const [avg_seq, setAvgSeq] = useState(1);
   const [alive, setAlive] = useState(1);
-  const [comparativeSeq, setComparativeSeq] = useState([])
-  const [comparativeStorage, setComparativeStorage] = useState([])
+  const [comparativeSeq, setComparativeSeq] = useState([]);
+  const [comparativeStorage, setComparativeStorage] = useState([]);
 
   const navigate = useNavigate();
 
@@ -108,6 +109,22 @@ export default function SubmitProject(props) {
       navigate('/register');
     }
   });
+
+  useEffect(() => {
+    let sum = parseInt(treeNumber) + parseInt(treeNumberMaintain);
+    if (isNaN(parseInt(sum))) {
+      setTotalTreeNumber(0);
+    } else {
+      setTotalTreeNumber(sum);
+    }
+  }, [treeNumber, treeNumberMaintain]);
+
+  useEffect(() => {
+    /* I don't reallt like this function but we really need to check that AreaDensity is not 0 */
+    if (!Number.isInteger(areaDensity) || areaDensity <= 0) {
+      setAreaDensity(1);
+    }
+  }, [areaDensity]);
 
   /* Helper functions */
   function makeChartArray(dict) {
@@ -120,7 +137,6 @@ export default function SubmitProject(props) {
   }
 
   function processSAFData() {
-
     /* SAF Related processing */
     function calcAverage(dict) {
       // Calculates the average of an array
@@ -205,7 +221,7 @@ export default function SubmitProject(props) {
 
   function makeComparativeSeqChart() {
     let seq_0 = makeChartArray(safOutput0.Avg_Seq);
-    let seq_1 =  makeChartArray(safOutput1.Avg_Seq);
+    let seq_1 = makeChartArray(safOutput1.Avg_Seq);
     let seq_2 = makeChartArray(safOutput2.Avg_Seq);
 
     setComparativeSeq([
@@ -229,7 +245,7 @@ export default function SubmitProject(props) {
 
   function makeComparativeStorageChart() {
     let storage_0 = makeChartArray(safOutput0.Storage);
-    let storage_1 =  makeChartArray(safOutput1.Storage);
+    let storage_1 = makeChartArray(safOutput1.Storage);
     let storage_2 = makeChartArray(safOutput2.Storage);
 
     setComparativeStorage([
@@ -281,7 +297,7 @@ export default function SubmitProject(props) {
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt((treeNumber + treeNumberMaintain) / areaDensity),
+        density_per_ha: parseInt(totalTreeNumber / areaDensity),
         species: selectedTypology.species,
       });
     } else {
@@ -295,7 +311,7 @@ export default function SubmitProject(props) {
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt((treeNumber + treeNumberMaintain) / areaDensity),
+        density_per_ha: parseInt(totalTreeNumber / areaDensity),
         species: selectedTypology.species,
       });
     }
@@ -339,7 +355,7 @@ export default function SubmitProject(props) {
       });
   };
 
-  const getProjectID = async () => {
+  const createProjectAndGetID = async () => {
     let requestHeaders = new Headers();
     requestHeaders.append('accept', 'application/json');
     requestHeaders.append('Content-Type', 'application/json');
@@ -357,7 +373,7 @@ export default function SubmitProject(props) {
       area: 0,
       cost: 0,
       stage: selectedStage + selectedLandUse + landOwner,
-      number_of_trees: treeNumber + treeNumberMaintain,
+      number_of_trees: totalTreeNumber,
       local_authority: 'string',
       location: 'string',
       start_date: '2022-06-16T09:32:51.188Z',
@@ -976,7 +992,7 @@ export default function SubmitProject(props) {
                   type='button'
                   disabled={isLoading}
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                  onClick={getProjectID}
+                  onClick={createProjectAndGetID}
                 >
                   Run Impact
                 </button>
@@ -1198,7 +1214,6 @@ export default function SubmitProject(props) {
                   </p>
                 </div>
                 <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
-                  
                   <ChartSingleLine
                     data={[
                       {
