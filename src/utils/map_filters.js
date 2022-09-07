@@ -33,21 +33,12 @@ const districts = [
 ];
 
 const typologies = [
-  'Detention basin',
-  'Parkhead',
-  'Raingardens',
-  'Raingardens, Detention basin',
-  'Raingardens, Swales, Infiltation systems',
-  'Raingardens, Swales, Permeable surface, Detention basin',
+  'Filter strips and Swales',
+  'Infiltrations',
   'River restoration',
-  'Sediment removal',
   'Street trees',
-  'Swales',
-  'Swales, Detention basin',
-  'Swales, Raingardens, Retention pond',
+  'Storage Facilities (basins, raingardens, wetlands, etc.)',
   'Trees in Vacant or Derelict Land',
-  'Water butts',
-  'Wetland',
   'Woodland',
 ];
 

@@ -1275,13 +1275,13 @@ export default function SubmitProject(props) {
               >
                 <div className='grid grid-cols-1 sm:grid-cols-3'>
                   <div>
-                    <PieChart data={oneToFivePie} />
+                    <PieChart data={oneToFivePie} type={1} />
                   </div>
                   <div>
-                    <PieChart data={sixToTenPie} />
+                    <PieChart data={sixToTenPie} type={2} />
                   </div>
                   <div>
-                    <PieChart data={eleventToFiftyPie} />
+                    <PieChart data={eleventToFiftyPie} type={3} />
                   </div>
                 </div>
               </ChartBlock>
