@@ -193,3 +193,14 @@
 .mapboxgl-popup-close-button {
   padding-right: 20px;
 }
+
+.rounded-30 {
+  border-radius: 30px;
+}
+
+.vertical-row {
+  float: left;
+  height: 100px;
+  width: 1px; /* edit this if you want */
+  background-color: your color;
+}
