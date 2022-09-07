@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
@@ -19,14 +19,15 @@ import Dropdown from '../components/form/Dropdown';
 import Toggle from '../components/form/Toggle';
 import RadioSelector from '../components/form/RadioSelector';
 import ResultBlock from '../components/ResultBlock';
+import ValueDisplay from '../components/analysis/ValueDisplay';
+import ChartBlock from '../components/analysis/ChartBlock';
 // Images
 import projectImg from '../images/project-default.png';
 import infoImage from '../images/info_eye.svg';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
-import ChartSingleLine from '../components/charts/ChartSingleLine';
-import BarCanvas from '../components/charts/BarCanvas';
-import LocationRiskChart from '../components/charts/LocationRisk';
+import LocationRiskChart from '../components/analysis/LocationRisk';
+import PieChart from '../components/charts/PieChart';
 
 import { saf_data } from '../utils/saf_data_model';
 
@@ -60,7 +61,6 @@ const raisedTypes = get_raised_types();
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
-
 export default function SubmitProject(props) {
   const [processStage, setProcessStage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -91,16 +91,13 @@ export default function SubmitProject(props) {
   const [safOutput0, setSafOutput0] = useState(saf_data);
   const [safOutput1, setSafOutput1] = useState(saf_data);
   const [safOutput2, setSafOutput2] = useState(saf_data);
-  const [cumulative_array, setCumulativeArray] = useState([]);
-  const [avg_rel_array, setAvgRelArray] = useState([]);
-  const [avg_seq_array, setAvgSeqArray] = useState([]);
-  const [alive_array, setAliveArray] = useState([]);
   const [avg_rel, setAvgRel] = useState(1);
   const [avg_seq, setAvgSeq] = useState(1);
-  const [alive, setAlive] = useState(1);
   const [comparativeSeq, setComparativeSeq] = useState([]);
   const [comparativeStorage, setComparativeStorage] = useState([]);
-
+  const [oneToFivePie, setOneToFivePie] = useState([]);
+  const [sixToTenPie, setSixToTen] = useState([]);
+  const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -151,15 +148,6 @@ export default function SubmitProject(props) {
       }
     }
 
-    function calcSum(dict) {
-      // Calculates the sum of an array
-      let sum = 0;
-      Object.keys(dict).forEach((key) => {
-        sum += dict[key];
-      });
-      return sum;
-    }
-
     function sumRange(array, start, end) {
       let sum = 0;
 
@@ -172,49 +160,103 @@ export default function SubmitProject(props) {
 
     /* Calculate */
 
-    // Calculates the cumulative array
-    setAlive(calcSum(safOutput0.Alive));
-    // Format all the arrays for the charts
-    setAvgRelArray(makeChartArray(safOutput0.Avg_Rel));
-    setAvgSeqArray(makeChartArray(safOutput0.Avg_Seq));
     // Calculate the average of the arrays
     setAvgRel(calcAverage(safOutput0.Avg_Rel));
     setAvgSeq(calcAverage(safOutput0.Avg_Seq));
 
     // Buckets
-    const oneToThreeAlive = sumRange(safOutput0.Alive, 0, 4);
-    const threeToTenAlive = sumRange(safOutput0.Alive, 4, 11);
-    const tenToThirtyAlive = sumRange(safOutput0.Alive, 11, 31);
-    const thirtyToFiftyAlive = sumRange(safOutput0.Alive, 31, 50);
+    const oneToFiveAlive = sumRange(safOutput0.Alive, 0, 5);
+    const sixToTenAlive = sumRange(safOutput0.Alive, 6, 10);
+    const elevenToFiftyAlive = sumRange(safOutput0.Alive, 11, 50);
 
-    setAliveArray([
-      { years: 'y1-2', trees: oneToThreeAlive },
-      { years: 'y3-10', trees: threeToTenAlive },
-      { years: 'y10-30', trees: tenToThirtyAlive },
-      { years: 'y30-50', trees: thirtyToFiftyAlive },
+    let alive_buckets = [
+      { years: '1-5', trees: oneToFiveAlive },
+      { years: '6-10', trees: sixToTenAlive },
+      { years: '11-50', trees: elevenToFiftyAlive },
+    ];
+
+    // Buckets
+    const oneToFiveDead = sumRange(safOutput0.Dead, 0, 5);
+    const sixToTenDead = sumRange(safOutput0.Dead, 6, 10);
+    const elevenToFiftyDead = sumRange(safOutput0.Dead, 11, 50);
+
+    let dead_buckets = [
+      { years: '1-5', trees: oneToFiveDead },
+      { years: '6-10', trees: sixToTenDead },
+      { years: '11-50', trees: elevenToFiftyDead },
+    ];
+
+    // Buckets
+    const oneToFiveCritical = sumRange(safOutput0.Critical, 0, 5);
+    const sixToTenCritical = sumRange(safOutput0.Critical, 6, 10);
+    const elevenToFiftyCritical = sumRange(safOutput0.Alive, 11, 50);
+
+    let critical_buckets = [
+      { years: '1-5', trees: oneToFiveCritical },
+      { years: '6-10', trees: sixToTenCritical },
+      { years: '11-50', trees: elevenToFiftyCritical },
+    ];
+
+    setOneToFivePie([
+      {
+        id: 'healthy',
+        label: 'Healthy',
+        value: alive_buckets[0].trees,
+        color: 'hsl(165, 72%, 42%)',
+      },
+      {
+        id: 'dead',
+        label: 'Dead',
+        value: dead_buckets[0].trees,
+        color: 'hsl(243, 75%, 59%)',
+      },
+      {
+        id: 'Critical',
+        label: 'Critial',
+        value: critical_buckets[0].trees,
+        color: 'hsl(150, 2%, 19%)',
+      },
     ]);
 
-    let cumulative_seq_array, released_array, storage_array;
-
-    cumulative_seq_array = makeChartArray(safOutput0.Cum_Seq);
-    released_array = makeChartArray(safOutput0.Released);
-    storage_array = makeChartArray(safOutput0.Storage);
-
-    setCumulativeArray([
+    setSixToTen([
       {
-        id: 'seq',
-        color: 'hsl(135, 70%, 50%)',
-        data: cumulative_seq_array,
+        id: 'healthy',
+        label: 'Healthy',
+        value: alive_buckets[1].trees,
+        color: 'hsl(165, 72%, 42%)',
       },
       {
-        id: 'release',
-        color: 'hsl(347, 70%, 50%)',
-        data: released_array,
+        id: 'dead',
+        label: 'Dead',
+        value: dead_buckets[1].trees,
+        color: 'hsl(243, 75%, 59%)',
       },
       {
-        id: 'storage',
-        color: 'hsl(31, 70%, 50%)',
-        data: storage_array,
+        id: 'Critical',
+        label: 'Critial',
+        value: critical_buckets[1].trees,
+        color: 'hsl(150, 2%, 19%)',
+      },
+    ]);
+
+    setEleventToFiftyPie([
+      {
+        id: 'healthy',
+        label: 'Healthy',
+        value: alive_buckets[2].trees,
+        color: 'hsl(165, 72%, 42%)',
+      },
+      {
+        id: 'dead',
+        label: 'Dead',
+        value: dead_buckets[2].trees,
+        color: 'hsl(243, 75%, 59%)',
+      },
+      {
+        id: 'Critical',
+        label: 'Critial',
+        value: critical_buckets[2].trees,
+        color: 'hsl(150, 2%, 19%)',
       },
     ]);
   }
@@ -231,7 +273,7 @@ export default function SubmitProject(props) {
         data: seq_0,
       },
       {
-        id: 'Hedium maintenance',
+        id: 'Medium maintenance',
         color: 'hsl(347, 70%, 50%)',
         data: seq_1,
       },
@@ -1116,24 +1158,34 @@ export default function SubmitProject(props) {
 
             <div className='border-r border-green-600 px-8'>
               <h3 className='text-dark-wood-800'>Your project&rsquo;s impact for 50 years</h3>
-              <p className='book-info-sm pt-4 text-dark-wood-800'>
+              <p className='book-info-sm pt-4 text-dark-wood-800 pb-10'>
                 Considering the combination of your project typology, activity, location, and other
                 factors, you could help achieve the following estimated potential impact:
               </p>
-              <div className='my-10 flex flex-col items-center justify-center'>
-                <span className='bold-intro-sm rounded-full bg-green-600 px-4 py-11 text-white'>
-                  {Math.round(avg_rel * 100 + Number.EPSILON) / 100}
-                </span>
-                <span className='bold-intro-sm pt-2 text-green-600'>Average Carbon Release</span>
-              </div>
+              <ValueDisplay
+                value={Math.round(avg_seq * 100 + Number.EPSILON) / 100}
+                label='Net C02 sequestration 50 years (Kgs)'
+                disabled={false}
+              />
+              <hr className='mx-20 border-8 border-green-600' />
+              <ValueDisplay
+                value={Math.round(avg_rel * 100 + Number.EPSILON) / 100}
+                label='Total C02 Stored in 50 years (Kgs)'
+                disabled={false}
+              />
 
-              <div className='my-10 flex flex-col items-center justify-center'>
-                <span className='bold-intro-sm rounded-full bg-green-600 px-4 py-11 text-white'>
-                  {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
-                </span>
-                <span className='bold-intro-sm pt-2 text-green-600'>
-                  Average Carbon Sequestration
-                </span>
+              <div className='pt-5'>
+                <ValueDisplay
+                  value={0}
+                  label='Annual stormwater runoff avoided (1000L/m2) (Kgs) '
+                  disabled={true}
+                />
+                <hr className='mx-20 border-8 border-dark-wood-600' />
+                <ValueDisplay
+                  value={0}
+                  label='Annual average PM10 improvement (%)'
+                  disabled={true}
+                />
               </div>
             </div>
             <div className='px-8 '>
@@ -1193,110 +1245,46 @@ export default function SubmitProject(props) {
             </div>
           </div>
 
-          <SectionHeader title='In details' type='details' />
+          <SectionHeader title='In detail' type='details' />
           <ResultBlock
             title='Project Impact'
             description='Output of Scenario Analysis Framework. Considering  the combination of typology, activity, location, and other factors calculated via an agent-based scenario analysis framework (i) across 50 years, your project could help achieve the following estimated potential impact:'
             type='impact'
           />
           <hr className='mx-20 border-8 border-indigo-600' />
-          <ResultBlock
-            title='Explore - CARBON'
-            description='Little intro in the topic of carbon? How to look into this data? What are the highlights? '
-            type='impact'
-          >
+          <ResultBlock title='' description='' type='impact'>
             <div className=''>
-              <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
-                <div className=' rounded-3xl border border-indigo-600 px-10 text-center'>
-                  <h3 className='py-5 text-indigo-600'>Carbon Release</h3>
-                  <div className='my-10'>
-                    <span className='bold-intro-sm rounded-full bg-indigo-600 px-4 py-11 text-white'>
-                      {Math.round(avg_rel * 100 + Number.EPSILON) / 100} tCO2
-                    </span>
+              <ChartBlock
+                maintenanceTypeName={maintenanceType.name}
+                label='Your project’s annual net CO2 Sequestration (in KGs)'
+              >
+                <ChartMultiLine data={comparativeSeq} />
+              </ChartBlock>
+
+              <ChartBlock
+                maintenanceTypeName={maintenanceType.name}
+                label='Your project’s annual Total CO2 stored under three maintenance scopes (Kgs). '
+              >
+                <ChartMultiLine data={comparativeStorage} />
+              </ChartBlock>
+
+              <ChartBlock
+                maintenanceTypeName={maintenanceType.name}
+                label='Percentage of healthy trees year on year under three maintenance scopes'
+                type='pie'
+              >
+                <div className='grid grid-cols-1 sm:grid-cols-3'>
+                  <div>
+                    <PieChart data={oneToFivePie} />
                   </div>
-                  <p className='book-info-sm pt-10 text-left text-indigo-600'>
-                    By reducing energy demand and absorbing carbon dioxide, trees and vegetation
-                    decrease the production and negative effects of air pollution and greenhouse gas
-                    emissions.
-                  </p>
-                </div>
-                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
-                  <ChartSingleLine
-                    data={[
-                      {
-                        id: 'Average Carbon Release',
-                        data: avg_rel_array,
-                      },
-                    ]}
-                  />
-                </div>
-                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
-                  <ChartMultiLine data={comparativeStorage} />
-                </div>
-              </div>
-
-              <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
-                <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
-                  <h3 className='py-5 text-indigo-600'>Carbon Sequestration</h3>
-                  <div className='my-10'>
-                    <span className='bold-intro-sm rounded-full bg-indigo-600 px-4 py-11 text-white'>
-                      {Math.round(avg_seq * 100 + Number.EPSILON) / 100} tCO2
-                    </span>
+                  <div>
+                    <PieChart data={sixToTenPie} />
                   </div>
-                  <p className='book-info-sm pt-10 text-left text-indigo-600'>
-                    By reducing energy demand and absorbing carbon dioxide, trees and vegetation
-                    decrease the production and negative effects of air pollution and greenhouse gas
-                    emissions.
-                  </p>
-                </div>
-                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
-                  <ChartSingleLine
-                    data={[
-                      {
-                        id: 'Average Carbon Sequesteration',
-                        data: avg_seq_array,
-                      },
-                    ]}
-                  />
-                </div>
-                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
-                  <ChartMultiLine data={comparativeSeq} />
-                </div>
-              </div>
-
-              <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
-                <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
-                  <h3 className='py-5 text-indigo-600'>Tree health plot</h3>
-                  <div className='my-10'>
-                    <span className='bold-intro-sm rounded-full bg-indigo-600 px-4 py-11 text-white'>
-                      {Math.round(alive * 100 + Number.EPSILON) / 100} years
-                    </span>
+                  <div>
+                    <PieChart data={eleventToFiftyPie} />
                   </div>
-                  <p className='book-info-sm pt-10 text-left text-indigo-600'>
-                    By reducing energy demand and absorbing carbon dioxide, trees and vegetation
-                    decrease the production and negative effects of air pollution and greenhouse gas
-                    emissions.
-                  </p>
                 </div>
-                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
-                  <BarCanvas data={alive_array} />
-                </div>
-              </div>
-
-              <div className='my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
-                <div className='rounded-3xl border border-indigo-600 px-10 text-center'>
-                  <h3 className='py-5 text-indigo-600'>Comparative Analysis</h3>
-
-                  <p className='book-info-sm pt-10 text-left text-indigo-600'>
-                    By reducing energy demand and absorbing carbon dioxide, trees and vegetation
-                    decrease the production and negative effects of air pollution and greenhouse gas
-                    emissions.
-                  </p>
-                </div>
-                <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
-                  <ChartMultiLine data={cumulative_array} />
-                </div>
-              </div>
+              </ChartBlock>
             </div>
           </ResultBlock>
 
