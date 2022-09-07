@@ -61,16 +61,42 @@ const CenteredMetric3 = ({ centerX, centerY }) => {
 /* eslint-enable */
 
 export default function PieChart(props) {
-  return (
-    <Pie
-      data={props.data}
-      {...commonProperties}
-      innerRadius={0.8}
-      enableArcLabels={false}
-      activeInnerRadiusOffset={commonProperties.activeOuterRadiusOffset}
-      layers={['arcs', CenteredMetric]}
-    />
-  );
+  return (() => {
+    if (props.type === 1) {
+      return (
+        <Pie
+          data={props.data}
+          {...commonProperties}
+          innerRadius={0.8}
+          enableArcLabels={false}
+          activeInnerRadiusOffset={commonProperties.activeOuterRadiusOffset}
+          layers={['arcs', CenteredMetric]}
+        />
+      );
+    } else if (props.type === 2) {
+      return (
+        <Pie
+          data={props.data}
+          {...commonProperties}
+          innerRadius={0.8}
+          enableArcLabels={false}
+          activeInnerRadiusOffset={commonProperties.activeOuterRadiusOffset}
+          layers={['arcs', CenteredMetric2]}
+        />
+      );
+    } else {
+      return (
+        <Pie
+          data={props.data}
+          {...commonProperties}
+          innerRadius={0.8}
+          enableArcLabels={false}
+          activeInnerRadiusOffset={commonProperties.activeOuterRadiusOffset}
+          layers={['arcs', CenteredMetric3]}
+        />
+      );
+    }
+  })();
 }
 
 PieChart.propTypes = {
