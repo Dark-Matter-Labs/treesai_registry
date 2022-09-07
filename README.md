@@ -1,8 +1,8 @@
-# TreesAI Impact Planner
+# TreesAI App
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2c6cc926-955e-4c5c-8977-2d1a6d6478ee/deploy-status)](https://app.netlify.com/sites/charming-lebkuchen-27d912/deploys)
 
-TreesAI pilot platform in Glasgow for project developers.
+Revaluing nature as urban infrastructure.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
