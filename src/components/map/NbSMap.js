@@ -10,8 +10,8 @@ const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
 
 export default function NbSMap(props) {
   const [viewState, setViewState] = useState({
-    longitude: -4.2518,
-    latitude: 55.8642,
+    longitude: -4.16,
+    latitude: 55.85,
     zoom: 11,
   });
   return (
@@ -33,12 +33,14 @@ export default function NbSMap(props) {
             onClick={(e) => {
               // If we let the click event propagates to the map, it will immediately close the popup
               // with `closeOnClick: true`
-              console.log(e);
               e.originalEvent.stopPropagation();
               props.selectProject(city);
             }}
           >
-            <Pin isActive={true} />
+            <Pin
+              isFeatured={city.properties.is_featured}
+              inPortfolio={city.properties.portfolio_A}
+            />
           </Marker>
         ))}
 
@@ -53,10 +55,51 @@ export default function NbSMap(props) {
             <div className='medium-intro-sm text-white-200 bg-green-600 p-4 rounded-t-3xl'>
               {props.popupInfo.properties.project_name}
             </div>
-            <div className='py-2 px-2 medium-intro-sm'>
-              Stage: <b>{props.popupInfo.properties.stage}</b> <br />
-              Typology: <b>{props.popupInfo.properties.typology}</b> <br />
-              Developer: <b>{props.popupInfo.properties.project_developer}</b> <br />
+            <div className='medium-intro-sm'>
+              <table className='divide-y divide-green-300'>
+                <tbody className='divide-y divide-green-300 bg-white-200'>
+                  <tr>
+                    <td className='book-info-sm  py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
+                      District:
+                    </td>
+                    <td className='book-info-sm  px-3 py-4 text-green-600'>
+                      {props.popupInfo.properties.community_council}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='book-info-sm  py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
+                      Typology:
+                    </td>
+                    <td className='book-info-sm px-3 py-4 text-green-600'>
+                      {props.popupInfo.properties.typology}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='book-info-sm  py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
+                      Activity
+                    </td>
+                    <td className='book-info-sm  px-3 py-4 text-green-600'>
+                      {props.popupInfo.properties.activity}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='book-info-sm  py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
+                      Project stage:
+                    </td>
+                    <td className='book-info-sm  px-3 py-4 text-green-600'>
+                      {props.popupInfo.properties.stage}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='book-info-sm py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
+                      Project developer:
+                    </td>
+                    <td className='book-info-sm  px-3 py-4 text-green-600'>
+                      {props.popupInfo.properties.project_developer}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </Popup>
         )}
