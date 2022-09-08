@@ -77,7 +77,7 @@ export default function Login() {
             sessionStorage.setItem('user_name', JSON.stringify(result.name));
             setIsLoading(false);
             toast.success('Welcome ' + result.name);
-            navigate('/measure');
+            navigate('/develop');
             window.location.reload();
           })
           .catch((error) => console.log('error', error));

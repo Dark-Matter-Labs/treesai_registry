@@ -100,7 +100,7 @@ export default function ProjectsPanel(props) {
           </ul>
         </div>
         <div className='px-4 py-4'>
-          <Link to='/measure'>
+          <Link to='/develop'>
             <button
               type='button'
               className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-12 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'

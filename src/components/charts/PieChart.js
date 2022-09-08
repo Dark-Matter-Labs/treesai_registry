@@ -2,9 +2,9 @@ import { Pie } from '@nivo/pie';
 import PropTypes from 'prop-types';
 
 const commonProperties = {
-  width: 420,
+  width: 400,
   height: 420,
-  margin: { top: 80, right: 120, bottom: 80, left: 90 },
+  margin: { top: 80, right: 120, bottom: 80, left: 40 },
   animate: true,
   activeOuterRadiusOffset: 8,
   colors: ['#1EB792', '#4F46E5', '#2F3130'],
