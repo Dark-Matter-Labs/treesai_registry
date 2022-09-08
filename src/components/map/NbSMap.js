@@ -20,7 +20,7 @@ export default function NbSMap(props) {
       mapboxAccessToken={MAPBOX_TOKEN}
       {...viewState}
       onMove={(evt) => setViewState(evt.viewState)}
-      mapStyle='mapbox://styles/mapbox/light-v10'
+      mapStyle={props.mapLayer}
       style={{ width: '100vw', height: '100vh' }}
     >
       <>
@@ -114,4 +114,5 @@ NbSMap.propTypes = {
   selectProject: PropTypes.func,
   popupInfo: PropTypes.object,
   setPopupInfo: PropTypes.func,
+  mapLayer: PropTypes.string,
 };

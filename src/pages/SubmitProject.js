@@ -1058,7 +1058,7 @@ export default function SubmitProject(props) {
           </div>
         ))}
       {processStage === 2 && (
-        <div className='mx-10 sm:px-6 lg:px-8'>
+        <div className='max-w-screen-2xl mx-auto sm:px-6 lg:px-8'>
           <div className='title-box mt-4 bg-dark-wood-800 py-20'>
             <h2 className='text-center text-white-200'>Scenario Analysis</h2>
             <h2 className='pt-10 text-center text-white-200'>{projectName}</h2>

@@ -1,18 +1,17 @@
 import React, { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
-import Dropdown from '../form/Dropdown';
+import FilterSelect from './FilterSelect';
 import PropTypes from 'prop-types';
-import { get_stages } from '../../utils/project_details';
-import { get_districts, get_typologies } from '../../utils/map_filters';
+import { get_districts, get_typologies, get_stages } from '../../utils/map_filters';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const stages = ['All'].concat(get_stages());
-const districts = ['All'].concat(get_districts());
-const typologies = ['All'].concat(get_typologies());
+const stages = get_stages();
+const districts = get_districts();
+const typologies = get_typologies();
 
 export default function Filter(props) {
   return (
@@ -42,55 +41,64 @@ export default function Filter(props) {
             leaveTo='opacity-0 translate-y-1'
           >
             <Popover.Panel className='absolute right-0 mt-20 z-10 mt-3 w-screen max-w-xs transform px-2 sm:px-0'>
-              <div className='overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5'>
-                <div className='relative grid  bg-dark-wood-800 px-5 py-4 gap-2'>
-                  <Dropdown
-                    span='sm:col-span-3'
-                    label='city'
+              <div className='rounded-lg shadow-lg ring-1 ring-black ring-opacity-5'>
+                <div className='relative grid bg-dark-wood-800 px-5 py-4 gap-2 rounded-30'>
+                  <FilterSelect
+                    name='city'
                     title='Filter by Stage'
-                    type='map'
                     options={stages}
                     onChange={(e) => {
-                      if (e.target.value === 'All') {
+                      let filteredData = [];
+                      e.map((selection) => {
+                        let filteredDataRow = [];
+                        filteredDataRow = props.projects.filter((item) =>
+                          item.properties.stage.includes(selection.value),
+                        );
+                        filteredDataRow.map((element) => filteredData.push(element));
+                      });
+                      if (filteredData.length === 0) {
                         props.setData(props.projects);
                       } else {
-                        const filteredData = props.projects.filter((item) =>
-                          item.properties.stage.includes(e.target.value),
-                        );
                         props.setData(filteredData);
                       }
                     }}
                   />
-                  <Dropdown
-                    span='sm:col-span-3'
-                    label='city'
+                  <FilterSelect
+                    name='city'
                     title='Filter by District'
-                    type='map'
                     options={districts}
                     onChange={(e) => {
-                      if (e.target.value === 'All') {
+                      let filteredData = [];
+                      e.map((selection) => {
+                        let filteredDataRow = [];
+                        filteredDataRow = props.projects.filter((item) =>
+                          item.properties.community_council.includes(selection.value),
+                        );
+                        filteredDataRow.map((element) => filteredData.push(element));
+                      });
+                      if (filteredData.length === 0) {
                         props.setData(props.projects);
                       } else {
-                        const filteredData = props.projects.filter((item) =>
-                          item.properties.community_council.includes(e.target.value),
-                        );
                         props.setData(filteredData);
                       }
                     }}
                   />
-                  <Dropdown
-                    span='sm:col-span-3'
+                  <FilterSelect
                     label='city'
                     title='Filter by Typology'
-                    type='map'
                     options={typologies}
                     onChange={(e) => {
-                      if (e.target.value === 'All') {
+                      let filteredData = [];
+                      e.map((selection) => {
+                        let filteredDataRow = [];
+                        filteredDataRow = props.projects.filter((item) =>
+                          item.properties.typology.includes(selection.value),
+                        );
+                        filteredDataRow.map((element) => filteredData.push(element));
+                      });
+                      if (filteredData.length === 0) {
                         props.setData(props.projects);
                       } else {
-                        const filteredData = props.projects.filter((item) =>
-                          item.properties.typology.includes(e.target.value),
-                        );
                         props.setData(filteredData);
                       }
                     }}

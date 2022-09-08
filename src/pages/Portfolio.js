@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useState, useRef, Fragment } from 'react';
+import React, { useState, useRef } from 'react';
 import { ArrowCircleRightIcon } from '@heroicons/react/outline';
 import ProjectsJSON from '../data/NbS_projects_database.json';
 import NbSMap from '../components/map/NbSMap';
 import NavBar from '../components/NavBar';
 import ProjectsPanel from '../components/map/ProjectsPanel';
 import Filter from '../components/map/Filter';
+import LayerSelector from '../components/map/LayerSelector';
 import Footer from '../components/Footer';
 
 export default function Portfolio(props) {
@@ -13,6 +14,7 @@ export default function Portfolio(props) {
   const [popupInfo, setPopupInfo] = useState(null);
   const [data, setData] = useState(ProjectsJSON);
   const [showProjectPanel, setShowProjectPanel] = useState(true);
+  const [mapLayer, setMapLayer] = useState('mapbox://styles/mapbox/light-v10');
 
   const selectProject = (current) => {
     mapRef.current.flyTo({
@@ -22,7 +24,6 @@ export default function Portfolio(props) {
     });
     setPopupInfo(current);
   };
-
   return (
     <>
       <NavBar loggedIn={props.loggedIn} current='portfolio' />
@@ -44,7 +45,9 @@ export default function Portfolio(props) {
               selectProject={selectProject}
               popupInfo={popupInfo}
               setPopupInfo={setPopupInfo}
+              mapLayer={mapLayer}
             />
+            <LayerSelector setMapLayer={setMapLayer} />
           </div>
         </div>
       ) : (
@@ -64,7 +67,9 @@ export default function Portfolio(props) {
               selectProject={selectProject}
               popupInfo={popupInfo}
               setPopupInfo={setPopupInfo}
+              mapLayer={mapLayer}
             />
+            <LayerSelector setMapLayer={setMapLayer} />
           </div>
         </div>
       )}
