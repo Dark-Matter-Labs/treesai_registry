@@ -10,7 +10,7 @@ export default function Home(props) {
     <div className='font-favorit '>
       <div className='relative overflow-hidden'>
         <NavBar loggedIn={props.loggedIn} current='home' />
-        <main className=' bg-white-200 pb-20 max-w-7xl mx-auto'>
+        <main className=' bg-white-200 pb-20 max-w-screen-2xl mx-auto'>
           <div className='title-box mt-4 bg-indigo-600 py-40'>
             <h2 className='text-center text-white-200'>Welcome to TreesAI</h2>
             <h3 className='pt-8 text-center text-white-200'>

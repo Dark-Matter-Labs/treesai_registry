@@ -13,7 +13,7 @@ export default function ValueDisplay(props) {
       )}
     >
       {props.value > 0 ? (
-        <span className='medium-intro-sm rounded-full bg-green-600 px-8 py-10 text-white'>
+        <span className='medium-intro-sm rounded-full bg-green-600 px-8 py-9 text-white'>
           {props.value}
         </span>
       ) : (
