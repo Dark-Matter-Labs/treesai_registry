@@ -17,8 +17,8 @@ function App() {
     <Router>
       <Routes>
         <Route exact path='/' element={<Home loggedIn={loggedIn} />} />
-        <Route exact path='/measure' element={<SubmitProject loggedIn={loggedIn} />} />
-        <Route exact path='/plan' element={<Portfolio loggedIn={loggedIn} />} />
+        <Route exact path='/develop' element={<SubmitProject loggedIn={loggedIn} />} />
+        <Route exact path='/explore' element={<Portfolio loggedIn={loggedIn} />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/login' element={<Login />} />
       </Routes>

@@ -141,6 +141,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .text-background-shape {
@@ -149,7 +150,7 @@
 }
 
 .plan-background-shape {
-  background: url('data:image/svg+xml;utf8,<svg width="339" height="206" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 140C0 62.6801 62.6801 0 140 0L185 0L185 206L0 206L0 140Z" fill="%232F3130"/><rect x="66" y="1" width="273" height="205" rx="102.5" fill="%232F3130"/></svg>')
+  background: url('data:image/svg+xml;utf8,<svg width="339" height="206" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M0 140C0 62.6801 62.6801 0 140 0L185 0L185 206L0 206L0 140Z" fill="%232F3130"/><rect x="66" width="273" height="206" rx="103" fill="%232F3130"/></svg>')
     top no-repeat;
 }
 
@@ -165,6 +166,10 @@
 
 .title-box {
   border-top-left-radius: 10rem;
+}
+
+.title-box-alter {
+  border-bottom-right-radius: 10rem;
 }
 
 .title-box-info {
