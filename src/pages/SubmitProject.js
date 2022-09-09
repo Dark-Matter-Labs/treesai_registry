@@ -137,7 +137,7 @@ export default function SubmitProject(props) {
   function processSAFData() {
     /* SAF Related processing */
 
-    /* 
+    /*
     function calcAverage(dict) {
       // Calculates the average of an array
       if (Object.keys(dict).length === 0) {
@@ -170,35 +170,37 @@ export default function SubmitProject(props) {
     /* Calculate */
 
     // Calculate total storage
-    setTotalSeq(sumRange(safOutput0.Seq, 0, getLastElement(safOutput0.Seq)));
-    setTotalStorage(safOutput0.Storage[getLastElement(safOutput0.Storage)]); // last element of the array
+    setTotalSeq(sumRange(safOutput2.Seq, 0, getLastElement(safOutput2.Seq)));
+    setTotalStorage(safOutput2.Storage[getLastElement(safOutput2.Storage)]); // last element of the array
 
-    // Buckets
-    const oneToFiveAlive = sumRange(safOutput0.Alive, 0, 5);
-    const sixToTenAlive = sumRange(safOutput0.Alive, 6, 10);
-    const elevenToFiftyAlive = sumRange(safOutput0.Alive, 11, 50);
+    /* Pie charts */
 
-    let alive_buckets = [
+    // Alive
+    const oneToFiveAlive = sumRange(safOutput2.Alive, 0, 5) / 5;
+    const sixToTenAlive = sumRange(safOutput2.Alive, 5, 10) / 5;
+    const elevenToFiftyAlive = sumRange(safOutput2.Alive, 10, 50) / 40;
+
+    const alive_buckets = [
       { years: '1-5', trees: oneToFiveAlive },
       { years: '6-10', trees: sixToTenAlive },
       { years: '11-50', trees: elevenToFiftyAlive },
     ];
 
-    // Buckets
-    const oneToFiveDead = sumRange(safOutput0.Dead, 0, 5);
-    const sixToTenDead = sumRange(safOutput0.Dead, 6, 10);
-    const elevenToFiftyDead = sumRange(safOutput0.Dead, 11, 50);
+    // Dead
+    const oneToFiveDead = sumRange(safOutput2.Dead, 0, 5) / 5;
+    const sixToTenDead = sumRange(safOutput2.Dead, 5, 10) / 5;
+    const elevenToFiftyDead = sumRange(safOutput2.Dead, 10, 50) / 40;
 
-    let dead_buckets = [
+    const dead_buckets = [
       { years: '1-5', trees: oneToFiveDead },
       { years: '6-10', trees: sixToTenDead },
       { years: '11-50', trees: elevenToFiftyDead },
     ];
 
-    // Buckets
-    const oneToFiveCritical = sumRange(safOutput0.Critical, 0, 5);
-    const sixToTenCritical = sumRange(safOutput0.Critical, 6, 10);
-    const elevenToFiftyCritical = sumRange(safOutput0.Alive, 11, 50);
+    // Critical
+    const oneToFiveCritical = sumRange(safOutput2.Critical, 0, 5) / 5;
+    const sixToTenCritical = sumRange(safOutput2.Critical, 5, 10) / 5;
+    const elevenToFiftyCritical = sumRange(safOutput2.Critical, 10, 50) / 40;
 
     let critical_buckets = [
       { years: '1-5', trees: oneToFiveCritical },
@@ -206,68 +208,33 @@ export default function SubmitProject(props) {
       { years: '11-50', trees: elevenToFiftyCritical },
     ];
 
-    setOneToFivePie([
-      {
-        id: 'healthy',
-        label: 'Healthy',
-        value: alive_buckets[0].trees,
-        color: 'hsl(165, 72%, 42%)',
-      },
-      {
-        id: 'dead',
-        label: 'Dead',
-        value: dead_buckets[0].trees,
-        color: 'hsl(243, 75%, 59%)',
-      },
-      {
-        id: 'Critical',
-        label: 'Critial',
-        value: critical_buckets[0].trees,
-        color: 'hsl(150, 2%, 19%)',
-      },
-    ]);
+    function makePieOutput(alive, dead, critical, bucket) {
+      const pieChartArgs = [
+        {
+          id: 'healthy',
+          label: 'Healthy',
+          value: alive[bucket].trees,
+          color: 'hsl(165, 72%, 42%)',
+        },
+        {
+          id: 'dead',
+          label: 'Dead',
+          value: dead[bucket].trees,
+          color: 'hsl(243, 75%, 59%)',
+        },
+        {
+          id: 'Critical',
+          label: 'Critial',
+          value: critical[bucket].trees,
+          color: 'hsl(150, 2%, 19%)',
+        },
+      ];
+      return pieChartArgs;
+    }
 
-    setSixToTen([
-      {
-        id: 'healthy',
-        label: 'Healthy',
-        value: alive_buckets[1].trees,
-        color: 'hsl(165, 72%, 42%)',
-      },
-      {
-        id: 'dead',
-        label: 'Dead',
-        value: dead_buckets[1].trees,
-        color: 'hsl(243, 75%, 59%)',
-      },
-      {
-        id: 'Critical',
-        label: 'Critial',
-        value: critical_buckets[1].trees,
-        color: 'hsl(150, 2%, 19%)',
-      },
-    ]);
-
-    setEleventToFiftyPie([
-      {
-        id: 'healthy',
-        label: 'Healthy',
-        value: alive_buckets[2].trees,
-        color: 'hsl(165, 72%, 42%)',
-      },
-      {
-        id: 'dead',
-        label: 'Dead',
-        value: dead_buckets[2].trees,
-        color: 'hsl(243, 75%, 59%)',
-      },
-      {
-        id: 'Critical',
-        label: 'Critial',
-        value: critical_buckets[2].trees,
-        color: 'hsl(150, 2%, 19%)',
-      },
-    ]);
+    setOneToFivePie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 0));
+    setSixToTen(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 1));
+    setEleventToFiftyPie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 2));
   }
 
   function makeComparativeSeqChart() {
@@ -1279,7 +1246,7 @@ export default function SubmitProject(props) {
 
               <ChartBlock
                 maintenanceTypeName={maintenanceType.name}
-                label='Percentage of healthy trees year on year under three maintenance scopes'
+                label='Average number of healthy trees year on year' // under three maintenance scopes'
                 type='pie'
               >
                 <div className='grid grid-cols-1 sm:grid-cols-3'>
