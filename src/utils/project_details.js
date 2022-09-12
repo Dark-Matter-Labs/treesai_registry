@@ -44,6 +44,8 @@ const raisedTypes = [
   { name: '£2M +', enabled: true, value: 4 },
 ];
 
+const pieChartTypes = ['high maintenance', 'medium maintenance', 'low maintenance'];
+
 export function get_cities() {
   return cities;
 }
@@ -70,4 +72,8 @@ export function get_budget_types() {
 
 export function get_raised_types() {
   return raisedTypes;
+}
+
+export function get_piechart_types() {
+  return pieChartTypes;
 }

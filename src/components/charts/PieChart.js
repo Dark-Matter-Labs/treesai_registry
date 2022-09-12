@@ -7,7 +7,7 @@ const commonProperties = {
   margin: { top: 80, right: 120, bottom: 80, left: 40 },
   animate: true,
   activeOuterRadiusOffset: 8,
-  colors: ['#1EB792', '#4F46E5', '#2F3130'],
+  colors: ['#DDDDDD', '#828784', '#2F3130'],
 };
 /* eslint-disable */
 const CenteredMetric = ({ centerX, centerY }) => {

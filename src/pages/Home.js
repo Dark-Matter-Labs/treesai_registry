@@ -9,28 +9,32 @@ export default function Home(props) {
   return (
     <div className='font-favorit '>
       <div className='relative overflow-hidden'>
-        <div className='bg-indigo-600'>
+        <NavBar loggedIn={props.loggedIn} current='home' />
+        <div className='bg-dark-wood-700'>
           <div className='mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8'>
             <div className='flex flex-wrap items-center justify-between'>
               <div className='flex w-0 flex-1 items-center'>
                 <p className='ml-3 truncate font-medium text-white'>
-                  <span className='md:hidden book-info-md'>We are in beta stage</span>
-                  <span className='hidden md:inline book-info-md'>We are in beta stage!</span>
+                  <span className='md:hidden book-info-md'>
+                    This is still a prototype, the full platform is scheduled to go live in November
+                    2022
+                  </span>
+                  <span className='hidden md:inline book-info-md'>
+                    This is still a prototype, the full platform is scheduled to go live in November
+                    2022
+                  </span>
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <NavBar loggedIn={props.loggedIn} current='home' />
 
-        <main className=' bg-white-200 pb-20 max-w-screen-2xl mx-auto'>
+        <main className='bg-white-200 pb-20 max-w-screen-2xl mx-auto'>
           <div className='title-box mt-4 bg-indigo-600 py-20'>
-            <div className='grid grid-cols-3'>
+            <div className='grid grid-cols-1 sm:grid-cols-3'>
               <div className='col-span-2 ml-20 mt-10'>
                 <h1 className='text-white-200'>TreesAI</h1>
-                <h2 className='pt-8 text-white-200'>
-                  <i>Revaluing nature as urban infrastructure. </i>
-                </h2>
+                <h2 className='pt-8 text-white-200'>Revaluing nature as urban infrastructure.</h2>
               </div>
               <div>
                 <img src={tempImage} alt='explorer preview image' />
@@ -39,8 +43,8 @@ export default function Home(props) {
           </div>
 
           <div className='title-box-alter mt-4 bg-green-600 py-20 px-20'>
-            <div className='text-center'>
-              <h2 className='text-white-200'>
+            <div className=''>
+              <h2 className='text-white-200 text-left'>
                 TreesAI provides project developers and green investors with the impact assessment
                 and investment tools to coordinate nature-based solutions within sustainable
                 portfolios.
@@ -59,14 +63,14 @@ export default function Home(props) {
                   <h1 className='text-center text-white-200'>Explore</h1>
                   <h2 className='text-center text-white-200'>NbS Map</h2>
                 </div>
-                <p className='book-info-lg mt-14 ml-10 text-left max-w-sm'>
+                <p className='book-intro-md mt-14 ml-10 text-left max-w-sm'>
                   Discover existing NbS projects and portfolios driving environmental, social and
                   economic impact.
                 </p>
                 <Link to='/explore'>
                   <button
                     type='button'
-                    className='mt-8 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
                   >
                     NbS Map →
                   </button>
@@ -77,14 +81,14 @@ export default function Home(props) {
                   <h1 className='text-center text-white-200'>Develop</h1>
                   <h2 className='text-center text-white-200'>an NbS project</h2>
                 </div>
-                <p className='book-info-lg mt-4 ml-10 text-left max-w-sm'>
+                <p className='book-intro-md mt-4 ml-10 text-left max-w-sm'>
                   Use the NbS Impact Planner to design and register a project, forecast costs, model
                   impacts and measure benefits.
                 </p>
                 <Link to='/develop'>
                   <button
                     type='button'
-                    className='mt-4 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
                   >
                     Try it out →
                   </button>
@@ -95,14 +99,14 @@ export default function Home(props) {
                   <h1 className='text-center text-white-200'>Invest</h1>
                   <h2 className='text-center text-white-200'>in a portfolio</h2>
                 </div>
-                <p className='book-info-lg mt-14 ml-10 text-left max-w-sm'>
+                <p className='book-intro-md mt-14 ml-10 text-left max-w-sm'>
                   Invest in a strategic portfolio of NbS that delivers benefit for people and
                   planet.
                 </p>
                 <Link to='/'>
                   <button
                     type='button'
-                    className='mt-8 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 my-16 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
                   >
                     Portfolio Manager →
                   </button>
@@ -115,7 +119,7 @@ export default function Home(props) {
             <div className=''>
               <h3 className='text-center'>Testimonials</h3>
             </div>
-            <div className='grid grid-cols-2'>
+            <div className='grid grid-cols-1 sm:grid-cols-2'>
               <div className='px-16 py-10 book-intro-sm'>
                 <p>
                   “So many of the challenges surrounding the climate emergency will be addressed by
@@ -139,8 +143,8 @@ export default function Home(props) {
             </div>
           </div>
 
-          <div className='title-box-alter bg-indigo-300 my-10 py-10'>
-            <div className='grid grid-cols-3'>
+          <div className='title-box-alter bg-green-400 my-10 py-10 px-10'>
+            <div className='grid grid-cols-1 sm:grid-cols-3'>
               <div className='pl-5'>
                 <h3 className=''>Trusted by Project Developers</h3>
                 <p className='book-intro-sm pt-4'>
@@ -180,15 +184,24 @@ export default function Home(props) {
           </div>
 
           <div className='py-10 text-center'>
-            <h2 className='pb-4  text-dark-wood-800'>Check Glasgow Pilot</h2>
-            <Link to='/'>
-              <button
-                type='button'
-                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
-              >
-                Glasgow pilot
-              </button>
-            </Link>
+            <h2 className='pb-4 text-dark-wood-800'>The Glasgow Portfolio</h2>
+            <div className='py-10 px-20 bg-indigo-300 max-w-3xl mx-auto rounded-tr-[130px] rounded-bl-[130px]'>
+              <p className='book-intro-sm text-dark-wood-800 pb-5'>
+                Glasgow City Council and the Clyde Climate Valley are partnering with TreesAI to
+                launch a portfolio of Nature Based Solutions (NbS) projects to address the city’s
+                climate-related risks. Launched as a pilot at COP26, the TreeAI Glasgow Portfolio
+                will fund NbS projects in Glasgow and the Clyde Valley, with a primary focus on
+                alleviating the region’s stormwater and flood risks.
+              </p>
+              <Link to='/'>
+                <button
+                  type='button'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
+                >
+                  Glasgow pilot
+                </button>
+              </Link>
+            </div>
           </div>
         </main>
         <Footer />

@@ -23,7 +23,6 @@ import ValueDisplay from '../components/analysis/ValueDisplay';
 import ChartBlock from '../components/analysis/ChartBlock';
 // Images
 import projectImg from '../images/project-default.png';
-import infoImage from '../images/info_eye.svg';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
 import LocationRiskChart from '../components/analysis/LocationRisk';
@@ -40,6 +39,7 @@ import {
   get_activity_types,
   get_budget_types,
   get_raised_types,
+  get_piechart_types,
 } from '../utils/project_details';
 
 import { getCouncils } from '../utils/geojson_utils';
@@ -57,6 +57,7 @@ const landUse = get_land_use();
 const activityTypes = get_activity_types();
 const budgetTypes = get_budget_types();
 const raisedTypes = get_raised_types();
+const piechartTypes = get_piechart_types();
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -86,6 +87,7 @@ export default function SubmitProject(props) {
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
+  const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
 
   /* SAF Related variables */
   const [safOutput0, setSafOutput0] = useState(saf_data);
@@ -95,9 +97,16 @@ export default function SubmitProject(props) {
   const [totalStorage, setTotalStorage] = useState(0);
   const [comparativeSeq, setComparativeSeq] = useState([]);
   const [comparativeStorage, setComparativeStorage] = useState([]);
-  const [oneToFivePie, setOneToFivePie] = useState([]);
-  const [sixToTenPie, setSixToTen] = useState([]);
-  const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
+  const [oneToFivePieHigh, setOneToFivePieHigh] = useState([]);
+  const [sixToTenPieHigh, setSixToTenHigh] = useState([]);
+  const [eleventToFiftyPieHigh, setEleventToFiftyPieHigh] = useState([]);
+  const [oneToFivePieMed, setOneToFivePieMed] = useState([]);
+  const [sixToTenPieMed, setSixToTenMed] = useState([]);
+  const [eleventToFiftyPieMed, setEleventToFiftyPieMed] = useState([]);
+  const [oneToFivePieLow, setOneToFivePieLow] = useState([]);
+  const [sixToTenPieLow, setSixToTenLow] = useState([]);
+  const [eleventToFiftyPieLow, setEleventToFiftyPieLow] = useState([]);
+
   const [costChart, setCostChart] = useState([]);
 
   const navigate = useNavigate();
@@ -176,37 +185,37 @@ export default function SubmitProject(props) {
 
     /* Pie charts */
 
-    // Alive
-    const oneToFiveAlive = sumRange(safOutput2.Alive, 0, 5) / 5;
-    const sixToTenAlive = sumRange(safOutput2.Alive, 5, 10) / 5;
-    const elevenToFiftyAlive = sumRange(safOutput2.Alive, 10, 50) / 40;
+    // Alive - High
+    const oneToFiveAliveHigh = sumRange(safOutput2.Alive, 0, 5) / 5;
+    const sixToTenAliveHigh = sumRange(safOutput2.Alive, 5, 10) / 5;
+    const elevenToFiftyAliveHigh = sumRange(safOutput2.Alive, 10, 50) / 40;
 
-    const alive_buckets = [
-      { years: '1-5', trees: oneToFiveAlive },
-      { years: '6-10', trees: sixToTenAlive },
-      { years: '11-50', trees: elevenToFiftyAlive },
+    const alive_buckets_high = [
+      { years: '1-5', trees: oneToFiveAliveHigh },
+      { years: '6-10', trees: sixToTenAliveHigh },
+      { years: '11-50', trees: elevenToFiftyAliveHigh },
     ];
 
-    // Dead
-    const oneToFiveDead = sumRange(safOutput2.Dead, 0, 5) / 5;
-    const sixToTenDead = sumRange(safOutput2.Dead, 5, 10) / 5;
-    const elevenToFiftyDead = sumRange(safOutput2.Dead, 10, 50) / 40;
+    // Dead - High
+    const oneToFiveDeadHigh = sumRange(safOutput2.Dead, 0, 5) / 5;
+    const sixToTenDeadHigh = sumRange(safOutput2.Dead, 5, 10) / 5;
+    const elevenToFiftyDeadHigh = sumRange(safOutput2.Dead, 10, 50) / 40;
 
-    const dead_buckets = [
-      { years: '1-5', trees: oneToFiveDead },
-      { years: '6-10', trees: sixToTenDead },
-      { years: '11-50', trees: elevenToFiftyDead },
+    const dead_buckets_high = [
+      { years: '1-5', trees: oneToFiveDeadHigh },
+      { years: '6-10', trees: sixToTenDeadHigh },
+      { years: '11-50', trees: elevenToFiftyDeadHigh },
     ];
 
-    // Critical
-    const oneToFiveCritical = sumRange(safOutput2.Critical, 0, 5) / 5;
-    const sixToTenCritical = sumRange(safOutput2.Critical, 5, 10) / 5;
-    const elevenToFiftyCritical = sumRange(safOutput2.Critical, 10, 50) / 40;
+    // Critical - High
+    const oneToFiveCriticalHigh = sumRange(safOutput2.Critical, 0, 5) / 5;
+    const sixToTenCriticalHigh = sumRange(safOutput2.Critical, 5, 10) / 5;
+    const elevenToFiftyCriticalHigh = sumRange(safOutput2.Critical, 10, 50) / 40;
 
-    let critical_buckets = [
-      { years: '1-5', trees: oneToFiveCritical },
-      { years: '6-10', trees: sixToTenCritical },
-      { years: '11-50', trees: elevenToFiftyCritical },
+    let critical_buckets_high = [
+      { years: '1-5', trees: oneToFiveCriticalHigh },
+      { years: '6-10', trees: sixToTenCriticalHigh },
+      { years: '11-50', trees: elevenToFiftyCriticalHigh },
     ];
 
     function makePieOutput(alive, dead, critical, bucket) {
@@ -215,27 +224,109 @@ export default function SubmitProject(props) {
           id: 'healthy',
           label: 'Healthy',
           value: alive[bucket].trees,
-          color: 'hsl(165, 72%, 42%)',
+          color: '#DDDDDD',
+        },
+        {
+          id: 'Critical',
+          label: 'Critical health',
+          value: critical[bucket].trees,
+          color: '#828784',
         },
         {
           id: 'dead',
           label: 'Dead',
           value: dead[bucket].trees,
-          color: 'hsl(243, 75%, 59%)',
-        },
-        {
-          id: 'Critical',
-          label: 'Critial',
-          value: critical[bucket].trees,
-          color: 'hsl(150, 2%, 19%)',
+          color: '#2F3130',
         },
       ];
       return pieChartArgs;
     }
 
-    setOneToFivePie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 0));
-    setSixToTen(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 1));
-    setEleventToFiftyPie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 2));
+    setOneToFivePieHigh(
+      makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 0),
+    );
+    setSixToTenHigh(makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 1));
+    setEleventToFiftyPieHigh(
+      makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 2),
+    );
+
+    // Alive - Med
+    const oneToFiveAliveMed = sumRange(safOutput1.Alive, 0, 5) / 5;
+    const sixToTenAliveMed = sumRange(safOutput1.Alive, 5, 10) / 5;
+    const elevenToFiftyAliveMed = sumRange(safOutput1.Alive, 10, 50) / 40;
+
+    const alive_buckets_med = [
+      { years: '1-5', trees: oneToFiveAliveMed },
+      { years: '6-10', trees: sixToTenAliveMed },
+      { years: '11-50', trees: elevenToFiftyAliveMed },
+    ];
+
+    // Dead - Med
+    const oneToFiveDeadMed = sumRange(safOutput1.Dead, 0, 5) / 5;
+    const sixToTenDeadMed = sumRange(safOutput1.Dead, 5, 10) / 5;
+    const elevenToFiftyDeadMed = sumRange(safOutput1.Dead, 10, 50) / 40;
+
+    const dead_buckets_med = [
+      { years: '1-5', trees: oneToFiveDeadMed },
+      { years: '6-10', trees: sixToTenDeadMed },
+      { years: '11-50', trees: elevenToFiftyDeadMed },
+    ];
+
+    // Critical - Med
+    const oneToFiveCriticalMed = sumRange(safOutput1.Critical, 0, 5) / 5;
+    const sixToTenCriticalMed = sumRange(safOutput1.Critical, 5, 10) / 5;
+    const elevenToFiftyCriticalMed = sumRange(safOutput1.Critical, 10, 50) / 40;
+
+    let critical_buckets_med = [
+      { years: '1-5', trees: oneToFiveCriticalMed },
+      { years: '6-10', trees: sixToTenCriticalMed },
+      { years: '11-50', trees: elevenToFiftyCriticalMed },
+    ];
+
+    setOneToFivePieMed(makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 0));
+    setSixToTenMed(makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 1));
+    setEleventToFiftyPieMed(
+      makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 2),
+    );
+
+    // Alive - Low
+    const oneToFiveAliveLow = sumRange(safOutput0.Alive, 0, 5) / 5;
+    const sixToTenAliveLow = sumRange(safOutput0.Alive, 5, 10) / 5;
+    const elevenToFiftyAliveLow = sumRange(safOutput0.Alive, 10, 50) / 40;
+
+    const alive_buckets_low = [
+      { years: '1-5', trees: oneToFiveAliveLow },
+      { years: '6-10', trees: sixToTenAliveLow },
+      { years: '11-50', trees: elevenToFiftyAliveLow },
+    ];
+
+    // Dead - Low
+    const oneToFiveDeadLow = sumRange(safOutput0.Dead, 0, 5) / 5;
+    const sixToTenDeadLow = sumRange(safOutput0.Dead, 5, 10) / 5;
+    const elevenToFiftyDeadLow = sumRange(safOutput0.Dead, 10, 50) / 40;
+
+    const dead_buckets_low = [
+      { years: '1-5', trees: oneToFiveDeadLow },
+      { years: '6-10', trees: sixToTenDeadLow },
+      { years: '11-50', trees: elevenToFiftyDeadLow },
+    ];
+
+    // Critical - Low
+    const oneToFiveCriticalLow = sumRange(safOutput0.Critical, 0, 5) / 5;
+    const sixToTenCriticalLow = sumRange(safOutput0.Critical, 5, 10) / 5;
+    const elevenToFiftyCriticalLow = sumRange(safOutput0.Critical, 10, 50) / 40;
+
+    let critical_buckets_low = [
+      { years: '1-5', trees: oneToFiveCriticalLow },
+      { years: '6-10', trees: sixToTenCriticalLow },
+      { years: '11-50', trees: elevenToFiftyCriticalLow },
+    ];
+
+    setOneToFivePieLow(makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 0));
+    setSixToTenLow(makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 1));
+    setEleventToFiftyPieLow(
+      makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 2),
+    );
   }
 
   function makeComparativeSeqChart() {
@@ -288,7 +379,7 @@ export default function SubmitProject(props) {
 
   function makeComparativeCostChart() {
     // let replacement_price = 100;
-    let replaced_0 = makeChartArray(safOutput0.Replaced );
+    let replaced_0 = makeChartArray(safOutput0.Replaced);
     let replaced_1 = makeChartArray(safOutput1.Replaced);
     let replaced_2 = makeChartArray(safOutput2.Replaced);
 
@@ -502,22 +593,18 @@ export default function SubmitProject(props) {
                 <div className='book-intro-md max-w-3xl place-self-center text-dark-wood-700'>
                   <p className='pb-4'>
                     By filling in this form you’ll be able to forecast costs, model impacts and
-                    publish your project on our NbS map. If you are missing any information, you can
-                    save the form and update it later.
+                    publish your project on our NbS map.
                   </p>
                   <hr className='border-dark-wood-600' />
-                  <p className='pt-4 '>
-                    The information with * are mandatory. Click on this icon{' '}
-                    <img className='inline-block h-12 w-12' src={infoImage} /> to know more.
-                  </p>
+                  <p className='pt-4 '>Sections marked * are mandatory.</p>
                 </div>
               </div>
             </div>
             <div className='py-10'>
               <SectionHeader title='Project information' type='general' />
               <FormBlock
-                title='Project Information'
-                description='Tell us who you are and a bit about your project.'
+                title='Project information'
+                description='Start by telling us who you are and a bit about your project.'
               >
                 <TextInput
                   span='sm:col-span-5'
@@ -600,7 +687,7 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
-                title='Land use'
+                title='Land ownership and use'
                 description='Land usage prior to your intervention is a key determinant of a project’s future impact.'
               >
                 <TextInput
@@ -642,7 +729,7 @@ export default function SubmitProject(props) {
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
                 title='Describe your project'
-                description='Tell us about your project, it’s location, what you hope to deliver, who you’re working with to make it happen. '
+                description='Tell us about your project. Don’t worry about precise typologies or numbers for the moment, just let us know about the project’s location, what you hope to deliver, who you’re working with to make it happen.'
               >
                 <div className='sm:col-span-3'>
                   <label
@@ -711,8 +798,9 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
-                title='Date and timing'
-                description='We would like to know the duration of the project and expected start date.'
+                title='Dates and timing'
+                description='We’d like to know the  expected start date and 
+                duration of the project.'
               >
                 <div className='sm:col-span-3'>
                   <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
@@ -745,7 +833,7 @@ export default function SubmitProject(props) {
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
                 title='Stakeholder engagement'
-                description='Who are the stakeholders or communities affected by the implementation of the project? How were they identified and how are they being engaged?'
+                description='Who are the stakeholders affected by the project’s implementation? How were they identified and how are they being engaged?'
               >
                 <div className='sm:col-span-6'>
                   <label
@@ -774,7 +862,7 @@ export default function SubmitProject(props) {
               <SectionHeader title='Project Layout *' type='typology' />
               <FormBlock
                 title='Select the relevant typology'
-                description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project. Right now, the platform only recognises  tree-based projects, but we’ll soon add more typologies such as SuDS'
+                description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project. Right now, the platform only recognises tree-based projects, but we’ll soon add more typologies such as Sustainable Urban Drainage Systems (SuDS)'
                 type='typology'
               >
                 <div className='sm:hidden'>
@@ -869,37 +957,12 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-8 border-green-600' />
               <FormBlock
-                title='What activities are you running on this typology?'
-                description='Developing (if this typology is a new intervention)- Maintaining (if this typology already existed and we will maintain it)'
+                title={`How big is the ${selectedTypology.title} component of your project?`}
+                description={`Your total project area is ${totalArea} m2. How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
                 type='typology'
               >
-                <RadioSelector
-                  span='sm:col-span-5'
-                  label='activity-type'
-                  title='Predominant activity type'
-                  type='typology'
-                  setRadioType={setActivityType}
-                  radioType={activityType}
-                  radioTypes={activityTypes}
-                />
-                <RadioSelector
-                  span='sm:col-span-5'
-                  label='maintenance-type'
-                  title='Maintenance type'
-                  type='typology'
-                  setRadioType={setMaintenanceType}
-                  radioType={maintenanceType}
-                  radioTypes={maintenanceTypes}
-                />
-              </FormBlock>
-              <hr className='mx-20 border-8 border-green-600' />
-              {selectedTypology.id !== 0 && (
-                <>
-                  <FormBlock
-                    title='Define your typology area'
-                    description={`Your project is ${totalArea} m2. What is the area occupied by the ${selectedTypology.title} typology?`}
-                    type='typology'
-                  >
+                {selectedTypology.id !== 0 && (
+                  <>
                     <NumberInput
                       span='sm:col-span-3'
                       label='area-density'
@@ -912,16 +975,10 @@ export default function SubmitProject(props) {
                         setAreaDensity(e.target.value);
                       }}
                     />
-                  </FormBlock>
-                  <hr className='mx-20 border-8 border-green-600' />
-                </>
-              )}
+                    <div className='col-span-3'></div>
+                  </>
+                )}
 
-              <FormBlock
-                title='How many trees does your site contain? '
-                description='We would like to know the numbers of trees your project will work on. Please insert total number of trees, both new and the one that will be maintained.'
-                type='typology'
-              >
                 <NumberInput
                   span='sm:col-span-3'
                   label='new-trees'
@@ -948,6 +1005,31 @@ export default function SubmitProject(props) {
                     }}
                   />
                 )}
+              </FormBlock>
+              <hr className='mx-20 border-8 border-green-600' />
+              <FormBlock
+                title='What activities are you planning?'
+                description='While we imagine you’re planning several activities, please select the main ones. (If you’re planning to plant trees, select DEVELOPING. If you’re maintaining existing tree stocks, select MAINTAINING)'
+                type='typology'
+              >
+                <RadioSelector
+                  span='sm:col-span-5'
+                  label='activity-type'
+                  title='Primary activity'
+                  type='typology'
+                  setRadioType={setActivityType}
+                  radioType={activityType}
+                  radioTypes={activityTypes}
+                />
+                <RadioSelector
+                  span='sm:col-span-5'
+                  label='maintenance-type'
+                  title='Maintenance level'
+                  type='typology'
+                  setRadioType={setMaintenanceType}
+                  radioType={maintenanceType}
+                  radioTypes={maintenanceTypes}
+                />
               </FormBlock>
             </div>
             <div className='py-10'>
@@ -979,8 +1061,8 @@ export default function SubmitProject(props) {
               </FormBlock>
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
-                title='Project initial and ongoing costs'
-                description='Please tell us more about your project costs across its lifetime.  Capital expenditure refers to the initial costs or developing the project and operational expenditure to the costs of maintaining it.'
+                title='Breakdown of costs'
+                description='Please tell us more about the initial costs of developing your project (capital expenditure) and ongoing costs of maintaining it (operational expenditure).'
                 type='cost'
               >
                 <NumberInput
@@ -991,6 +1073,7 @@ export default function SubmitProject(props) {
                   unit='£'
                   type='cost'
                 />
+
                 <NumberInput
                   span='sm:col-span-3'
                   label='opex'
@@ -999,6 +1082,13 @@ export default function SubmitProject(props) {
                   unit='£'
                   type='cost'
                 />
+                <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
+                  Capital expenditures (CAPEX) refers to the initial costs of developing a project.
+                </p>
+                <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
+                  Operating expenses (OPEX) are the maintenance expenses to keep the projects
+                  operation.
+                </p>
               </FormBlock>
             </div>
 
@@ -1006,7 +1096,7 @@ export default function SubmitProject(props) {
               <SectionHeader title='More information' type='info' />
               <FormBlock
                 title='Would you like to add more information? '
-                description='If you share more information about your project specifications (such as your planning application, bills of quantity or any other design packages) your measurements will be more accurate.'
+                description='Thanks for sharing the key information required to establish your project’s impact. However, if you share more information about your project specifications (such as your planning application, bills of quantity, or any other design packages) your measurements will be more accurate.'
                 type='cost'
               >
                 <TextInput
@@ -1037,12 +1127,11 @@ export default function SubmitProject(props) {
 
             <div className='grid pb-20'>
               <div className='max-w-3xl place-self-center py-4 text-center'>
-                <h3 className=''>
-                  Thanks for your patience and for filling out all these information! Click
-                  &quot;Run Impact&quot; to view your project impact assessment. If you need to add
-                  more information you can always save and come back later. You can find back your
-                  project on your profile page.
-                </h3>
+                <p className='book-intro-lg'>
+                  Thanks for taking the time to fill in the form. Click &quot;
+                  <span className='medium-intro-lg'>Run impact</span>&quot; to view your project
+                  impact assessment.
+                </p>
               </div>
               <div className='place-self-center pt-4'>
                 <button
@@ -1051,13 +1140,7 @@ export default function SubmitProject(props) {
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                   onClick={createProjectAndGetID}
                 >
-                  Run Impact
-                </button>
-                <button
-                  type='button'
-                  className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                >
-                  Save for later
+                  Run impact
                 </button>
               </div>
             </div>
@@ -1163,20 +1246,20 @@ export default function SubmitProject(props) {
             </div>
 
             <div className='border-r border-green-600 px-8'>
-              <h3 className='text-dark-wood-800'>Your project&rsquo;s impact for 50 years</h3>
+              <h3 className='text-dark-wood-800'>Your project&rsquo;s 50-year impact</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800 pb-10'>
-                Considering the combination of your project typology, activity, location, and other
-                factors, you could help achieve the following estimated potential impact:
+                Considering a range of factors including your project’s typology, activity and
+                location, you could help achieve the following estimated impact:
               </p>
               <ValueDisplay
                 value={Math.round(totalSeq)}
-                label='Net C02 sequestration 50 years (Kgs)'
+                label='Net CO2 sequestered in 50 years (Kgs)'
                 disabled={false}
               />
               <hr className='mx-20 border-8 border-green-600' />
               <ValueDisplay
                 value={Math.round(totalStorage)}
-                label='Total C02 Stored in 50 years (Kgs)'
+                label='Total CO2 stored in 50 years (Kgs)'
                 disabled={false}
               />
 
@@ -1197,8 +1280,8 @@ export default function SubmitProject(props) {
             <div className='px-8 '>
               <h3 className='text-dark-wood-800'>Project Cost</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
-                Considering the combination of your project typology, activity, location, and other
-                factors, you could help achieve the following estimated potential impact:
+                Considering a combination of factors including your project typology, activity and
+                location, your project average could be:
               </p>
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
               <p>
@@ -1239,13 +1322,10 @@ export default function SubmitProject(props) {
                 ).toFixed(2)}
               </p>
 
-              <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>
-                Risk to be addressed
-              </h3>
+              <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>Risk addressed</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
-                The impact of your project is highly dependent on its specific location within the
-                city. Here you can find the environmental and socio-economic risks that climate
-                change poses to the area of your project:
+                Considering a combination of factors including your project typology, activity and
+                location, your project average could be:
               </p>
               <LocationRiskChart cc_name={selectedCC} />
             </div>
@@ -1253,8 +1333,8 @@ export default function SubmitProject(props) {
 
           <SectionHeader title='In detail' type='details' />
           <ResultBlock
-            title='Project Impact'
-            description='Output of Scenario Analysis Framework. Considering  the combination of typology, activity, location, and other factors calculated via an agent-based scenario analysis framework (i) across 50 years, your project could help achieve the following estimated potential impact:'
+            title='Your Project’s Impact'
+            description='Considering the combination of factors including typology, activity and location, calculated via an agent-based scenario analysis framework, your project could help achieve the following potential impact over the next 50 years:'
             type='impact'
           />
           <hr className='mx-20 border-8 border-indigo-600' />
@@ -1262,34 +1342,76 @@ export default function SubmitProject(props) {
             <div className=''>
               <ChartBlock
                 maintenanceTypeName={maintenanceType.name}
-                label='Your project’s annual net CO2 Sequestration (in KGs)'
+                label='Total amount of Carbon (C) sequestered through biomass growth of trees or plants for the selected time window, usually per year.'
+                detail='Carbon sequestration - Trees, as well as other vegetation, absorb and long-term store carbon dioxide from the air. As a result, they reduce the total amount of greenhouse gases and air pollutants in the atmosphere, mitigating  negative effects (Brack, C.L., 2002; Nowak, D.J. and Crane, D.E., 2002; Kiss, M., et al., 2015).'
               >
                 <ChartMultiLine data={comparativeSeq} />
               </ChartBlock>
 
               <ChartBlock
                 maintenanceTypeName={maintenanceType.name}
-                label='Your project’s annual Total CO2 stored under three maintenance scopes (Kgs). '
+                label='Total amount of Carbon (C) is held by the alive trees or other plants.'
+                detail='Total amount of Carbon (C) is held by the living trees or other plants.'
               >
                 <ChartMultiLine data={comparativeStorage} />
               </ChartBlock>
 
               <ChartBlock
                 maintenanceTypeName={maintenanceType.name}
-                label='Average number of healthy trees year on year' // under three maintenance scopes'
+                label='Percentage of healthy trees year on year under three maintenance scopes. Find out the percentage of healthy trees year on year.' // under three maintenance scopes'
                 type='pie'
+                detail='Health condition of an individual tree. Measured by healthy ratio tree canopy and reported by categories: Excellent: >.99, Good: .90, Fair: .75, Poor: .50, Critical: 0.25, Dying:.01, Dead: 0'
               >
-                <div className='grid grid-cols-1 sm:grid-cols-3'>
-                  <div>
-                    <PieChart data={oneToFivePie} type={1} />
+                <Dropdown
+                  span='sm:col-span-2'
+                  label='pie chart type'
+                  title=''
+                  type='general'
+                  onChange={(e) => {
+                    setPieChartShowType(e.target.value);
+                  }}
+                  options={piechartTypes}
+                />
+                {pieChartShowType === 'low maintenance' && (
+                  <div className='grid grid-cols-1 sm:grid-cols-3'>
+                    <div>
+                      <PieChart data={oneToFivePieLow} type={1} />
+                    </div>
+                    <div>
+                      <PieChart data={sixToTenPieLow} type={2} />
+                    </div>
+                    <div>
+                      <PieChart data={eleventToFiftyPieLow} type={3} />
+                    </div>
                   </div>
-                  <div>
-                    <PieChart data={sixToTenPie} type={2} />
+                )}
+                {pieChartShowType === 'medium maintenance' && (
+                  <div className='grid grid-cols-1 sm:grid-cols-3'>
+                    <div>
+                      <PieChart data={oneToFivePieMed} type={1} />
+                    </div>
+                    <div>
+                      <PieChart data={sixToTenPieMed} type={2} />
+                    </div>
+                    <div>
+                      <PieChart data={eleventToFiftyPieMed} type={3} />
+                    </div>
                   </div>
-                  <div>
-                    <PieChart data={eleventToFiftyPie} type={3} />
+                )}
+
+                {pieChartShowType === 'high maintenance' && (
+                  <div className='grid grid-cols-1 sm:grid-cols-3'>
+                    <div>
+                      <PieChart data={oneToFivePieHigh} type={1} />
+                    </div>
+                    <div>
+                      <PieChart data={sixToTenPieHigh} type={2} />
+                    </div>
+                    <div>
+                      <PieChart data={eleventToFiftyPieHigh} type={3} />
+                    </div>
                   </div>
-                </div>
+                )}
               </ChartBlock>
             </div>
           </ResultBlock>
@@ -1298,7 +1420,7 @@ export default function SubmitProject(props) {
 
           <ResultBlock
             title='Project Costs*'
-            description='The tables will give you an estimate of the cost in 50 years. *this is a project cost estimate which does not include any commercial mark-ups. These costs only reflect the direct infrastructure cost of your NbS project.'
+            description='The assessment provides an estimated project costs over 50 years. *this estimate does not include any commercial mark-ups. These costs only reflect the direct infrastructural cost of your NbS project.'
             type='impact'
           >
             <ChartBlock
@@ -1313,10 +1435,10 @@ export default function SubmitProject(props) {
 
           <div className='grid pb-20 pt-10'>
             <div className='max-w-3xl place-self-center py-4 text-center'>
-              <h3 className=''>
+              <p className='book-intro-lg'>
                 You can now publish your project and view it in the ATLAS. Or you can save it for
                 later and check the project on your profile page.
-              </h3>
+              </p>
             </div>
             <div className='place-self-center pt-4'>
               <button
