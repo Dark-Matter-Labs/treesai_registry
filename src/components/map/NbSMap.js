@@ -14,6 +14,7 @@ export default function NbSMap(props) {
     latitude: 55.85,
     zoom: 11,
   });
+
   return (
     <ReactMapboxGL
       ref={props.mapRef}
@@ -21,7 +22,7 @@ export default function NbSMap(props) {
       {...viewState}
       onMove={(evt) => setViewState(evt.viewState)}
       mapStyle={props.mapLayer}
-      style={{ width: '100vw', height: '100vh' }}
+      style={{ width: '100vw', height: '100vh', overflowY: 'hidden' }}
     >
       <>
         {props.data.map((city, index) => (
