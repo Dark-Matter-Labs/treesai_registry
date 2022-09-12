@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import FilterSelect from './FilterSelect';
@@ -14,6 +14,9 @@ const districts = get_districts();
 const typologies = get_typologies();
 
 export default function Filter(props) {
+  const [stage, setStage] = useState(null);
+  const [district, setDistrict] = useState(null);
+  const [typology, setTypology] = useState(null);
   return (
     <Popover className='relative z-50'>
       {({ open }) => (
@@ -44,10 +47,12 @@ export default function Filter(props) {
               <div className='rounded-lg shadow-lg ring-1 ring-black ring-opacity-5'>
                 <div className='relative grid bg-dark-wood-800 px-5 py-4 gap-2 rounded-30'>
                   <FilterSelect
-                    name='city'
+                    name='stage'
+                    value={stage}
                     title='Filter by Stage'
                     options={stages}
                     onChange={(e) => {
+                      setStage(e);
                       let filteredData = [];
                       e.map((selection) => {
                         let filteredDataRow = [];
@@ -64,10 +69,12 @@ export default function Filter(props) {
                     }}
                   />
                   <FilterSelect
-                    name='city'
+                    name='district'
+                    value={district}
                     title='Filter by District'
                     options={districts}
                     onChange={(e) => {
+                      setDistrict(e);
                       let filteredData = [];
                       e.map((selection) => {
                         let filteredDataRow = [];
@@ -84,10 +91,12 @@ export default function Filter(props) {
                     }}
                   />
                   <FilterSelect
-                    label='city'
+                    label='typology'
+                    value={typology}
                     title='Filter by Typology'
                     options={typologies}
                     onChange={(e) => {
+                      setTypology(e);
                       let filteredData = [];
                       e.map((selection) => {
                         let filteredDataRow = [];
