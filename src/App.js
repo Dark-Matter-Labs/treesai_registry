@@ -6,6 +6,7 @@ import SubmitProject from './pages/SubmitProject';
 import Portfolio from './pages/Portfolio';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Demo from './pages/Demo';
 
 function App() {
   let loggedIn = false;
@@ -19,6 +20,7 @@ function App() {
         <Route exact path='/' element={<Home loggedIn={loggedIn} />} />
         <Route exact path='/develop' element={<SubmitProject loggedIn={loggedIn} />} />
         <Route exact path='/explore' element={<Portfolio loggedIn={loggedIn} />} />
+        <Route exact path='/demo' element={<Demo />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/login' element={<Login />} />
       </Routes>
