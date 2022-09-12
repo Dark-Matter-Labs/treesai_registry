@@ -98,6 +98,7 @@ export default function SubmitProject(props) {
   const [oneToFivePie, setOneToFivePie] = useState([]);
   const [sixToTenPie, setSixToTen] = useState([]);
   const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
+  const [costChart, setCostChart] = useState([]);
 
   const navigate = useNavigate();
 
@@ -285,6 +286,34 @@ export default function SubmitProject(props) {
     ]);
   }
 
+  function makeComparativeCostChart() {
+    // let replacement_price = 100;
+    let replaced_0 = makeChartArray(safOutput0.Replaced );
+    let replaced_1 = makeChartArray(safOutput1.Replaced);
+    let replaced_2 = makeChartArray(safOutput2.Replaced);
+
+    setCostChart([
+      {
+        id: 'Low maintenance',
+        color: 'hsl(135, 70%, 50%)',
+        data: replaced_0,
+      },
+      {
+        id: 'Medium maintenance',
+        color: 'hsl(347, 70%, 50%)',
+        data: replaced_1,
+      },
+      {
+        id: 'High maintenance',
+        color: 'hsl(31, 70%, 50%)',
+        data: replaced_2,
+      },
+    ]);
+
+    console.log(safOutput0.Replaced);
+    console.log(costChart);
+  }
+
   /* Data logic changes on receiving the SAF output */
   useEffect(() => {
     processSAFData();
@@ -293,6 +322,7 @@ export default function SubmitProject(props) {
   useEffect(() => {
     makeComparativeSeqChart();
     makeComparativeStorageChart();
+    makeComparativeCostChart();
   }, [safOutput0, safOutput1, safOutput2]);
 
   const getSAFOutput = async () => {
@@ -1270,7 +1300,15 @@ export default function SubmitProject(props) {
             title='Project Costs*'
             description='The tables will give you an estimate of the cost in 50 years. *this is a project cost estimate which does not include any commercial mark-ups. These costs only reflect the direct infrastructure cost of your NbS project.'
             type='impact'
-          />
+          >
+            <ChartBlock
+              maintenanceTypeName={maintenanceType.name}
+              label='Your projects tree replacements'
+            >
+              <ChartMultiLine data={costChart} />
+            </ChartBlock>
+          </ResultBlock>
+
           <hr className='mx-20 border-8 border-indigo-600' />
 
           <div className='grid pb-20 pt-10'>
