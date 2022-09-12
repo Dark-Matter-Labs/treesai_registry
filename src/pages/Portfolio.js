@@ -7,7 +7,6 @@ import NavBar from '../components/NavBar';
 import ProjectsPanel from '../components/map/ProjectsPanel';
 import Filter from '../components/map/Filter';
 import LayerSelector from '../components/map/LayerSelector';
-import Footer from '../components/Footer';
 
 export default function Portfolio(props) {
   const mapRef = useRef();
@@ -25,7 +24,7 @@ export default function Portfolio(props) {
     setPopupInfo(current);
   };
   return (
-    <>
+    <div className='overflow-y-hidden h-screen m-0'>
       <NavBar loggedIn={props.loggedIn} current='portfolio' />
       {showProjectPanel ? (
         <div className='grid grid-cols-1 sm:grid-cols-4'>
@@ -73,9 +72,7 @@ export default function Portfolio(props) {
           </div>
         </div>
       )}
-
-      <Footer />
-    </>
+    </div>
   );
 }
 

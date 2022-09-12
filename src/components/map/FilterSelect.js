@@ -8,12 +8,13 @@ export default function FilterSelect(props) {
         {props.title}
       </label>
       <Select
-        options={props.options}
+        options={[{ label: 'Select All', value: 'all' }, ...props.options]}
         isMulti
         name={props.name}
         className='basic-multi-select medium-intro-sm block w-full rounded-2xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border-dark-wood-800'
         classNamePrefix='select'
         onChange={props.onChange}
+        value={props.value ? props.value : null}
       />
     </>
   );
@@ -24,5 +25,5 @@ FilterSelect.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   title: PropTypes.string,
-  selectOption: PropTypes.array,
+  value: PropTypes.array,
 };

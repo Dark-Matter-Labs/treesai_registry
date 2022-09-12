@@ -10,7 +10,11 @@ function classNames(...classes) {
 
 export default function ProjectsPanel(props) {
   return (
-    <Transition.Root show={props.showProjectPanel} as={Fragment}>
+    <Transition.Root
+      show={props.showProjectPanel}
+      as={Fragment}
+      className='h-screen overflow-y-hidden'
+    >
       <Transition.Child
         enter='transform transition ease-in-out duration-500 sm:duration-700'
         enterFrom='translate-x-full'
@@ -28,15 +32,18 @@ export default function ProjectsPanel(props) {
         </div>
         <div className='px-10 py-4 text-dark-wood-700 medium-intro-sm '>
           <p>
-            A database of all submitted and eligible Nature-based Solutions projects in the TreesAI
-            platform globally
+            Explore every nature-based solutions projects on the TreesAI platform.
+            <br />
+            <br />
+            Use the NbS Map to select and deselect projects, or use the search icon to find a
+            specific project.
           </p>
         </div>
         <div className='px-4 py-2'>
-          <p className='text-green-600 bold-intro-md'>Featured Projects</p>
-          <ul role='list' className='overflow-scroll h-72'>
+          <p className='text-green-600 bold-intro-md'>Projects</p>
+          <ul role='list' className='overflow-scroll h-[27rem] styled-scrollbars'>
             {props.data.map((project) => {
-              if (project.properties.is_featured) {
+              if (project.properties.portfolio_A) {
                 return (
                   <li
                     key={project.properties.id}
@@ -65,38 +72,6 @@ export default function ProjectsPanel(props) {
                 );
               }
             })}
-          </ul>
-        </div>
-        <div className='px-4'>
-          <p className='text-green-600 bold-intro-md'>Other Projects</p>
-
-          <ul role='list' className='overflow-scroll h-48'>
-            {props.data.map((project) => (
-              <li
-                key={project.properties.id}
-                className={classNames(
-                  project.properties.is_featured ? 'border-green-600' : 'border-dark-wood-600',
-                  'bg-white-300 relative  py-5 px-4 hover:bg-gray-50 rounded-full border my-4 mx-2',
-                )}
-                onClick={() => {
-                  props.selectProject(project);
-                }}
-              >
-                <div className='flex justify-between space-x-3'>
-                  <div className='min-w-0 flex-1'>
-                    <a href='#' className='block focus:outline-none'>
-                      <span className='absolute inset-0' aria-hidden='true' />
-                      <p className='medium-intro-sm text-green-600 truncate'>
-                        {project.properties.project_name}
-                      </p>
-                      <p className='medium-intro-sm text-gray-500 truncate'>
-                        {project.properties.community_council}
-                      </p>
-                    </a>
-                  </div>
-                </div>
-              </li>
-            ))}
           </ul>
         </div>
         <div className='px-4 py-4'>
@@ -132,7 +107,7 @@ export default function ProjectsPanel(props) {
               type='button'
               className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
             >
-              Glasgow pilot →
+              Glasgow NbS Portfolio →
             </button>
           </div>
         </div>
