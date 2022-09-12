@@ -85,7 +85,7 @@ export default function Home(props) {
                   Use the NbS Impact Planner to design and register a project, forecast costs, model
                   impacts and measure benefits.
                 </p>
-                <Link to='/develop'>
+                <Link to='/demo'>
                   <button
                     type='button'
                     className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
