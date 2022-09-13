@@ -6,6 +6,7 @@ import SubmitProject from './pages/SubmitProject';
 import Portfolio from './pages/Portfolio';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import ScrollToTop from './utils/ScrollToTop';
 
 function App() {
   let loggedIn = false;
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <Router>
+       <ScrollToTop />
       <Routes>
         <Route exact path='/' element={<Home loggedIn={loggedIn} />} />
         <Route exact path='/develop' element={<SubmitProject loggedIn={loggedIn} />} />
