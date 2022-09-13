@@ -4,12 +4,16 @@ import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import tempImage from '../images/tempImage.png';
+import GCCLogo from '../images/partner_logos/GCC.png';
+import CCFLogo from '../images/partner_logos/CCF.png';
+import TerraLogo from '../images/partner_logos/terra.png';
+import MGSDPLogo from '../images/partner_logos/MGSDP.png';
 
 export default function Home(props) {
   return (
-    <div className='font-favorit '>
-      <div className='relative overflow-hidden'>
-        <NavBar loggedIn={props.loggedIn} current='home' />
+    <div className='font-favorit bg-white-200'>
+      <NavBar loggedIn={props.loggedIn} current='home' />
+      <div className=''>
         <div className='bg-dark-wood-700'>
           <div className='mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8'>
             <div className='flex flex-wrap items-center justify-between'>
@@ -29,14 +33,14 @@ export default function Home(props) {
           </div>
         </div>
 
-        <main className='bg-white-200 pb-20 max-w-screen-2xl mx-auto'>
+        <main className='bg-white-200 pb-20 global-margin'>
           <div className='title-box mt-4 bg-indigo-600 py-20'>
             <div className='grid grid-cols-1 sm:grid-cols-3'>
               <div className='col-span-2 ml-20 mt-10'>
                 <h1 className='text-white-200'>TreesAI</h1>
                 <h2 className='pt-8 text-white-200'>Revaluing nature as urban infrastructure.</h2>
               </div>
-              <div>
+              <div className='px-5'>
                 <img src={tempImage} alt='explorer preview image' />
               </div>
             </div>
@@ -53,60 +57,60 @@ export default function Home(props) {
           </div>
 
           <div className='py-20 text-center'>
-            <h2 className='pb-4 text-center text-dark-wood-800'>
+            <h2 className='pb-4 text-center text-dark-wood-800 pb-20'>
               TreesAI’s development and investment services
             </h2>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-0 text-center'>
-              <div>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-0 justify-items-center  '>
+              <div className='mt-2'>
                 <div className='title-text-container plan-background-shape py-16'>
                   <h1 className='text-center text-white-200'>Explore</h1>
                   <h2 className='text-center text-white-200'>NbS Map</h2>
                 </div>
-                <p className='book-intro-md mt-14 ml-10 text-left max-w-sm'>
+                <p className='book-intro-md mt-10 ml-10 text-left max-w-sm px-10 text-dark-wood-800'>
                   Discover existing NbS projects and portfolios driving environmental, social and
                   economic impact.
                 </p>
                 <Link to='/explore'>
                   <button
                     type='button'
-                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                   >
                     NbS Map →
                   </button>
                 </Link>
               </div>
-              <div>
+              <div className=''>
                 <div className='title-text-container measure-background-shape py-20'>
                   <h1 className='text-center text-white-200'>Develop</h1>
                   <h2 className='text-center text-white-200'>an NbS project</h2>
                 </div>
-                <p className='book-intro-md mt-4 ml-10 text-left max-w-sm'>
+                <p className='book-intro-md mt-4 ml-10 text-left max-w-sm px-10 text-dark-wood-800'>
                   Use the NbS Impact Planner to design and register a project, forecast costs, model
                   impacts and measure benefits.
                 </p>
                 <Link to='/develop'>
                   <button
                     type='button'
-                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-green-800 '
                   >
                     Try it out →
                   </button>
                 </Link>
               </div>
-              <div>
-                <div className='title-text-container list-background-shape py-14'>
+              <div className='mt-10'>
+                <div className='title-text-container list-background-shape py-12'>
                   <h1 className='text-center text-white-200'>Invest</h1>
                   <h2 className='text-center text-white-200'>in a portfolio</h2>
                 </div>
-                <p className='book-intro-md mt-14 ml-10 text-left max-w-sm'>
+                <p className='book-intro-md mt-10 ml-10 text-left max-w-sm px-10 text-dark-wood-800'>
                   Invest in a strategic portfolio of NbS that delivers benefit for people and
                   planet.
                 </p>
                 <Link to='/'>
                   <button
                     type='button'
-                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 my-16 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 my-16 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800 '
                   >
                     Portfolio Manager →
                   </button>
@@ -117,7 +121,7 @@ export default function Home(props) {
 
           <div className='title-box bg-indigo-300 py-10'>
             <div className=''>
-              <h3 className='text-center'>Testimonials</h3>
+              <h2 className='text-center'>Testimonials</h2>
             </div>
             <div className='grid grid-cols-1 sm:grid-cols-2'>
               <div className='px-16 py-10 book-intro-sm'>
@@ -146,7 +150,7 @@ export default function Home(props) {
           <div className='title-box-alter bg-green-400 my-10 py-10 px-10'>
             <div className='grid grid-cols-1 sm:grid-cols-3'>
               <div className='pl-5'>
-                <h3 className=''>Trusted by Project Developers</h3>
+                <h2 className=''>Trusted by Project Developers</h2>
                 <p className='book-intro-sm pt-4'>
                   TreesAI is collaborating with project developers, local authorities and
                   environmental institutions globally to help them meet their climate & biodiversity
@@ -158,22 +162,29 @@ export default function Home(props) {
                   <div className='-mt-4 -ml-8 flex flex-wrap justify-around lg:-ml-4'>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
                       <img
-                        className='h-12'
-                        src='https://tailwindui.com/img/logos/workcation-logo-indigo-900.svg'
-                        alt='Workcation'
+                        className='h-40'
+                        src={GCCLogo}
+                        alt='Glasgow City Council Logo'
                       />
                     </div>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
                       <img
-                        className='h-12'
-                        src='https://tailwindui.com/img/logos/tuple-logo-indigo-900.svg'
+                        className='h-40'
+                        src={CCFLogo}
                         alt='Tuple'
                       />
                     </div>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
                       <img
-                        className='h-12'
-                        src='https://tailwindui.com/img/logos/level-logo-indigo-900.svg'
+                        className='h-40'
+                        src={TerraLogo}
+                        alt='Level'
+                      />
+                    </div>
+                    <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
+                      <img
+                        className='h-40'
+                        src={MGSDPLogo}
                         alt='Level'
                       />
                     </div>
@@ -196,9 +207,9 @@ export default function Home(props) {
               <Link to='/'>
                 <button
                   type='button'
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 '
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800 '
                 >
-                  Glasgow pilot
+                  Glasgow Portfolio
                 </button>
               </Link>
             </div>
