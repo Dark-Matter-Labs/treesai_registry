@@ -16,7 +16,7 @@ function App() {
 
   return (
     <Router>
-       <ScrollToTop />
+      <ScrollToTop />
       <Routes>
         <Route exact path='/' element={<Home loggedIn={loggedIn} />} />
         <Route exact path='/develop' element={<SubmitProject loggedIn={loggedIn} />} />
