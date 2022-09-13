@@ -6,11 +6,11 @@ const navigation = {
   support: [],
   company: [
     { name: 'Contact us', href: '#' },
-    { name: 'Press package', href: '#' },
+    { name: 'Press package', href: 'https://drive.google.com/drive/folders/1BwEQmn_I9-xFzjiJdLy9d8JJnkya5Gb4' },
   ],
   legal: [
-    { name: 'Policy', href: '#' },
-    { name: 'GDPR', href: '#' },
+    { name: 'Policy', href: 'https://darkmatterlabs.org/Privacy-Policy' },
+    { name: 'GDPR', href: 'https://darkmatterlabs.org/Privacy-Policy' },
   ],
   social: [
     {
