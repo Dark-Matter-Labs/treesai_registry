@@ -232,7 +232,7 @@ export default function SubmitProject(props) {
       default:
         toast.error('Something went wrong in the maintenance type');
     }
-  }, [pieChartShowType]);
+  }, [pieChartShowType, safOutput2]);
 
   function processSAFData(dataUserScope) {
     /* SAF Related processing */
@@ -328,9 +328,6 @@ export default function SubmitProject(props) {
         data: replaced_2,
       },
     ]);
-
-    console.log(safOutput0.Replaced);
-    console.log(costChart);
   }
 
   useEffect(() => {
