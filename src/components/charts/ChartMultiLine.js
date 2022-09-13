@@ -15,8 +15,8 @@ const commonPropertiesMultiLine = {
   },
   colors: ['#4F46E5', '#828784', '#1EB792'],
   enablePoints: false,
-  enableGridX: false,
-  enableGridY: false,
+  enableGridX: true,
+  enableGridY: true,
 };
 
 const ChartMultiLine = (props) => {
@@ -31,6 +31,7 @@ const ChartMultiLine = (props) => {
       <ResponsiveLine
         {...commonPropertiesMultiLine}
         curve='monotoneX'
+        lineWidth={3}
         enableArea={false}
         data={data}
         xScale={{
@@ -40,11 +41,11 @@ const ChartMultiLine = (props) => {
         }}
         axisLeft={{
           legend: 'KG / p Tree',
-          legendOffset: 12,
+          legendOffset: -40,
         }}
         axisBottom={{
           legend: 'YEAR',
-          legendOffset: -12,
+          legendOffset: 40,
         }}
       />
     </div>

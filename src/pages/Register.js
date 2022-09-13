@@ -103,7 +103,7 @@ export default function Register() {
         </Helmet>
       )}
       <NavBar />
-      <div className='flex mx-auto max-w-7xl flex-col justify-center py-12 sm:px-6 lg:px-8'>
+      <div className='flex global-margin flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='title-box mt-4 bg-indigo-600 py-20 text-center'>
           <h1 className='text-white-200'>Register account</h1>
         </div>
@@ -182,7 +182,7 @@ export default function Register() {
                   <button
                     onClick={registerUser}
                     type='button'
-                    className='flex w-full justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                    className='flex w-full justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-800'
                   >
                     {isLoading && <LoadingSpinner />}
                     Register
