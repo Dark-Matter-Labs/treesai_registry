@@ -58,6 +58,13 @@
   .bold-intro-lg {
     @apply font-favorit text-2xl font-bold leading-5;
   }
+
+  .global-margin {
+    @apply max-w-screen-2xl;
+    @apply mx-7;
+    @apply md:mx-10;
+    @apply xl:mx-auto;
+  }
 }
 
 @keyframes spinner {
@@ -140,7 +147,6 @@
 .title-text-container {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 }
 
