@@ -97,19 +97,38 @@ export default function SubmitProject(props) {
   const [totalStorage, setTotalStorage] = useState(0);
   const [comparativeSeq, setComparativeSeq] = useState([]);
   const [comparativeStorage, setComparativeStorage] = useState([]);
-  const [oneToFivePieHigh, setOneToFivePieHigh] = useState([]);
-  const [sixToTenPieHigh, setSixToTenHigh] = useState([]);
-  const [eleventToFiftyPieHigh, setEleventToFiftyPieHigh] = useState([]);
-  const [oneToFivePieMed, setOneToFivePieMed] = useState([]);
-  const [sixToTenPieMed, setSixToTenMed] = useState([]);
-  const [eleventToFiftyPieMed, setEleventToFiftyPieMed] = useState([]);
-  const [oneToFivePieLow, setOneToFivePieLow] = useState([]);
-  const [sixToTenPieLow, setSixToTenLow] = useState([]);
-  const [eleventToFiftyPieLow, setEleventToFiftyPieLow] = useState([]);
+  const [oneToFivePie, setOneToFivePie] = useState([]);
+  const [sixToTenPie, setSixToTen] = useState([]);
+  const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
 
   const [costChart, setCostChart] = useState([]);
 
   const navigate = useNavigate();
+
+  /* Helper functions */
+  function makeChartArray(dict) {
+    let chartArray = [];
+    chartArray = Object.keys(dict).map((key) => ({
+      x: Number(key),
+      y: dict[key],
+    }));
+    return chartArray;
+  }
+
+  function sumRange(array, start = 0, end = 50) {
+    let sum = 0;
+
+    for (let index = start; index < end; index++) {
+      sum += array[index];
+    }
+
+    return sum;
+  }
+
+  function getLastElement(obj) {
+    let last = Object.keys(obj)[Object.keys(obj).length - 1];
+    return last;
+  }
 
   useEffect(() => {
     if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
@@ -134,200 +153,109 @@ export default function SubmitProject(props) {
     }
   }, [areaDensity]);
 
-  /* Helper functions */
-  function makeChartArray(dict) {
-    let chartArray = [];
-    chartArray = Object.keys(dict).map((key) => ({
-      x: Number(key),
-      y: dict[key],
-    }));
-    return chartArray;
+  /* Pie Diagram */
+
+  function makePieOutput(alive, dead, critical, bucket) {
+    const pieChartArgs = [
+      {
+        id: 'healthy',
+        label: 'Healthy',
+        value: alive[bucket].trees,
+        color: '#DDDDDD',
+      },
+      {
+        id: 'Critical',
+        label: 'Critical health',
+        value: critical[bucket].trees,
+        color: '#828784',
+      },
+      {
+        id: 'dead',
+        label: 'Dead',
+        value: dead[bucket].trees,
+        color: '#2F3130',
+      },
+    ];
+    return pieChartArgs;
   }
 
-  function processSAFData(dataUserScope) {
-    /* SAF Related processing */
-
-    /*
-    function calcAverage(dict) {
-      // Calculates the average of an array
-      if (Object.keys(dict).length === 0) {
-        return 0;
-      } else {
-        let sum = 0;
-        Object.keys(dict).forEach((key) => {
-          sum += dict[key];
-        });
-        return sum / Object.keys(dict).length;
-      }
-    }
-    */
-
-    function sumRange(array, start = 0, end = 50) {
-      let sum = 0;
-
-      for (let index = start; index < end; index++) {
-        sum += array[index];
-      }
-
-      return sum;
-    }
-
-    function getLastElement(obj) {
-      let last = Object.keys(obj)[Object.keys(obj).length - 1];
-      return last;
-    }
-
-    /* Calculate */
-
-    // Calculate total storage
-    setTotalSeq(sumRange(dataUserScope.Seq, 0, getLastElement(dataUserScope.Seq)));
-    setTotalStorage(dataUserScope.Storage[getLastElement(dataUserScope.Storage)]); // last element of the array
-
-    /* Pie charts */
-
+  function makePieChart(safOutput) {
     // Alive - High
-    const oneToFiveAliveHigh = sumRange(safOutput2.Alive, 0, 5) / 5;
-    const sixToTenAliveHigh = sumRange(safOutput2.Alive, 5, 10) / 5;
-    const elevenToFiftyAliveHigh = sumRange(safOutput2.Alive, 10, 50) / 40;
+    const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
+    const sixToTenAlive = sumRange(safOutput.Alive, 5, 10) / 5;
+    const elevenToFiftyAlive = sumRange(safOutput.Alive, 10, 50) / 40;
 
-    const alive_buckets_high = [
-      { years: '1-5', trees: oneToFiveAliveHigh },
-      { years: '6-10', trees: sixToTenAliveHigh },
-      { years: '11-50', trees: elevenToFiftyAliveHigh },
+    const alive_buckets = [
+      { years: '1-5', trees: oneToFiveAlive },
+      { years: '6-10', trees: sixToTenAlive },
+      { years: '11-50', trees: elevenToFiftyAlive },
     ];
 
     // Dead - High
-    const oneToFiveDeadHigh = sumRange(safOutput2.Dead, 0, 5) / 5;
-    const sixToTenDeadHigh = sumRange(safOutput2.Dead, 5, 10) / 5;
-    const elevenToFiftyDeadHigh = sumRange(safOutput2.Dead, 10, 50) / 40;
+    const oneToFiveDead = sumRange(safOutput.Dead, 0, 5) / 5;
+    const sixToTenDead = sumRange(safOutput.Dead, 5, 10) / 5;
+    const elevenToFiftyDead = sumRange(safOutput.Dead, 10, 50) / 40;
 
-    const dead_buckets_high = [
-      { years: '1-5', trees: oneToFiveDeadHigh },
-      { years: '6-10', trees: sixToTenDeadHigh },
-      { years: '11-50', trees: elevenToFiftyDeadHigh },
+    const dead_buckets = [
+      { years: '1-5', trees: oneToFiveDead },
+      { years: '6-10', trees: sixToTenDead },
+      { years: '11-50', trees: elevenToFiftyDead },
     ];
 
     // Critical - High
-    const oneToFiveCriticalHigh = sumRange(safOutput2.Critical, 0, 5) / 5;
-    const sixToTenCriticalHigh = sumRange(safOutput2.Critical, 5, 10) / 5;
-    const elevenToFiftyCriticalHigh = sumRange(safOutput2.Critical, 10, 50) / 40;
+    const oneToFiveCritical = sumRange(safOutput.Critical, 0, 5) / 5;
+    const sixToTenCritical = sumRange(safOutput.Critical, 5, 10) / 5;
+    const elevenToFiftyCritical = sumRange(safOutput.Critical, 10, 50) / 40;
 
-    let critical_buckets_high = [
-      { years: '1-5', trees: oneToFiveCriticalHigh },
-      { years: '6-10', trees: sixToTenCriticalHigh },
-      { years: '11-50', trees: elevenToFiftyCriticalHigh },
+    let critical_buckets = [
+      { years: '1-5', trees: oneToFiveCritical },
+      { years: '6-10', trees: sixToTenCritical },
+      { years: '11-50', trees: elevenToFiftyCritical },
     ];
 
-    function makePieOutput(alive, dead, critical, bucket) {
-      const pieChartArgs = [
-        {
-          id: 'healthy',
-          label: 'Healthy',
-          value: alive[bucket].trees,
-          color: '#DDDDDD',
-        },
-        {
-          id: 'Critical',
-          label: 'Critical health',
-          value: critical[bucket].trees,
-          color: '#828784',
-        },
-        {
-          id: 'dead',
-          label: 'Dead',
-          value: dead[bucket].trees,
-          color: '#2F3130',
-        },
-      ];
-      return pieChartArgs;
-    }
-
-    setOneToFivePieHigh(
-      makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 0),
-    );
-    setSixToTenHigh(makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 1));
-    setEleventToFiftyPieHigh(
-      makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 2),
-    );
-
-    // Alive - Med
-    const oneToFiveAliveMed = sumRange(safOutput1.Alive, 0, 5) / 5;
-    const sixToTenAliveMed = sumRange(safOutput1.Alive, 5, 10) / 5;
-    const elevenToFiftyAliveMed = sumRange(safOutput1.Alive, 10, 50) / 40;
-
-    const alive_buckets_med = [
-      { years: '1-5', trees: oneToFiveAliveMed },
-      { years: '6-10', trees: sixToTenAliveMed },
-      { years: '11-50', trees: elevenToFiftyAliveMed },
-    ];
-
-    // Dead - Med
-    const oneToFiveDeadMed = sumRange(safOutput1.Dead, 0, 5) / 5;
-    const sixToTenDeadMed = sumRange(safOutput1.Dead, 5, 10) / 5;
-    const elevenToFiftyDeadMed = sumRange(safOutput1.Dead, 10, 50) / 40;
-
-    const dead_buckets_med = [
-      { years: '1-5', trees: oneToFiveDeadMed },
-      { years: '6-10', trees: sixToTenDeadMed },
-      { years: '11-50', trees: elevenToFiftyDeadMed },
-    ];
-
-    // Critical - Med
-    const oneToFiveCriticalMed = sumRange(safOutput1.Critical, 0, 5) / 5;
-    const sixToTenCriticalMed = sumRange(safOutput1.Critical, 5, 10) / 5;
-    const elevenToFiftyCriticalMed = sumRange(safOutput1.Critical, 10, 50) / 40;
-
-    let critical_buckets_med = [
-      { years: '1-5', trees: oneToFiveCriticalMed },
-      { years: '6-10', trees: sixToTenCriticalMed },
-      { years: '11-50', trees: elevenToFiftyCriticalMed },
-    ];
-
-    setOneToFivePieMed(makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 0));
-    setSixToTenMed(makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 1));
-    setEleventToFiftyPieMed(
-      makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 2),
-    );
-
-    // Alive - Low
-    const oneToFiveAliveLow = sumRange(safOutput0.Alive, 0, 5) / 5;
-    const sixToTenAliveLow = sumRange(safOutput0.Alive, 5, 10) / 5;
-    const elevenToFiftyAliveLow = sumRange(safOutput0.Alive, 10, 50) / 40;
-
-    const alive_buckets_low = [
-      { years: '1-5', trees: oneToFiveAliveLow },
-      { years: '6-10', trees: sixToTenAliveLow },
-      { years: '11-50', trees: elevenToFiftyAliveLow },
-    ];
-
-    // Dead - Low
-    const oneToFiveDeadLow = sumRange(safOutput0.Dead, 0, 5) / 5;
-    const sixToTenDeadLow = sumRange(safOutput0.Dead, 5, 10) / 5;
-    const elevenToFiftyDeadLow = sumRange(safOutput0.Dead, 10, 50) / 40;
-
-    const dead_buckets_low = [
-      { years: '1-5', trees: oneToFiveDeadLow },
-      { years: '6-10', trees: sixToTenDeadLow },
-      { years: '11-50', trees: elevenToFiftyDeadLow },
-    ];
-
-    // Critical - Low
-    const oneToFiveCriticalLow = sumRange(safOutput0.Critical, 0, 5) / 5;
-    const sixToTenCriticalLow = sumRange(safOutput0.Critical, 5, 10) / 5;
-    const elevenToFiftyCriticalLow = sumRange(safOutput0.Critical, 10, 50) / 40;
-
-    let critical_buckets_low = [
-      { years: '1-5', trees: oneToFiveCriticalLow },
-      { years: '6-10', trees: sixToTenCriticalLow },
-      { years: '11-50', trees: elevenToFiftyCriticalLow },
-    ];
-
-    setOneToFivePieLow(makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 0));
-    setSixToTenLow(makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 1));
-    setEleventToFiftyPieLow(
-      makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 2),
-    );
+    setOneToFivePie(makePieOutput(alive_buckets, critical_buckets, dead_buckets, 0));
+    setSixToTen(makePieOutput(alive_buckets, critical_buckets, dead_buckets, 1));
+    setEleventToFiftyPie(makePieOutput(alive_buckets, critical_buckets, dead_buckets, 2));
   }
+
+  useEffect(() => {
+    switch (pieChartShowType) {
+      case 'high maintenance':
+        makePieChart(safOutput2);
+        break;
+      case 'medium maintenance':
+        makePieChart(safOutput1);
+        break;
+      case 'low maintenance':
+        makePieChart(safOutput0);
+        break;
+      default:
+        toast.error('Something went wrong in the maintenance type');
+    }
+  }, [pieChartShowType]);
+
+  function processSAFData(dataUserScope) {
+    /* SAF Related processing */
+    setTotalSeq(sumRange(dataUserScope.Seq, 0, getLastElement(dataUserScope.Seq)));
+    setTotalStorage(dataUserScope.Storage[getLastElement(dataUserScope.Storage)]); // last element of the array
+  }
+
+  /* Data logic changes on receiving the SAF output */
+  useEffect(() => {
+    switch (maintenanceType.name) {
+      case 'High':
+        processSAFData(safOutput2);
+        break;
+      case 'Medium':
+        processSAFData(safOutput1);
+        break;
+      case 'Low':
+        processSAFData(safOutput0);
+        break;
+      default:
+        toast.error('maintenance type not valid');
+    }
+  }, [safOutput0]);
 
   function makeComparativeSeqChart() {
     let seq_0 = makeChartArray(safOutput0.Seq);
@@ -404,24 +332,6 @@ export default function SubmitProject(props) {
     console.log(safOutput0.Replaced);
     console.log(costChart);
   }
-
-  /* Data logic changes on receiving the SAF output */
-  useEffect(() => {
-    switch(maintenanceType.name) {
-      case 'High':
-        processSAFData(safOutput2);
-        break;
-      case 'Medium': 
-        processSAFData(safOutput1);
-        break;
-      case 'Low':
-        processSAFData(safOutput0);
-        break;
-      default:
-        toast.error('maintenance type not valid')
-    }
-    
-  }, [safOutput0]);
 
   useEffect(() => {
     makeComparativeSeqChart();
@@ -1385,46 +1295,17 @@ export default function SubmitProject(props) {
                   }}
                   options={piechartTypes}
                 />
-                {pieChartShowType === 'low maintenance' && (
-                  <div className='grid grid-cols-1 sm:grid-cols-3'>
-                    <div>
-                      <PieChart data={oneToFivePieLow} type={1} />
-                    </div>
-                    <div>
-                      <PieChart data={sixToTenPieLow} type={2} />
-                    </div>
-                    <div>
-                      <PieChart data={eleventToFiftyPieLow} type={3} />
-                    </div>
+                <div className='grid grid-cols-1 sm:grid-cols-3'>
+                  <div>
+                    <PieChart data={oneToFivePie} type={1} />
                   </div>
-                )}
-                {pieChartShowType === 'medium maintenance' && (
-                  <div className='grid grid-cols-1 sm:grid-cols-3'>
-                    <div>
-                      <PieChart data={oneToFivePieMed} type={1} />
-                    </div>
-                    <div>
-                      <PieChart data={sixToTenPieMed} type={2} />
-                    </div>
-                    <div>
-                      <PieChart data={eleventToFiftyPieMed} type={3} />
-                    </div>
+                  <div>
+                    <PieChart data={sixToTenPie} type={2} />
                   </div>
-                )}
-
-                {pieChartShowType === 'high maintenance' && (
-                  <div className='grid grid-cols-1 sm:grid-cols-3'>
-                    <div>
-                      <PieChart data={oneToFivePieHigh} type={1} />
-                    </div>
-                    <div>
-                      <PieChart data={sixToTenPieHigh} type={2} />
-                    </div>
-                    <div>
-                      <PieChart data={eleventToFiftyPieHigh} type={3} />
-                    </div>
+                  <div>
+                    <PieChart data={eleventToFiftyPie} type={3} />
                   </div>
-                )}
+                </div>
               </ChartBlock>
             </div>
           </ResultBlock>
