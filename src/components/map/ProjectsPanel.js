@@ -78,7 +78,7 @@ export default function ProjectsPanel(props) {
           <Link to='/develop'>
             <button
               type='button'
-              className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-12 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+              className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-12 text-white-200 shadow-sm hover:bg-green-800'
             >
               Add your project →
             </button>
@@ -98,14 +98,14 @@ export default function ProjectsPanel(props) {
           <div className='flex flex-row gap-4'>
             <button
               type='button'
-              className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+              className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
             >
               Invest →
             </button>
 
             <button
               type='button'
-              className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+              className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
             >
               Glasgow NbS Portfolio →
             </button>

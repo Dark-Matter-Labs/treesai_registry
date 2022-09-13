@@ -87,7 +87,7 @@ export default function Login() {
   return (
     <>
       <NavBar />
-      <div className='flex mx-auto max-w-7xl flex-col justify-center py-12 sm:px-6 lg:px-8'>
+      <div className='flex global-margin flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='title-box mt-4 bg-green-600 py-20 text-center'>
           <h1 className='text-white-200'>Login to your account</h1>
         </div>
@@ -138,7 +138,7 @@ export default function Login() {
                   <button
                     onClick={loginUser}
                     type='button'
-                    className='flex w-full justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                    className='flex w-full justify-center rounded-full border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white-200 shadow-sm hover:bg-green-800'
                   >
                     {isLoading && <LoadingSpinner />}
                     Login
