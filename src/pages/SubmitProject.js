@@ -144,7 +144,7 @@ export default function SubmitProject(props) {
     return chartArray;
   }
 
-  function processSAFData() {
+  function processSAFData(dataUserScope) {
     /* SAF Related processing */
 
     /*
@@ -180,8 +180,8 @@ export default function SubmitProject(props) {
     /* Calculate */
 
     // Calculate total storage
-    setTotalSeq(sumRange(safOutput2.Seq, 0, getLastElement(safOutput2.Seq)));
-    setTotalStorage(safOutput2.Storage[getLastElement(safOutput2.Storage)]); // last element of the array
+    setTotalSeq(sumRange(dataUserScope.Seq, 0, getLastElement(dataUserScope.Seq)));
+    setTotalStorage(dataUserScope.Storage[getLastElement(dataUserScope.Storage)]); // last element of the array
 
     /* Pie charts */
 
@@ -330,9 +330,9 @@ export default function SubmitProject(props) {
   }
 
   function makeComparativeSeqChart() {
-    let seq_0 = makeChartArray(safOutput0.Avg_Seq);
-    let seq_1 = makeChartArray(safOutput1.Avg_Seq);
-    let seq_2 = makeChartArray(safOutput2.Avg_Seq);
+    let seq_0 = makeChartArray(safOutput0.Seq);
+    let seq_1 = makeChartArray(safOutput1.Seq);
+    let seq_2 = makeChartArray(safOutput2.Seq);
 
     setComparativeSeq([
       {
@@ -407,7 +407,20 @@ export default function SubmitProject(props) {
 
   /* Data logic changes on receiving the SAF output */
   useEffect(() => {
-    processSAFData();
+    switch(maintenanceType.name) {
+      case 'High':
+        processSAFData(safOutput2);
+        break;
+      case 'Medium': 
+        processSAFData(safOutput1);
+        break;
+      case 'Low':
+        processSAFData(safOutput0);
+        break;
+      default:
+        toast.error('maintenance type not valid')
+    }
+    
   }, [safOutput0]);
 
   useEffect(() => {
