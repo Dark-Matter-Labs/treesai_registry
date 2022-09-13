@@ -213,9 +213,9 @@ export default function SubmitProject(props) {
       { years: '11-50', trees: elevenToFiftyCritical },
     ];
 
-    setOneToFivePie(makePieOutput(alive_buckets, critical_buckets, dead_buckets, 0));
-    setSixToTen(makePieOutput(alive_buckets, critical_buckets, dead_buckets, 1));
-    setEleventToFiftyPie(makePieOutput(alive_buckets, critical_buckets, dead_buckets, 2));
+    setOneToFivePie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 0));
+    setSixToTen(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 1));
+    setEleventToFiftyPie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 2));
   }
 
   useEffect(() => {
