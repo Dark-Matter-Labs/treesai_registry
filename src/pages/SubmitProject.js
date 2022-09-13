@@ -27,6 +27,7 @@ import projectImg from '../images/project-default.png';
 import ChartMultiLine from '../components/charts/ChartMultiLine';
 import LocationRiskChart from '../components/analysis/LocationRisk';
 import PieChart from '../components/charts/PieChart';
+// import BarChart from '../components/charts/BarChart';
 
 import { saf_data } from '../utils/saf_data_model';
 
@@ -43,6 +44,7 @@ import {
 } from '../utils/project_details';
 
 import { getCouncils } from '../utils/geojson_utils';
+import BarChart from '../components/charts/BarChart';
 
 // set SAF parameters
 const typologies = get_typologies();
@@ -305,35 +307,49 @@ export default function SubmitProject(props) {
     ]);
   }
 
-  function makeComparativeCostChart() {
-    // let replacement_price = 100;
-    let replaced_0 = makeChartArray(safOutput0.Replaced);
-    let replaced_1 = makeChartArray(safOutput1.Replaced);
-    let replaced_2 = makeChartArray(safOutput2.Replaced);
+  function makeComparativeCostBarChart() {
+    const replacement_price = 104;
 
-    setCostChart([
+    let chartObj = [
       {
-        id: 'Low maintenance',
-        color: 'hsl(135, 70%, 50%)',
-        data: replaced_0,
+        years: '0-10',
+        'High Maintenance': sumRange(safOutput2.Replaced, 0, 10) * replacement_price,
+        'Medium maintenance': sumRange(safOutput1.Replaced, 0, 10) * replacement_price,
+        'Low maintenance': sumRange(safOutput0.Replaced, 0, 10) * replacement_price,
       },
       {
-        id: 'Medium maintenance',
-        color: 'hsl(347, 70%, 50%)',
-        data: replaced_1,
+        years: '10-20',
+        'High Maintenance': sumRange(safOutput2.Replaced, 10, 20) * replacement_price,
+        'Medium maintenance': sumRange(safOutput1.Replaced, 10, 20) * replacement_price,
+        'Low maintenance': sumRange(safOutput0.Replaced, 10, 20) * replacement_price,
       },
       {
-        id: 'High maintenance',
-        color: 'hsl(31, 70%, 50%)',
-        data: replaced_2,
+        years: '20-30',
+        'High Maintenance': sumRange(safOutput2.Replaced, 20, 30) * replacement_price,
+        'Medium maintenance': sumRange(safOutput1.Replaced, 20, 30) * replacement_price,
+        'Low maintenance': sumRange(safOutput0.Replaced, 20, 30) * replacement_price,
       },
-    ]);
+      {
+        years: '30-40',
+        'High Maintenance': sumRange(safOutput2.Replaced, 30, 40) * replacement_price,
+        'Medium maintenance': sumRange(safOutput1.Replaced, 30, 40) * replacement_price,
+        'Low maintenance': sumRange(safOutput0.Replaced, 30, 40) * replacement_price,
+      },
+      {
+        years: '40-50',
+        'High Maintenance': sumRange(safOutput2.Replaced, 40, 50) * replacement_price,
+        'Medium maintenance': sumRange(safOutput1.Replaced, 40, 50) * replacement_price,
+        'Low maintenance': sumRange(safOutput0.Replaced, 40, 50) * replacement_price,
+      },
+    ];
+
+    setCostChart(chartObj);
   }
 
   useEffect(() => {
     makeComparativeSeqChart();
     makeComparativeStorageChart();
-    makeComparativeCostChart();
+    makeComparativeCostBarChart();
   }, [safOutput0, safOutput1, safOutput2]);
 
   const getSAFOutput = async () => {
@@ -1318,7 +1334,7 @@ export default function SubmitProject(props) {
               maintenanceTypeName={maintenanceType.name}
               label='Your projects tree replacements'
             >
-              <ChartMultiLine data={costChart} />
+              <BarChart data={costChart} />
             </ChartBlock>
           </ResultBlock>
 
