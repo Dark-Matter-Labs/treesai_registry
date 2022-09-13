@@ -49,7 +49,7 @@ module.exports = {
       fontWeight: {
         book: 333,
         medium: 571,
-        bold: 700,
+        bold: 500,
       },
       lineHeight: {
         4: '1.2em',
