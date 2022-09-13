@@ -150,7 +150,16 @@ export default function Login() {
         </div>
       </div>
       <Footer />
-      <Toaster position='top-right' />
+      <Toaster
+        position='top-right'
+        toastOptions={{
+          style: {
+            padding: '16px',
+            borderTopLeftRadius: '130px',
+            borderBottomRightRadius: '130px',
+          },
+        }}
+      />
     </>
   );
 }

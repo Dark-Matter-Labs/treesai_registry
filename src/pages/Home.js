@@ -161,32 +161,16 @@ export default function Home(props) {
                 <div className='mt-8 flow-root self-center lg:mt-0'>
                   <div className='-mt-4 -ml-8 flex flex-wrap justify-around lg:-ml-4'>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
-                      <img
-                        className='h-40'
-                        src={GCCLogo}
-                        alt='Glasgow City Council Logo'
-                      />
+                      <img className='h-40' src={GCCLogo} alt='Glasgow City Council Logo' />
                     </div>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
-                      <img
-                        className='h-40'
-                        src={CCFLogo}
-                        alt='Tuple'
-                      />
+                      <img className='h-40' src={CCFLogo} alt='Tuple' />
                     </div>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
-                      <img
-                        className='h-40'
-                        src={TerraLogo}
-                        alt='Level'
-                      />
+                      <img className='h-40' src={TerraLogo} alt='Level' />
                     </div>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
-                      <img
-                        className='h-40'
-                        src={MGSDPLogo}
-                        alt='Level'
-                      />
+                      <img className='h-40' src={MGSDPLogo} alt='Level' />
                     </div>
                   </div>
                 </div>
