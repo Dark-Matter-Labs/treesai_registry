@@ -483,14 +483,14 @@ export default function SubmitProject(props) {
         (isLoading ? (
           <SAFLoadingScreen />
         ) : (
-          <div className='max-w-screen-2xl mx-auto'>
-            <div className='mx-10 sm:px-6 lg:px-8'>
+          <div className='global-margin'>
+            <div className=''>
               <Breadcrumb />
               <div className='title-box mt-4 grid grid-cols-1 bg-indigo-600 pt-8'>
                 <div className='place-self-end pr-10'>
                   <button
                     type='button'
-                    className='w-lg bold-intro-sm flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-4 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                    className='w-lg bold-intro-sm flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-4 text-white-200 shadow-sm hover:bg-green-800'
                   >
                     Want to know more?
                   </button>
@@ -800,7 +800,7 @@ export default function SubmitProject(props) {
                     ))}
                   </select>
                 </div>
-                <div className='col-span-4 hidden justify-self-center sm:block'>
+                <div className='sm:col-span-6 hidden justify-self-center sm:block'>
                   <nav className='flex space-x-4' aria-label='Tabs'>
                     {typologyTabs.map((tab) => (
                       <button
@@ -818,9 +818,9 @@ export default function SubmitProject(props) {
                     ))}
                   </nav>
                 </div>
-                <div className='col-span-5'>
+                <div className='sm:col-span-6'>
                   <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
-                    <div className='mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4'>
+                    <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-2 sm:gap-x-4'>
                       {typologies.map((typology) => (
                         <RadioGroup.Option
                           key={typology.id}
@@ -960,7 +960,7 @@ export default function SubmitProject(props) {
                 type='cost'
               >
                 <RadioSelector
-                  span='sm:col-span-5'
+                  span='sm:col-span-6'
                   label='project-budget'
                   title='What is your project budget?'
                   type='cost'
@@ -970,7 +970,7 @@ export default function SubmitProject(props) {
                 />
 
                 <RadioSelector
-                  span='sm:col-span-5'
+                  span='sm:col-span-6'
                   label='money-raised'
                   title='How much money have you raised so far?'
                   type='cost'
@@ -1057,7 +1057,7 @@ export default function SubmitProject(props) {
                 <button
                   type='button'
                   disabled={isLoading}
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
                   onClick={createProjectAndGetID}
                 >
                   Run impact
@@ -1067,7 +1067,7 @@ export default function SubmitProject(props) {
           </div>
         ))}
       {processStage === 2 && (
-        <div className='max-w-screen-2xl mx-auto sm:px-6 lg:px-8'>
+        <div className='global-margin sm:px-6 lg:px-8'>
           <div className='title-box mt-4 bg-dark-wood-800 py-20'>
             <h2 className='text-center text-white-200'>Scenario Analysis</h2>
             <h2 className='pt-10 text-center text-white-200'>{projectName}</h2>
@@ -1086,7 +1086,7 @@ export default function SubmitProject(props) {
           </div>
 
           <SectionHeader title='Overview' type='typology' />
-          <div className='mb-20 grid grid-cols-1 rounded-3xl border border-green-600 bg-white-200 py-10 sm:grid-cols-3'>
+          <div className='mb-20 grid grid-cols-1 rounded-3xl border border-green-600 bg-white-200 py-10 lg:grid-cols-3'>
             <div className='border-r border-green-600 px-8'>
               <div className='flex items-center justify-center'>
                 <img
@@ -1334,13 +1334,13 @@ export default function SubmitProject(props) {
             <div className='place-self-center pt-4'>
               <button
                 type='button'
-                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
               >
                 Publish
               </button>
               <button
                 type='button'
-                className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
               >
                 Save for later
               </button>
@@ -1350,7 +1350,7 @@ export default function SubmitProject(props) {
                 onClick={() => {
                   setProcessStage(1);
                 }}
-                className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
               >
                 Edit/add project info
               </button>
