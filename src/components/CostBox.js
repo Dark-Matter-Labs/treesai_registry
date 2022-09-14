@@ -56,7 +56,7 @@ export default function CostBox(props) {
 }
 
 CostBox.propTypes = {
-  months: PropTypes.string,
-  costMonths: PropTypes.string,
-  costTotal: PropTypes.string,
+  months: PropTypes.number,
+  costMonths: PropTypes.number,
+  costTotal: PropTypes.number,
 };

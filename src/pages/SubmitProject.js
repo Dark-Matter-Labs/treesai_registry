@@ -92,10 +92,10 @@ export default function SubmitProject(props) {
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
   // Cost variables
-  const [opexCost, setOpexCost] = useState(200);
   const [capexCost, setCapexCost] = useState(200);
+  const [opexCost, setOpexCost] = useState(123);
   const [totalCost, settotalCost] = useState(500);
-  const [costOverSelectedTime, setCostOverSelectedTime] = useState(123);
+  const [costOverSelectedTime, setCostOverSelectedTime] = useState(321);
 
   /* SAF Related variables */
   const [safOutput0, setSafOutput0] = useState(saf_data);
@@ -166,6 +166,7 @@ export default function SubmitProject(props) {
     const cost = parseInt(opexCost) + parseInt(capexCost);
     settotalCost(cost);
     setCostOverSelectedTime((cost / (12 * 50)) * projectLength);
+    // Render the smaller cost chart
     setSmallCostChart([
       {
         Expenditure: 'CAPEX',
@@ -173,7 +174,7 @@ export default function SubmitProject(props) {
       },
       { Expenditure: 'OPEX', Value: opexCost },
     ]);
-  }, [projectLength, opexCost, capexCost]);
+  }, [opexCost, capexCost, projectLength, safOutput0]);
 
   /* Pie Diagram */
 
