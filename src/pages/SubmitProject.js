@@ -634,6 +634,7 @@ export default function SubmitProject(props) {
                   title='Total area of the project *'
                   unit='m2'
                   placeholder='200'
+                  min='0'
                   type='general'
                   defaultValue={totalArea}
                   onChange={(e) => {
@@ -779,6 +780,7 @@ export default function SubmitProject(props) {
                   placeholder='12'
                   type='general'
                   unit='months'
+                  min= '0'
                   defaultValue={projectLength}
                   onChange={(e) => {
                     setProjectLength(e.target.value);
@@ -925,6 +927,8 @@ export default function SubmitProject(props) {
                       unit='Ha'
                       placeholder=''
                       type='typology'
+                      min= '0' 
+                      max= '1000'
                       defaultValue={areaDensity}
                       onChange={(e) => {
                         setAreaDensity(e.target.value);
@@ -941,6 +945,8 @@ export default function SubmitProject(props) {
                   placeholder='100'
                   type='typology'
                   unit='trees'
+                  min= '0' 
+                  max= '32000'
                   defaultValue={treeNumber}
                   onChange={(e) => {
                     setTreeNumber(e.target.value);
@@ -953,6 +959,8 @@ export default function SubmitProject(props) {
                     unit='trees'
                     title='Number of existing trees to be maintained'
                     placeholder='100'
+                    min= '0' 
+                    max= '32000'
                     type='typology'
                     defaultValue={treeNumberMaintain}
                     onChange={(e) => {
@@ -1027,6 +1035,7 @@ export default function SubmitProject(props) {
                   placeholder='£200'
                   unit='£'
                   type='cost'
+                  min= '0' 
                   defaultValue={capexCost}
                   onChange={(e) => {
                     setCapexCost(e.target.value);
@@ -1040,6 +1049,7 @@ export default function SubmitProject(props) {
                   placeholder='£200'
                   unit='£'
                   type='cost'
+                  min= '0'
                   defaultValue={opexCost}
                   onChange={(e) => {
                     setOpexCost(e.target.value);
