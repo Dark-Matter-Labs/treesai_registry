@@ -1343,82 +1343,78 @@ export default function SubmitProject(props) {
             type='impact'
           />
           <ResultBlock title='Breakdown of capital and operational costs'>
-            <p className='book-intro'>
-              Here you can find breakdown of the capital and operational costs of your project for
-              each typology under the maintenance scope you selected. The breakdown is calculated by
-              annualising the capital and operational costs for a 50 year period.
-            </p>
-
-            <Dropdown
-              span='sm:col-span-2'
-              label='pie chart type'
-              title=''
-              type='general'
-              onChange={(e) => {
-                setPieChartShowType(e.target.value);
-              }}
-              options={piechartTypes}
-            />
-
-            <p>Typology</p>
-            <div className='sm:col-span-6'>
-              <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
-                <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-2 sm:gap-x-4'>
-                  <RadioGroup.Option
-                    key={selectedTypology.id}
-                    value={selectedTypology}
-                    className={({ checked, active }) =>
-                      classNames(
-                        checked ? 'border-transparent' : 'border-dark-wood-500',
-                        active ? 'border-green-600 ring-2 ring-green-600' : '',
-                        'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
-                      )
-                    }
-                  >
-                    {({ checked, active }) => (
-                      <>
-                        <span className='flex flex-1'>
-                          <img className='h-24 rounded-full' src={selectedTypology.image} />
-                          <span className='flex flex-col'>
-                            <RadioGroup.Label
-                              as='span'
-                              className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
-                            >
-                              {selectedTypology.title}
-                            </RadioGroup.Label>
-                            <RadioGroup.Description
-                              as='span'
-                              className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
-                            >
-                              {selectedTypology.description}
-                            </RadioGroup.Description>
-                          </span>
-                        </span>
-                        <CheckCircleIcon
-                          className={classNames(
-                            !checked ? 'invisible' : '',
-                            'h-5 w-5 text-green-600',
-                          )}
-                          aria-hidden='true'
-                        />
-                        <span
-                          className={classNames(
-                            active ? 'border' : 'border-2',
-                            checked ? 'border-green-600' : 'border-transparent',
-                            'pointer-events-none absolute -inset-px rounded-3xl',
-                          )}
-                          aria-hidden='true'
-                        />
-                      </>
-                    )}
-                  </RadioGroup.Option>
+            <div className='grid grid-cols-1 md:grid-cols-4 mt-5 gap-x-8'>
+              <div>
+                <p className='book-intro mt-10'>
+                  Here you can find breakdown of the capital and operational costs of your project
+                  for each typology under the maintenance scope you selected. The breakdown is
+                  calculated by annualising the capital and operational costs for a 50 year period.
+                </p>
+              </div>
+              <div className=''>
+                <p className='mt-4'>Typology</p>
+                <div className=''>
+                  <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
+                    <div className=''>
+                      <RadioGroup.Option
+                        key={selectedTypology.id}
+                        value={selectedTypology}
+                        className={({ checked, active }) =>
+                          classNames(
+                            checked ? 'border-transparent' : 'border-dark-wood-500',
+                            active ? 'border-green-600 ring-2 ring-green-600' : '',
+                            'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
+                          )
+                        }
+                      >
+                        {({ checked, active }) => (
+                          <>
+                            <span className='flex flex-1'>
+                              <img className='h-24 rounded-full' src={selectedTypology.image} />
+                              <span className='flex flex-col'>
+                                <RadioGroup.Label
+                                  as='span'
+                                  className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
+                                >
+                                  {selectedTypology.title}
+                                </RadioGroup.Label>
+                                <RadioGroup.Description
+                                  as='span'
+                                  className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
+                                >
+                                  {selectedTypology.description}
+                                </RadioGroup.Description>
+                              </span>
+                            </span>
+                            <CheckCircleIcon
+                              className={classNames(
+                                !checked ? 'invisible' : '',
+                                'h-5 w-5 text-green-600',
+                              )}
+                              aria-hidden='true'
+                            />
+                            <span
+                              className={classNames(
+                                active ? 'border' : 'border-2',
+                                checked ? 'border-green-600' : 'border-transparent',
+                                'pointer-events-none absolute -inset-px rounded-3xl',
+                              )}
+                              aria-hidden='true'
+                            />
+                          </>
+                        )}
+                      </RadioGroup.Option>
+                    </div>
+                  </RadioGroup>
                 </div>
-              </RadioGroup>
+              </div>
+
+              <div className='col-span-2'>
+                <p>Annualised costs</p>
+
+                <SmallBarChart data={smallCostChart} />
+              </div>
             </div>
-
-            <p>Annualised costs</p>
-
-            <SmallBarChart data={smallCostChart} />
           </ResultBlock>
           <ResultBlock>
             <ChartBlock
