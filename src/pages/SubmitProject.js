@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/solid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 // Components
 import NavBar from '../components/NavBar';
@@ -508,7 +508,7 @@ export default function SubmitProject(props) {
   };
 
   return (
-    <div className='bg-white-300 font-favorit '>
+    <div className='bg-white-300 font-favorit bg-pattern'>
       {process.env.NODE_ENV === 'production' && (
         <Helmet>
           <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
@@ -755,8 +755,7 @@ export default function SubmitProject(props) {
               <hr className='mx-20 border-8 border-indigo-600' />
               <FormBlock
                 title='Dates and timing'
-                description='We’d like to know the  expected start date and 
-                duration of the project.'
+                description='We’d like to know roughly when you plan to start implementing the project, and how long it will take. Please note projects can (and are encouraged) to include maintenance activities.'
               >
                 <div className='sm:col-span-3'>
                   <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
@@ -1112,9 +1111,18 @@ export default function SubmitProject(props) {
         ))}
       {processStage === 2 && (
         <div className='global-margin sm:px-6 lg:px-8'>
-          <div className='title-box mt-4 bg-dark-wood-800 py-20'>
-            <h2 className='text-center text-white-200'>Scenario Analysis</h2>
-            <h2 className='pt-10 text-center text-white-200'>{projectName}</h2>
+          <div className='title-box mt-4 bg-indigo-600 border-[3px] border-dark-wood-800 py-20'>
+            <div className='grid grid-cols-1 sm:grid-cols-2'>
+              <div className='title-text-container text-background-shape py-20'>
+                <h1 className='text-center text-indigo-600'>
+                  Impact <br />
+                  Assesment
+                </h1>
+              </div>
+              <div className='place-self-center'>
+                <h1 className='text-center text-white-200'>{projectName}</h1>
+              </div>
+            </div>
           </div>
           <div className='my-10 grid'>
             <div className='max-w-3xl place-self-center text-dark-wood-700 '>
@@ -1130,7 +1138,7 @@ export default function SubmitProject(props) {
           </div>
 
           <SectionHeader title='Overview' type='typology' />
-          <div className='mb-20 grid grid-cols-1 rounded-3xl border border-green-600 bg-white-200 py-10 lg:grid-cols-3'>
+          <div className='mb-20 grid grid-cols-1 rounded-3xl border border-green-600 bg-white-200 py-10 px-10 lg:grid-cols-3'>
             <div className='border-r border-green-600 px-8'>
               <div className='flex items-center justify-center'>
                 <img
@@ -1223,7 +1231,7 @@ export default function SubmitProject(props) {
               <hr className='mx-20 border-8 border-green-600' />
               <ValueDisplay
                 value={Math.round(totalStorage)}
-                label='Total CO2 stored in 50 years (Kgs)'
+                label='Total carbon stored in 50 years (Kgs) '
                 disabled={false}
               />
 
@@ -1242,7 +1250,7 @@ export default function SubmitProject(props) {
               </div>
             </div>
             <div className='px-8 '>
-              <h3 className='text-dark-wood-800'>Project Cost</h3>
+              <h3 className='text-dark-wood-800'>Your project’s cost</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
                 The following ranges provide an estimated project costs over different time-spans:
               </p>
@@ -1253,6 +1261,7 @@ export default function SubmitProject(props) {
                 costTotal={totalCost}
               />
               <p className='book-info-sm pt-4 text-dark-wood-800'>
+              <p className='book-info-sm pt-4 mb-4 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
               </p>
@@ -1276,36 +1285,42 @@ export default function SubmitProject(props) {
             <div className=''>
               <ChartBlock
                 maintenanceTypeName={maintenanceType.name}
-                label='Total amount of Carbon (C) sequestered through biomass growth of trees or plants for the selected time window, usually per year.'
-                detail='Carbon sequestration - Trees, as well as other vegetation, absorb and long-term store carbon dioxide from the air. As a result, they reduce the total amount of greenhouse gases and air pollutants in the atmosphere, mitigating  negative effects (Brack, C.L., 2002; Nowak, D.J. and Crane, D.E., 2002; Kiss, M., et al., 2015).'
+                label='Net CO2 sequestration (in kg/ year) under three maintenance scopes.'
+                detail='This is the amount of carbon dioxide removed from the atmosphere through the process of photosynthesis, minus the amount of carbon dioxide that is released from tree death, annually over a project’s lifetime.'
               >
                 <ChartMultiLine data={comparativeSeq} />
               </ChartBlock>
 
               <ChartBlock
                 maintenanceTypeName={maintenanceType.name}
-                label='Total amount of Carbon (C) is held by the alive trees or other plants.'
-                detail='Total amount of Carbon (C) is held by the living trees or other plants.'
+                label='Total carbon stored (in kgs) under three maintenance scopes.'
+                detail='This cumulative figure is the total biomass (trees and other plants) of the project over time.'
               >
                 <ChartMultiLine data={comparativeStorage} />
               </ChartBlock>
 
               <ChartBlock
                 maintenanceTypeName={maintenanceType.name}
-                label='Percentage of healthy trees year on year under three maintenance scopes. Find out the percentage of healthy trees year on year.' // under three maintenance scopes'
+                label='Tree Health under three maintenance scopes'
                 type='pie'
-                detail='Health condition of an individual tree. Measured by healthy ratio tree canopy and reported by categories: Excellent: >.99, Good: .90, Fair: .75, Poor: .50, Critical: 0.25, Dying:.01, Dead: 0'
+                detail='We consider a tree ‘non-critical’ if it has a dieback ratio of over 25%, this is the amount of living foliage as a proportion of the estimated original crown outline.'
               >
-                <Dropdown
-                  span='sm:col-span-2'
-                  label='pie chart type'
-                  title=''
-                  type='general'
-                  onChange={(e) => {
-                    setPieChartShowType(e.target.value);
-                  }}
-                  options={piechartTypes}
-                />
+                <div className='flex'>
+                  <p className='max-w-sm pt-5 text-indigo-600 medium-intro-lg'>
+                    Breakdown of trees in terms of their health (%)
+                  </p>
+                  <Dropdown
+                    span='sm:col-span-2'
+                    label='pie chart type'
+                    title=''
+                    type='general'
+                    onChange={(e) => {
+                      setPieChartShowType(e.target.value);
+                    }}
+                    options={piechartTypes}
+                  />
+                </div>
+
                 <div className='grid grid-cols-1 sm:grid-cols-3'>
                   <div>
                     <PieChart data={oneToFivePie} type={1} />
@@ -1420,23 +1435,30 @@ export default function SubmitProject(props) {
           <div className='grid pb-20 pt-10'>
             <div className='max-w-3xl place-self-center py-4 text-center'>
               <p className='book-intro-lg'>
-                You can now publish your project and view it in the ATLAS. Or you can save it for
-                later and check the project on your profile page.
+                Thank you very much for your time.
+                <br />
+                <br />
+                In a few months you will be able to publish your project to the NbS map, as well as
+                being able to save your project and come back to it later.
               </p>
             </div>
             <div className='place-self-center pt-4'>
-              <button
-                type='button'
-                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
-              >
-                Publish
-              </button>
-              <button
-                type='button'
-                className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
-              >
-                Save for later
-              </button>
+              <Link to='/learn-more'>
+                <button
+                  type='button'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
+                >
+                  Learn more
+                </button>
+              </Link>
+              <Link to='/explore'>
+                <button
+                  type='button'
+                  className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
+                >
+                  NbS Map
+                </button>
+              </Link>
 
               <button
                 type='button'
