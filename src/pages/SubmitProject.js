@@ -781,7 +781,7 @@ export default function SubmitProject(props) {
                   placeholder='12'
                   type='general'
                   unit='months'
-                  min= '0'
+                  min='0'
                   defaultValue={projectLength}
                   onChange={(e) => {
                     setProjectLength(e.target.value);
@@ -928,8 +928,8 @@ export default function SubmitProject(props) {
                       unit='Ha'
                       placeholder=''
                       type='typology'
-                      min= '0' 
-                      max= '1000'
+                      min='0'
+                      max='1000'
                       defaultValue={areaDensity}
                       onChange={(e) => {
                         setAreaDensity(e.target.value);
@@ -946,8 +946,8 @@ export default function SubmitProject(props) {
                   placeholder='100'
                   type='typology'
                   unit='trees'
-                  min= '0' 
-                  max= '32000'
+                  min='0'
+                  max='32000'
                   defaultValue={treeNumber}
                   onChange={(e) => {
                     setTreeNumber(e.target.value);
@@ -960,8 +960,8 @@ export default function SubmitProject(props) {
                     unit='trees'
                     title='Number of existing trees to be maintained'
                     placeholder='100'
-                    min= '0' 
-                    max= '32000'
+                    min='0'
+                    max='32000'
                     type='typology'
                     defaultValue={treeNumberMaintain}
                     onChange={(e) => {
@@ -1036,7 +1036,7 @@ export default function SubmitProject(props) {
                   placeholder='£200'
                   unit='£'
                   type='cost'
-                  min= '0' 
+                  min='0'
                   defaultValue={capexCost}
                   onChange={(e) => {
                     setCapexCost(e.target.value);
@@ -1050,7 +1050,7 @@ export default function SubmitProject(props) {
                   placeholder='£200'
                   unit='£'
                   type='cost'
-                  min= '0'
+                  min='0'
                   defaultValue={opexCost}
                   onChange={(e) => {
                     setOpexCost(e.target.value);
@@ -1290,61 +1290,59 @@ export default function SubmitProject(props) {
             description='Considering the combination of factors including typology, activity and location, calculated via an agent-based scenario analysis framework, your project could help achieve the following potential impact over the next 50 years:'
             type='impact'
           />
-          <hr className='mx-20 border-8 border-indigo-600' />
-          <ResultBlock title='' description='' type='impact'>
-            <div className=''>
-              <ChartBlock
-                maintenanceTypeName={maintenanceType.name}
-                label='Net CO2 sequestration (in kg/ year) under three maintenance scopes.'
-                detail='This is the amount of carbon dioxide removed from the atmosphere through the process of photosynthesis, minus the amount of carbon dioxide that is released from tree death, annually over a project’s lifetime.'
-              >
-                <ChartMultiLine data={comparativeSeq} />
-              </ChartBlock>
+          <hr className='mx-20 border-[12px] border-indigo-600' />
+          <div className=''>
+            <ChartBlock
+              maintenanceTypeName={maintenanceType.name}
+              label='Net CO2 sequestration (in kg/ year) under three maintenance scopes.'
+              detail='This is the amount of carbon dioxide removed from the atmosphere through the process of photosynthesis, minus the amount of carbon dioxide that is released from tree death, annually over a project’s lifetime.'
+            >
+              <ChartMultiLine data={comparativeSeq} />
+            </ChartBlock>
+            <hr className='mx-20 border-[12px] border-indigo-600' />
+            <ChartBlock
+              maintenanceTypeName={maintenanceType.name}
+              label='Total carbon stored (in kgs) under three maintenance scopes.'
+              detail='This cumulative figure is the total biomass (trees and other plants) of the project over time.'
+            >
+              <ChartMultiLine data={comparativeStorage} />
+            </ChartBlock>
+            <hr className='mx-20 border-[12px] border-indigo-600' />
+            <ChartBlock
+              maintenanceTypeName={maintenanceType.name}
+              label='Tree Health under three maintenance scopes'
+              type='pie'
+              detail='We consider a tree ‘non-critical’ if it has a dieback ratio of over 25%, this is the amount of living foliage as a proportion of the estimated original crown outline.'
+            >
+              <div className='flex'>
+                <p className='max-w-sm pt-5 text-indigo-600 medium-intro-lg'>
+                  Breakdown of trees in terms of their health (%)
+                </p>
+                <Dropdown
+                  span='sm:col-span-2'
+                  label='pie chart type'
+                  title=''
+                  type='general'
+                  onChange={(e) => {
+                    setPieChartShowType(e.target.value);
+                  }}
+                  options={piechartTypes}
+                />
+              </div>
 
-              <ChartBlock
-                maintenanceTypeName={maintenanceType.name}
-                label='Total carbon stored (in kgs) under three maintenance scopes.'
-                detail='This cumulative figure is the total biomass (trees and other plants) of the project over time.'
-              >
-                <ChartMultiLine data={comparativeStorage} />
-              </ChartBlock>
-
-              <ChartBlock
-                maintenanceTypeName={maintenanceType.name}
-                label='Tree Health under three maintenance scopes'
-                type='pie'
-                detail='We consider a tree ‘non-critical’ if it has a dieback ratio of over 25%, this is the amount of living foliage as a proportion of the estimated original crown outline.'
-              >
-                <div className='flex'>
-                  <p className='max-w-sm pt-5 text-indigo-600 medium-intro-lg'>
-                    Breakdown of trees in terms of their health (%)
-                  </p>
-                  <Dropdown
-                    span='sm:col-span-2'
-                    label='pie chart type'
-                    title=''
-                    type='general'
-                    onChange={(e) => {
-                      setPieChartShowType(e.target.value);
-                    }}
-                    options={piechartTypes}
-                  />
+              <div className='grid grid-cols-1 sm:grid-cols-3'>
+                <div>
+                  <PieChart data={oneToFivePie} type={1} />
                 </div>
-
-                <div className='grid grid-cols-1 sm:grid-cols-3'>
-                  <div>
-                    <PieChart data={oneToFivePie} type={1} />
-                  </div>
-                  <div>
-                    <PieChart data={sixToTenPie} type={2} />
-                  </div>
-                  <div>
-                    <PieChart data={eleventToFiftyPie} type={3} />
-                  </div>
+                <div>
+                  <PieChart data={sixToTenPie} type={2} />
                 </div>
-              </ChartBlock>
-            </div>
-          </ResultBlock>
+                <div>
+                  <PieChart data={eleventToFiftyPie} type={3} />
+                </div>
+              </div>
+            </ChartBlock>
+          </div>
 
           <div className='h-10' />
 
@@ -1353,6 +1351,7 @@ export default function SubmitProject(props) {
             description='The assessment provides an estimated project costs over 50 years. *this estimate does not include any commercial mark-ups. These costs only reflect the direct infrastructural cost of your NbS project.'
             type='impact'
           />
+          <hr className='mx-20 border-[12px] border-indigo-600' />
           <ResultBlock title='Breakdown of capital and operational costs'>
             <div className='grid grid-cols-1 md:grid-cols-4 mt-5 gap-x-8'>
               <div>
@@ -1427,16 +1426,13 @@ export default function SubmitProject(props) {
               </div>
             </div>
           </ResultBlock>
-          <ResultBlock>
-            <ChartBlock
-              maintenanceTypeName={maintenanceType.name}
-              label='Your projects tree replacements'
-            >
-              <BarChart data={costChart} />
-            </ChartBlock>
-          </ResultBlock>
-
-          <hr className='mx-20 border-8 border-indigo-600' />
+          <hr className='mx-20 border-[12px] border-indigo-600' />
+          <ChartBlock
+            maintenanceTypeName={maintenanceType.name}
+            label='Your projects tree replacements'
+          >
+            <BarChart data={costChart} />
+          </ChartBlock>
 
           <div className='grid pb-20 pt-10'>
             <div className='max-w-3xl place-self-center py-4 text-center'>

@@ -26,7 +26,7 @@ const BarChart = (props) => {
         colors={['#1EB792', '#2F3130', '#4F46E5']}
         colorBy='id'
         theme={{
-          background: '#F4F4F4',
+          background: '#FCFCFC',
           textColor: '#4F46E5',
         }}
         enableGridX={false}

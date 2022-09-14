@@ -10,7 +10,7 @@ const SmallBarChart = (props) => {
   }, [props.data]);
 
   return (
-    <div style={{ height: '300px' }}>
+    <div className='border border-indigo-600 px-5 py-5 rounded-2xl' style={{ height: '400px' }}>
       <ResponsiveBar
         data={data}
         keys={['Value']}
@@ -25,7 +25,7 @@ const SmallBarChart = (props) => {
         colors={['#1EB792', '#4F46E5', '#828784']}
         colorBy='id'
         theme={{
-          background: '#F4F4F4',
+          background: '#FCFCFC',
           textColor: '#4F46E5',
         }}
         enableGridX={false}
