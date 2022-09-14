@@ -35,16 +35,49 @@ const LocationRiskChart = (props) => {
         </p>
       </div>
       <div className='location-risk-chart-content'>
-        <div className='location-risk-chart-content-header py-4 text-center'>
-          <span
-            className={classNames(
-              councilInfo.class === 'high' ? ' bg-indigo-700' : ' bg-indigo-400',
-              'bold-intro-sm inline-flex justify-center rounded-xl border border-transparent py-4 px-8 uppercase text-white-200 shadow-sm',
-            )}
-          >
-            {councilInfo.class}
-          </span>
-          <p className='bold-intro-sm pt-1'>Flooding of sewers due to heavy rainfall</p>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4'>
+          <div className='location-risk-chart-content-header py-4 text-center'>
+            <span
+              className={classNames(
+                councilInfo.flood_risk_classification === 'high' ||
+                  councilInfo.flood_risk_classification === 'very high'
+                  ? ' bg-indigo-700'
+                  : ' bg-indigo-400',
+                'bold-intro-sm inline-flex justify-center rounded-full border border-transparent py-4 px-4 uppercase text-white-200 shadow-sm',
+              )}
+            >
+              {councilInfo.flood_risk_classification}
+            </span>
+            <p className='book-intro-sm pt-1'>Risk due to flooding</p>
+          </div>
+          <div className='location-risk-chart-content-header py-4 text-center'>
+            <span
+              className={classNames(
+                councilInfo.social_risk_classification === 'high' ||
+                  councilInfo.social_risk_classification === 'very high'
+                  ? ' bg-indigo-700'
+                  : ' bg-indigo-400',
+                'bold-intro-sm inline-flex justify-center rounded-full border border-transparent py-4 px-4 uppercase text-white-200 shadow-sm',
+              )}
+            >
+              {councilInfo.social_risk_classification}
+            </span>
+            <p className='book-intro-sm pt-1'>Social risk</p>
+          </div>
+          <div className='location-risk-chart-content-header py-4 text-center'>
+            <span
+              className={classNames(
+                councilInfo.Green_Infrastructure_classification === 'high' ||
+                  councilInfo.Green_Infrastructure_classification === 'very high'
+                  ? ' bg-indigo-700'
+                  : ' bg-indigo-400',
+                'bold-intro-sm inline-flex justify-center rounded-full border border-transparent py-4 px-4 uppercase text-white-200 shadow-sm',
+              )}
+            >
+              {councilInfo.Green_Infrastructure_classification}
+            </span>
+            <p className='book-intro-sm pt-1'>Risk due to existing green infrastructure</p>
+          </div>
         </div>
       </div>
     </div>
