@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
+import logo from '../images/logo-white.svg';
 import tempImage from '../images/tempImage.png';
 import GCCLogo from '../images/partner_logos/GCC.png';
 import CCFLogo from '../images/partner_logos/CCF.png';
@@ -11,17 +12,19 @@ import MGSDPLogo from '../images/partner_logos/MGSDP.png';
 
 export default function Home(props) {
   return (
-    <div className='font-favorit bg-white-200'>
+    <div className='font-favorit bg-white-200 bg-pattern '>
       <NavBar loggedIn={props.loggedIn} current='home' />
       <div className=''>
-        <main className='bg-white-200 pb-20 global-margin'>
-          <div className='title-box mt-4 bg-indigo-600 py-20'>
-            <div className='grid grid-cols-1 sm:grid-cols-3'>
-              <div className='col-span-2 ml-20 mt-10'>
-                <h1 className='text-white-200'>TreesAI</h1>
-                <h2 className='pt-8 text-white-200'>Revaluing nature as urban infrastructure.</h2>
+        <main className='bg-white-200 pb-20 global-margin bg-pattern '>
+          <div className='title-box mt-4 bg-indigo-600 py-10'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-0'>
+              <div className='ml-28 mt-10'>
+                <img src={logo} width='274px' alt='TreesAI logo' />
+                <h1 className='pt-20 max-w-md text-white-200'>
+                  Revaluing nature as urban infrastructure.
+                </h1>
               </div>
-              <div className='px-5'>
+              <div className=''>
                 <img src={tempImage} alt='explorer preview image' />
               </div>
             </div>
@@ -31,7 +34,7 @@ export default function Home(props) {
             <div className=''>
               <h2 className='text-white-200 text-left'>
                 TreesAI provides project developers and green investors with the impact assessment
-                and investment tools to coordinate nature-based solutions within sustainable
+                and investment tools to coordinate Nature-based Solutions (NbS) within sustainable
                 portfolios.
               </h2>
             </div>
@@ -48,18 +51,20 @@ export default function Home(props) {
                   <h1 className='text-center text-white-200'>Explore</h1>
                   <h2 className='text-center text-white-200'>NbS Map</h2>
                 </div>
-                <p className='book-intro-md mt-10 ml-10 text-left max-w-sm px-10 text-dark-wood-800'>
-                  Discover existing NbS projects and portfolios driving environmental, social and
-                  economic impact.
-                </p>
-                <Link to='/explore'>
-                  <button
-                    type='button'
-                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-                  >
-                    NbS Map →
-                  </button>
-                </Link>
+                <div className=''>
+                  <p className='book-intro-md mt-10 ml-10 text-left max-w-sm px-10 text-dark-wood-800'>
+                    Discover existing NbS projects and portfolios driving environmental, social and
+                    economic impact.
+                  </p>
+                  <Link to='/explore'>
+                    <button
+                      type='button'
+                      className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                    >
+                      NbS Map →
+                    </button>
+                  </Link>
+                </div>
               </div>
               <div className=''>
                 <div className='title-text-container measure-background-shape py-20'>
@@ -88,7 +93,7 @@ export default function Home(props) {
                   Invest in a strategic portfolio of NbS that delivers benefit for people and
                   planet.
                 </p>
-                <Link to='/'>
+                <Link to='/invest'>
                   <button
                     type='button'
                     className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 my-16 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800 '
@@ -100,7 +105,7 @@ export default function Home(props) {
             </div>
           </div>
 
-          <div className='title-box bg-indigo-300 py-10'>
+          <div className='title-box bg-indigo-300 py-10 px-20'>
             <div className=''>
               <h2 className='text-center'>Testimonials</h2>
             </div>
@@ -162,14 +167,14 @@ export default function Home(props) {
           <div className='py-10 text-center'>
             <h2 className='pb-4 text-dark-wood-800'>The Glasgow Portfolio</h2>
             <div className='py-10 px-20 bg-indigo-300 max-w-3xl mx-auto rounded-tr-[130px] rounded-bl-[130px]'>
-              <p className='book-intro-sm text-dark-wood-800 pb-5'>
+              <p className='book-intro-sm text-dark-wood-800 pb-5 text-left'>
                 Glasgow City Council and the Clyde Climate Valley are partnering with TreesAI to
                 launch a portfolio of Nature Based Solutions (NbS) projects to address the city’s
                 climate-related risks. Launched as a pilot at COP26, the TreeAI Glasgow Portfolio
                 will fund NbS projects in Glasgow and the Clyde Valley, with a primary focus on
                 alleviating the region’s stormwater and flood risks.
               </p>
-              <Link to='/'>
+              <Link to='/glasgow-nbs-portfolio'>
                 <button
                   type='button'
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800 '

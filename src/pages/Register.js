@@ -110,7 +110,7 @@ export default function Register() {
         <div className='title-box-alter mt-4 bg-white-300'>
           <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
             <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-              <p className='font-small mt-2 text-center text-gray-900'>
+              <p className='book-info-lg  mt-2 text-center text-gray-900'>
                 Already registered? Login{' '}
                 <Link className='text-green-600' to='/login'>
                   here
@@ -121,7 +121,7 @@ export default function Register() {
             <div className='py-8 px-4 sm:rounded-lg sm:px-10'>
               <form className='space-y-6'>
                 <div>
-                  <label htmlFor='name' className='block text-sm font-medium text-gray-700'>
+                  <label htmlFor='name' className='block book-info-md text-gray-700'>
                     Name
                   </label>
                   <div className='mt-1'>
@@ -140,7 +140,7 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
+                  <label htmlFor='email' className='block book-info-md  text-gray-700'>
                     Email address
                   </label>
                   <div className='mt-1'>
@@ -160,7 +160,7 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label htmlFor='password' className='block text-sm font-medium text-gray-700'>
+                  <label htmlFor='password' className='block book-info-md text-gray-700'>
                     Password
                   </label>
                   <div className='mt-1'>
@@ -182,7 +182,7 @@ export default function Register() {
                   <button
                     onClick={registerUser}
                     type='button'
-                    className='flex w-full justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-800'
+                    className='flex w-full justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-4 bold-info-md text-white shadow-sm hover:bg-indigo-800'
                   >
                     {isLoading && <LoadingSpinner />}
                     Register
