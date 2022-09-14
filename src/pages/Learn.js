@@ -1,3 +1,3 @@
 export default function Learn() {
-  return '';
+  return <div>Placeholder Learn</div>;
 }
