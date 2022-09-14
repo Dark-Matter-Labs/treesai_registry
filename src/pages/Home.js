@@ -105,7 +105,7 @@ export default function Home(props) {
             </div>
           </div>
 
-          <div className='title-box bg-indigo-300 py-10 px-20'>
+          <div className='title-box bg-indigo-300 py-10 px-28'>
             <div className=''>
               <h2 className='text-center'>Testimonials</h2>
             </div>

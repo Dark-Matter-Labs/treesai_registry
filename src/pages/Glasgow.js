@@ -65,7 +65,7 @@ export default function Glasgow() {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className='divide-y divide-gray-200 bg-white'>
+                      <tbody className='divide-y divide-gray-200 bg-white-200'>
                         <tr className='divide-x divide-gray-200'>
                           <td className='whitespace-nowrap py-4 pl-4 pr-4 book-intro-md text-dark-wood-800 sm:pl-6'>
                             <ul>
@@ -100,7 +100,7 @@ export default function Glasgow() {
           <div className='bg-indigo-600 rounded-br-[100px] px-8 '>
             <h2 className='text-white-200 pt-4'>Problem </h2>
           </div>
-          <div className='col-span-2 border border-indigo-600 sm:rounded-br-[100px] sm:rounded-tr-[100px] px-20 py-10'>
+          <div className='col-span-2 border border-indigo-600 sm:rounded-br-[100px] sm:rounded-tr-[100px] px-20 py-10 bg-white-200'>
             <p className='book-intro-md text-dark-wood-800 pb-4'>
               Glasgow is the UK’s third wettest city – rainfall often overwhelms its Victorian sewer
               causing a 40% increase in raw sewage. There’s post-industrial, contaminated land and
@@ -120,7 +120,7 @@ export default function Glasgow() {
         <div className='grid grid-cols-1 sm:grid-cols-3 mt-10 gap-x-4'>
           <div className='bg-green-600 rounded-br-[100px] px-8 '>
             <h2 className='text-white-200 pt-4'>Portfolio & Impact </h2>
-            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-0 justify-items-center pt-5'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-0 justify-items-start pt-5'>
               <div>
                 <img src={sdgs1} width='78px' />
               </div>
@@ -138,7 +138,7 @@ export default function Glasgow() {
               </div>
             </div>
           </div>
-          <div className='col-span-2 border border-green-600 sm:rounded-br-[100px] sm:rounded-tr-[100px] px-20 py-10'>
+          <div className='col-span-2 border border-green-600 sm:rounded-br-[100px] sm:rounded-tr-[100px] px-20 py-10 bg-white-200'>
             <p className='book-intro-md text-dark-wood-800 pb-4'>
               Launched at COP26, the Glasgow Pilot portfolio aims to improve stormwater retention
               and natural flood management – reducing the cost of flooding damage and increasing

@@ -41,7 +41,7 @@ const ChartMultiLine = (props) => {
         }}
         axisLeft={{
           legend: 'KG / p Tree',
-          legendOffset: -40,
+          legendOffset: -38,
         }}
         axisBottom={{
           legend: 'YEAR',

@@ -230,9 +230,9 @@ export default function NavBar(props) {
                     {/* Profile dropdown */}
                     <Menu as='div' className='relative ml-3'>
                       <div>
-                        <Menu.Button className='flex rounded-full bg-white-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
+                        <Menu.Button className='bold-intro-sm inline-flex justify-center rounded-full py-2 px-2 mx-2 shadow-sm bg-indigo-600 text-white-200 hover:bg-indigo-700'>
                           <span className='sr-only'>Open user menu</span>
-                          <span className='medium-intro-sm'>
+                          <span className='medium-intro-sm '>
                             {sessionStorage.getItem('user_name')}
                           </span>
                         </Menu.Button>
