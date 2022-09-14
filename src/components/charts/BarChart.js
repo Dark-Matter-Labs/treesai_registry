@@ -17,19 +17,21 @@ const BarChart = (props) => {
         indexBy='years'
         groupMode='grouped'
         padding={0.3}
+        innerPadding={5}
         margin={{ top: 80, right: 20, bottom: 60, left: 40 }}
         axisBottom={{
           legend: 'YEARS RANGES',
           legendOffset: 40,
         }}
-        colors={['hsl(31, 70%, 50%)', 'hsl(347, 70%, 50%)', 'hsl(135, 70%, 50%)']}
+        colors={['#1EB792','#4F46E5', '#828784', ]}
         colorBy="id"
         theme={{
-          background: '#FCFCFC',
-          textColor: '#1A0789',
+          background: '#F4F4F4',
+          textColor: '#4F46E5',
         }}
         enableGridX={false}
         enableGridY={false}
+        enableLabel={false}
       />
     </div>
   );

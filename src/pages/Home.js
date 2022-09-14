@@ -14,25 +14,6 @@ export default function Home(props) {
     <div className='font-favorit bg-white-200'>
       <NavBar loggedIn={props.loggedIn} current='home' />
       <div className=''>
-        <div className='bg-dark-wood-700'>
-          <div className='mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8'>
-            <div className='flex flex-wrap items-center justify-between'>
-              <div className='flex w-0 flex-1 items-center'>
-                <p className='ml-3 truncate font-medium text-white'>
-                  <span className='md:hidden book-info-md'>
-                    This is still a prototype, the full platform is scheduled to go live in November
-                    2022
-                  </span>
-                  <span className='hidden md:inline book-info-md'>
-                    This is still a prototype, the full platform is scheduled to go live in November
-                    2022
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <main className='bg-white-200 pb-20 global-margin'>
           <div className='title-box mt-4 bg-indigo-600 py-20'>
             <div className='grid grid-cols-1 sm:grid-cols-3'>
