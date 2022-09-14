@@ -6,6 +6,10 @@ import SubmitProject from './pages/SubmitProject';
 import Portfolio from './pages/Portfolio';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Glasgow from './pages/Glasgow';
+import Invest from './pages/Invest';
+import Learn from './pages/Learn';
+import Contact from './pages/Contact';
 import ScrollToTop from './utils/ScrollToTop';
 
 function App() {
@@ -23,6 +27,10 @@ function App() {
         <Route exact path='/explore' element={<Portfolio loggedIn={loggedIn} />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/login' element={<Login />} />
+        <Route exact path='/glasgow-nbs-portfolio' element={<Glasgow />} />
+        <Route exact path='/invest' element={<Invest />} />
+        <Route exact path='/learn-more' element={<Learn />} />
+        <Route exact path='/contact' element={<Contact />} />
       </Routes>
     </Router>
   );

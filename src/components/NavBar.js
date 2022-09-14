@@ -76,7 +76,7 @@ export default function NavBar(props) {
                     <div className='flex items-center'>
                       <Menu as='div' className='relative'>
                         <div>
-                          <Menu.Button className='flex rounded-full bg-white-200 text-sm'>
+                          <Menu.Button className='flex rounded-full bg-white-200'>
                             <span className='sr-only'>Open invest menu</span>
                             <span className='medium-intro-sm'>
                               <span
@@ -113,28 +113,30 @@ export default function NavBar(props) {
                           <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href='#'
-                                  className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'medium-intro-sm block px-4 py-2 text-gray-700',
-                                  )}
-                                >
-                                  Invest
-                                </a>
+                                <Link to='/invest'>
+                                  <a
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : '',
+                                      'medium-intro-sm block px-4 py-2 text-gray-700',
+                                    )}
+                                  >
+                                    Invest
+                                  </a>
+                                </Link>
                               )}
                             </Menu.Item>
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href='#'
-                                  className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'medium-intro-sm block px-4 py-2 text-gray-700',
-                                  )}
-                                >
-                                  Glasgow Pilot
-                                </a>
+                                <Link to='/glasgow-nbs-portfolio'>
+                                  <a
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : '',
+                                      'medium-intro-sm block px-4 py-2 text-gray-700',
+                                    )}
+                                  >
+                                    Glasgow Portfolio
+                                  </a>
+                                </Link>
                               )}
                             </Menu.Item>
                           </Menu.Items>
@@ -191,28 +193,30 @@ export default function NavBar(props) {
                           <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href='#'
-                                  className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'medium-intro-sm block px-4 py-2 text-gray-700',
-                                  )}
-                                >
-                                  Learn more
-                                </a>
+                                <Link to='/learn-more'>
+                                  <a
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : '',
+                                      'medium-intro-sm block px-4 py-2 text-gray-700',
+                                    )}
+                                  >
+                                    Learn more
+                                  </a>
+                                </Link>
                               )}
                             </Menu.Item>
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href='#'
-                                  className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'medium-intro-sm block px-4 py-2 text-gray-700',
-                                  )}
-                                >
-                                  Contact
-                                </a>
+                                <Link to='/contact'>
+                                  <a
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : '',
+                                      'medium-intro-sm block px-4 py-2 text-gray-700',
+                                    )}
+                                  >
+                                    Contact
+                                  </a>
+                                </Link>
                               )}
                             </Menu.Item>
                           </Menu.Items>
@@ -264,13 +268,13 @@ export default function NavBar(props) {
                   <div className='flex items-center '>
                     <button
                       type='button'
-                      className='mr-2 inline-flex items-center rounded-full border border-green-600 bg-white px-4 py-2 text-sm font-medium font-medium text-green-600 shadow-sm hover:bg-indigo-700'
+                      className='bold-intro-sm inline-flex justify-center rounded-full py-2 px-2 mx-2 shadow-sm border border-green-600 bg-white-200 text-green-600 hover:bg-indigo-700'
                     >
                       <Link to='/register'>Sign up</Link>
                     </button>
                     <button
                       type='button'
-                      className='inline-flex items-center rounded-full border border-transparent bg-green-600 px-4 py-2 text-sm font-medium font-medium text-white shadow-sm hover:bg-green-800'
+                      className='bold-intro-sm inline-flex justify-center rounded-full py-2 px-2 mx-2 shadow-sm border border-transparent bg-green-600 text-white-200 hover:bg-green-800'
                     >
                       <Link to='/login'>Login</Link>
                     </button>
@@ -298,14 +302,14 @@ export default function NavBar(props) {
                 </Disclosure.Button>
                 <Disclosure.Button
                   as='a'
-                  href='#'
+                  href='/invest'
                   className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                 >
                   Invest
                 </Disclosure.Button>
                 <Disclosure.Button
                   as='a'
-                  href='#'
+                  href='/glasgow-nbs-portfolio'
                   className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                 >
                   Glasgow Pilot
@@ -319,28 +323,28 @@ export default function NavBar(props) {
                 </Disclosure.Button>
                 <Disclosure.Button
                   as='a'
-                  href='#'
+                  href='/learn-more'
                   className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                 >
                   Learn More
                 </Disclosure.Button>
                 <Disclosure.Button
                   as='a'
-                  href='#'
+                  href='/contact'
                   className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                 >
                   Contact
                 </Disclosure.Button>
                 <Disclosure.Button
                   as='a'
-                  href='#'
+                  href='/register'
                   className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                 >
                   Sign up
                 </Disclosure.Button>
                 <Disclosure.Button
                   as='a'
-                  href='#'
+                  href='/login'
                   className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                 >
                   Login

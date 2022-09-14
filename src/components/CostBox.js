@@ -13,7 +13,7 @@ export default function CostBox(props) {
   }, [props]);
 
   return (
-    <div className='px-4 sm:px-6 lg:px-8'>
+    <div className='px-4'>
       <div className='mt-8 flex flex-col'>
         <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
           <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
@@ -39,10 +39,12 @@ export default function CostBox(props) {
                   </tr>
                 </thead>
                 <tbody className='divide-y divide-gray-200 bg-white'>
-                  <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'>
+                  <td className='whitespace-nowrap py-4 pl-4 pr-3 medium-intro-md text-indigo-600 sm:pl-6'>
                     £ {costMonths}
                   </td>
-                  <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>£ {costTotal}</td>
+                  <td className='whitespace-nowrap px-3 py-4 medium-intro-md text-indigo-600'>
+                    £ {costTotal}
+                  </td>
                 </tbody>
               </table>
             </div>
