@@ -522,7 +522,7 @@ export default function SubmitProject(props) {
         ) : (
           <div className='global-margin'>
             <div className=''>
-              <Breadcrumb />
+              <Breadcrumb title='Run Impact Explorer' />
               <div className='title-box mt-4 grid grid-cols-1 bg-indigo-600 pt-8'>
                 <div className='place-self-end pr-10'>
                   <button
@@ -1122,6 +1122,7 @@ export default function SubmitProject(props) {
         ))}
       {processStage === 2 && (
         <div className='global-margin sm:px-6 lg:px-8'>
+          <Breadcrumb title='Run Impact Explorer – Your Analysis' />
           <div className='title-box mt-4 bg-indigo-600 border-[3px] border-dark-wood-800 py-20'>
             <div className='grid grid-cols-1 sm:grid-cols-2'>
               <div className='title-text-container text-background-shape py-20'>
