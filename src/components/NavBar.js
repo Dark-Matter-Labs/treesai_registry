@@ -17,6 +17,7 @@ export default function NavBar(props) {
   };
 
   return (
+    <>
     <Disclosure as='nav' className='bg-white-200 border-2 border-b-dark-wood-800 sticky top-0 z-50'>
       {({ open }) => (
         <>
@@ -33,8 +34,8 @@ export default function NavBar(props) {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className='flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start '>
-                <div className='flex flex-shrink-0 items-center'>
+              <div className='flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start'>
+                <div className='flex flex-shrink-0 items-center pr-20'>
                   <Link to='/'>
                     <img
                       className='block h-8 w-auto lg:hidden'
@@ -346,6 +347,25 @@ export default function NavBar(props) {
         </>
       )}
     </Disclosure>
+    <div className='bg-dark-wood-700 rounded-b-[30px]'>
+    <div className='mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8'>
+      <div className='flex flex-wrap '>
+        <div className='flex w-0 flex-1 justify-center '>
+          <p className='ml-3 truncate font-medium text-white'>
+            <span className='md:hidden book-info-md'>
+              This is still a prototype, the full platform is scheduled to go live in November
+              2022
+            </span>
+            <span className='hidden md:inline book-info-md'>
+              This is still a prototype, the full platform is scheduled to go live in November
+              2022
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </>
   );
 }
 
