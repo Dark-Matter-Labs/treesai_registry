@@ -1,4 +1,4 @@
-import Flood_Buildings from '../data/Flood_Buildings.json';
+import Flood_Buildings from '../data/Glasgow_risk.json';
 
 function get_all_cc_names(json) {
   let cc_names = [];
