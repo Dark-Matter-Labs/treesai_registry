@@ -10,6 +10,7 @@ import Glasgow from './pages/Glasgow';
 import Invest from './pages/Invest';
 import Learn from './pages/Learn';
 import Contact from './pages/Contact';
+import Demo from './pages/Demo';
 import ScrollToTop from './utils/ScrollToTop';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route exact path='/invest' element={<Invest />} />
         <Route exact path='/learn-more' element={<Learn />} />
         <Route exact path='/contact' element={<Contact />} />
+        <Route exact path='/demo' element={<Demo />} />
       </Routes>
     </Router>
   );
