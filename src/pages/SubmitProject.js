@@ -1260,7 +1260,6 @@ export default function SubmitProject(props) {
                 costMonths={costOverSelectedTime}
                 costTotal={totalCost}
               />
-              <p className='book-info-sm pt-4 text-dark-wood-800'>
               <p className='book-info-sm pt-4 mb-4 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
