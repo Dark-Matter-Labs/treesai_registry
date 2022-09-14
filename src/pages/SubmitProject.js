@@ -28,6 +28,7 @@ import ChartMultiLine from '../components/charts/ChartMultiLine';
 import LocationRiskChart from '../components/analysis/LocationRisk';
 import PieChart from '../components/charts/PieChart';
 import BarChart from '../components/charts/BarChart';
+import SmallBarChart from '../components/charts/SmallBarChart';
 
 import { saf_data } from '../utils/saf_data_model';
 
@@ -109,6 +110,7 @@ export default function SubmitProject(props) {
   const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
 
   const [costChart, setCostChart] = useState([]);
+  const [smallCostChart, setSmallCostChart] = useState([]);
 
   const navigate = useNavigate();
 
@@ -161,10 +163,17 @@ export default function SubmitProject(props) {
   }, [areaDensity]);
 
   useEffect(() => {
-    const cost = parseInt(opexCost) + parseInt(capexCost)
-    settotalCost(cost)
-    setCostOverSelectedTime(cost/(12*50) * projectLength)
-  }, [projectLength, opexCost, capexCost])
+    const cost = parseInt(opexCost) + parseInt(capexCost);
+    settotalCost(cost);
+    setCostOverSelectedTime((cost / (12 * 50)) * projectLength);
+    setSmallCostChart([
+      {
+        Expenditure: 'CAPEX',
+        Value: capexCost,
+      },
+      { Expenditure: 'OPEX', Value: opexCost },
+    ]);
+  }, [projectLength, opexCost, capexCost]);
 
   /* Pie Diagram */
 
@@ -319,7 +328,7 @@ export default function SubmitProject(props) {
   }
 
   function makeComparativeCostBarChart() {
-    const replacement_price = 104;
+    const replacement_price = 480;
 
     let chartObj = [
       {
@@ -1238,7 +1247,11 @@ export default function SubmitProject(props) {
                 The following ranges provide an estimated project costs over different time-spans:
               </p>
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
-              <CostBox months={projectLength} costMonths={costOverSelectedTime} costTotal={totalCost} />
+              <CostBox
+                months={projectLength}
+                costMonths={costOverSelectedTime}
+                costTotal={totalCost}
+              />
               <p className='book-info-sm pt-4 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
@@ -1314,7 +1327,86 @@ export default function SubmitProject(props) {
             title='Project Costs*'
             description='The assessment provides an estimated project costs over 50 years. *this estimate does not include any commercial mark-ups. These costs only reflect the direct infrastructural cost of your NbS project.'
             type='impact'
-          >
+          />
+          <ResultBlock title='Breakdown of capital and operational costs'>
+            <p className='book-intro'>
+              Here you can find breakdown of the capital and operational costs of your project for
+              each typology under the maintenance scope you selected. The breakdown is calculated by
+              annualising the capital and operational costs for a 50 year period.
+            </p>
+
+            <Dropdown
+              span='sm:col-span-2'
+              label='pie chart type'
+              title=''
+              type='general'
+              onChange={(e) => {
+                setPieChartShowType(e.target.value);
+              }}
+              options={piechartTypes}
+            />
+
+            <p>Typology</p>
+            <div className='sm:col-span-6'>
+              <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
+                <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-2 sm:gap-x-4'>
+                  <RadioGroup.Option
+                    key={selectedTypology.id}
+                    value={selectedTypology}
+                    className={({ checked, active }) =>
+                      classNames(
+                        checked ? 'border-transparent' : 'border-dark-wood-500',
+                        active ? 'border-green-600 ring-2 ring-green-600' : '',
+                        'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
+                      )
+                    }
+                  >
+                    {({ checked, active }) => (
+                      <>
+                        <span className='flex flex-1'>
+                          <img className='h-24 rounded-full' src={selectedTypology.image} />
+                          <span className='flex flex-col'>
+                            <RadioGroup.Label
+                              as='span'
+                              className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
+                            >
+                              {selectedTypology.title}
+                            </RadioGroup.Label>
+                            <RadioGroup.Description
+                              as='span'
+                              className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
+                            >
+                              {selectedTypology.description}
+                            </RadioGroup.Description>
+                          </span>
+                        </span>
+                        <CheckCircleIcon
+                          className={classNames(
+                            !checked ? 'invisible' : '',
+                            'h-5 w-5 text-green-600',
+                          )}
+                          aria-hidden='true'
+                        />
+                        <span
+                          className={classNames(
+                            active ? 'border' : 'border-2',
+                            checked ? 'border-green-600' : 'border-transparent',
+                            'pointer-events-none absolute -inset-px rounded-3xl',
+                          )}
+                          aria-hidden='true'
+                        />
+                      </>
+                    )}
+                  </RadioGroup.Option>
+                </div>
+              </RadioGroup>
+            </div>
+
+            <p>Annualised costs</p>
+
+            <SmallBarChart data={smallCostChart} />
+          </ResultBlock>
+          <ResultBlock>
             <ChartBlock
               maintenanceTypeName={maintenanceType.name}
               label='Your projects tree replacements'
