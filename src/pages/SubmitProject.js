@@ -27,7 +27,7 @@ import projectImg from '../images/project-default.png';
 import ChartMultiLine from '../components/charts/ChartMultiLine';
 import LocationRiskChart from '../components/analysis/LocationRisk';
 import PieChart from '../components/charts/PieChart';
-// import BarChart from '../components/charts/BarChart';
+import BarChart from '../components/charts/BarChart';
 
 import { saf_data } from '../utils/saf_data_model';
 
@@ -44,7 +44,7 @@ import {
 } from '../utils/project_details';
 
 import { getCouncils } from '../utils/geojson_utils';
-import BarChart from '../components/charts/BarChart';
+import CostBox from '../components/CostBox';
 
 // set SAF parameters
 const typologies = get_typologies();
@@ -73,7 +73,7 @@ export default function SubmitProject(props) {
   const [projectLocation, setProjectLocation] = useState(null);
   const [landOwner, setLandOwner] = useState('');
   const [landUseChange, setLandUseChange] = useState(false);
-  const [projectLength, setProjectLength] = useState(0);
+  const [projectLength, setProjectLength] = useState(24);
   const [projectDescription, setProjectDescription] = useState('');
   const [stakeholderEngt, setStakeholderEngt] = useState('');
   const [treeNumber, setTreeNumber] = useState(1);
@@ -90,6 +90,11 @@ export default function SubmitProject(props) {
   const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
+  // Cost variables
+  const [opexCost, setOpexCost] = useState(200);
+  const [capexCost, setCapexCost] = useState(200);
+  const [totalCost, settotalCost] = useState(500);
+  const [costOverSelectedTime, setCostOverSelectedTime] = useState(123);
 
   /* SAF Related variables */
   const [safOutput0, setSafOutput0] = useState(saf_data);
@@ -154,6 +159,12 @@ export default function SubmitProject(props) {
       setAreaDensity(1);
     }
   }, [areaDensity]);
+
+  useEffect(() => {
+    const cost = parseInt(opexCost) + parseInt(capexCost)
+    settotalCost(cost)
+    setCostOverSelectedTime(cost/(12*50) * projectLength)
+  }, [projectLength, opexCost, capexCost])
 
   /* Pie Diagram */
 
@@ -1008,6 +1019,10 @@ export default function SubmitProject(props) {
                   placeholder='£200'
                   unit='£'
                   type='cost'
+                  defaultValue={capexCost}
+                  onChange={(e) => {
+                    setCapexCost(e.target.value);
+                  }}
                 />
 
                 <NumberInput
@@ -1017,6 +1032,10 @@ export default function SubmitProject(props) {
                   placeholder='£200'
                   unit='£'
                   type='cost'
+                  defaultValue={opexCost}
+                  onChange={(e) => {
+                    setOpexCost(e.target.value);
+                  }}
                 />
                 <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
                   Capital expenditures (CAPEX) refers to the initial costs of developing a project.
@@ -1216,48 +1235,14 @@ export default function SubmitProject(props) {
             <div className='px-8 '>
               <h3 className='text-dark-wood-800'>Project Cost</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
-                Considering a combination of factors including your project typology, activity and
-                location, your project average could be:
+                The following ranges provide an estimated project costs over different time-spans:
               </p>
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
-              <p>
-                Low: £
-                {Math.round(
-                  ((treeNumber / areaDensity) * selectedTypology.costLow) / 10000,
-                ).toFixed(2)}
+              <CostBox months={projectLength} costMonths={costOverSelectedTime} costTotal={totalCost} />
+              <p className='book-info-sm pt-4 text-dark-wood-800'>
+                These estimates do not include any commercial mark-ups and only reflect the direct
+                costs of building and maintaining your NbS project.
               </p>
-              <p>
-                Medium: £
-                {Math.round(
-                  ((treeNumber / areaDensity) * selectedTypology.costMed) / 10000,
-                ).toFixed(2)}
-              </p>
-              <p className='pb-5'>
-                High: £
-                {Math.round(
-                  ((treeNumber / areaDensity) * selectedTypology.costHigh) / 10000,
-                ).toFixed(2)}
-              </p>
-              <p className='text-green-600'>Total Project Cost over 50 years</p>
-              <p>
-                Low: £
-                {Math.round(
-                  (((treeNumber / areaDensity) * selectedTypology.costLow) / 10000) * totalArea,
-                ).toFixed(2)}
-              </p>
-              <p>
-                Medium: £
-                {Math.round(
-                  (((treeNumber / areaDensity) * selectedTypology.costMed) / 10000) * totalArea,
-                ).toFixed(2)}
-              </p>
-              <p className='pb-5'>
-                High: £
-                {Math.round(
-                  (((treeNumber / areaDensity) * selectedTypology.costHigh) / 10000) * totalArea,
-                ).toFixed(2)}
-              </p>
-
               <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>Risk addressed</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
                 Considering a combination of factors including your project typology, activity and
