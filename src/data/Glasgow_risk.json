@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "name": "Flood_Buildings",
+  "name": "Glasgow_risk_soft_launch",
   "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
   "features": [
     {
@@ -8,13 +8,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Govan East",
-        "Area (ha)": 129.1768904,
-        "hazard": 29.065933932170239,
-        "exposure": 16.905754344177986,
-        "vulnerability": 36.86601221679058,
-        "risk_score": 22.020279207865705,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -153,13 +149,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Dundasvale",
-        "Area (ha)": 65.92005093,
-        "hazard": 29.649171441916,
-        "exposure": 34.829210198668328,
-        "vulnerability": 48.000797467520464,
-        "risk_score": 35.959891989085207,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -251,13 +243,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Laurieston",
-        "Area (ha)": 67.0241105,
-        "hazard": 46.891754378030193,
-        "exposure": 15.20597628972013,
-        "vulnerability": 44.963188083993757,
-        "risk_score": 23.659158899220547,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "very high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -360,13 +348,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Bridgeton and Dalmarnock",
-        "Area (ha)": 239.893906,
-        "hazard": 42.910885994927106,
-        "exposure": 72.167487684729053,
-        "vulnerability": 44.327319303795335,
-        "risk_score": 59.000099223586538,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -521,13 +505,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Anderston",
-        "Area (ha)": 116.0290814,
-        "hazard": 35.597165279258093,
-        "exposure": 44.126563092080332,
-        "vulnerability": 55.526391709931112,
-        "risk_score": 44.259146543038803,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "very high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -707,13 +687,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Arden Carnwadric Kennishead and Old Darnley",
-        "Area (ha)": 196.018724,
-        "hazard": 57.296266416637209,
-        "exposure": 16.613435825258481,
-        "vulnerability": 43.328707509496162,
-        "risk_score": 25.778407602988825,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -867,13 +843,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Auchenshuggle and Tollcross",
-        "Area (ha)": 191.2443229,
-        "hazard": 39.318382768056594,
-        "exposure": 49.358523250148863,
-        "vulnerability": 29.66109771331686,
-        "risk_score": 42.596495251078458,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1094,13 +1066,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Cranhill",
-        "Area (ha)": 87.96201322,
-        "hazard": 42.257638412987596,
-        "exposure": 21.046933362204296,
-        "vulnerability": 34.928858820174938,
-        "risk_score": 26.77510727408615,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1162,13 +1130,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Baillieston",
-        "Area (ha)": 285.6483222,
-        "hazard": 40.766553017406451,
-        "exposure": 18.505386239376385,
-        "vulnerability": 32.594245158059429,
-        "risk_score": 24.269893817892612,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1465,13 +1429,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Barrowfield/Camlachie",
-        "Area (ha)": 117.902305,
-        "hazard": 38.751414723081254,
-        "exposure": 34.439452173442319,
-        "vulnerability": 29.864341552944616,
-        "risk_score": 34.270610569294483,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1640,13 +1600,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Blairdardie and Old Drumchapel",
-        "Area (ha)": 137.2882943,
-        "hazard": 47.951547610343113,
-        "exposure": 38.675364044822167,
-        "vulnerability": 46.098504612998489,
-        "risk_score": 41.817545621971838,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "very high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1777,13 +1733,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Blythswood and Broomielaw",
-        "Area (ha)": 104.6551989,
-        "hazard": 30.548119591997768,
-        "exposure": 78.509175553510531,
-        "vulnerability": 51.995959117315095,
-        "risk_score": 59.860875614926698,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1843,13 +1795,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Broomhill",
-        "Area (ha)": 66.5496318,
-        "hazard": 43.524640650192978,
-        "exposure": 25.829589130081736,
-        "vulnerability": 73.805470303690569,
-        "risk_score": 35.370015325392806,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "low",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2035,13 +1983,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Broomhouse",
-        "Area (ha)": 226.5389899,
-        "hazard": 41.061027739991665,
-        "exposure": 13.506198235262273,
-        "vulnerability": 32.908721137190405,
-        "risk_score": 20.15895595719865,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2289,13 +2233,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Cadder",
-        "Area (ha)": 64.78902304,
-        "hazard": 20.316391925699769,
-        "exposure": 18.987170465002972,
-        "vulnerability": 30.290353342510084,
-        "risk_score": 21.130332646295944,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2481,13 +2421,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Calton",
-        "Area (ha)": 155.7896158,
-        "hazard": 36.27532879316621,
-        "exposure": 45.4609429978888,
-        "vulnerability": 25.65043516249564,
-        "risk_score": 38.75469140183128,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "low"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2600,13 +2536,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Carmunnock",
-        "Area (ha)": 411.1984816,
-        "hazard": 43.372603986019378,
-        "exposure": 0.23006550100146159,
-        "vulnerability": 33.949443142731553,
-        "risk_score": 1.7812321707476748,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2915,13 +2847,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Carmyle",
-        "Area (ha)": 335.2706456,
-        "hazard": 20.528566277683577,
-        "exposure": 63.148920045471755,
-        "vulnerability": 14.747818329388382,
-        "risk_score": 37.708289818156032,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3154,13 +3082,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Castlemilk",
-        "Area (ha)": 359.4951562,
-        "hazard": 31.212739083986591,
-        "exposure": 18.012775401937962,
-        "vulnerability": 28.303466184142216,
-        "risk_score": 22.00810663603859,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3312,13 +3236,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Croftfoot and Menock",
-        "Area (ha)": 124.6375903,
-        "hazard": 24.660582715176034,
-        "exposure": 2.9069452714772912,
-        "vulnerability": 29.205969032461958,
-        "risk_score": 7.0722418564557179,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "low"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3439,13 +3359,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Cathcart and District",
-        "Area (ha)": 139.0273344,
-        "hazard": 25.114988485608229,
-        "exposure": 5.3862393763871586,
-        "vulnerability": 46.272023201652274,
-        "risk_score": 11.267347397486033,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3753,13 +3669,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Central Maryhill",
-        "Area (ha)": 86.1442904,
-        "hazard": 32.221750015150668,
-        "exposure": 38.396578790667455,
-        "vulnerability": 49.146933758721076,
-        "risk_score": 38.949745839737346,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3919,13 +3831,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Claythorn",
-        "Area (ha)": 64.05282528,
-        "hazard": 40.002334038374386,
-        "exposure": 27.60244681426947,
-        "vulnerability": 42.304538328382094,
-        "risk_score": 32.378968363481455,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4043,13 +3951,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Craigton",
-        "Area (ha)": 137.7124775,
-        "hazard": 46.60462567020047,
-        "exposure": 8.3148378714881161,
-        "vulnerability": 27.835849159457609,
-        "risk_score": 14.945793275685627,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4159,13 +4063,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Crosshill and Govanhill",
-        "Area (ha)": 136.3502025,
-        "hazard": 31.041132132134138,
-        "exposure": 35.94435121528717,
-        "vulnerability": 48.945230511871415,
-        "risk_score": 37.128548869485499,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4276,13 +4176,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Darnley and South Park Village",
-        "Area (ha)": 198.1106921,
-        "hazard": 46.184655368378067,
-        "exposure": 4.3847777837925612,
-        "vulnerability": 36.880243397230764,
-        "risk_score": 10.750455116966442,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4627,13 +4523,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Dennistoun",
-        "Area (ha)": 243.2385126,
-        "hazard": 39.347485699966761,
-        "exposure": 81.665132896659969,
-        "vulnerability": 38.968129571885619,
-        "risk_score": 60.862153250068403,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4882,13 +4774,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Dumbreck",
-        "Area (ha)": 60.46999384,
-        "hazard": 40.29331067774946,
-        "exposure": 11.224489795918366,
-        "vulnerability": 30.638953351278843,
-        "risk_score": 17.71745511667406,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4952,13 +4840,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Dowanhill Hyndland and Kelvinside",
-        "Area (ha)": 159.3085792,
-        "hazard": 30.096956799444929,
-        "exposure": 44.134683050939202,
-        "vulnerability": 60.695395895669925,
-        "risk_score": 43.571616645175546,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "low",
+        "Green_Infrastructure_classification": "low"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5183,13 +5067,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Drumchapel",
-        "Area (ha)": 357.9981825,
-        "hazard": 47.577349401196145,
-        "exposure": 23.994478427975963,
-        "vulnerability": 18.043069245515323,
-        "risk_score": 25.990158033494861,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "low"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5436,13 +5316,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Drumoyne",
-        "Area (ha)": 259.8827656,
-        "hazard": 34.460923903567007,
-        "exposure": 48.925458777675523,
-        "vulnerability": 22.444502440103328,
-        "risk_score": 39.030878270006518,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5852,13 +5728,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Easterhouse",
-        "Area (ha)": 500.2600286,
-        "hazard": 62.357640706736426,
-        "exposure": 36.805066854327933,
-        "vulnerability": 30.038273641170747,
-        "risk_score": 39.269692042160678,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6154,13 +6026,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Fullarton",
-        "Area (ha)": 47.8264344,
-        "hazard": 26.507987317158054,
-        "exposure": 9.2432198343528373,
-        "vulnerability": 43.360046556058634,
-        "risk_score": 15.544876214671557,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6225,13 +6093,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Garnethill",
-        "Area (ha)": 30.70195298,
-        "hazard": 33.64441621560055,
-        "exposure": 16.705462025659067,
-        "vulnerability": 59.049930460736512,
-        "risk_score": 24.736689195296776,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6296,13 +6160,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Garrowhill",
-        "Area (ha)": 120.2894248,
-        "hazard": 41.216992040863012,
-        "exposure": 16.981540626860824,
-        "vulnerability": 45.533246765972038,
-        "risk_score": 24.698309908344033,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6449,13 +6309,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Gartcraig",
-        "Area (ha)": 303.6316053,
-        "hazard": 41.426484631285263,
-        "exposure": 86.61289449466787,
-        "vulnerability": 40.649790879570922,
-        "risk_score": 64.241668334665505,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6707,13 +6563,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Garthamlock, Craigend and Gartloch",
-        "Area (ha)": 667.7005239,
-        "hazard": 49.102937341929305,
-        "exposure": 35.546473231202285,
-        "vulnerability": 29.386001193449037,
-        "risk_score": 36.502911364601474,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7343,13 +7195,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Govan",
-        "Area (ha)": 217.1388936,
-        "hazard": 24.219933977436888,
-        "exposure": 38.383045525902659,
-        "vulnerability": 25.457726675944837,
-        "risk_score": 32.246469547554724,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7601,13 +7449,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "High Knightswood and Anniesland",
-        "Area (ha)": 231.1786925,
-        "hazard": 45.033270124387123,
-        "exposure": 80.311806420180801,
-        "vulnerability": 50.060730277449636,
-        "risk_score": 65.083930065529117,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7808,13 +7652,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Hillhead",
-        "Area (ha)": 84.23881848000001,
-        "hazard": 30.716090323158195,
-        "exposure": 23.872679045092834,
-        "vulnerability": 67.003904576445308,
-        "risk_score": 30.862699127107572,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "low",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7938,13 +7778,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Hillington, North Cardonald and Penilee",
-        "Area (ha)": 343.2629064,
-        "hazard": 51.338371960029569,
-        "exposure": 35.005142640610615,
-        "vulnerability": 26.640717228980286,
-        "risk_score": 35.78299699938097,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8263,13 +8099,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Hurlet and Brockburn",
-        "Area (ha)": 307.2284529,
-        "hazard": 55.933430992780764,
-        "exposure": 5.4566123531640764,
-        "vulnerability": 33.348063730050406,
-        "risk_score": 12.482520204657945,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8473,13 +8305,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Hutchesontown",
-        "Area (ha)": 117.6792965,
-        "hazard": 30.370103099789553,
-        "exposure": 50.646890055757041,
-        "vulnerability": 31.647679740543328,
-        "risk_score": 41.618775469238599,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8576,13 +8404,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Ibrox and Cessnock",
-        "Area (ha)": 78.02212519,
-        "hazard": 38.700795175165347,
-        "exposure": 11.072917230552697,
-        "vulnerability": 48.755719552190449,
-        "risk_score": 19.129619155455753,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "very high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8681,13 +8505,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Jordanhill",
-        "Area (ha)": 141.4599031,
-        "hazard": 45.881390221343821,
-        "exposure": 47.052454934228329,
-        "vulnerability": 52.034244044028533,
-        "risk_score": 47.767722596682923,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "very high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8788,13 +8608,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Kelvindale",
-        "Area (ha)": 184.0563621,
-        "hazard": 40.394247831201291,
-        "exposure": 45.761381475667186,
-        "vulnerability": 47.321304974884583,
-        "risk_score": 44.933963036834584,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8933,13 +8749,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "King's Park",
-        "Area (ha)": 70.83365931,
-        "hazard": 27.707563483515401,
-        "exposure": 12.150165105830128,
-        "vulnerability": 33.114629070636198,
-        "risk_score": 17.509468127676413,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9056,13 +8868,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Kinning Park",
-        "Area (ha)": 174.4743775,
-        "hazard": 34.314149932518198,
-        "exposure": 63.44935852325014,
-        "vulnerability": 39.961459932595922,
-        "risk_score": 51.153960002256532,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "very high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9168,13 +8976,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Knightswood",
-        "Area (ha)": 218.5868892,
-        "hazard": 62.019453459316708,
-        "exposure": 63.124560168895137,
-        "vulnerability": 49.253695281075103,
-        "risk_score": 59.856644880232068,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9277,13 +9081,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Lambhill and District",
-        "Area (ha)": 69.10143524,
-        "hazard": 25.282229486579777,
-        "exposure": 28.284523358414976,
-        "vulnerability": 31.17227357349644,
-        "risk_score": 28.199803905626943,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9362,13 +9162,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Langside, Battlefield and Camphill",
-        "Area (ha)": 118.2468445,
-        "hazard": 33.322410642545677,
-        "exposure": 29.288691603962537,
-        "vulnerability": 56.169011021605044,
-        "risk_score": 34.234707414328405,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "low",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9532,13 +9328,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Levern and District",
-        "Area (ha)": 568.8207579,
-        "hazard": 51.331082806284492,
-        "exposure": 12.399177177502301,
-        "vulnerability": 16.776206548965632,
-        "risk_score": 17.500504055082267,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10300,13 +10092,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Mansewood and Hillpark",
-        "Area (ha)": 83.88942939,
-        "hazard": 23.539361612158551,
-        "exposure": 0.01,
-        "vulnerability": 36.465209706453379,
-        "risk_score": 0.24363219568314931,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10431,13 +10219,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Maryhill and Summerston",
-        "Area (ha)": 292.6082742,
-        "hazard": 42.380777408656279,
-        "exposure": 65.124776701131367,
-        "vulnerability": 34.258231311283453,
-        "risk_score": 52.55747828977772,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10694,13 +10478,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Merchant City and Trongate",
-        "Area (ha)": 60.15670633,
-        "hazard": 25.192512257362637,
-        "exposure": 47.112001299193409,
-        "vulnerability": 49.423396767310869,
-        "risk_score": 41.968142293568484,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10766,13 +10546,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Milton",
-        "Area (ha)": 221.1835162,
-        "hazard": 49.147336109040687,
-        "exposure": 41.1248849672495,
-        "vulnerability": 52.798915103356769,
-        "risk_score": 44.801010948746949,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "very high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10939,13 +10715,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Molendinar",
-        "Area (ha)": 152.4307178,
-        "hazard": 41.630392237958802,
-        "exposure": 25.47231094029123,
-        "vulnerability": 39.460330826789587,
-        "risk_score": 30.672929291294942,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11303,13 +11075,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Mosspark and Corkerhill",
-        "Area (ha)": 128.1336959,
-        "hazard": 38.766083840890012,
-        "exposure": 2.4305743517566176,
-        "vulnerability": 20.016136726665039,
-        "risk_score": 6.4475064368812234,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11432,13 +11200,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Mount Florida",
-        "Area (ha)": 85.62347104,
-        "hazard": 31.759657698633447,
-        "exposure": 15.095003518648836,
-        "vulnerability": 40.007638167066055,
-        "risk_score": 21.286471444628724,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11562,13 +11326,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Mount Vernon",
-        "Area (ha)": 232.2880478,
-        "hazard": 41.550747131464455,
-        "exposure": 14.031288908136197,
-        "vulnerability": 35.447162994519957,
-        "risk_score": 20.984112411326837,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11748,13 +11508,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Newlands and Auldhouse",
-        "Area (ha)": 163.2221768,
-        "hazard": 24.452455378160522,
-        "exposure": 4.7853624208304,
-        "vulnerability": 38.620764162415242,
-        "risk_score": 10.068796615067672,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11912,13 +11668,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Sandyhills",
-        "Area (ha)": 61.92398864,
-        "hazard": 27.122007002902095,
-        "exposure": 0.46013100200292317,
-        "vulnerability": 38.270741314181009,
-        "risk_score": 2.5174835242533415,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12052,13 +11804,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "North Kelvin",
-        "Area (ha)": 94.13424933,
-        "hazard": 30.461473198367749,
-        "exposure": 39.146321658636921,
-        "vulnerability": 55.802962818820191,
-        "risk_score": 39.966508386229812,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12243,13 +11991,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Oatlands",
-        "Area (ha)": 75.75756339,
-        "hazard": 51.375353451378359,
-        "exposure": 8.5070102311481595,
-        "vulnerability": 19.795735546441719,
-        "risk_score": 14.432164364346132,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12343,13 +12087,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Parkhead",
-        "Area (ha)": 155.7737199,
-        "hazard": 46.925025666372157,
-        "exposure": 42.453851567152057,
-        "vulnerability": 45.466933751939223,
-        "risk_score": 43.910693424172926,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12524,13 +12264,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Parkhouse",
-        "Area (ha)": 59.14721782,
-        "hazard": 34.985659354312901,
-        "exposure": 16.275104206138685,
-        "vulnerability": 39.499696340439947,
-        "risk_score": 22.647018288298177,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12698,13 +12434,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Scotstoun",
-        "Area (ha)": 157.2055705,
-        "hazard": 35.183440513221001,
-        "exposure": 68.64613219293021,
-        "vulnerability": 44.469441141943896,
-        "risk_score": 55.061702919055286,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12874,13 +12606,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Partick",
-        "Area (ha)": 70.13005708,
-        "hazard": 35.099012760004172,
-        "exposure": 16.938234179613488,
-        "vulnerability": 70.246718508695594,
-        "risk_score": 26.043842978621218,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "low",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13008,13 +12736,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Pollok",
-        "Area (ha)": 81.56512906,
-        "hazard": 56.939920612772625,
-        "exposure": 0.040599794294375567,
-        "vulnerability": 35.798020809639652,
-        "risk_score": 0.67138166162421109,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13113,13 +12837,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Pollok North",
-        "Area (ha)": 101.2213698,
-        "hazard": 43.090612593768441,
-        "exposure": 0.0,
-        "vulnerability": 31.04467688973817,
-        "risk_score": 0.0,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13220,13 +12940,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Pollokshaws and Eastwood",
-        "Area (ha)": 561.8735149,
-        "hazard": 60.963277883233616,
-        "exposure": 13.722730471498942,
-        "vulnerability": 16.674207284593049,
-        "risk_score": 19.225915150643285,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13417,13 +13133,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Shared Baillieston / Garrowhill",
-        "Area (ha)": 5.87444111,
-        "hazard": 25.233816903345058,
-        "exposure": -0.086612894494667886,
-        "vulnerability": -0.21117094287825994,
-        "risk_score": 0.32201266470489759,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "low"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13457,13 +13169,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Pollokshields",
-        "Area (ha)": 353.4315718,
-        "hazard": 37.512326201757283,
-        "exposure": 94.797813024413998,
-        "vulnerability": 50.255867017351285,
-        "risk_score": 69.366717576369851,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13590,13 +13298,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Possilpark",
-        "Area (ha)": 264.5291833,
-        "hazard": 42.041330258130479,
-        "exposure": 73.407134737183981,
-        "vulnerability": 22.375278250168172,
-        "risk_score": 51.776410937917781,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13945,13 +13649,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Robroyston",
-        "Area (ha)": 331.2565463,
-        "hazard": 50.354012103347337,
-        "exposure": 39.484653277756721,
-        "vulnerability": 41.761392526661602,
-        "risk_score": 41.919761933312429,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "very high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15055,13 +14755,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Ruchazie",
-        "Area (ha)": 176.4703098,
-        "hazard": 54.864192202114523,
-        "exposure": 14.938017647377253,
-        "vulnerability": 24.690378617705854,
-        "risk_score": 21.425902716693919,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15167,13 +14863,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Ruchill",
-        "Area (ha)": 121.419032,
-        "hazard": 38.138586249142236,
-        "exposure": 26.660531586639959,
-        "vulnerability": 28.117718247136498,
-        "risk_score": 28.94611050644782,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "very high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15259,13 +14951,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Shared Cadder/Milton/Lambhill/Maryhill/Summerston",
-        "Area (ha)": 625.6551448,
-        "hazard": 53.241276118404414,
-        "exposure": 2.9908515130190003,
-        "vulnerability": 25.317172841493267,
-        "risk_score": 8.1547310809424882,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15565,13 +15253,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Shawlands and Strathbungo",
-        "Area (ha)": 135.5237301,
-        "hazard": 26.393364992890344,
-        "exposure": 53.905700211118926,
-        "vulnerability": 76.840610196113047,
-        "risk_score": 50.164666429335718,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "low",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15706,13 +15390,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Shettleston",
-        "Area (ha)": 136.693036,
-        "hazard": 49.837321120959764,
-        "exposure": 27.326368213067713,
-        "vulnerability": 41.293942524103414,
-        "risk_score": 33.468585456368224,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15884,13 +15564,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "South Cardonald and Crookston",
-        "Area (ha)": 158.7291902,
-        "hazard": 39.408272921545681,
-        "exposure": 2.8392789476533316,
-        "vulnerability": 34.925480022342747,
-        "risk_score": 7.9372634343055388,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16112,13 +15788,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Sighthill, Royston and Germiston",
-        "Area (ha)": 296.3553643,
-        "hazard": 41.554979219067953,
-        "exposure": 65.216802901531963,
-        "vulnerability": 23.727438184610438,
-        "risk_score": 48.684474530034755,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16835,13 +16507,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Simshill and Old Cathcart",
-        "Area (ha)": 163.0034244,
-        "hazard": 44.412129139789727,
-        "exposure": 6.6096465111243434,
-        "vulnerability": 39.497866435805648,
-        "risk_score": 13.833178671716681,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17041,13 +16709,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Springboig and Barlanark",
-        "Area (ha)": 239.7684515,
-        "hazard": 32.019248212666128,
-        "exposure": 45.50154279218318,
-        "vulnerability": 14.945570918995932,
-        "risk_score": 33.946921917770432,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "low"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17168,13 +16832,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Swinton",
-        "Area (ha)": 178.3115128,
-        "hazard": 43.1479806741876,
-        "exposure": 14.090835273101282,
-        "vulnerability": 33.986792921541003,
-        "risk_score": 21.019199629608341,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17318,13 +16978,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Thornwood",
-        "Area (ha)": 100.2344056,
-        "hazard": 34.84568726074739,
-        "exposure": 32.571861635901044,
-        "vulnerability": 57.309532325811176,
-        "risk_score": 36.964150391928591,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17543,13 +17199,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Toryglen",
-        "Area (ha)": 117.1077856,
-        "hazard": 39.447266678019425,
-        "exposure": 9.6275645536729257,
-        "vulnerability": 31.786498034358779,
-        "risk_score": 16.209207562354496,
-        "class": "low",
-        "RS_simple": 0.25
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17618,13 +17270,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Townhead and Ladywell",
-        "Area (ha)": 90.34095691,
-        "hazard": 30.702530877094112,
-        "exposure": 27.984084880636601,
-        "vulnerability": 45.571180707082441,
-        "risk_score": 31.428203545197768,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17702,13 +17350,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Springburn",
-        "Area (ha)": 347.8511677,
-        "hazard": 46.667241008194907,
-        "exposure": 100.0,
-        "vulnerability": 37.768890120679913,
-        "risk_score": 70.669052699290191,
-        "class": "critical",
-        "RS_simple": 1.0
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18657,13 +18301,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Wallacewell",
-        "Area (ha)": 272.2820354,
-        "hazard": 55.446445943041866,
-        "exposure": 52.352081416120811,
-        "vulnerability": 26.782501326188651,
-        "risk_score": 46.313258871413524,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19063,13 +18703,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Wellhouse and Queenslie",
-        "Area (ha)": 173.3682946,
-        "hazard": 33.687224301125013,
-        "exposure": 53.510528879986992,
-        "vulnerability": 25.487607219223829,
-        "risk_score": 42.055461667894107,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "very high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19179,13 +18815,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Whiteinch",
-        "Area (ha)": 107.0055248,
-        "hazard": 41.143717828922334,
-        "exposure": 43.412006712499327,
-        "vulnerability": 37.342955864269413,
-        "risk_score": 41.674304604512912,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19262,13 +18894,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Woodlands and Park",
-        "Area (ha)": 76.59158865000001,
-        "hazard": 36.518713843636149,
-        "exposure": 30.141287284144418,
-        "vulnerability": 64.769745344735213,
-        "risk_score": 36.498465887118748,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "low",
+        "Green_Infrastructure_classification": "medium"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19377,13 +19005,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Woodside",
-        "Area (ha)": 85.19582432,
-        "hazard": 33.434390989642885,
-        "exposure": 36.312456016889513,
-        "vulnerability": 43.823019671714626,
-        "risk_score": 37.086215498320101,
-        "class": "medium",
-        "RS_simple": 0.5
+        "flood_risk_classification": "high",
+        "social_risk_classification": "medium",
+        "Green_Infrastructure_classification": "low"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19502,13 +19126,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Yoker",
-        "Area (ha)": 224.0531955,
-        "hazard": 48.709604876454726,
-        "exposure": 73.055269853299393,
-        "vulnerability": 41.76073918207441,
-        "risk_score": 60.237575877627322,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "medium",
+        "social_risk_classification": "high",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19759,13 +19379,9 @@
       "properties": {
         "local_auth": "Glasgow City",
         "cc_name": "Yorkhill and Kelvingrove",
-        "Area (ha)": 101.5145673,
-        "hazard": 33.572254467129014,
-        "exposure": 41.284577491474039,
-        "vulnerability": 72.308651613299006,
-        "risk_score": 44.310521409410498,
-        "class": "high",
-        "RS_simple": 0.75
+        "flood_risk_classification": "high",
+        "social_risk_classification": "low",
+        "Green_Infrastructure_classification": "high"
       },
       "geometry": {
         "type": "MultiPolygon",

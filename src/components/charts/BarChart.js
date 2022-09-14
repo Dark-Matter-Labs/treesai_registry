@@ -23,8 +23,8 @@ const BarChart = (props) => {
           legend: 'YEARS RANGES',
           legendOffset: 40,
         }}
-        colors={['#1EB792','#4F46E5', '#828784', ]}
-        colorBy="id"
+        colors={['#1EB792', '#4F46E5', '#828784']}
+        colorBy='id'
         theme={{
           background: '#F4F4F4',
           textColor: '#4F46E5',

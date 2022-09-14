@@ -18,161 +18,218 @@ export default function NavBar(props) {
 
   return (
     <>
-    <Disclosure as='nav' className='bg-white-200 border-2 border-b-dark-wood-800 sticky top-0 z-50'>
-      {({ open }) => (
-        <>
-          <div className='global-margin px-2 sm:px-6 lg:px-8'>
-            <div className='relative flex h-16 justify-between'>
-              <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
-                {/* Mobile menu button */}
-                <Disclosure.Button className='inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
-                  <span className='sr-only'>Open main menu</span>
-                  {open ? (
-                    <XIcon className='block h-6 w-6' aria-hidden='true' />
-                  ) : (
-                    <MenuIcon className='block h-6 w-6' aria-hidden='true' />
-                  )}
-                </Disclosure.Button>
-              </div>
-              <div className='flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start'>
-                <div className='flex flex-shrink-0 items-center pr-20'>
-                  <Link to='/'>
-                    <img
-                      className='block h-8 w-auto lg:hidden'
-                      src={logo}
-                      alt='TreesAI Impact Planner logo'
-                    />
-                    <img
-                      className='hidden h-6 w-auto lg:block'
-                      src={logo}
-                      alt='TreesAI Impact Planner logo'
-                    />
-                  </Link>
+      <Disclosure
+        as='nav'
+        className='bg-white-200 border-2 border-b-dark-wood-800 sticky top-0 z-50'
+      >
+        {({ open }) => (
+          <>
+            <div className='global-margin px-2 sm:px-6 lg:px-8'>
+              <div className='relative flex h-16 justify-between'>
+                <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
+                  {/* Mobile menu button */}
+                  <Disclosure.Button className='inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                    <span className='sr-only'>Open main menu</span>
+                    {open ? (
+                      <XIcon className='block h-6 w-6' aria-hidden='true' />
+                    ) : (
+                      <MenuIcon className='block h-6 w-6' aria-hidden='true' />
+                    )}
+                  </Disclosure.Button>
                 </div>
-                <div className='hidden sm:ml-6 sm:flex sm:space-x-8'>
-                  <span
-                    className={classNames(
-                      props.current === 'projectSubmit'
-                        ? 'border-green-600 text-dark-wood-800'
-                        : 'border-transparent text-dark-wood-600',
-                      'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
-                    )}
-                  >
-                    <Link to='/develop'>Develop</Link>
-                  </span>
-                  <span
-                    className={classNames(
-                      props.current === 'portfolio'
-                        ? 'border-green-600 text-dark-wood-800'
-                        : 'border-transparent text-dark-wood-600',
-                      'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
-                    )}
-                  >
-                    <Link to='/explore'>Explore</Link>
-                  </span>
-                  <div className='flex items-center'>
-                    <Menu as='div' className='relative'>
-                      <div>
-                        <Menu.Button className='flex rounded-full bg-white-200 text-sm'>
-                          <span className='sr-only'>Open invest menu</span>
-                          <span className='medium-intro-sm'>
-                            <span
-                              className={classNames(
-                                props.current === 'invest'
-                                  ? 'border-green-600 text-dark-wood-800'
-                                  : 'border-transparent text-dark-wood-600',
-                                'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
-                              )}
-                            >
-                              Invest
-                              <ChevronDownIcon
+                <div className='flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start'>
+                  <div className='flex flex-shrink-0 items-center pr-20'>
+                    <Link to='/'>
+                      <img
+                        className='block h-8 w-auto lg:hidden'
+                        src={logo}
+                        alt='TreesAI Impact Planner logo'
+                      />
+                      <img
+                        className='hidden h-6 w-auto lg:block'
+                        src={logo}
+                        alt='TreesAI Impact Planner logo'
+                      />
+                    </Link>
+                  </div>
+                  <div className='hidden sm:ml-6 sm:flex sm:space-x-8'>
+                    <span
+                      className={classNames(
+                        props.current === 'projectSubmit'
+                          ? 'border-green-600 text-dark-wood-800'
+                          : 'border-transparent text-dark-wood-600',
+                        'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
+                      )}
+                    >
+                      <Link to='/develop'>Develop</Link>
+                    </span>
+                    <span
+                      className={classNames(
+                        props.current === 'portfolio'
+                          ? 'border-green-600 text-dark-wood-800'
+                          : 'border-transparent text-dark-wood-600',
+                        'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
+                      )}
+                    >
+                      <Link to='/explore'>Explore</Link>
+                    </span>
+                    <div className='flex items-center'>
+                      <Menu as='div' className='relative'>
+                        <div>
+                          <Menu.Button className='flex rounded-full bg-white-200 text-sm'>
+                            <span className='sr-only'>Open invest menu</span>
+                            <span className='medium-intro-sm'>
+                              <span
                                 className={classNames(
                                   props.current === 'invest'
-                                    ? 'text-dark-wood-800'
-                                    : 'text-dark-wood-600',
-                                  'h-4 w-4',
-                                )}
-                                aria-hidden='true'
-                              />
-                            </span>
-                          </span>
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        as={Fragment}
-                        enter='transition ease-out duration-200'
-                        enterFrom='transform opacity-0 scale-95'
-                        enterTo='transform opacity-100 scale-100'
-                        leave='transition ease-in duration-75'
-                        leaveFrom='transform opacity-100 scale-100'
-                        leaveTo='transform opacity-0 scale-95'
-                      >
-                        <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href='#'
-                                className={classNames(
-                                  active ? 'bg-gray-100' : '',
-                                  'medium-intro-sm block px-4 py-2 text-gray-700',
+                                    ? 'border-green-600 text-dark-wood-800'
+                                    : 'border-transparent text-dark-wood-600',
+                                  'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                                 )}
                               >
                                 Invest
-                              </a>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href='#'
-                                className={classNames(
-                                  active ? 'bg-gray-100' : '',
-                                  'medium-intro-sm block px-4 py-2 text-gray-700',
-                                )}
-                              >
-                                Glasgow Pilot
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
-                  </div>
-                  <span
-                    className={classNames(
-                      props.current === 'demo'
-                        ? 'border-green-600 text-dark-wood-800'
-                        : 'border-transparent text-dark-wood-600',
-                      'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
-                    )}
-                  >
-                    <Link to='/demo'>Demo</Link>
-                  </span>
-                  <div className='flex items-center'>
-                    <Menu as='div' className='relative'>
-                      <div>
-                        <Menu.Button className='flex rounded-full bg-white-200 text-sm'>
-                          <span className='sr-only'>Open learn more menu</span>
-                          <span className='medium-intro-sm'>
-                            <span
-                              className={classNames(
-                                props.current === 'learn'
-                                  ? 'border-green-600 text-dark-wood-800'
-                                  : 'border-transparent text-dark-wood-600',
-                                'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
+                                <ChevronDownIcon
+                                  className={classNames(
+                                    props.current === 'invest'
+                                      ? 'text-dark-wood-800'
+                                      : 'text-dark-wood-600',
+                                    'h-4 w-4',
+                                  )}
+                                  aria-hidden='true'
+                                />
+                              </span>
+                            </span>
+                          </Menu.Button>
+                        </div>
+                        <Transition
+                          as={Fragment}
+                          enter='transition ease-out duration-200'
+                          enterFrom='transform opacity-0 scale-95'
+                          enterTo='transform opacity-100 scale-100'
+                          leave='transition ease-in duration-75'
+                          leaveFrom='transform opacity-100 scale-100'
+                          leaveTo='transform opacity-0 scale-95'
+                        >
+                          <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a
+                                  href='#'
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'medium-intro-sm block px-4 py-2 text-gray-700',
+                                  )}
+                                >
+                                  Invest
+                                </a>
                               )}
-                            >
-                              Learn More
-                              <ChevronDownIcon
+                            </Menu.Item>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a
+                                  href='#'
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'medium-intro-sm block px-4 py-2 text-gray-700',
+                                  )}
+                                >
+                                  Glasgow Pilot
+                                </a>
+                              )}
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    </div>
+                    <span
+                      className={classNames(
+                        props.current === 'demo'
+                          ? 'border-green-600 text-dark-wood-800'
+                          : 'border-transparent text-dark-wood-600',
+                        'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
+                      )}
+                    >
+                      <Link to='/demo'>Demo</Link>
+                    </span>
+                    <div className='flex items-center'>
+                      <Menu as='div' className='relative'>
+                        <div>
+                          <Menu.Button className='flex rounded-full bg-white-200 text-sm'>
+                            <span className='sr-only'>Open learn more menu</span>
+                            <span className='medium-intro-sm'>
+                              <span
                                 className={classNames(
                                   props.current === 'learn'
-                                    ? 'text-dark-wood-800'
-                                    : 'text-dark-wood-600',
-                                  'h-4 w-4',
+                                    ? 'border-green-600 text-dark-wood-800'
+                                    : 'border-transparent text-dark-wood-600',
+                                  'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                                 )}
-                                aria-hidden='true'
-                              />
+                              >
+                                Learn More
+                                <ChevronDownIcon
+                                  className={classNames(
+                                    props.current === 'learn'
+                                      ? 'text-dark-wood-800'
+                                      : 'text-dark-wood-600',
+                                    'h-4 w-4',
+                                  )}
+                                  aria-hidden='true'
+                                />
+                              </span>
                             </span>
+                          </Menu.Button>
+                        </div>
+                        <Transition
+                          as={Fragment}
+                          enter='transition ease-out duration-200'
+                          enterFrom='transform opacity-0 scale-95'
+                          enterTo='transform opacity-100 scale-100'
+                          leave='transition ease-in duration-75'
+                          leaveFrom='transform opacity-100 scale-100'
+                          leaveTo='transform opacity-0 scale-95'
+                        >
+                          <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a
+                                  href='#'
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'medium-intro-sm block px-4 py-2 text-gray-700',
+                                  )}
+                                >
+                                  Learn more
+                                </a>
+                              )}
+                            </Menu.Item>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a
+                                  href='#'
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'medium-intro-sm block px-4 py-2 text-gray-700',
+                                  )}
+                                >
+                                  Contact
+                                </a>
+                              )}
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    </div>
+                  </div>
+                </div>
+                {props.loggedIn ? (
+                  <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
+                    {/* Profile dropdown */}
+                    <Menu as='div' className='relative ml-3'>
+                      <div>
+                        <Menu.Button className='flex rounded-full bg-white-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
+                          <span className='sr-only'>Open user menu</span>
+                          <span className='medium-intro-sm'>
+                            {sessionStorage.getItem('user_name')}
                           </span>
                         </Menu.Button>
                       </div>
@@ -188,184 +245,130 @@ export default function NavBar(props) {
                         <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href='#'
+                              <span
+                                onClick={signOut}
                                 className={classNames(
                                   active ? 'bg-gray-100' : '',
                                   'medium-intro-sm block px-4 py-2 text-gray-700',
                                 )}
                               >
-                                Learn more
-                              </a>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href='#'
-                                className={classNames(
-                                  active ? 'bg-gray-100' : '',
-                                  'medium-intro-sm block px-4 py-2 text-gray-700',
-                                )}
-                              >
-                                Contact
-                              </a>
+                                Sign out
+                              </span>
                             )}
                           </Menu.Item>
                         </Menu.Items>
                       </Transition>
                     </Menu>
                   </div>
-                </div>
-              </div>
-              {props.loggedIn ? (
-                <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
-                  {/* Profile dropdown */}
-                  <Menu as='div' className='relative ml-3'>
-                    <div>
-                      <Menu.Button className='flex rounded-full bg-white-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
-                        <span className='sr-only'>Open user menu</span>
-                        <span className='medium-intro-sm'>
-                          {sessionStorage.getItem('user_name')}
-                        </span>
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter='transition ease-out duration-200'
-                      enterFrom='transform opacity-0 scale-95'
-                      enterTo='transform opacity-100 scale-100'
-                      leave='transition ease-in duration-75'
-                      leaveFrom='transform opacity-100 scale-100'
-                      leaveTo='transform opacity-0 scale-95'
+                ) : (
+                  <div className='flex items-center '>
+                    <button
+                      type='button'
+                      className='mr-2 inline-flex items-center rounded-full border border-green-600 bg-white px-4 py-2 text-sm font-medium font-medium text-green-600 shadow-sm hover:bg-indigo-700'
                     >
-                      <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <span
-                              onClick={signOut}
-                              className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'medium-intro-sm block px-4 py-2 text-gray-700',
-                              )}
-                            >
-                              Sign out
-                            </span>
-                          )}
-                        </Menu.Item>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </div>
-              ) : (
-                <div className='flex items-center '>
-                  <button
-                    type='button'
-                    className='mr-2 inline-flex items-center rounded-full border border-green-600 bg-white px-4 py-2 text-sm font-medium font-medium text-green-600 shadow-sm hover:bg-indigo-700'
-                  >
-                    <Link to='/register'>Sign up</Link>
-                  </button>
-                  <button
-                    type='button'
-                    className='inline-flex items-center rounded-full border border-transparent bg-green-600 px-4 py-2 text-sm font-medium font-medium text-white shadow-sm hover:bg-green-800'
-                  >
-                    <Link to='/login'>Login</Link>
-                  </button>
-                </div>
-              )}
+                      <Link to='/register'>Sign up</Link>
+                    </button>
+                    <button
+                      type='button'
+                      className='inline-flex items-center rounded-full border border-transparent bg-green-600 px-4 py-2 text-sm font-medium font-medium text-white shadow-sm hover:bg-green-800'
+                    >
+                      <Link to='/login'>Login</Link>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <Disclosure.Panel className='sm:hidden'>
+              <div className='space-y-1 pt-2 pb-4'>
+                {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
+                <Disclosure.Button
+                  as='a'
+                  href='/develop'
+                  className='block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700'
+                >
+                  Develop
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as='a'
+                  href='/explore'
+                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
+                >
+                  Explore
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as='a'
+                  href='#'
+                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
+                >
+                  Invest
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as='a'
+                  href='#'
+                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
+                >
+                  Glasgow Pilot
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as='a'
+                  href='/demo'
+                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
+                >
+                  Demo
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as='a'
+                  href='#'
+                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
+                >
+                  Learn More
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as='a'
+                  href='#'
+                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
+                >
+                  Contact
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as='a'
+                  href='#'
+                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
+                >
+                  Sign up
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as='a'
+                  href='#'
+                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
+                >
+                  Login
+                </Disclosure.Button>
+              </div>
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
+      <div className='bg-dark-wood-700 rounded-b-[30px]'>
+        <div className='mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8'>
+          <div className='flex flex-wrap '>
+            <div className='flex w-0 flex-1 justify-center '>
+              <p className='ml-3 truncate font-medium text-white'>
+                <span className='md:hidden book-info-md'>
+                  This is still a prototype, the full platform is scheduled to go live in November
+                  2022
+                </span>
+                <span className='hidden md:inline book-info-md'>
+                  This is still a prototype, the full platform is scheduled to go live in November
+                  2022
+                </span>
+              </p>
             </div>
           </div>
-
-          <Disclosure.Panel className='sm:hidden'>
-            <div className='space-y-1 pt-2 pb-4'>
-              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
-              <Disclosure.Button
-                as='a'
-                href='/develop'
-                className='block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700'
-              >
-                Develop
-              </Disclosure.Button>
-              <Disclosure.Button
-                as='a'
-                href='/explore'
-                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-              >
-                Explore
-              </Disclosure.Button>
-              <Disclosure.Button
-                as='a'
-                href='#'
-                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-              >
-                Invest
-              </Disclosure.Button>
-              <Disclosure.Button
-                as='a'
-                href='#'
-                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-              >
-                Glasgow Pilot
-              </Disclosure.Button>
-              <Disclosure.Button
-                as='a'
-                href='/demo'
-                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-              >
-                Demo
-              </Disclosure.Button>
-              <Disclosure.Button
-                as='a'
-                href='#'
-                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-              >
-                Learn More
-              </Disclosure.Button>
-              <Disclosure.Button
-                as='a'
-                href='#'
-                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-              >
-                Contact
-              </Disclosure.Button>
-              <Disclosure.Button
-                as='a'
-                href='#'
-                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-              >
-                Sign up
-              </Disclosure.Button>
-              <Disclosure.Button
-                as='a'
-                href='#'
-                className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-              >
-                Login
-              </Disclosure.Button>
-            </div>
-          </Disclosure.Panel>
-        </>
-      )}
-    </Disclosure>
-    <div className='bg-dark-wood-700 rounded-b-[30px]'>
-    <div className='mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8'>
-      <div className='flex flex-wrap '>
-        <div className='flex w-0 flex-1 justify-center '>
-          <p className='ml-3 truncate font-medium text-white'>
-            <span className='md:hidden book-info-md'>
-              This is still a prototype, the full platform is scheduled to go live in November
-              2022
-            </span>
-            <span className='hidden md:inline book-info-md'>
-              This is still a prototype, the full platform is scheduled to go live in November
-              2022
-            </span>
-          </p>
         </div>
       </div>
-    </div>
-  </div>
-  </>
+    </>
   );
 }
 
