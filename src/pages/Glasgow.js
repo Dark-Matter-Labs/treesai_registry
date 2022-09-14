@@ -68,7 +68,7 @@ export default function Glasgow() {
                       <tbody className='divide-y divide-gray-200 bg-white-200'>
                         <tr className='divide-x divide-gray-200'>
                           <td className='whitespace-nowrap py-4 pl-4 pr-4 book-intro-md text-dark-wood-800 sm:pl-6'>
-                            <ul>
+                            <ul className='list-disc ml-2'>
                               <li>Carbon Sequestration</li>
                               <li>Natural Flood Management</li>
                               <li>Green Job Creation</li>
@@ -120,7 +120,7 @@ export default function Glasgow() {
         <div className='grid grid-cols-1 sm:grid-cols-3 mt-10 gap-x-4'>
           <div className='bg-green-600 rounded-br-[100px] px-8 '>
             <h2 className='text-white-200 pt-4'>Portfolio & Impact </h2>
-            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-0 justify-items-start pt-5'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-0 justify-items-start px-10'>
               <div>
                 <img src={sdgs1} width='78px' />
               </div>
