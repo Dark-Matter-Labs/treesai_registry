@@ -30,6 +30,9 @@ import { get_activity_types, get_piechart_types } from '../utils/project_details
 import { getCouncils } from '../utils/geojson_utils';
 import { Link } from 'react-router-dom';
 
+// Demo user creds
+import demoUserData from '../utils/demo_user_creds.json';
+
 // set SAF parameters
 const typologies = get_typologies();
 const maintenanceTypes = get_maintenance_scopes();
@@ -38,6 +41,78 @@ const maintenanceTypes = get_maintenance_scopes();
 const listCouncils = getCouncils();
 const activityTypes = get_activity_types();
 const piechartTypes = get_piechart_types();
+
+  /* Demo user related things */
+
+  const loginUser = async () => {
+    const getTokenRequestHeaders = new Headers();
+    getTokenRequestHeaders.append('accept', 'application/json');
+    getTokenRequestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    const getTokenPayload = {
+      username: demoUserData.email,
+      password: demoUserData.password,
+    };
+
+    let formBody = [];
+    for (var property in getTokenPayload) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(getTokenPayload[property]);
+      formBody.push(encodedKey + '=' + encodedValue);
+    }
+    formBody = formBody.join('&');
+
+    const getTokenRequestOptions = {
+      method: 'POST',
+      headers: getTokenRequestHeaders,
+      body: formBody,
+      redirect: 'follow',
+    };
+
+    await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        toast.error('Something went wrong');
+        throw new Error('Something went wrong');
+      })
+      .then((result) => {
+        sessionStorage.setItem('token', result.access_token);
+
+        const getUserRequestHeaders = new Headers();
+        getUserRequestHeaders.append('accept', 'application/json');
+        getUserRequestHeaders.append('Content-Type', 'application/json');
+        getUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
+        getUserRequestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
+
+        const getUserRequestOptions = {
+          method: 'GET',
+          headers: getUserRequestHeaders,
+          redirect: 'follow',
+        };
+
+        fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/', getUserRequestOptions)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            toast.error('Something went wrong');
+            throw new Error('Something went wrong');
+          })
+          .then((result) => {
+            sessionStorage.setItem('user_id', JSON.stringify(result.id));
+            sessionStorage.setItem('user_name', JSON.stringify(result.name));
+            toast.success('Welcome ' + result.name);
+            console.log('logged in!');
+          })
+          .catch((error) => console.log('error', error));
+      })
+      .catch((error) => console.log('error', error));
+  };
+
+  loginUser();
+  /* End Demo user related things */
 
 export default function Demo(props) {
   const [processStage, setProcessStage] = useState(1);
@@ -52,6 +127,12 @@ export default function Demo(props) {
   const [areaDensity, setAreaDensity] = useState(1);
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
+  const [projectLength, setProjectLength] = useState(60); // 5 years
+  // Cost variables
+
+  const [totalCost, settotalCost] = useState(500);
+  const [costOverSelectedTime, setCostOverSelectedTime] = useState(321);
+
 
   /* SAF Related variables */
   const [safOutput0, setSafOutput0] = useState(saf_data);
@@ -72,6 +153,7 @@ export default function Demo(props) {
   const [eleventToFiftyPieLow, setEleventToFiftyPieLow] = useState([]);
 
   const [costChart, setCostChart] = useState([]);
+
 
   useEffect(() => {
     let sum = parseInt(treeNumber) + parseInt(treeNumberMaintain);
@@ -98,6 +180,22 @@ export default function Demo(props) {
     }));
     return chartArray;
   }
+
+  function sumRange(array, start = 0, end = 50) {
+    let sum = 0;
+
+    for (let index = start; index < end; index++) {
+      sum += array[index];
+    }
+
+    return sum;
+  }
+
+  function getLastElement(obj) {
+    let last = Object.keys(obj)[Object.keys(obj).length - 1];
+    return last;
+  }
+
 
   function processSAFData() {
     /* SAF Related processing */
@@ -731,37 +829,26 @@ export default function Demo(props) {
               </div>
             </div>
             <div className='px-8 '>
-              <h3 className='text-dark-wood-800'>Project Cost</h3>
+              <h3 className='text-dark-wood-800'>Your project’s cost</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
-                Considering a combination of factors including your project typology, activity and
-                location, your project average could be:
+                The following ranges provide an estimated project costs over different time-spans:
               </p>
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
-              <p>
-                Low: £
-                {Math.round(
-                  ((treeNumber / areaDensity) * selectedTypology.costLow) / 10000,
-                ).toFixed(2)}
+              <CostBox
+                months={projectLength}
+                costMonths={costOverSelectedTime}
+                costTotal={totalCost}
+              />
+              <p className='book-info-sm pt-4 mb-4 text-dark-wood-800'>
+                These estimates do not include any commercial mark-ups and only reflect the direct
+                costs of building and maintaining your NbS project.
               </p>
-              <p>
-                Medium: £
-                {Math.round(
-                  ((treeNumber / areaDensity) * selectedTypology.costMed) / 10000,
-                ).toFixed(2)}
-              </p>
-              <p className='pb-5'>
-                High: £
-                {Math.round(
-                  ((treeNumber / areaDensity) * selectedTypology.costHigh) / 10000,
-                ).toFixed(2)}
-              </p>
-
               <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>Risk addressed</h3>
               <p className='book-info-sm pt-4 text-dark-wood-800'>
                 Considering a combination of factors including your project typology, activity and
                 location, your project average could be:
               </p>
-              <LocationRiskChart cc_name={listCouncils[0]} />
+              <LocationRiskChart cc_name={selectedCC} />
             </div>
           </div>
 
@@ -904,7 +991,16 @@ export default function Demo(props) {
         </div>
       )}
       <Footer />
-      <Toaster position='top-right' />
+      <Toaster
+        position='top-right'
+        toastOptions={{
+          style: {
+            padding: '16px',
+            borderTopLeftRadius: '130px',
+            borderBottomRightRadius: '130px',
+          },
+        }}
+      />
     </div>
   );
 }
