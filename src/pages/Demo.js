@@ -30,6 +30,9 @@ import { get_activity_types, get_piechart_types } from '../utils/project_details
 import { getCouncils } from '../utils/geojson_utils';
 import { Link } from 'react-router-dom';
 
+// Demo user creds
+import demoUserData from '../utils/demo_user_creds.json';
+
 // set SAF parameters
 const typologies = get_typologies();
 const maintenanceTypes = get_maintenance_scopes();
@@ -38,6 +41,78 @@ const maintenanceTypes = get_maintenance_scopes();
 const listCouncils = getCouncils();
 const activityTypes = get_activity_types();
 const piechartTypes = get_piechart_types();
+
+  /* Demo user related things */
+
+  const loginUser = async () => {
+    const getTokenRequestHeaders = new Headers();
+    getTokenRequestHeaders.append('accept', 'application/json');
+    getTokenRequestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    const getTokenPayload = {
+      username: demoUserData.email,
+      password: demoUserData.password,
+    };
+
+    let formBody = [];
+    for (var property in getTokenPayload) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(getTokenPayload[property]);
+      formBody.push(encodedKey + '=' + encodedValue);
+    }
+    formBody = formBody.join('&');
+
+    const getTokenRequestOptions = {
+      method: 'POST',
+      headers: getTokenRequestHeaders,
+      body: formBody,
+      redirect: 'follow',
+    };
+
+    await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        toast.error('Something went wrong');
+        throw new Error('Something went wrong');
+      })
+      .then((result) => {
+        sessionStorage.setItem('token', result.access_token);
+
+        const getUserRequestHeaders = new Headers();
+        getUserRequestHeaders.append('accept', 'application/json');
+        getUserRequestHeaders.append('Content-Type', 'application/json');
+        getUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
+        getUserRequestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
+
+        const getUserRequestOptions = {
+          method: 'GET',
+          headers: getUserRequestHeaders,
+          redirect: 'follow',
+        };
+
+        fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/', getUserRequestOptions)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            toast.error('Something went wrong');
+            throw new Error('Something went wrong');
+          })
+          .then((result) => {
+            sessionStorage.setItem('user_id', JSON.stringify(result.id));
+            sessionStorage.setItem('user_name', JSON.stringify(result.name));
+            toast.success('Welcome ' + result.name);
+            console.log('logged in!');
+          })
+          .catch((error) => console.log('error', error));
+      })
+      .catch((error) => console.log('error', error));
+  };
+
+  loginUser();
+  /* End Demo user related things */
 
 export default function Demo(props) {
   const [processStage, setProcessStage] = useState(1);
@@ -72,6 +147,7 @@ export default function Demo(props) {
   const [eleventToFiftyPieLow, setEleventToFiftyPieLow] = useState([]);
 
   const [costChart, setCostChart] = useState([]);
+
 
   useEffect(() => {
     let sum = parseInt(treeNumber) + parseInt(treeNumberMaintain);
