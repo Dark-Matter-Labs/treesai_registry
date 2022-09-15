@@ -184,87 +184,86 @@ export default function Demo(props) {
     return last;
   }
 
-    /* Pie Diagram */
+  /* Pie Diagram */
 
-    function makePieOutput(alive, dead, critical, bucket) {
-      const pieChartArgs = [
-        {
-          id: 'healthy',
-          label: 'Healthy',
-          value: alive[bucket].trees,
-          color: '#DDDDDD',
-        },
-        {
-          id: 'Critical',
-          label: 'Critical health',
-          value: critical[bucket].trees,
-          color: '#828784',
-        },
-        {
-          id: 'dead',
-          label: 'Dead',
-          value: dead[bucket].trees,
-          color: '#2F3130',
-        },
-      ];
-      return pieChartArgs;
-    }
-  
-    function makePieChart(safOutput) {
-      // Alive - High
-      const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
-      const sixToTenAlive = sumRange(safOutput.Alive, 5, 10) / 5;
-      const elevenToFiftyAlive = sumRange(safOutput.Alive, 10, 50) / 40;
-  
-      const alive_buckets = [
-        { years: '1-5', trees: oneToFiveAlive },
-        { years: '6-10', trees: sixToTenAlive },
-        { years: '11-50', trees: elevenToFiftyAlive },
-      ];
-  
-      // Dead - High
-      const oneToFiveDead = sumRange(safOutput.Dead, 0, 5) / 5;
-      const sixToTenDead = sumRange(safOutput.Dead, 5, 10) / 5;
-      const elevenToFiftyDead = sumRange(safOutput.Dead, 10, 50) / 40;
-  
-      const dead_buckets = [
-        { years: '1-5', trees: oneToFiveDead },
-        { years: '6-10', trees: sixToTenDead },
-        { years: '11-50', trees: elevenToFiftyDead },
-      ];
-  
-      // Critical - High
-      const oneToFiveCritical = sumRange(safOutput.Critical, 0, 5) / 5;
-      const sixToTenCritical = sumRange(safOutput.Critical, 5, 10) / 5;
-      const elevenToFiftyCritical = sumRange(safOutput.Critical, 10, 50) / 40;
-  
-      let critical_buckets = [
-        { years: '1-5', trees: oneToFiveCritical },
-        { years: '6-10', trees: sixToTenCritical },
-        { years: '11-50', trees: elevenToFiftyCritical },
-      ];
-  
-      setOneToFivePie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 0));
-      setSixToTen(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 1));
-      setEleventToFiftyPie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 2));
-    }
-  
-    useEffect(() => {
-      switch (pieChartShowType) {
-        case 'high maintenance':
-          makePieChart(safOutput2);
-          break;
-        case 'medium maintenance':
-          makePieChart(safOutput1);
-          break;
-        case 'low maintenance':
-          makePieChart(safOutput0);
-          break;
-        default:
-          toast.error('Something went wrong in the maintenance type');
-      }
-    }, [pieChartShowType, safOutput2]);
+  function makePieOutput(alive, dead, critical, bucket) {
+    const pieChartArgs = [
+      {
+        id: 'healthy',
+        label: 'Healthy',
+        value: alive[bucket].trees,
+        color: '#DDDDDD',
+      },
+      {
+        id: 'Critical',
+        label: 'Critical health',
+        value: critical[bucket].trees,
+        color: '#828784',
+      },
+      {
+        id: 'dead',
+        label: 'Dead',
+        value: dead[bucket].trees,
+        color: '#2F3130',
+      },
+    ];
+    return pieChartArgs;
+  }
 
+  function makePieChart(safOutput) {
+    // Alive - High
+    const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
+    const sixToTenAlive = sumRange(safOutput.Alive, 5, 10) / 5;
+    const elevenToFiftyAlive = sumRange(safOutput.Alive, 10, 50) / 40;
+
+    const alive_buckets = [
+      { years: '1-5', trees: oneToFiveAlive },
+      { years: '6-10', trees: sixToTenAlive },
+      { years: '11-50', trees: elevenToFiftyAlive },
+    ];
+
+    // Dead - High
+    const oneToFiveDead = sumRange(safOutput.Dead, 0, 5) / 5;
+    const sixToTenDead = sumRange(safOutput.Dead, 5, 10) / 5;
+    const elevenToFiftyDead = sumRange(safOutput.Dead, 10, 50) / 40;
+
+    const dead_buckets = [
+      { years: '1-5', trees: oneToFiveDead },
+      { years: '6-10', trees: sixToTenDead },
+      { years: '11-50', trees: elevenToFiftyDead },
+    ];
+
+    // Critical - High
+    const oneToFiveCritical = sumRange(safOutput.Critical, 0, 5) / 5;
+    const sixToTenCritical = sumRange(safOutput.Critical, 5, 10) / 5;
+    const elevenToFiftyCritical = sumRange(safOutput.Critical, 10, 50) / 40;
+
+    let critical_buckets = [
+      { years: '1-5', trees: oneToFiveCritical },
+      { years: '6-10', trees: sixToTenCritical },
+      { years: '11-50', trees: elevenToFiftyCritical },
+    ];
+
+    setOneToFivePie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 0));
+    setSixToTen(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 1));
+    setEleventToFiftyPie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 2));
+  }
+
+  useEffect(() => {
+    switch (pieChartShowType) {
+      case 'high maintenance':
+        makePieChart(safOutput2);
+        break;
+      case 'medium maintenance':
+        makePieChart(safOutput1);
+        break;
+      case 'low maintenance':
+        makePieChart(safOutput0);
+        break;
+      default:
+        toast.error('Something went wrong in the maintenance type');
+    }
+  }, [pieChartShowType, safOutput2]);
 
   function processSAFData(dataUserScope) {
     /* SAF Related processing */
@@ -484,14 +483,14 @@ export default function Demo(props) {
           <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
         </Helmet>
       )}
-      <NavBar loggedIn={props.loggedIn} current='projectSubmit' />
+      <NavBar loggedIn={props.loggedIn} current='demo' />
       {processStage === 1 &&
         (isLoading ? (
           <SAFLoadingScreen />
         ) : (
           <div className='max-w-screen-2xl mx-auto'>
             <div className='mx-10 sm:px-6 lg:px-8'>
-              <Breadcrumb />
+              <Breadcrumb title='Demo' />
               <div className='title-box mt-4 grid grid-cols-1 bg-indigo-600 pt-8'>
                 <div className='place-self-end pr-10'>
                   <button
@@ -751,32 +750,32 @@ export default function Demo(props) {
                 detail='Health condition of an individual tree. Measured by healthy ratio tree canopy and reported by categories: Excellent: >.99, Good: .90, Fair: .75, Poor: .50, Critical: 0.25, Dying:.01, Dead: 0'
               >
                 <div className='flex'>
-                <p className='max-w-sm pt-5 text-indigo-600 medium-intro-lg'>
-                  Breakdown of trees in terms of their health (%)
-                </p>
-                <Dropdown
-                  span='sm:col-span-2'
-                  label='pie chart type'
-                  title=''
-                  type='general'
-                  onChange={(e) => {
-                    setPieChartShowType(e.target.value);
-                  }}
-                  options={piechartTypes}
-                />
-              </div>
+                  <p className='max-w-sm pt-5 text-indigo-600 medium-intro-lg'>
+                    Breakdown of trees in terms of their health (%)
+                  </p>
+                  <Dropdown
+                    span='sm:col-span-2'
+                    label='pie chart type'
+                    title=''
+                    type='general'
+                    onChange={(e) => {
+                      setPieChartShowType(e.target.value);
+                    }}
+                    options={piechartTypes}
+                  />
+                </div>
 
-              <div className='grid grid-cols-1 sm:grid-cols-3'>
-                <div>
-                  <PieChart data={oneToFivePie} type={1} />
+                <div className='grid grid-cols-1 sm:grid-cols-3'>
+                  <div>
+                    <PieChart data={oneToFivePie} type={1} />
+                  </div>
+                  <div>
+                    <PieChart data={sixToTenPie} type={2} />
+                  </div>
+                  <div>
+                    <PieChart data={eleventToFiftyPie} type={3} />
+                  </div>
                 </div>
-                <div>
-                  <PieChart data={sixToTenPie} type={2} />
-                </div>
-                <div>
-                  <PieChart data={eleventToFiftyPie} type={3} />
-                </div>
-              </div>
               </ChartBlock>
             </div>
           </ResultBlock>

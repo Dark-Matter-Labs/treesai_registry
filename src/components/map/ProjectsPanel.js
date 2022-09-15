@@ -26,16 +26,13 @@ export default function ProjectsPanel(props) {
         <div className=''>
           <div className='px-4 py-4 bg-green-600 flex flex-row items-center'>
             <div>
-            <span className='bold-intro-md uppercase text-white-200 pl-10'>NbS Atlas</span>
+              <span className='bold-intro-md uppercase text-white-200 pl-10'>NbS Atlas</span>
             </div>
             <div className='pl-72'>
-
-            <button onClick={() => props.setShowProjectPanel(false)}>
-              <ArrowCircleLeftIcon className='text-white-200 w-7 h-7' />
-            </button>
+              <button onClick={() => props.setShowProjectPanel(false)}>
+                <ArrowCircleLeftIcon className='text-white-200 w-7 h-7' />
+              </button>
             </div>
-            
-
           </div>
           <div className='px-10 py-4 text-dark-wood-700 medium-intro-sm '>
             <p>
@@ -49,7 +46,10 @@ export default function ProjectsPanel(props) {
 
           <div className='px-4 py-2'>
             <p className='text-green-600 bold-intro-md'>Projects</p>
-            <ul role='list' className='overflow-scroll h-[15rem] sm:h-[20rem] lg:h-[27rem] xl:h-[42vh] styled-scrollbars '>
+            <ul
+              role='list'
+              className='overflow-scroll h-[15rem] sm:h-[20rem] lg:h-[27rem] xl:h-[42vh] styled-scrollbars '
+            >
               {props.data.map((project) => {
                 if (project.properties.portfolio_A) {
                   return (
