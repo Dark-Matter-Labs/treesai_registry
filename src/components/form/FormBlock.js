@@ -16,7 +16,7 @@ export default function FormBlock(props) {
       <div className='grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3'>
         <div>
           <h3 className=''>{props.title}</h3>
-          <p className='book-intro-sm max-w-sm pt-20 text-dark-wood-800'>{props.description}</p>
+          <p className='book-intro-sm max-w-sm pt-10 text-dark-wood-800'>{props.description}</p>
         </div>
         <div className='col-span-2'>
           <form className='space-y-8 divide-y divide-gray-200'>

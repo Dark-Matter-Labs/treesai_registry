@@ -194,7 +194,7 @@ export default function Glasgow() {
             <div className=''>
               <div className=''>
                 <div className='mt-8 flow-root self-center lg:mt-0'>
-                  <div className='-mt-4 -ml-8 flex flex-wrap justify-around lg:-ml-4'>
+                  <div className='-mt-4 -ml-8 flex flex-wrap justify-center lg:-ml-4'>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
                       <img className='h-40' src={GCCLogo} alt='Glasgow City Council Logo' />
                     </div>
@@ -214,14 +214,14 @@ export default function Glasgow() {
           </div>
         </div>
 
-        <div className='mt-10 mb-20 text-center'>
+        <div className='mt-10 mb-20 '>
           <h2 className='text-dark-wood-800 pb-5'>
             New partners are welcome, interested in finding out more? Get involved:{' '}
           </h2>
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-4'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-0'>
-              <div className='bg-indigo-500 px-8 py-10'>
-                <h2 className='text-white-200'>Investors</h2>
+              <div className='bg-indigo-500 px-8 py-10 text-center'>
+                <h2 className='text-white-200 text-left'>Investors</h2>
                 <Link to='/invest'>
                   <button
                     type='button'
@@ -232,7 +232,7 @@ export default function Glasgow() {
                 </Link>
               </div>
               <div className='bg-indigo-400 rounded-tr-[100px] px-8 py-10'>
-                <p className='text-white-200 medium-intro-md text-left'>
+                <p className='text-white-200 medium-intro-md text-left px-5'>
                   Are you a Glasgow-based organisation looking to mitigate your exposure to climate
                   and nature-related risks or an investor looking to invest in NbS with
                   environmental and social returns?
@@ -241,8 +241,8 @@ export default function Glasgow() {
             </div>
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-0'>
-              <div className='bg-green-500 px-8 py-10'>
-                <h2 className='text-white-200'>Project Developers </h2>
+              <div className='bg-green-500 px-8 py-10  text-center'>
+                <h2 className='text-white-200 text-left'>Project Developers </h2>
                 <Link to='/develop'>
                   <button
                     type='button'
@@ -253,7 +253,7 @@ export default function Glasgow() {
                 </Link>
               </div>
               <div className='bg-green-400 rounded-tr-[100px] px-8 py-10'>
-                <p className='text-dark-wood-800 medium-intro-md text-left'>
+                <p className='text-dark-wood-800 medium-intro-md text-left px-5'>
                   Are you an organisation developing a Glasgow-based NbS project that fits the
                   portfolio’s impact targets?
                 </p>

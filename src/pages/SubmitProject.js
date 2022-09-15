@@ -76,6 +76,7 @@ export default function SubmitProject(props) {
   const [landUseChange, setLandUseChange] = useState(false);
   const [projectLength, setProjectLength] = useState(24);
   const [projectDescription, setProjectDescription] = useState('');
+  const [projectDate, setProjectDate] = useState('2022-09');
   const [stakeholderEngt, setStakeholderEngt] = useState('');
   const [treeNumber, setTreeNumber] = useState(1);
   const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
@@ -437,7 +438,6 @@ export default function SubmitProject(props) {
         throw new Error('Something went wrong');
       })
       .then((result) => {
-        console.log(result);
         setSafOutput0(result['0']);
         setSafOutput1(result['1']);
         setSafOutput2(result['2']);
@@ -453,11 +453,17 @@ export default function SubmitProject(props) {
   };
 
   const createProjectAndGetID = async () => {
+    if (projectName === '') {
+      setProjectName('Sample project title');
+    }
+
     let requestHeaders = new Headers();
     requestHeaders.append('accept', 'application/json');
     requestHeaders.append('Content-Type', 'application/json');
     requestHeaders.append('Access-Control-Allow-Origin', '*');
     requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
+
+    console.log(new Date(projectDate))
 
     const payload = JSON.stringify({
       title: projectName,
@@ -467,13 +473,13 @@ export default function SubmitProject(props) {
       project_dev: projectDev,
       owner_id: sessionStorage.user_id,
       activities: 'maintenance',
-      area: 0,
+      area: totalArea,
       cost: 0,
       stage: selectedStage + selectedLandUse + landOwner,
       number_of_trees: totalTreeNumber,
-      local_authority: 'string',
+      local_authority: projectDev,
       location: 'string',
-      start_date: '2022-06-16T09:32:51.188Z',
+      start_date: new Date(projectDate),
     });
 
     let requestOptions = {
@@ -713,11 +719,8 @@ export default function SubmitProject(props) {
                 </div>
 
                 <div className='sm:col-span-3  '>
-                  <label htmlFor='cover-photo' className='book-info-md pl-5 text-dark-wood-800'>
-                    Cover photo
-                  </label>
-                  <div className='mt-1 sm:col-span-2 sm:mt-0'>
-                    <div className='flex max-w-lg justify-center rounded-full border border-indigo-600 px-6 pt-5  pb-6'>
+                  <div className='mt-1 sm:col-span-2 sm:mt-5'>
+                    <div className='flex max-w-lg justify-center rounded-full border border-indigo-600 px-6 py-10'>
                       <div className='space-y-1 text-center'>
                         <svg
                           className='mx-auto h-12 w-12 text-gray-400'
@@ -751,6 +754,7 @@ export default function SubmitProject(props) {
                         <p className='book-info-sm text-dark-wood-800'>PNG, JPG, GIF up to 10MB</p>
                       </div>
                     </div>
+                    <p className='medium-intro-sm mt-2 text-gray-500 pl-20'>Cover photo</p>
                   </div>
                 </div>
               </FormBlock>
@@ -768,8 +772,11 @@ export default function SubmitProject(props) {
                       id='start-date'
                       name='start-date'
                       type='month'
-                      defaultValue='2022-09'
+                      defaultValue={projectDate}
                       className='block w-full rounded-2xl border-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                      onChange={(e) => {
+                        setProjectDate(e.target.value);
+                      }}
                     />
                   </div>
                 </div>
@@ -1263,7 +1270,7 @@ export default function SubmitProject(props) {
             </div>
             <div className='px-8 '>
               <h3 className='text-dark-wood-800'>Your project’s cost</h3>
-              <p className='book-info-sm pt-4 text-dark-wood-800'>
+              <p className='book-info-sm pt-5 text-dark-wood-800'>
                 The following ranges provide an estimated project costs over different time-spans:
               </p>
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
@@ -1272,12 +1279,12 @@ export default function SubmitProject(props) {
                 costMonths={costOverSelectedTime}
                 costTotal={totalCost}
               />
-              <p className='book-info-sm pt-4 mb-4 text-dark-wood-800'>
+              <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
               </p>
               <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>Risk addressed</h3>
-              <p className='book-info-sm pt-4 text-dark-wood-800'>
+              <p className='book-info-sm pt-5 text-dark-wood-800'>
                 Considering a combination of factors including your project typology, activity and
                 location, your project average could be:
               </p>

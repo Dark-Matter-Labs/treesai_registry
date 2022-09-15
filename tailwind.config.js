@@ -52,7 +52,7 @@ module.exports = {
         bold: 500,
       },
       lineHeight: {
-        4: '1.2em',
+        4: '1.3em',
         5: '1.1em',
         6: '1.2em',
       },

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 export default function ChartBlock(props) {
   return (
     <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
-      <div className='flex'>
+      <div className='flex '>
         <div className='rounded-3xl border border-indigo-600 px-10 text-left'>
           <p className='py-5 text-indigo-600 medium-intro-lg'>{props.label}</p>
           <p className='text-indigo-600 medium-intro-lg'>
             You’ve selected “{props.maintenanceTypeName}” maintenance.
           </p>
-          <div className='my-10'>
+          <div className='my-10 '>
             {props.type !== 'pie' ? (
               <>
                 <div className='flex items-center gap-5 pb-4'>

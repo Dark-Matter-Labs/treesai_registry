@@ -35,8 +35,8 @@ const LocationRiskChart = (props) => {
         </p>
       </div>
       <div className='location-risk-chart-content'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4'>
-          <div className='location-risk-chart-content-header py-4 text-center'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-5'>
+          <div className='location-risk-chart-content-header py-4 text-center border border-indigo-600 rounded-l-3xl bg-white-300'>
             <span
               className={classNames(
                 councilInfo.flood_risk_classification === 'high' ||
@@ -48,9 +48,9 @@ const LocationRiskChart = (props) => {
             >
               {councilInfo.flood_risk_classification}
             </span>
-            <p className='book-intro-sm pt-1'>Risk due to flooding</p>
+            <p className='book-intro-sm pt-4'>Risk due to flooding</p>
           </div>
-          <div className='location-risk-chart-content-header py-4 text-center'>
+          <div className='location-risk-chart-content-header py-4 text-center border border-indigo-600 bg-white-300'>
             <span
               className={classNames(
                 councilInfo.social_risk_classification === 'high' ||
@@ -62,9 +62,9 @@ const LocationRiskChart = (props) => {
             >
               {councilInfo.social_risk_classification}
             </span>
-            <p className='book-intro-sm pt-1'>Social risk</p>
+            <p className='book-intro-sm pt-4'>Social risk</p>
           </div>
-          <div className='location-risk-chart-content-header py-4 text-center'>
+          <div className='location-risk-chart-content-header py-4 text-center border border-indigo-600 rounded-r-3xl bg-white-300'>
             <span
               className={classNames(
                 councilInfo.Green_Infrastructure_classification === 'high' ||
@@ -76,7 +76,7 @@ const LocationRiskChart = (props) => {
             >
               {councilInfo.Green_Infrastructure_classification}
             </span>
-            <p className='book-intro-sm pt-1'>Risk due to existing green infrastructure</p>
+            <p className='book-intro-sm pt-4'>Risk due to existing green infrastructure</p>
           </div>
         </div>
       </div>

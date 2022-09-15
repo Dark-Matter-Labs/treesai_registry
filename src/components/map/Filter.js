@@ -24,7 +24,7 @@ export default function Filter(props) {
           <Popover.Button
             className={classNames(
               open ? 'text-white-200' : 'text-white-200',
-              'control-panel group inline-flex items-center rounded-md bg-dark-wood-800 medium-intro-sm focus:outline-none',
+              'control-panel group inline-flex items-center rounded-full bg-dark-wood-800 medium-intro-sm focus:outline-none',
             )}
           >
             <span>Filters</span>
