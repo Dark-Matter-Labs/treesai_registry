@@ -16,6 +16,8 @@ export default function NumberInput(props) {
           type='number'
           name={props.label}
           id={props.label}
+          min={props.min}
+          max={props.max}
           placeholder={props.placeholder}
           className={classNames(
             props.type === 'typology' ? 'border-green-600 ' : 'border-indigo-600',
