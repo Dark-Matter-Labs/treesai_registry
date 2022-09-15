@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import logo from '../images/logo-white.svg';
-import MapVideo from '../images/NbSMap.webm';
+import MapVideo from '../images/homepage-video.webm';
 import GCCLogo from '../images/partner_logos/GCC.png';
 import CCFLogo from '../images/partner_logos/CCF.png';
 import TerraLogo from '../images/partner_logos/terra.png';
