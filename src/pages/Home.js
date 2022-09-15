@@ -10,6 +10,7 @@ import CCFLogo from '../images/partner_logos/CCF.png';
 import TerraLogo from '../images/partner_logos/terra.png';
 import MGSDPLogo from '../images/partner_logos/MGSDP.png';
 import blackdot from '../images/blackdot.png';
+import loadingPlaceholder from '../images/loadingPlaceholder.png';
 
 export default function Home(props) {
   return (
@@ -26,9 +27,9 @@ export default function Home(props) {
                 </h1>
               </div>
               <div className=''>
-              <video className='' autoPlay loop muted>
-              <source src={MapVideo} type='video/webm'/>
-              </video>
+                <video className='' autoPlay loop muted poster={loadingPlaceholder}>
+                  <source src={MapVideo} type='video/webm' />
+                </video>
               </div>
             </div>
           </div>

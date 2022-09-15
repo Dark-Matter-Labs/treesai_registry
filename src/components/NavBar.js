@@ -73,7 +73,12 @@ export default function NavBar(props) {
                     >
                       <Link to='/explore'>Explore</Link>
                     </span>
-                    <div className='flex items-center'>
+                    <div
+                      className={classNames(
+                        props.current === 'invest' ? 'border-green-600 ' : 'border-transparent ',
+                        'flex border-b-2 items-center',
+                      )}
+                    >
                       <Menu as='div' className='relative'>
                         <div>
                           <Menu.Button className='flex rounded-full bg-white-200'>
@@ -82,9 +87,9 @@ export default function NavBar(props) {
                               <span
                                 className={classNames(
                                   props.current === 'invest'
-                                    ? 'border-green-600 text-dark-wood-800'
-                                    : 'border-transparent text-dark-wood-600',
-                                  'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
+                                    ? 'text-dark-wood-800'
+                                    : 'text-dark-wood-600',
+                                  'medium-intro-sm inline-flex items-center px-1 pt-1',
                                 )}
                               >
                                 Invest
@@ -153,7 +158,12 @@ export default function NavBar(props) {
                     >
                       <Link to='/demo'>Demo</Link>
                     </span>
-                    <div className='flex items-center'>
+                    <div
+                      className={classNames(
+                        props.current === 'learn' ? 'border-green-600 ' : 'border-transparent ',
+                        'flex border-b-2 items-center',
+                      )}
+                    >
                       <Menu as='div' className='relative'>
                         <div>
                           <Menu.Button className='flex rounded-full bg-white-200 text-sm'>
@@ -162,9 +172,9 @@ export default function NavBar(props) {
                               <span
                                 className={classNames(
                                   props.current === 'learn'
-                                    ? 'border-green-600 text-dark-wood-800'
-                                    : 'border-transparent text-dark-wood-600',
-                                  'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
+                                    ? 'text-dark-wood-800'
+                                    : 'text-dark-wood-600',
+                                  'medium-intro-sm inline-flex items-center px-1 pt-1',
                                 )}
                               >
                                 Learn More

@@ -463,7 +463,7 @@ export default function SubmitProject(props) {
     requestHeaders.append('Access-Control-Allow-Origin', '*');
     requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
 
-    console.log(new Date(projectDate))
+    console.log(new Date(projectDate));
 
     const payload = JSON.stringify({
       title: projectName,
