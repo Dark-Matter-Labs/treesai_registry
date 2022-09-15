@@ -12,6 +12,7 @@ import TerraLogo from '../images/partner_logos/terra.png';
 import MGSDPLogo from '../images/partner_logos/MGSDP.png';
 import Footer from '../components/Footer';
 import MapVideo from '../images/NbSMap.webm';
+import loadingPlaceholder from '../images/loadingPlaceholder.png';
 
 export default function Glasgow() {
   return (
@@ -183,7 +184,7 @@ export default function Glasgow() {
               </Link>
             </div>
             <div className='col-span-2'>
-              <video className='' autoPlay loop muted>
+              <video className='' autoPlay loop muted poster={loadingPlaceholder}>
                 <source src={MapVideo} type='video/webm' />
               </video>
             </div>
@@ -216,7 +217,7 @@ export default function Glasgow() {
           </div>
         </div>
 
-        <div className='mt-10 mb-20 '>
+        <div className='mt-20 mb-20 '>
           <h2 className='text-dark-wood-800 pb-5'>
             New partners are welcome, interested in finding out more? Get involved:{' '}
           </h2>
