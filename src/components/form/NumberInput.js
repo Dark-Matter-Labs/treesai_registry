@@ -23,6 +23,7 @@ export default function NumberInput(props) {
           )}
           defaultValue={props.defaultValue}
           onChange={props.onChange}
+          onWheel={(e) => e.target.blur()}
           min='1'
         />
         <span
