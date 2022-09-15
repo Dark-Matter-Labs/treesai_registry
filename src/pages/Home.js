@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import logo from '../images/logo-white.svg';
-import tempImage from '../images/tempImage.png';
+import MapVideo from '../images/NbSMap.webm';
 import GCCLogo from '../images/partner_logos/GCC.png';
 import CCFLogo from '../images/partner_logos/CCF.png';
 import TerraLogo from '../images/partner_logos/terra.png';
@@ -17,7 +17,7 @@ export default function Home(props) {
       <NavBar loggedIn={props.loggedIn} current='home' />
       <div className=''>
         <main className='bg-white-200 pb-20 global-margin bg-pattern '>
-          <div className='title-box mt-4 bg-indigo-600 py-10'>
+          <div className='title-box mt-4 bg-indigo-600 my-10'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-0'>
               <div className='ml-28 mt-10'>
                 <img src={logo} width='274px' alt='TreesAI logo' />
@@ -26,7 +26,9 @@ export default function Home(props) {
                 </h1>
               </div>
               <div className=''>
-                <img src={tempImage} alt='explorer preview image' />
+              <video className='' autoPlay loop muted>
+              <source src={MapVideo} type='video/webm'/>
+              </video>
               </div>
             </div>
           </div>

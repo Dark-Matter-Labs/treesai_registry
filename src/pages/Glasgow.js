@@ -6,12 +6,12 @@ import sdgs2 from '../images/sdgs_2.png';
 import sdgs3 from '../images/sdgs_3.png';
 import sdgs4 from '../images/sdgs_4.png';
 import sdgs5 from '../images/sdgs_5.png';
-import tempImage from '../images/tempImage.png';
 import GCCLogo from '../images/partner_logos/GCC.png';
 import CCFLogo from '../images/partner_logos/CCF.png';
 import TerraLogo from '../images/partner_logos/terra.png';
 import MGSDPLogo from '../images/partner_logos/MGSDP.png';
 import Footer from '../components/Footer';
+import MapVideo from '../images/NbSMap.webm';
 
 export default function Glasgow() {
   return (
@@ -183,7 +183,9 @@ export default function Glasgow() {
               </Link>
             </div>
             <div className='col-span-2'>
-              <img src={tempImage} alt='explorer preview image' />
+              <video className='' autoPlay loop muted>
+                <source src={MapVideo} type='video/webm' />
+              </video>
             </div>
           </div>
         </div>
