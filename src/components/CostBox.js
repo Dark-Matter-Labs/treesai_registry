@@ -17,10 +17,10 @@ export default function CostBox(props) {
       <div className='mt-8 flex flex-col'>
         <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
           <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
-            <div className='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg'>
-              <table className='min-w-full divide-y divide-gray-300'>
+            <div className='overflow-hidden border border-indigo-600 rounded-3xl '>
+              <table className='min-w-full divide-y divide-indigo-600'>
                 <thead className='bg-gray-50'>
-                  <tr>
+                  <tr className=''>
                     <th
                       scope='col'
                       className='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6'
@@ -38,7 +38,7 @@ export default function CostBox(props) {
                     </th>
                   </tr>
                 </thead>
-                <tbody className='divide-y divide-gray-200 bg-white'>
+                <tbody className='divide-y divide-indigo-600 bg-white-200'>
                   <td className='whitespace-nowrap py-4 pl-4 pr-3 medium-intro-md text-indigo-600 sm:pl-6'>
                     £ {costMonths}
                   </td>

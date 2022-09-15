@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 
 export default function Breadcrumb(props) {
   return (
-    <nav className='flex bg-white-200 rounded-full shadow px-8 py-4 my-4' aria-label='Breadcrumb'>
+    <nav
+      className='flex bg-white-200 rounded-full shadow-md px-8 py-4 my-4'
+      aria-label='Breadcrumb'
+    >
       <ol role='list' className='flex items-center space-x-4'>
         <li>
           <div className='flex items-center'>

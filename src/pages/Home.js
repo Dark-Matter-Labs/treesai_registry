@@ -9,6 +9,7 @@ import GCCLogo from '../images/partner_logos/GCC.png';
 import CCFLogo from '../images/partner_logos/CCF.png';
 import TerraLogo from '../images/partner_logos/terra.png';
 import MGSDPLogo from '../images/partner_logos/MGSDP.png';
+import blackdot from '../images/blackdot.png';
 
 export default function Home(props) {
   return (
@@ -105,11 +106,11 @@ export default function Home(props) {
             </div>
           </div>
 
+          <div className='pb-4'>
+            <h2 className='text-center '>Testimonials</h2>
+          </div>
           <div className='title-box bg-indigo-300 py-10 px-28'>
-            <div className=''>
-              <h2 className='text-center'>Testimonials</h2>
-            </div>
-            <div className='grid grid-cols-1 sm:grid-cols-2'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-20'>
               <div className='px-16 py-10 book-intro-sm'>
                 <p>
                   “So many of the challenges surrounding the climate emergency will be addressed by
@@ -117,7 +118,13 @@ export default function Home(props) {
                   forests deliver significant ecological, environmental and social gains, creating
                   safer, more resilient and more liveable places.”
                 </p>
-                <p className='pt-5'>Susan Aitken, CEO of Glasgow City Council</p>
+                <div className='flex items-center pt-10'>
+                  <img src={blackdot} />
+                  <p className='pl-5 bold-intro-sm'>
+                    Susan Aitken
+                    <br /> CEO of Glasgow City Council
+                  </p>
+                </div>
               </div>
               <div className='px-16 py-10 book-intro-sm'>
                 <p>
@@ -128,13 +135,19 @@ export default function Home(props) {
                   tree-planting targets, their sustainable delivery and long-term maintenance of
                   urban forests.”
                 </p>
-                <p className='pt-5'>Google.org, Impact Challenge on Climate</p>
+                <div className='flex items-center pt-5'>
+                  <img src={blackdot} />
+                  <p className='bold-intro-sm pl-5'>
+                    Google.org
+                    <br /> Impact Challenge on Climate
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
           <div className='title-box-alter bg-green-400 my-10 py-10 px-10'>
-            <div className='grid grid-cols-1 sm:grid-cols-3'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-28'>
               <div className='pl-5'>
                 <h2 className=''>Trusted by Project Developers</h2>
                 <p className='book-intro-sm pt-4'>
@@ -145,17 +158,17 @@ export default function Home(props) {
               </div>
               <div className='col-span-2'>
                 <div className='mt-8 flow-root self-center lg:mt-0'>
-                  <div className='-mt-4 -ml-8 flex flex-wrap justify-around lg:-ml-4'>
-                    <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
+                  <div className='-mt-4 -ml-4 flex flex-wrap justify-around lg:-ml-4'>
+                    <div className='mt-4 lex flex-shrink-0 flex-grow justify-center  lg:flex-grow-0'>
                       <img className='h-40' src={GCCLogo} alt='Glasgow City Council Logo' />
                     </div>
-                    <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
+                    <div className='mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0'>
                       <img className='h-40' src={CCFLogo} alt='Tuple' />
                     </div>
-                    <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
+                    <div className='mt-4  flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0'>
                       <img className='h-40' src={TerraLogo} alt='Level' />
                     </div>
-                    <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
+                    <div className='mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0'>
                       <img className='h-40' src={MGSDPLogo} alt='Level' />
                     </div>
                   </div>
