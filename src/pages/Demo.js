@@ -15,11 +15,11 @@ import Dropdown from '../components/form/Dropdown';
 import ResultBlock from '../components/ResultBlock';
 import ValueDisplay from '../components/analysis/ValueDisplay';
 import ChartBlock from '../components/analysis/ChartBlock';
+import CostBox from '../components/CostBox';
 // Images
 import projectImg from '../images/project-default.png';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
-import LocationRiskChart from '../components/analysis/LocationRisk';
 import PieChart from '../components/charts/PieChart';
 
 import { saf_data } from '../utils/saf_data_model';
@@ -27,7 +27,6 @@ import { saf_data } from '../utils/saf_data_model';
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import { get_activity_types, get_piechart_types } from '../utils/project_details';
 
-import { getCouncils } from '../utils/geojson_utils';
 import { Link } from 'react-router-dom';
 
 // Demo user creds
@@ -38,81 +37,80 @@ const typologies = get_typologies();
 const maintenanceTypes = get_maintenance_scopes();
 
 // set project parameters
-const listCouncils = getCouncils();
 const activityTypes = get_activity_types();
 const piechartTypes = get_piechart_types();
 
-  /* Demo user related things */
+/* Demo user related things */
 
-  const loginUser = async () => {
-    const getTokenRequestHeaders = new Headers();
-    getTokenRequestHeaders.append('accept', 'application/json');
-    getTokenRequestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+const loginUser = async () => {
+  const getTokenRequestHeaders = new Headers();
+  getTokenRequestHeaders.append('accept', 'application/json');
+  getTokenRequestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    const getTokenPayload = {
-      username: demoUserData.email,
-      password: demoUserData.password,
-    };
-
-    let formBody = [];
-    for (var property in getTokenPayload) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(getTokenPayload[property]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-
-    const getTokenRequestOptions = {
-      method: 'POST',
-      headers: getTokenRequestHeaders,
-      body: formBody,
-      redirect: 'follow',
-    };
-
-    await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        toast.error('Something went wrong');
-        throw new Error('Something went wrong');
-      })
-      .then((result) => {
-        sessionStorage.setItem('token', result.access_token);
-
-        const getUserRequestHeaders = new Headers();
-        getUserRequestHeaders.append('accept', 'application/json');
-        getUserRequestHeaders.append('Content-Type', 'application/json');
-        getUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
-        getUserRequestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-
-        const getUserRequestOptions = {
-          method: 'GET',
-          headers: getUserRequestHeaders,
-          redirect: 'follow',
-        };
-
-        fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/', getUserRequestOptions)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
-            toast.error('Something went wrong');
-            throw new Error('Something went wrong');
-          })
-          .then((result) => {
-            sessionStorage.setItem('user_id', JSON.stringify(result.id));
-            sessionStorage.setItem('user_name', JSON.stringify(result.name));
-            toast.success('Welcome ' + result.name);
-            console.log('logged in!');
-          })
-          .catch((error) => console.log('error', error));
-      })
-      .catch((error) => console.log('error', error));
+  const getTokenPayload = {
+    username: demoUserData.email,
+    password: demoUserData.password,
   };
 
-  loginUser();
-  /* End Demo user related things */
+  let formBody = [];
+  for (var property in getTokenPayload) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(getTokenPayload[property]);
+    formBody.push(encodedKey + '=' + encodedValue);
+  }
+  formBody = formBody.join('&');
+
+  const getTokenRequestOptions = {
+    method: 'POST',
+    headers: getTokenRequestHeaders,
+    body: formBody,
+    redirect: 'follow',
+  };
+
+  await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      toast.error('Something went wrong');
+      throw new Error('Something went wrong');
+    })
+    .then((result) => {
+      sessionStorage.setItem('token', result.access_token);
+
+      const getUserRequestHeaders = new Headers();
+      getUserRequestHeaders.append('accept', 'application/json');
+      getUserRequestHeaders.append('Content-Type', 'application/json');
+      getUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
+      getUserRequestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
+
+      const getUserRequestOptions = {
+        method: 'GET',
+        headers: getUserRequestHeaders,
+        redirect: 'follow',
+      };
+
+      fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/', getUserRequestOptions)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          toast.error('Something went wrong');
+          throw new Error('Something went wrong');
+        })
+        .then((result) => {
+          sessionStorage.setItem('user_id', JSON.stringify(result.id));
+          sessionStorage.setItem('user_name', JSON.stringify(result.name));
+          toast.success('Welcome ' + result.name);
+          console.log('logged in!');
+        })
+        .catch((error) => console.log('error', error));
+    })
+    .catch((error) => console.log('error', error));
+};
+
+loginUser();
+/* End Demo user related things */
 
 export default function Demo(props) {
   const [processStage, setProcessStage] = useState(1);
@@ -127,12 +125,11 @@ export default function Demo(props) {
   const [areaDensity, setAreaDensity] = useState(1);
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
-  const [projectLength, setProjectLength] = useState(60); // 5 years
+  const [projectLength] = useState(60); // 5 years
   // Cost variables
 
-  const [totalCost, settotalCost] = useState(500);
-  const [costOverSelectedTime, setCostOverSelectedTime] = useState(321);
-
+  const [totalCost] = useState(500);
+  const [costOverSelectedTime] = useState(321);
 
   /* SAF Related variables */
   const [safOutput0, setSafOutput0] = useState(saf_data);
@@ -142,18 +139,9 @@ export default function Demo(props) {
   const [totalStorage, setTotalStorage] = useState(0);
   const [comparativeSeq, setComparativeSeq] = useState([]);
   const [comparativeStorage, setComparativeStorage] = useState([]);
-  const [oneToFivePieHigh, setOneToFivePieHigh] = useState([]);
-  const [sixToTenPieHigh, setSixToTenHigh] = useState([]);
-  const [eleventToFiftyPieHigh, setEleventToFiftyPieHigh] = useState([]);
-  const [oneToFivePieMed, setOneToFivePieMed] = useState([]);
-  const [sixToTenPieMed, setSixToTenMed] = useState([]);
-  const [eleventToFiftyPieMed, setEleventToFiftyPieMed] = useState([]);
-  const [oneToFivePieLow, setOneToFivePieLow] = useState([]);
-  const [sixToTenPieLow, setSixToTenLow] = useState([]);
-  const [eleventToFiftyPieLow, setEleventToFiftyPieLow] = useState([]);
-
-  const [costChart, setCostChart] = useState([]);
-
+  const [oneToFivePie, setOneToFivePie] = useState([]);
+  const [sixToTenPie, setSixToTen] = useState([]);
+  const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
 
   useEffect(() => {
     let sum = parseInt(treeNumber) + parseInt(treeNumberMaintain);
@@ -196,80 +184,7 @@ export default function Demo(props) {
     return last;
   }
 
-
-  function processSAFData() {
-    /* SAF Related processing */
-
-    /*
-    function calcAverage(dict) {
-      // Calculates the average of an array
-      if (Object.keys(dict).length === 0) {
-        return 0;
-      } else {
-        let sum = 0;
-        Object.keys(dict).forEach((key) => {
-          sum += dict[key];
-        });
-        return sum / Object.keys(dict).length;
-      }
-    }
-    */
-
-    function sumRange(array, start = 0, end = 50) {
-      let sum = 0;
-
-      for (let index = start; index < end; index++) {
-        sum += array[index];
-      }
-
-      return sum;
-    }
-
-    function getLastElement(obj) {
-      let last = Object.keys(obj)[Object.keys(obj).length - 1];
-      return last;
-    }
-
-    /* Calculate */
-
-    // Calculate total storage
-    setTotalSeq(sumRange(safOutput2.Seq, 0, getLastElement(safOutput2.Seq)));
-    setTotalStorage(safOutput2.Storage[getLastElement(safOutput2.Storage)]); // last element of the array
-
-    /* Pie charts */
-
-    // Alive - High
-    const oneToFiveAliveHigh = sumRange(safOutput2.Alive, 0, 5) / 5;
-    const sixToTenAliveHigh = sumRange(safOutput2.Alive, 5, 10) / 5;
-    const elevenToFiftyAliveHigh = sumRange(safOutput2.Alive, 10, 50) / 40;
-
-    const alive_buckets_high = [
-      { years: '1-5', trees: oneToFiveAliveHigh },
-      { years: '6-10', trees: sixToTenAliveHigh },
-      { years: '11-50', trees: elevenToFiftyAliveHigh },
-    ];
-
-    // Dead - High
-    const oneToFiveDeadHigh = sumRange(safOutput2.Dead, 0, 5) / 5;
-    const sixToTenDeadHigh = sumRange(safOutput2.Dead, 5, 10) / 5;
-    const elevenToFiftyDeadHigh = sumRange(safOutput2.Dead, 10, 50) / 40;
-
-    const dead_buckets_high = [
-      { years: '1-5', trees: oneToFiveDeadHigh },
-      { years: '6-10', trees: sixToTenDeadHigh },
-      { years: '11-50', trees: elevenToFiftyDeadHigh },
-    ];
-
-    // Critical - High
-    const oneToFiveCriticalHigh = sumRange(safOutput2.Critical, 0, 5) / 5;
-    const sixToTenCriticalHigh = sumRange(safOutput2.Critical, 5, 10) / 5;
-    const elevenToFiftyCriticalHigh = sumRange(safOutput2.Critical, 10, 50) / 40;
-
-    let critical_buckets_high = [
-      { years: '1-5', trees: oneToFiveCriticalHigh },
-      { years: '6-10', trees: sixToTenCriticalHigh },
-      { years: '11-50', trees: elevenToFiftyCriticalHigh },
-    ];
+    /* Pie Diagram */
 
     function makePieOutput(alive, dead, critical, bucket) {
       const pieChartArgs = [
@@ -294,98 +209,90 @@ export default function Demo(props) {
       ];
       return pieChartArgs;
     }
+  
+    function makePieChart(safOutput) {
+      // Alive - High
+      const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
+      const sixToTenAlive = sumRange(safOutput.Alive, 5, 10) / 5;
+      const elevenToFiftyAlive = sumRange(safOutput.Alive, 10, 50) / 40;
+  
+      const alive_buckets = [
+        { years: '1-5', trees: oneToFiveAlive },
+        { years: '6-10', trees: sixToTenAlive },
+        { years: '11-50', trees: elevenToFiftyAlive },
+      ];
+  
+      // Dead - High
+      const oneToFiveDead = sumRange(safOutput.Dead, 0, 5) / 5;
+      const sixToTenDead = sumRange(safOutput.Dead, 5, 10) / 5;
+      const elevenToFiftyDead = sumRange(safOutput.Dead, 10, 50) / 40;
+  
+      const dead_buckets = [
+        { years: '1-5', trees: oneToFiveDead },
+        { years: '6-10', trees: sixToTenDead },
+        { years: '11-50', trees: elevenToFiftyDead },
+      ];
+  
+      // Critical - High
+      const oneToFiveCritical = sumRange(safOutput.Critical, 0, 5) / 5;
+      const sixToTenCritical = sumRange(safOutput.Critical, 5, 10) / 5;
+      const elevenToFiftyCritical = sumRange(safOutput.Critical, 10, 50) / 40;
+  
+      let critical_buckets = [
+        { years: '1-5', trees: oneToFiveCritical },
+        { years: '6-10', trees: sixToTenCritical },
+        { years: '11-50', trees: elevenToFiftyCritical },
+      ];
+  
+      setOneToFivePie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 0));
+      setSixToTen(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 1));
+      setEleventToFiftyPie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 2));
+    }
+  
+    useEffect(() => {
+      switch (pieChartShowType) {
+        case 'high maintenance':
+          makePieChart(safOutput2);
+          break;
+        case 'medium maintenance':
+          makePieChart(safOutput1);
+          break;
+        case 'low maintenance':
+          makePieChart(safOutput0);
+          break;
+        default:
+          toast.error('Something went wrong in the maintenance type');
+      }
+    }, [pieChartShowType, safOutput2]);
 
-    setOneToFivePieHigh(
-      makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 0),
-    );
-    setSixToTenHigh(makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 1));
-    setEleventToFiftyPieHigh(
-      makePieOutput(alive_buckets_high, critical_buckets_high, dead_buckets_high, 2),
-    );
 
-    // Alive - Med
-    const oneToFiveAliveMed = sumRange(safOutput1.Alive, 0, 5) / 5;
-    const sixToTenAliveMed = sumRange(safOutput1.Alive, 5, 10) / 5;
-    const elevenToFiftyAliveMed = sumRange(safOutput1.Alive, 10, 50) / 40;
-
-    const alive_buckets_med = [
-      { years: '1-5', trees: oneToFiveAliveMed },
-      { years: '6-10', trees: sixToTenAliveMed },
-      { years: '11-50', trees: elevenToFiftyAliveMed },
-    ];
-
-    // Dead - Med
-    const oneToFiveDeadMed = sumRange(safOutput1.Dead, 0, 5) / 5;
-    const sixToTenDeadMed = sumRange(safOutput1.Dead, 5, 10) / 5;
-    const elevenToFiftyDeadMed = sumRange(safOutput1.Dead, 10, 50) / 40;
-
-    const dead_buckets_med = [
-      { years: '1-5', trees: oneToFiveDeadMed },
-      { years: '6-10', trees: sixToTenDeadMed },
-      { years: '11-50', trees: elevenToFiftyDeadMed },
-    ];
-
-    // Critical - Med
-    const oneToFiveCriticalMed = sumRange(safOutput1.Critical, 0, 5) / 5;
-    const sixToTenCriticalMed = sumRange(safOutput1.Critical, 5, 10) / 5;
-    const elevenToFiftyCriticalMed = sumRange(safOutput1.Critical, 10, 50) / 40;
-
-    let critical_buckets_med = [
-      { years: '1-5', trees: oneToFiveCriticalMed },
-      { years: '6-10', trees: sixToTenCriticalMed },
-      { years: '11-50', trees: elevenToFiftyCriticalMed },
-    ];
-
-    setOneToFivePieMed(makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 0));
-    setSixToTenMed(makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 1));
-    setEleventToFiftyPieMed(
-      makePieOutput(alive_buckets_med, critical_buckets_med, dead_buckets_med, 2),
-    );
-
-    // Alive - Low
-    const oneToFiveAliveLow = sumRange(safOutput0.Alive, 0, 5) / 5;
-    const sixToTenAliveLow = sumRange(safOutput0.Alive, 5, 10) / 5;
-    const elevenToFiftyAliveLow = sumRange(safOutput0.Alive, 10, 50) / 40;
-
-    const alive_buckets_low = [
-      { years: '1-5', trees: oneToFiveAliveLow },
-      { years: '6-10', trees: sixToTenAliveLow },
-      { years: '11-50', trees: elevenToFiftyAliveLow },
-    ];
-
-    // Dead - Low
-    const oneToFiveDeadLow = sumRange(safOutput0.Dead, 0, 5) / 5;
-    const sixToTenDeadLow = sumRange(safOutput0.Dead, 5, 10) / 5;
-    const elevenToFiftyDeadLow = sumRange(safOutput0.Dead, 10, 50) / 40;
-
-    const dead_buckets_low = [
-      { years: '1-5', trees: oneToFiveDeadLow },
-      { years: '6-10', trees: sixToTenDeadLow },
-      { years: '11-50', trees: elevenToFiftyDeadLow },
-    ];
-
-    // Critical - Low
-    const oneToFiveCriticalLow = sumRange(safOutput0.Critical, 0, 5) / 5;
-    const sixToTenCriticalLow = sumRange(safOutput0.Critical, 5, 10) / 5;
-    const elevenToFiftyCriticalLow = sumRange(safOutput0.Critical, 10, 50) / 40;
-
-    let critical_buckets_low = [
-      { years: '1-5', trees: oneToFiveCriticalLow },
-      { years: '6-10', trees: sixToTenCriticalLow },
-      { years: '11-50', trees: elevenToFiftyCriticalLow },
-    ];
-
-    setOneToFivePieLow(makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 0));
-    setSixToTenLow(makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 1));
-    setEleventToFiftyPieLow(
-      makePieOutput(alive_buckets_low, critical_buckets_low, dead_buckets_low, 2),
-    );
+  function processSAFData(dataUserScope) {
+    /* SAF Related processing */
+    setTotalSeq(sumRange(dataUserScope.Seq, 0, getLastElement(dataUserScope.Seq)));
+    setTotalStorage(dataUserScope.Storage[getLastElement(dataUserScope.Storage)]); // last element of the array
   }
 
+  /* Data logic changes on receiving the SAF output */
+  useEffect(() => {
+    switch (maintenanceType.name) {
+      case 'High':
+        processSAFData(safOutput2);
+        break;
+      case 'Medium':
+        processSAFData(safOutput1);
+        break;
+      case 'Low':
+        processSAFData(safOutput0);
+        break;
+      default:
+        toast.error('maintenance type not valid');
+    }
+  }, [safOutput0]);
+
   function makeComparativeSeqChart() {
-    let seq_0 = makeChartArray(safOutput0.Avg_Seq);
-    let seq_1 = makeChartArray(safOutput1.Avg_Seq);
-    let seq_2 = makeChartArray(safOutput2.Avg_Seq);
+    let seq_0 = makeChartArray(safOutput0.Seq);
+    let seq_1 = makeChartArray(safOutput1.Seq);
+    let seq_2 = makeChartArray(safOutput2.Seq);
 
     setComparativeSeq([
       {
@@ -430,43 +337,9 @@ export default function Demo(props) {
     ]);
   }
 
-  function makeComparativeCostChart() {
-    // let replacement_price = 100;
-    let replaced_0 = makeChartArray(safOutput0.Replaced);
-    let replaced_1 = makeChartArray(safOutput1.Replaced);
-    let replaced_2 = makeChartArray(safOutput2.Replaced);
-
-    setCostChart([
-      {
-        id: 'Low maintenance',
-        color: 'hsl(135, 70%, 50%)',
-        data: replaced_0,
-      },
-      {
-        id: 'Medium maintenance',
-        color: 'hsl(347, 70%, 50%)',
-        data: replaced_1,
-      },
-      {
-        id: 'High maintenance',
-        color: 'hsl(31, 70%, 50%)',
-        data: replaced_2,
-      },
-    ]);
-
-    console.log(safOutput0.Replaced);
-    console.log(costChart);
-  }
-
-  /* Data logic changes on receiving the SAF output */
-  useEffect(() => {
-    processSAFData();
-  }, [safOutput0]);
-
   useEffect(() => {
     makeComparativeSeqChart();
     makeComparativeStorageChart();
-    makeComparativeCostChart();
   }, [safOutput0, safOutput1, safOutput2]);
 
   const getSAFOutput = async () => {
@@ -843,12 +716,6 @@ export default function Demo(props) {
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
               </p>
-              <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>Risk addressed</h3>
-              <p className='book-info-sm pt-4 text-dark-wood-800'>
-                Considering a combination of factors including your project typology, activity and
-                location, your project average could be:
-              </p>
-              <LocationRiskChart cc_name={selectedCC} />
             </div>
           </div>
 
@@ -883,6 +750,10 @@ export default function Demo(props) {
                 type='pie'
                 detail='Health condition of an individual tree. Measured by healthy ratio tree canopy and reported by categories: Excellent: >.99, Good: .90, Fair: .75, Poor: .50, Critical: 0.25, Dying:.01, Dead: 0'
               >
+                <div className='flex'>
+                <p className='max-w-sm pt-5 text-indigo-600 medium-intro-lg'>
+                  Breakdown of trees in terms of their health (%)
+                </p>
                 <Dropdown
                   span='sm:col-span-2'
                   label='pie chart type'
@@ -893,63 +764,24 @@ export default function Demo(props) {
                   }}
                   options={piechartTypes}
                 />
-                {pieChartShowType === 'low maintenance' && (
-                  <div className='grid grid-cols-1 sm:grid-cols-3'>
-                    <div>
-                      <PieChart data={oneToFivePieLow} type={1} />
-                    </div>
-                    <div>
-                      <PieChart data={sixToTenPieLow} type={2} />
-                    </div>
-                    <div>
-                      <PieChart data={eleventToFiftyPieLow} type={3} />
-                    </div>
-                  </div>
-                )}
-                {pieChartShowType === 'medium maintenance' && (
-                  <div className='grid grid-cols-1 sm:grid-cols-3'>
-                    <div>
-                      <PieChart data={oneToFivePieMed} type={1} />
-                    </div>
-                    <div>
-                      <PieChart data={sixToTenPieMed} type={2} />
-                    </div>
-                    <div>
-                      <PieChart data={eleventToFiftyPieMed} type={3} />
-                    </div>
-                  </div>
-                )}
+              </div>
 
-                {pieChartShowType === 'high maintenance' && (
-                  <div className='grid grid-cols-1 sm:grid-cols-3'>
-                    <div>
-                      <PieChart data={oneToFivePieHigh} type={1} />
-                    </div>
-                    <div>
-                      <PieChart data={sixToTenPieHigh} type={2} />
-                    </div>
-                    <div>
-                      <PieChart data={eleventToFiftyPieHigh} type={3} />
-                    </div>
-                  </div>
-                )}
+              <div className='grid grid-cols-1 sm:grid-cols-3'>
+                <div>
+                  <PieChart data={oneToFivePie} type={1} />
+                </div>
+                <div>
+                  <PieChart data={sixToTenPie} type={2} />
+                </div>
+                <div>
+                  <PieChart data={eleventToFiftyPie} type={3} />
+                </div>
+              </div>
               </ChartBlock>
             </div>
           </ResultBlock>
 
           <div className='h-10' />
-          <ResultBlock
-            title='Project Costs*'
-            description='The assessment provides an estimated project costs over 50 years. *this estimate does not include any commercial mark-ups. These costs only reflect the direct infrastructural cost of your NbS project.'
-            type='impact'
-          >
-            <ChartBlock
-              maintenanceTypeName={maintenanceType.name}
-              label='Your projects tree replacements'
-            >
-              <ChartMultiLine data={costChart} />
-            </ChartBlock>
-          </ResultBlock>
 
           <hr className='mx-20 border-8 border-indigo-600' />
 
