@@ -24,7 +24,8 @@ export default function NumberInput(props) {
           defaultValue={props.defaultValue}
           onChange={props.onChange}
           onWheel={(e) => e.target.blur()}
-          min='1'
+          min={props.min}
+          max={props.max}
         />
         <span
           className={classNames(
@@ -48,4 +49,6 @@ NumberInput.propTypes = {
   defaultValue: PropTypes.number,
   unit: PropTypes.string,
   onChange: PropTypes.func,
+  min: PropTypes.number,
+  max: PropTypes.number
 };

@@ -642,6 +642,7 @@ export default function SubmitProject(props) {
                   unit='m2'
                   placeholder='200'
                   min='0'
+                  max='20000'
                   type='general'
                   defaultValue={totalArea}
                   onChange={(e) => {
