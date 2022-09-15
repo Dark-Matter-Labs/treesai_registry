@@ -26,6 +26,7 @@ function App() {
         <Route exact path='/' element={<Home loggedIn={loggedIn} />} />
         <Route exact path='/develop' element={<SubmitProject loggedIn={loggedIn} />} />
         <Route exact path='/explore' element={<Portfolio loggedIn={loggedIn} />} />
+        <Route exact path='/demo' element={<Demo />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/glasgow-nbs-portfolio' element={<Glasgow />} />
