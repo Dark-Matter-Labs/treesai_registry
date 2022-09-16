@@ -27,6 +27,10 @@ export default function AddressInput(props) {
             defaultValue={props.defaultValue}
             onChange={props.onChange}
             autoComplete='street-address'
+            options={{
+              language: 'en',
+              country: 'UK',
+              }}
           />
         </AddressAutofill>
       </div>
