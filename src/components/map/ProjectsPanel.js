@@ -28,7 +28,7 @@ export default function ProjectsPanel(props) {
             <div>
               <span className='bold-intro-md uppercase text-white-200 pl-10'>NbS Atlas</span>
             </div>
-            <div className='pl-72'>
+            <div className='pl-56'>
               <button onClick={() => props.setShowProjectPanel(false)}>
                 <ArrowCircleLeftIcon className='text-white-200 w-7 h-7' />
               </button>
@@ -48,7 +48,7 @@ export default function ProjectsPanel(props) {
             <p className='text-green-600 bold-intro-md'>Projects</p>
             <ul
               role='list'
-              className='overflow-scroll h-[15rem] sm:h-[20rem] lg:h-[27rem] xl:h-[42vh] styled-scrollbars '
+              className='overflow-scroll h-[22rem] styled-scrollbars '
             >
               {props.data.map((project) => {
                 if (project.properties.portfolio_A) {
