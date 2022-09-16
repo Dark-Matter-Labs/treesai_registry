@@ -29,7 +29,8 @@ import LocationRiskChart from '../components/analysis/LocationRisk';
 import PieChart from '../components/charts/PieChart';
 import BarChart from '../components/charts/BarChart';
 import SmallBarChart from '../components/charts/SmallBarChart';
-
+// utils functions
+import fetch from '../utils/fetchWithTimeout'
 import { saf_data } from '../utils/saf_data_model';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
@@ -419,8 +420,6 @@ export default function SubmitProject(props) {
       });
     }
 
-    console.log(payload);
-
     let requestOptions = {
       method: 'POST',
       headers: requestHeaders,
@@ -436,6 +435,7 @@ export default function SubmitProject(props) {
         sessionStorage.project_id +
         '/runs',
       requestOptions,
+      1000*60*30 // 30 mins
     )
       .then((response) => {
         if (response.ok) {
