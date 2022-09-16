@@ -7,7 +7,7 @@ const typologies_names = [
     id: 0,
     title: 'Street Trees',
     description: 'A street tree is any tree growing within the public-right-of-way',
-    value: 'park',
+    value: 'individual_street_trees',
     species: 'conifer',
     image: streetTreeImage,
     costLow: 2262,
