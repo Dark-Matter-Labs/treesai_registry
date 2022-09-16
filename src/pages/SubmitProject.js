@@ -87,6 +87,7 @@ export default function SubmitProject(props) {
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [areaDensity, setAreaDensity] = useState(1);
+  const [densityPerHa, setDensityPerHa] = useState(1);
   const [totalArea, setTotalArea] = useState(1);
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [budgetType, setBudgetType] = useState(budgetTypes[0]);
@@ -162,6 +163,11 @@ export default function SubmitProject(props) {
       setAreaDensity(1);
     }
   }, [areaDensity]);
+
+  useEffect(() => {
+    const densPerHa = totalTreeNumber * 10000 / totalArea; // Multiply by 10000 to transform m2 to Ha
+    setDensityPerHa(densPerHa);
+  }, [totalTreeNumber, totalArea]);
 
   useEffect(() => {
     const cost = parseInt(opexCost) + parseInt(capexCost);
@@ -394,7 +400,7 @@ export default function SubmitProject(props) {
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt(totalTreeNumber / areaDensity),
+        density_per_ha: densityPerHa,
         species: selectedTypology.species,
       });
     } else {
@@ -408,10 +414,12 @@ export default function SubmitProject(props) {
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt(totalTreeNumber / areaDensity),
+        density_per_ha: densityPerHa,
         species: selectedTypology.species,
       });
     }
+
+    console.log(payload);
 
     let requestOptions = {
       method: 'POST',
