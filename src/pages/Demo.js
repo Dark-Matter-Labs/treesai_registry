@@ -109,7 +109,6 @@ const loginUser = async () => {
     .catch((error) => console.log('error', error));
 };
 
-loginUser();
 /* End Demo user related things */
 
 export default function Demo(props) {
@@ -421,6 +420,11 @@ export default function Demo(props) {
   };
 
   const createProjectAndGetID = async () => {
+
+    // Login to the test user credentials 
+    loginUser();
+
+    // Rest of the create a project function
     let requestHeaders = new Headers();
     requestHeaders.append('accept', 'application/json');
     requestHeaders.append('Content-Type', 'application/json');
