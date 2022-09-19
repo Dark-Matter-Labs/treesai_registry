@@ -360,7 +360,56 @@ export default function SubmitProject(props) {
     makeComparativeCostBarChart();
   }, [safOutput0, safOutput1, safOutput2]);
 
-  const getSAFOutput = async () => {
+  const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
+    // TODO: use SWR for this
+    let requestHeaders = new Headers();
+    requestHeaders.append('accept', 'application/json');
+
+    let payload;
+
+    let requestOptions = {
+      method: 'GET',
+      headers: requestHeaders,
+      body: payload,
+      redirect: 'follow',
+    };
+
+    let url =
+      process.env.REACT_APP_API_ENDPOINT +
+      '/api/v1/saf/users/' +
+      user_id +
+      '/projects/' +
+      project_id +
+      '/run/' +
+      run_hash;
+
+    let safrun = await fetch(
+      url,
+      requestOptions,
+      1000 * 60 * 30, // 30 mins
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        setIsLoading(false);
+        throw new Error('Something went wrong');
+      })
+      .then((result) => {
+        console.log(result);
+        return result['output'];
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log('error', error);
+        toast.error('Run not found');
+        return [];
+      });
+
+    return safrun;
+  };
+
+  const postSAFRun = async (maintenanceScope) => {
     let requestHeaders = new Headers();
     requestHeaders.append('accept', 'application/json');
     requestHeaders.append('Content-Type', 'application/json');
@@ -376,7 +425,7 @@ export default function SubmitProject(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.fixedDBH),
         max_dbh: parseInt(selectedTypology.fixedDBH),
-        maintenance_scope: maintenanceType.value,
+        maintenance_scope: maintenanceScope,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
@@ -390,7 +439,7 @@ export default function SubmitProject(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.minDBH),
         max_dbh: parseInt(selectedTypology.maxDBH),
-        maintenance_scope: maintenanceType.value,
+        maintenance_scope: maintenanceScope,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
@@ -406,13 +455,13 @@ export default function SubmitProject(props) {
       redirect: 'follow',
     };
 
-    await fetch(
+    let hash = await fetch(
       process.env.REACT_APP_API_ENDPOINT +
         '/api/v1/saf/users/' +
         sessionStorage.user_id +
         '/projects/' +
         sessionStorage.project_id +
-        '/runs',
+        '/run',
       requestOptions,
       1000 * 60 * 30, // 30 mins
     )
@@ -425,18 +474,13 @@ export default function SubmitProject(props) {
         throw new Error('Something went wrong');
       })
       .then((result) => {
-        setSafOutput0(result['0']);
-        setSafOutput1(result['1']);
-        setSafOutput2(result['2']);
-
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-        setProcessStage(2);
+        return result['gus_run_hash'];
       })
       .catch((error) => {
         setIsLoading(false);
         console.log('error', error);
       });
+    return hash;
   };
 
   const createProjectAndGetID = async () => {
@@ -477,7 +521,7 @@ export default function SubmitProject(props) {
     };
 
     let response;
-    setIsLoading(true);
+
     try {
       response = await fetch(
         process.env.REACT_APP_API_ENDPOINT +
@@ -495,11 +539,51 @@ export default function SubmitProject(props) {
     }
     if (response.ok) {
       let data = await response.json();
-      sessionStorage.setItem('project_id', JSON.stringify(data.id));
-
-      getSAFOutput();
+      const dbProjectId = JSON.stringify(data.id);
+      sessionStorage.setItem('project_id', dbProjectId);
+      return dbProjectId;
     }
   };
+
+  async function sendRequestAndFetchData() {
+    const user_id = sessionStorage.user_id;
+    let project_id = 0;
+    // set screen to loading
+    setIsLoading(true);
+
+    // Create a project and get the ID
+    project_id = await createProjectAndGetID();
+
+    for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
+      // Make a post call to run the simulation on a project
+      let run_hash = await postSAFRun(maintenanceScope);
+      // console.log('id ' + user_id + 'proj ' + project_id + 'hash ' + run_hash);
+
+      // Retreive the result from the simulation
+      let safrun = await getSAFRunbyHash(user_id, project_id, run_hash);
+
+      switch (maintenanceScope) {
+        case 0:
+          setSafOutput0(safrun);
+          break;
+        case 1:
+          setSafOutput1(safrun);
+          break;
+        case 2:
+          setSafOutput2(safrun);
+          break;
+        default:
+          console.log('Oops, the simulation went too far!');
+      }
+    }
+
+    // Quit loading screen
+    setIsLoading(false);
+
+    // Make the result screen
+    window.scrollTo(0, 0);
+    setProcessStage(2);
+  }
 
   return (
     <div className='bg-white-300 font-favorit bg-pattern'>
@@ -1106,7 +1190,7 @@ export default function SubmitProject(props) {
                   type='button'
                   disabled={isLoading}
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
-                  onClick={createProjectAndGetID}
+                  onClick={sendRequestAndFetchData}
                 >
                   Run impact
                 </button>
