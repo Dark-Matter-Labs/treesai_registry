@@ -1185,7 +1185,7 @@ export default function SubmitProject(props) {
                         </span>
                       </div>
                       <table className='min-w-full divide-y divide-white-200'>
-                        <tbody className='divide-y divide-white-200 bg-green-300'>
+                        <tbody className='divide-y divide-white-200 bg-gray-200'>
                           <tr>
                             <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
                               Project developer:
