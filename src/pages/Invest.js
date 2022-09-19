@@ -182,18 +182,20 @@ export default function Invest() {
             <div className='bg-dark-wood-300 px-20 py-10'>
               <p className='text-dark-wood-800 medium-intro-lg pb-4'>Portfolio Type</p>
               <p className='text-dark-wood-800 medium-intro-md pb-8 max-w-lg'>
-                This is a long-term portoflio, Investors will gain access to the returns through a
-                debt instrument and fund structure.
+                Investors will gain access to financial and environmental returns through
+                outcomes-based financing instruments.
               </p>
               <p className='text-dark-wood-800 medium-intro-lg pb-4'>How the portfolio’s built</p>
               <p className='text-dark-wood-800 medium-intro-md pb-8 max-w-lg'>
                 Combining TreesAI impact assesment tools with outcomes-based financing to optimise
                 project selection and boost environmental, social and economic impact.
               </p>
-              <p className='text-dark-wood-800 medium-intro-lg pb-4'>Who’s currently involved</p>
+              <p className='text-dark-wood-800 medium-intro-lg pb-4'>
+                Who’s currently involved in the pilot:
+              </p>
               <p className='text-dark-wood-800 medium-intro-md max-w-lg'>
-                Clyde Climate Forest, Glasgow City Council, Metropolitan Glasgow Strategic Drainage
-                Partnership, NatureScot, SEPA
+                Clyde Climate Forest, Flood Re (research partner), Glasgow City Council,
+                Metropolitan Glasgow Strategic Drainage Partnership, Nationwide, Scottish Water
               </p>
             </div>
 
