@@ -8,8 +8,9 @@ import sdgs4 from '../images/sdgs_4.png';
 import sdgs5 from '../images/sdgs_5.png';
 import GCCLogo from '../images/partner_logos/GCC.png';
 import CCFLogo from '../images/partner_logos/CCF.png';
-import TerraLogo from '../images/partner_logos/terra.png';
 import MGSDPLogo from '../images/partner_logos/MGSDP.png';
+import FloodReLogo from '../images/partner_logos/FloodRe.png';
+import ScottWater from '../images/partner_logos/ScottWater.png';
 import Footer from '../components/Footer';
 import MapVideo from '../images/NbSMap.webm';
 import loadingPlaceholder from '../images/loadingPlaceholder.png';
@@ -205,10 +206,13 @@ export default function Glasgow() {
                       <img className='h-40' src={CCFLogo} alt='Tuple' />
                     </div>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
-                      <img className='h-40' src={TerraLogo} alt='Level' />
+                      <img className='h-40' src={ScottWater} alt='Level' />
                     </div>
                     <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
                       <img className='h-40' src={MGSDPLogo} alt='Level' />
+                    </div>
+                    <div className='mt-4 ml-8 flex flex-shrink-0 flex-grow justify-center lg:ml-4 lg:flex-grow-0'>
+                      <img className='h-40' src={FloodReLogo} alt='Level' />
                     </div>
                   </div>
                 </div>
