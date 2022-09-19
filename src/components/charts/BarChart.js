@@ -16,8 +16,8 @@ const BarChart = (props) => {
         keys={['High Maintenance', 'Medium maintenance', 'Low maintenance']}
         indexBy='years'
         groupMode='grouped'
-        padding={0.3}
-        innerPadding={5}
+        padding={0.05}
+        innerPadding={1}
         margin={{ top: 80, right: 20, bottom: 60, left: 40 }}
         axisBottom={{
           legend: 'YEARS RANGES',

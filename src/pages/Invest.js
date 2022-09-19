@@ -152,7 +152,7 @@ export default function Invest() {
 
             <div className='bg-dark-wood-400 px-20 py-10'>
               <p className='text-dark-wood-800 medium-intro-lg pb-2'>Related SDGs:</p>
-              <div className='grid grid-cols-1 sm:grid-cols-5 gap-x-0 justify-items-start px-10'>
+              <div className='grid grid-cols-1 sm:grid-cols-5 gap-x-0 justify-items-start pr-10'>
                 <div>
                   <img src={sdgs1} width='78px' />
                 </div>
@@ -170,7 +170,7 @@ export default function Invest() {
                 </div>
               </div>
               <p className='text-dark-wood-800 medium-intro-lg pt-4'>Modelled Impacts:</p>
-              <ul className='list-disc ml-2 pt-2 medium-intro-md'>
+              <ul className='list-disc ml-2 pt-4 medium-intro-md'>
                 <li>Total CO2 Sequestered: 812,240 (Kgs)</li>
                 <li>Total Carbon Stored: 43,757,051 (Kgs)</li>
                 <li>Total Improvement on stormwater retention: 1,121,761 (1000L/m2)</li>
@@ -182,18 +182,20 @@ export default function Invest() {
             <div className='bg-dark-wood-300 px-20 py-10'>
               <p className='text-dark-wood-800 medium-intro-lg pb-4'>Portfolio Type</p>
               <p className='text-dark-wood-800 medium-intro-md pb-8 max-w-lg'>
-                This is a long-term portoflio, Investors will gain access to the returns through a
-                debt instrument and fund structure.
+                Investors will gain access to financial and environmental returns through
+                outcomes-based financing instruments.
               </p>
               <p className='text-dark-wood-800 medium-intro-lg pb-4'>How the portfolio’s built</p>
               <p className='text-dark-wood-800 medium-intro-md pb-8 max-w-lg'>
                 Combining TreesAI impact assesment tools with outcomes-based financing to optimise
                 project selection and boost environmental, social and economic impact.
               </p>
-              <p className='text-dark-wood-800 medium-intro-lg pb-4'>Who’s currently involved</p>
+              <p className='text-dark-wood-800 medium-intro-lg pb-4'>
+                Who’s currently involved in the pilot:
+              </p>
               <p className='text-dark-wood-800 medium-intro-md max-w-lg'>
-                Clyde Climate Forest, Glasgow City Council, Metropolitan Glasgow Strategic Drainage
-                Partnership, NatureScot, SEPA
+                Clyde Climate Forest, Flood Re (research partner), Glasgow City Council,
+                Metropolitan Glasgow Strategic Drainage Partnership, Nationwide, Scottish Water
               </p>
             </div>
 

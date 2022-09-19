@@ -30,7 +30,7 @@ import PieChart from '../components/charts/PieChart';
 import BarChart from '../components/charts/BarChart';
 import SmallBarChart from '../components/charts/SmallBarChart';
 // utils functions
-import fetch from '../utils/fetchWithTimeout'
+import fetch from '../utils/fetchWithTimeout';
 import { saf_data } from '../utils/saf_data_model';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
@@ -166,7 +166,7 @@ export default function SubmitProject(props) {
   }, [areaDensity]);
 
   useEffect(() => {
-    const densPerHa = totalTreeNumber * 10000 / totalArea; // Multiply by 10000 to transform m2 to Ha
+    const densPerHa = (totalTreeNumber * 10000) / totalArea; // Multiply by 10000 to transform m2 to Ha
     setDensityPerHa(densPerHa);
   }, [totalTreeNumber, totalArea]);
 
@@ -435,7 +435,7 @@ export default function SubmitProject(props) {
         sessionStorage.project_id +
         '/runs',
       requestOptions,
-      1000*60*30 // 30 mins
+      1000 * 60 * 30, // 30 mins
     )
       .then((response) => {
         if (response.ok) {
@@ -1138,7 +1138,7 @@ export default function SubmitProject(props) {
       {processStage === 2 && (
         <div className='global-margin sm:px-6 lg:px-8'>
           <Breadcrumb title='Run Impact Explorer – Your Analysis' />
-          <div className='title-box mt-4 bg-indigo-600 border-[3px] border-dark-wood-800 py-20'>
+          <div className='title-box mt-4 bg-indigo-600 border-[3px] border-dark-wood-800 py-20 px-20'>
             <div className='grid grid-cols-1 sm:grid-cols-2'>
               <div className='title-text-container text-background-shape py-20'>
                 <h1 className='text-center text-indigo-600'>

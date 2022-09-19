@@ -10,14 +10,14 @@ const SmallBarChart = (props) => {
   }, [props.data]);
 
   return (
-    <div className='border border-indigo-600 px-5 py-5 rounded-2xl' style={{ height: '400px' }}>
+    <div className='border border-indigo-600 px-5 py-5 rounded-2xl' style={{ height: '300px' }}>
       <ResponsiveBar
         data={data}
         keys={['Value']}
         indexBy='Expenditure'
-        padding={0.3}
-        innerPadding={5}
-        margin={{ top: 80, right: 20, bottom: 60, left: 40 }}
+        padding={0.1}
+        innerPadding={2}
+        margin={{ top: 20, right: 20, bottom: 60, left: 40 }}
         axisBottom={{
           legend: 'Types of costs',
           legendOffset: 40,
