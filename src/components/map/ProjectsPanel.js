@@ -48,7 +48,7 @@ export default function ProjectsPanel(props) {
             <p className='text-green-600 bold-intro-md'>Projects</p>
             <ul
               role='list'
-              className='overflow-scroll h-[22rem] styled-scrollbars '
+              className='overflow-scroll h-[28rem] styled-scrollbars '
             >
               {props.data.map((project) => {
                 if (project.properties.portfolio_A) {
@@ -85,7 +85,7 @@ export default function ProjectsPanel(props) {
             </ul>
           </div>
 
-          <div className='px-4 py-4 place-self-stretch   xl:mb-20'>
+          <div className='px-4 py-4 place-self-stretch absolute bottom-0'>
             <Link to='/develop'>
               <button
                 type='button'

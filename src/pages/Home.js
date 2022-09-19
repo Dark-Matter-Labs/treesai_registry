@@ -27,7 +27,7 @@ export default function Home(props) {
                 </h1>
               </div>
               <div className=''>
-                <video className='p-1' autoPlay loop muted poster={loadingPlaceholder}>
+                <video className='p-0.5' autoPlay loop muted poster={loadingPlaceholder}>
                   <source src={MapVideo} type='video/webm' />
                 </video>
               </div>

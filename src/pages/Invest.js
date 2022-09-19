@@ -142,7 +142,7 @@ export default function Invest() {
               <p className='text-dark-wood-800 medium-intro-md max-w-lg'>
                 The projects in the portfolio include
               </p>
-              <ul className='list-disc ml-2 medium-intro-md'>
+              <ul className='list-disc text-dark-wood-800 ml-2 medium-intro-md'>
                 <li>5,000+ new trees</li>
                 <li>15ha+ new woodland</li>
                 <li>30ha+ trees preserved</li>
@@ -170,7 +170,7 @@ export default function Invest() {
                 </div>
               </div>
               <p className='text-dark-wood-800 medium-intro-lg pt-4'>Modelled Impacts:</p>
-              <ul className='list-disc ml-2 pt-4 medium-intro-md'>
+              <ul className='list-disc text-dark-wood-800 ml-2 pt-5 medium-intro-md'>
                 <li>Total CO2 Sequestered: 812,240 (Kgs)</li>
                 <li>Total Carbon Stored: 43,757,051 (Kgs)</li>
                 <li>Total Improvement on stormwater retention: 1,121,761 (1000L/m2)</li>
