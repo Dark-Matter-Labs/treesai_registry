@@ -615,7 +615,7 @@ export default function Demo(props) {
                 <img
                   src={projectImg}
                   alt='project image'
-                  className='h-36 w-36 rounded-full border-8 border-green-600'
+                  className='h-48 w-48 rounded-full border-8 border-green-600'
                 />
               </div>
               <p className='bold-intro-sm para-break pt-10'></p>
