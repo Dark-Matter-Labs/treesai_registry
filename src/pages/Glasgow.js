@@ -122,7 +122,7 @@ export default function Glasgow() {
         <div className='grid grid-cols-1 sm:grid-cols-3 mt-10 gap-x-4'>
           <div className='bg-green-600 rounded-br-[100px] px-8 '>
             <h2 className='text-white-200 pt-4'>Portfolio & Impact </h2>
-            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-0 justify-items-start px-10'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-2 justify-items-start'>
               <div>
                 <img src={sdgs1} width='78px' />
               </div>
