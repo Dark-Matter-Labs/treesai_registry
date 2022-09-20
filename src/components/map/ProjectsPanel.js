@@ -48,7 +48,7 @@ export default function ProjectsPanel(props) {
             <p className='text-green-600 bold-intro-md'>Projects</p>
             <ul
               role='list'
-              className='overflow-scroll h-[28rem] styled-scrollbars '
+              className='overflow-scroll h-[22rem] styled-scrollbars '
             >
               {props.data.map((project) => {
                 if (project.properties.portfolio_A) {
