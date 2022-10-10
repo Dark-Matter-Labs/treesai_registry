@@ -30,8 +30,12 @@ import PieChart from '../components/charts/PieChart';
 import BarChart from '../components/charts/BarChart';
 import SmallBarChart from '../components/charts/SmallBarChart';
 // utils functions
-import fetch from '../utils/fetchWithTimeout';
 import { saf_data } from '../utils/saf_data_model';
+import {
+  getSAFRunbyHash,
+  post_saf_run_and_get_hash,
+  create_project_and_get_ID,
+} from '../utils/backendCRUD';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import {
@@ -360,62 +364,7 @@ export default function SubmitProject(props) {
     makeComparativeCostBarChart();
   }, [safOutput0, safOutput1, safOutput2]);
 
-  const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
-    // TODO: use SWR for this
-    let requestHeaders = new Headers();
-    requestHeaders.append('accept', 'application/json');
-
-    let payload;
-
-    let requestOptions = {
-      method: 'GET',
-      headers: requestHeaders,
-      body: payload,
-      redirect: 'follow',
-    };
-
-    let url =
-      process.env.REACT_APP_API_ENDPOINT +
-      '/api/v1/saf/users/' +
-      user_id +
-      '/projects/' +
-      project_id +
-      '/run/' +
-      run_hash;
-
-    let safrun = await fetch(
-      url,
-      requestOptions,
-      1000 * 60 * 30, // 30 mins
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        setIsLoading(false);
-        throw new Error('Something went wrong');
-      })
-      .then((result) => {
-        console.log(result);
-        return result['output'];
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log('error', error);
-        toast.error('Run not found');
-        return [];
-      });
-
-    return safrun;
-  };
-
   const postSAFRun = async (maintenanceScope) => {
-    let requestHeaders = new Headers();
-    requestHeaders.append('accept', 'application/json');
-    requestHeaders.append('Content-Type', 'application/json');
-    requestHeaders.append('Access-Control-Allow-Origin', '*');
-    requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-
     let payload;
 
     if (activityType.name === 'Developing') {
@@ -448,38 +397,7 @@ export default function SubmitProject(props) {
       });
     }
 
-    let requestOptions = {
-      method: 'POST',
-      headers: requestHeaders,
-      body: payload,
-      redirect: 'follow',
-    };
-
-    let hash = await fetch(
-      process.env.REACT_APP_API_ENDPOINT +
-        '/api/v1/saf/users/' +
-        sessionStorage.user_id +
-        '/projects/' +
-        sessionStorage.project_id +
-        '/run',
-      requestOptions,
-      1000 * 60 * 30, // 30 mins
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        toast.error('Could not run SAF');
-        setIsLoading(false);
-        throw new Error('Something went wrong');
-      })
-      .then((result) => {
-        return result['gus_run_hash'];
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log('error', error);
-      });
+    let hash = await post_saf_run_and_get_hash(payload);
     return hash;
   };
 
@@ -487,14 +405,6 @@ export default function SubmitProject(props) {
     if (projectName === '') {
       setProjectName('Sample project title');
     }
-
-    let requestHeaders = new Headers();
-    requestHeaders.append('accept', 'application/json');
-    requestHeaders.append('Content-Type', 'application/json');
-    requestHeaders.append('Access-Control-Allow-Origin', '*');
-    requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-
-    console.log(new Date(projectDate));
 
     const payload = JSON.stringify({
       title: projectName,
@@ -513,46 +423,17 @@ export default function SubmitProject(props) {
       start_date: new Date(projectDate),
     });
 
-    let requestOptions = {
-      method: 'POST',
-      headers: requestHeaders,
-      body: payload,
-      redirect: 'follow',
-    };
-
-    let response;
-
-    try {
-      response = await fetch(
-        process.env.REACT_APP_API_ENDPOINT +
-          '/api/v1/saf/users/' +
-          sessionStorage.user_id +
-          '/projects',
-        requestOptions,
-      );
-    } catch (ex) {
-      return toast.error(ex);
-    }
-    if (!response.ok) {
-      setIsLoading(false);
-      return toast.error(response.status + ' : ' + response.statusText);
-    }
-    if (response.ok) {
-      let data = await response.json();
-      const dbProjectId = JSON.stringify(data.id);
-      sessionStorage.setItem('project_id', dbProjectId);
-      return dbProjectId;
-    }
+    let id = await create_project_and_get_ID(payload);
+    return id;
   };
 
   async function sendRequestAndFetchData() {
     const user_id = sessionStorage.user_id;
-    let project_id = 0;
     // set screen to loading
     setIsLoading(true);
 
     // Create a project and get the ID
-    project_id = await createProjectAndGetID();
+    const project_id = await createProjectAndGetID();
 
     for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
       // Make a post call to run the simulation on a project
