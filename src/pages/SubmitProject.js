@@ -48,6 +48,8 @@ import {
 import { getCouncils } from '../utils/geojson_utils';
 import CostBox from '../components/CostBox';
 
+import { makeChartArray, sumRange, getLastElement } from '../utils/objUtils';
+
 // set SAF parameters
 const typologies = get_typologies();
 const maintenanceTypes = get_maintenance_scopes();
@@ -118,29 +120,6 @@ export default function SubmitProject(props) {
   const navigate = useNavigate();
 
   /* Helper functions */
-  function makeChartArray(dict) {
-    let chartArray = [];
-    chartArray = Object.keys(dict).map((key) => ({
-      x: Number(key),
-      y: dict[key],
-    }));
-    return chartArray;
-  }
-
-  function sumRange(array, start = 0, end = 50) {
-    let sum = 0;
-
-    for (let index = start; index < end; index++) {
-      sum += array[index];
-    }
-
-    return sum;
-  }
-
-  function getLastElement(obj) {
-    let last = Object.keys(obj)[Object.keys(obj).length - 1];
-    return last;
-  }
 
   useEffect(() => {
     if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {

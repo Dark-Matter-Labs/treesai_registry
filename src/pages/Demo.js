@@ -29,6 +29,8 @@ import { get_activity_types, get_piechart_types } from '../utils/project_details
 
 import { Link } from 'react-router-dom';
 
+import { makeChartArray, sumRange, getLastElement } from '../utils/objUtils';
+
 // Demo user creds
 import demoUserData from '../utils/demo_user_creds.json';
 
@@ -157,31 +159,6 @@ export default function Demo(props) {
       setAreaDensity(1);
     }
   }, [areaDensity]);
-
-  /* Helper functions */
-  function makeChartArray(dict) {
-    let chartArray = [];
-    chartArray = Object.keys(dict).map((key) => ({
-      x: Number(key),
-      y: dict[key],
-    }));
-    return chartArray;
-  }
-
-  function sumRange(array, start = 0, end = 50) {
-    let sum = 0;
-
-    for (let index = start; index < end; index++) {
-      sum += array[index];
-    }
-
-    return sum;
-  }
-
-  function getLastElement(obj) {
-    let last = Object.keys(obj)[Object.keys(obj).length - 1];
-    return last;
-  }
 
   /* Pie Diagram */
 
