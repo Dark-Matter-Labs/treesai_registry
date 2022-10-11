@@ -36,6 +36,7 @@ import {
   post_saf_run_and_get_hash,
   create_project_and_get_ID,
 } from '../utils/backendCRUD';
+import { makePieOutput, formatDataForMultilineChart } from '../utils/chartUtils';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import {
@@ -169,30 +170,6 @@ export default function SubmitProject(props) {
 
   /* Pie Diagram */
 
-  function makePieOutput(alive, dead, critical, bucket) {
-    const pieChartArgs = [
-      {
-        id: 'healthy',
-        label: 'Healthy',
-        value: alive[bucket].trees,
-        color: '#DDDDDD',
-      },
-      {
-        id: 'Critical',
-        label: 'Critical health',
-        value: critical[bucket].trees,
-        color: '#828784',
-      },
-      {
-        id: 'dead',
-        label: 'Dead',
-        value: dead[bucket].trees,
-        color: '#2F3130',
-      },
-    ];
-    return pieChartArgs;
-  }
-
   function makePieChart(safOutput) {
     // Alive - High
     const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
@@ -276,23 +253,7 @@ export default function SubmitProject(props) {
     let seq_1 = makeChartArray(safOutput1.Seq);
     let seq_2 = makeChartArray(safOutput2.Seq);
 
-    setComparativeSeq([
-      {
-        id: 'Low maintenance',
-        color: 'hsl(135, 70%, 50%)',
-        data: seq_0,
-      },
-      {
-        id: 'Medium maintenance',
-        color: 'hsl(347, 70%, 50%)',
-        data: seq_1,
-      },
-      {
-        id: 'High maintenance',
-        color: 'hsl(31, 70%, 50%)',
-        data: seq_2,
-      },
-    ]);
+    setComparativeSeq(formatDataForMultilineChart(seq_0, seq_1, seq_2));
   }
 
   function makeComparativeStorageChart() {
@@ -300,23 +261,7 @@ export default function SubmitProject(props) {
     let storage_1 = makeChartArray(safOutput1.Storage);
     let storage_2 = makeChartArray(safOutput2.Storage);
 
-    setComparativeStorage([
-      {
-        id: 'Low maintenance',
-        color: 'hsl(135, 70%, 50%)',
-        data: storage_0,
-      },
-      {
-        id: 'Medium maintenance',
-        color: 'hsl(347, 70%, 50%)',
-        data: storage_1,
-      },
-      {
-        id: 'High maintenance',
-        color: 'hsl(31, 70%, 50%)',
-        data: storage_2,
-      },
-    ]);
+    setComparativeStorage(formatDataForMultilineChart(storage_0, storage_1, storage_2));
   }
 
   function makeComparativeCostBarChart() {
