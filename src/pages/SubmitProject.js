@@ -96,7 +96,7 @@ export default function SubmitProject(props) {
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [areaDensity, setAreaDensity] = useState(1);
   const [densityPerHa, setDensityPerHa] = useState(1);
-  const [totalArea, setTotalArea] = useState(1);
+  const [totalArea, setTotalArea] = useState(100);
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
@@ -372,6 +372,15 @@ export default function SubmitProject(props) {
     return id;
   };
 
+  function toResultPage() {
+    // Quit loading screen
+    setIsLoading(false);
+
+    // Make the result screen
+    window.scrollTo(0, 0);
+    setProcessStage(2);
+  }
+
   async function sendRequestAndFetchData() {
     const user_id = sessionStorage.user_id;
     // set screen to loading
@@ -383,32 +392,29 @@ export default function SubmitProject(props) {
     for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
       // Make a post call to run the simulation on a project
       let run_hash = await postSAFRun(maintenanceScope);
-      // console.log('id ' + user_id + 'proj ' + project_id + 'hash ' + run_hash);
 
-      // Retreive the result from the simulation
-      let safrun = await getSAFRunbyHash(user_id, project_id, run_hash);
+      setTimeout(async () => {
+        console.log('step ' + maintenanceScope + '/3');
 
-      switch (maintenanceScope) {
-        case 0:
-          setSafOutput0(safrun);
-          break;
-        case 1:
-          setSafOutput1(safrun);
-          break;
-        case 2:
-          setSafOutput2(safrun);
-          break;
-        default:
-          console.log('Oops, the simulation went too far!');
-      }
+        // Retreive the result from the simulation
+        getSAFRunbyHash(user_id, project_id, run_hash).then((result) => {
+          switch (maintenanceScope) {
+            case 0:
+              setSafOutput0(result);
+              break;
+            case 1:
+              setSafOutput1(result);
+              break;
+            case 2:
+              setSafOutput2(result);
+              toResultPage();
+              break;
+            default:
+              console.log('Oops, the simulation went too far!');
+          }
+        });
+      }, 15000); // wait for 15 seconds
     }
-
-    // Quit loading screen
-    setIsLoading(false);
-
-    // Make the result screen
-    window.scrollTo(0, 0);
-    setProcessStage(2);
   }
 
   return (

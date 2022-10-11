@@ -1,7 +1,5 @@
 import toast from 'react-hot-toast';
 
-import fetch from './fetchWithTimeout';
-
 export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
   let requestHeaders = new Headers();
   requestHeaders.append('accept', 'application/json');
@@ -24,11 +22,7 @@ export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
     '/run/' +
     run_hash;
 
-  let safrun = await fetch(
-    url,
-    requestOptions,
-    1000 * 60 * 30, // 30 mins
-  )
+  let safrun = await fetch(url, requestOptions)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -41,8 +35,6 @@ export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
     })
     .catch((error) => {
       console.log('error', error);
-      toast.error('Run not found');
-      return [];
     });
 
   return safrun;
@@ -70,7 +62,6 @@ export const post_saf_run_and_get_hash = async (payload) => {
       sessionStorage.project_id +
       '/run',
     requestOptions,
-    1000 * 60 * 30, // 30 mins
   )
     .then((response) => {
       if (response.ok) {
