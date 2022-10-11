@@ -29,7 +29,14 @@ import { get_activity_types, get_piechart_types } from '../utils/project_details
 
 import { Link } from 'react-router-dom';
 
+import {
+  getSAFRunbyHash,
+  post_saf_run_and_get_hash,
+  create_project_and_get_ID,
+} from '../utils/backendCRUD';
+
 import { makeChartArray, sumRange, getLastElement } from '../utils/objUtils';
+import { makePieOutput, formatDataForMultilineChart } from '../utils/chartUtils';
 
 // Demo user creds
 import demoUserData from '../utils/demo_user_creds.json';
@@ -44,7 +51,7 @@ const piechartTypes = get_piechart_types();
 
 /* Demo user related things */
 
-const loginUser = async () => {
+const loginDemoUser = async () => {
   const getTokenRequestHeaders = new Headers();
   getTokenRequestHeaders.append('accept', 'application/json');
   getTokenRequestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -162,30 +169,6 @@ export default function Demo(props) {
 
   /* Pie Diagram */
 
-  function makePieOutput(alive, dead, critical, bucket) {
-    const pieChartArgs = [
-      {
-        id: 'healthy',
-        label: 'Healthy',
-        value: alive[bucket].trees,
-        color: '#DDDDDD',
-      },
-      {
-        id: 'Critical',
-        label: 'Critical health',
-        value: critical[bucket].trees,
-        color: '#828784',
-      },
-      {
-        id: 'dead',
-        label: 'Dead',
-        value: dead[bucket].trees,
-        color: '#2F3130',
-      },
-    ];
-    return pieChartArgs;
-  }
-
   function makePieChart(safOutput) {
     // Alive - High
     const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
@@ -269,23 +252,7 @@ export default function Demo(props) {
     let seq_1 = makeChartArray(safOutput1.Seq);
     let seq_2 = makeChartArray(safOutput2.Seq);
 
-    setComparativeSeq([
-      {
-        id: 'Low maintenance',
-        color: 'hsl(135, 70%, 50%)',
-        data: seq_0,
-      },
-      {
-        id: 'Medium maintenance',
-        color: 'hsl(347, 70%, 50%)',
-        data: seq_1,
-      },
-      {
-        id: 'High maintenance',
-        color: 'hsl(31, 70%, 50%)',
-        data: seq_2,
-      },
-    ]);
+    setComparativeSeq(formatDataForMultilineChart(seq_0, seq_1, seq_2));
   }
 
   function makeComparativeStorageChart() {
@@ -293,23 +260,7 @@ export default function Demo(props) {
     let storage_1 = makeChartArray(safOutput1.Storage);
     let storage_2 = makeChartArray(safOutput2.Storage);
 
-    setComparativeStorage([
-      {
-        id: 'Low maintenance',
-        color: 'hsl(135, 70%, 50%)',
-        data: storage_0,
-      },
-      {
-        id: 'Medium maintenance',
-        color: 'hsl(347, 70%, 50%)',
-        data: storage_1,
-      },
-      {
-        id: 'High maintenance',
-        color: 'hsl(31, 70%, 50%)',
-        data: storage_2,
-      },
-    ]);
+    setComparativeStorage(formatDataForMultilineChart(storage_0, storage_1, storage_2));
   }
 
   useEffect(() => {
@@ -317,13 +268,34 @@ export default function Demo(props) {
     makeComparativeStorageChart();
   }, [safOutput0, safOutput1, safOutput2]);
 
-  const getSAFOutput = async () => {
-    let requestHeaders = new Headers();
-    requestHeaders.append('accept', 'application/json');
-    requestHeaders.append('Content-Type', 'application/json');
-    requestHeaders.append('Access-Control-Allow-Origin', '*');
-    requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
+  const createProjectAndGetID = async () => {
+    // Login to the test user credentials
+    loginDemoUser();
 
+    // Rest of the create a project function
+
+    const payload = JSON.stringify({
+      title: 'demo',
+      description: 'demo',
+      in_portfolio: false,
+      publish: false,
+      project_dev: 'demo',
+      owner_id: sessionStorage.user_id,
+      activities: 'maintenance',
+      area: 10,
+      cost: 0,
+      stage: 'demo',
+      number_of_trees: totalTreeNumber,
+      local_authority: 'string',
+      location: 'string',
+      start_date: '2022-06-16T09:32:51.188Z',
+    });
+
+    let id = await create_project_and_get_ID(payload);
+    return id;
+  };
+
+  const postSAFRun = async (maintenanceScope) => {
     let payload;
 
     if (activityType.name === 'Developing') {
@@ -333,7 +305,7 @@ export default function Demo(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.fixedDBH),
         max_dbh: parseInt(selectedTypology.fixedDBH),
-        maintenance_scope: maintenanceType.value,
+        maintenance_scope: maintenanceScope,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
@@ -347,7 +319,7 @@ export default function Demo(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.minDBH),
         max_dbh: parseInt(selectedTypology.maxDBH),
-        maintenance_scope: maintenanceType.value,
+        maintenance_scope: maintenanceScope,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
@@ -356,106 +328,48 @@ export default function Demo(props) {
       });
     }
 
-    let requestOptions = {
-      method: 'POST',
-      headers: requestHeaders,
-      body: payload,
-      redirect: 'follow',
-    };
-
-    await fetch(
-      process.env.REACT_APP_API_ENDPOINT +
-        '/api/v1/saf/users/' +
-        sessionStorage.user_id +
-        '/projects/' +
-        sessionStorage.project_id +
-        '/runs',
-      requestOptions,
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        toast.error('Could not run SAF');
-        setIsLoading(false);
-        throw new Error('Something went wrong');
-      })
-      .then((result) => {
-        console.log(result);
-        setSafOutput0(result['0']);
-        setSafOutput1(result['1']);
-        setSafOutput2(result['2']);
-
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-        setProcessStage(2);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log('error', error);
-      });
+    let hash = await post_saf_run_and_get_hash(payload);
+    return hash;
   };
 
-  const createProjectAndGetID = async () => {
-
-    // Login to the test user credentials 
-    loginUser();
-
-    // Rest of the create a project function
-    let requestHeaders = new Headers();
-    requestHeaders.append('accept', 'application/json');
-    requestHeaders.append('Content-Type', 'application/json');
-    requestHeaders.append('Access-Control-Allow-Origin', '*');
-    requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-
-    const payload = JSON.stringify({
-      title: 'demo',
-      description: 'demo',
-      in_portfolio: false,
-      publish: false,
-      project_dev: 'demo',
-      owner_id: sessionStorage.user_id,
-      activities: 'maintenance',
-      area: 0,
-      cost: 0,
-      stage: 'demo',
-      number_of_trees: totalTreeNumber,
-      local_authority: 'string',
-      location: 'string',
-      start_date: '2022-06-16T09:32:51.188Z',
-    });
-
-    let requestOptions = {
-      method: 'POST',
-      headers: requestHeaders,
-      body: payload,
-      redirect: 'follow',
-    };
-
-    let response;
+  async function sendRequestAndFetchData() {
+    const user_id = sessionStorage.user_id;
+    // set screen to loading
     setIsLoading(true);
-    try {
-      response = await fetch(
-        process.env.REACT_APP_API_ENDPOINT +
-          '/api/v1/saf/users/' +
-          sessionStorage.user_id +
-          '/projects',
-        requestOptions,
-      );
-    } catch (ex) {
-      return toast.error(ex);
-    }
-    if (!response.ok) {
-      setIsLoading(false);
-      return toast.error(response.status + ' : ' + response.statusText);
-    }
-    if (response.ok) {
-      let data = await response.json();
-      sessionStorage.setItem('project_id', JSON.stringify(data.id));
 
-      getSAFOutput();
+    // Create a project and get the ID
+    const project_id = await createProjectAndGetID();
+
+    for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
+      // Make a post call to run the simulation on a project
+      let run_hash = await postSAFRun(maintenanceScope);
+      // console.log('id ' + user_id + 'proj ' + project_id + 'hash ' + run_hash);
+
+      // Retreive the result from the simulation
+      let safrun = await getSAFRunbyHash(user_id, project_id, run_hash);
+
+      switch (maintenanceScope) {
+        case 0:
+          setSafOutput0(safrun);
+          break;
+        case 1:
+          setSafOutput1(safrun);
+          break;
+        case 2:
+          setSafOutput2(safrun);
+          break;
+        default:
+          console.log('Oops, the simulation went too far!');
+      }
     }
-  };
+
+    // Quit loading screen
+    setIsLoading(false);
+
+    // Make the result screen
+    window.scrollTo(0, 0);
+    setProcessStage(2);
+  }
 
   return (
     <div className='bg-white-300 font-favorit '>
@@ -558,7 +472,7 @@ export default function Demo(props) {
                   type='button'
                   disabled={isLoading}
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                  onClick={createProjectAndGetID}
+                  onClick={sendRequestAndFetchData}
                 >
                   Run impact
                 </button>
