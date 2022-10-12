@@ -30,8 +30,13 @@ import PieChart from '../components/charts/PieChart';
 import BarChart from '../components/charts/BarChart';
 import SmallBarChart from '../components/charts/SmallBarChart';
 // utils functions
-import fetch from '../utils/fetchWithTimeout';
 import { saf_data } from '../utils/saf_data_model';
+import {
+  getSAFRunbyHash,
+  post_saf_run_and_get_hash,
+  create_project_and_get_ID,
+} from '../utils/backendCRUD';
+import { makePieOutput, formatDataForMultilineChart } from '../utils/chartUtils';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import {
@@ -91,7 +96,7 @@ export default function SubmitProject(props) {
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [areaDensity, setAreaDensity] = useState(1);
   const [densityPerHa, setDensityPerHa] = useState(1);
-  const [totalArea, setTotalArea] = useState(1);
+  const [totalArea, setTotalArea] = useState(100);
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
@@ -164,30 +169,6 @@ export default function SubmitProject(props) {
   }, [opexCost, capexCost, projectLength, safOutput0]);
 
   /* Pie Diagram */
-
-  function makePieOutput(alive, dead, critical, bucket) {
-    const pieChartArgs = [
-      {
-        id: 'healthy',
-        label: 'Healthy',
-        value: alive[bucket].trees,
-        color: '#DDDDDD',
-      },
-      {
-        id: 'Critical',
-        label: 'Critical health',
-        value: critical[bucket].trees,
-        color: '#828784',
-      },
-      {
-        id: 'dead',
-        label: 'Dead',
-        value: dead[bucket].trees,
-        color: '#2F3130',
-      },
-    ];
-    return pieChartArgs;
-  }
 
   function makePieChart(safOutput) {
     // Alive - High
@@ -272,23 +253,7 @@ export default function SubmitProject(props) {
     let seq_1 = makeChartArray(safOutput1.Seq);
     let seq_2 = makeChartArray(safOutput2.Seq);
 
-    setComparativeSeq([
-      {
-        id: 'Low maintenance',
-        color: 'hsl(135, 70%, 50%)',
-        data: seq_0,
-      },
-      {
-        id: 'Medium maintenance',
-        color: 'hsl(347, 70%, 50%)',
-        data: seq_1,
-      },
-      {
-        id: 'High maintenance',
-        color: 'hsl(31, 70%, 50%)',
-        data: seq_2,
-      },
-    ]);
+    setComparativeSeq(formatDataForMultilineChart(seq_0, seq_1, seq_2));
   }
 
   function makeComparativeStorageChart() {
@@ -296,23 +261,7 @@ export default function SubmitProject(props) {
     let storage_1 = makeChartArray(safOutput1.Storage);
     let storage_2 = makeChartArray(safOutput2.Storage);
 
-    setComparativeStorage([
-      {
-        id: 'Low maintenance',
-        color: 'hsl(135, 70%, 50%)',
-        data: storage_0,
-      },
-      {
-        id: 'Medium maintenance',
-        color: 'hsl(347, 70%, 50%)',
-        data: storage_1,
-      },
-      {
-        id: 'High maintenance',
-        color: 'hsl(31, 70%, 50%)',
-        data: storage_2,
-      },
-    ]);
+    setComparativeStorage(formatDataForMultilineChart(storage_0, storage_1, storage_2));
   }
 
   function makeComparativeCostBarChart() {
@@ -360,13 +309,7 @@ export default function SubmitProject(props) {
     makeComparativeCostBarChart();
   }, [safOutput0, safOutput1, safOutput2]);
 
-  const getSAFOutput = async () => {
-    let requestHeaders = new Headers();
-    requestHeaders.append('accept', 'application/json');
-    requestHeaders.append('Content-Type', 'application/json');
-    requestHeaders.append('Access-Control-Allow-Origin', '*');
-    requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-
+  const postSAFRun = async (maintenanceScope) => {
     let payload;
 
     if (activityType.name === 'Developing') {
@@ -376,7 +319,7 @@ export default function SubmitProject(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.fixedDBH),
         max_dbh: parseInt(selectedTypology.fixedDBH),
-        maintenance_scope: maintenanceType.value,
+        maintenance_scope: maintenanceScope,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
@@ -390,7 +333,7 @@ export default function SubmitProject(props) {
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.minDBH),
         max_dbh: parseInt(selectedTypology.maxDBH),
-        maintenance_scope: maintenanceType.value,
+        maintenance_scope: maintenanceScope,
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
@@ -399,58 +342,14 @@ export default function SubmitProject(props) {
       });
     }
 
-    let requestOptions = {
-      method: 'POST',
-      headers: requestHeaders,
-      body: payload,
-      redirect: 'follow',
-    };
-
-    await fetch(
-      process.env.REACT_APP_API_ENDPOINT +
-        '/api/v1/saf/users/' +
-        sessionStorage.user_id +
-        '/projects/' +
-        sessionStorage.project_id +
-        '/runs',
-      requestOptions,
-      1000 * 60 * 30, // 30 mins
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        toast.error('Could not run SAF');
-        setIsLoading(false);
-        throw new Error('Something went wrong');
-      })
-      .then((result) => {
-        setSafOutput0(result['0']);
-        setSafOutput1(result['1']);
-        setSafOutput2(result['2']);
-
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-        setProcessStage(2);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log('error', error);
-      });
+    let hash = await post_saf_run_and_get_hash(payload);
+    return hash;
   };
 
   const createProjectAndGetID = async () => {
     if (projectName === '') {
       setProjectName('Sample project title');
     }
-
-    let requestHeaders = new Headers();
-    requestHeaders.append('accept', 'application/json');
-    requestHeaders.append('Content-Type', 'application/json');
-    requestHeaders.append('Access-Control-Allow-Origin', '*');
-    requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-
-    console.log(new Date(projectDate));
 
     const payload = JSON.stringify({
       title: projectName,
@@ -469,37 +368,54 @@ export default function SubmitProject(props) {
       start_date: new Date(projectDate),
     });
 
-    let requestOptions = {
-      method: 'POST',
-      headers: requestHeaders,
-      body: payload,
-      redirect: 'follow',
-    };
-
-    let response;
-    setIsLoading(true);
-    try {
-      response = await fetch(
-        process.env.REACT_APP_API_ENDPOINT +
-          '/api/v1/saf/users/' +
-          sessionStorage.user_id +
-          '/projects',
-        requestOptions,
-      );
-    } catch (ex) {
-      return toast.error(ex);
-    }
-    if (!response.ok) {
-      setIsLoading(false);
-      return toast.error(response.status + ' : ' + response.statusText);
-    }
-    if (response.ok) {
-      let data = await response.json();
-      sessionStorage.setItem('project_id', JSON.stringify(data.id));
-
-      getSAFOutput();
-    }
+    let id = await create_project_and_get_ID(payload);
+    return id;
   };
+
+  function toResultPage() {
+    // Quit loading screen
+    setIsLoading(false);
+
+    // Make the result screen
+    window.scrollTo(0, 0);
+    setProcessStage(2);
+  }
+
+  async function sendRequestAndFetchData() {
+    const user_id = sessionStorage.user_id;
+    // set screen to loading
+    setIsLoading(true);
+
+    // Create a project and get the ID
+    const project_id = await createProjectAndGetID();
+
+    for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
+      // Make a post call to run the simulation on a project
+      let run_hash = await postSAFRun(maintenanceScope);
+
+      setTimeout(async () => {
+        console.log('step ' + maintenanceScope + '/3');
+
+        // Retreive the result from the simulation
+        getSAFRunbyHash(user_id, project_id, run_hash).then((result) => {
+          switch (maintenanceScope) {
+            case 0:
+              setSafOutput0(result);
+              break;
+            case 1:
+              setSafOutput1(result);
+              break;
+            case 2:
+              setSafOutput2(result);
+              toResultPage();
+              break;
+            default:
+              console.log('Oops, the simulation went too far!');
+          }
+        });
+      }, 15000); // wait for 15 seconds
+    }
+  }
 
   return (
     <div className='bg-white-300 font-favorit bg-pattern'>
@@ -1106,7 +1022,7 @@ export default function SubmitProject(props) {
                   type='button'
                   disabled={isLoading}
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
-                  onClick={createProjectAndGetID}
+                  onClick={sendRequestAndFetchData}
                 >
                   Run impact
                 </button>
