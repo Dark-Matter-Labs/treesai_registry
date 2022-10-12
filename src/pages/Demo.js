@@ -30,6 +30,8 @@ import { get_activity_types, get_piechart_types } from '../utils/project_details
 import { Link } from 'react-router-dom';
 
 import {
+  getUserMeInfo,
+  getUserToken,
   getSAFRunbyHash,
   post_saf_run_and_get_hash,
   create_project_and_get_ID,
@@ -52,68 +54,17 @@ const piechartTypes = get_piechart_types();
 /* Demo user related things */
 
 const loginDemoUser = async () => {
-  const getTokenRequestHeaders = new Headers();
-  getTokenRequestHeaders.append('accept', 'application/json');
-  getTokenRequestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-
   const getTokenPayload = {
     username: demoUserData.email,
     password: demoUserData.password,
   };
 
-  let formBody = [];
-  for (var property in getTokenPayload) {
-    var encodedKey = encodeURIComponent(property);
-    var encodedValue = encodeURIComponent(getTokenPayload[property]);
-    formBody.push(encodedKey + '=' + encodedValue);
-  }
-  formBody = formBody.join('&');
-
-  const getTokenRequestOptions = {
-    method: 'POST',
-    headers: getTokenRequestHeaders,
-    body: formBody,
-    redirect: 'follow',
-  };
-
-  await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      toast.error('Something went wrong');
-      throw new Error('Something went wrong');
-    })
-    .then((result) => {
-      sessionStorage.setItem('token', result.access_token);
-
-      const getUserRequestHeaders = new Headers();
-      getUserRequestHeaders.append('accept', 'application/json');
-      getUserRequestHeaders.append('Content-Type', 'application/json');
-      getUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
-      getUserRequestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-
-      const getUserRequestOptions = {
-        method: 'GET',
-        headers: getUserRequestHeaders,
-        redirect: 'follow',
-      };
-
-      fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/', getUserRequestOptions)
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          toast.error('Something went wrong');
-          throw new Error('Something went wrong');
-        })
-        .then((result) => {
-          sessionStorage.setItem('user_id', JSON.stringify(result.id));
-          sessionStorage.setItem('user_name', JSON.stringify(result.name));
-          toast.success('Welcome ' + result.name);
-          console.log('logged in!');
-        })
-        .catch((error) => console.log('error', error));
+  // Get user token and info
+  getUserToken(getTokenPayload)
+    .then(() => {
+      getUserMeInfo().then(() => {
+        console.log('logged in!');
+      });
     })
     .catch((error) => console.log('error', error));
 };
@@ -269,9 +220,6 @@ export default function Demo(props) {
   }, [safOutput0, safOutput1, safOutput2]);
 
   const createProjectAndGetID = async () => {
-    // Login to the test user credentials
-    loginDemoUser();
-
     // Rest of the create a project function
 
     const payload = JSON.stringify({
@@ -332,6 +280,18 @@ export default function Demo(props) {
     return hash;
   };
 
+  async function startDemoProcess() {
+    // Login to the test user credentials
+    loginDemoUser().then(() => {
+      // Then do the data processing
+      sendRequestAndFetchData().then(() => {
+        // LOG OFF
+        sessionStorage.clear();
+        console.log('Finished!');
+      });
+    });
+  }
+
   async function sendRequestAndFetchData() {
     const user_id = sessionStorage.user_id;
     // set screen to loading
@@ -357,18 +317,18 @@ export default function Demo(props) {
           break;
         case 2:
           setSafOutput2(safrun);
+
+          // Quit loading screen
+          setIsLoading(false);
+
+          // Make the result screen
+          window.scrollTo(0, 0);
+          setProcessStage(2);
           break;
         default:
           console.log('Oops, the simulation went too far!');
       }
     }
-
-    // Quit loading screen
-    setIsLoading(false);
-
-    // Make the result screen
-    window.scrollTo(0, 0);
-    setProcessStage(2);
   }
 
   return (
@@ -472,7 +432,7 @@ export default function Demo(props) {
                   type='button'
                   disabled={isLoading}
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                  onClick={sendRequestAndFetchData}
+                  onClick={startDemoProcess}
                 >
                   Run impact
                 </button>
