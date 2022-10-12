@@ -1,16 +1,83 @@
-import toast from 'react-hot-toast';
+const axios = require('axios').default;
 
-export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
+/* ------------------- Auth ------------------- */
+
+export const getUserToken = async (tokenPayload) => {
+  const getTokenRequestHeaders = {
+    accept: 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
+
+  let formBody = [];
+  for (var property in tokenPayload) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(tokenPayload[property]);
+    formBody.push(encodedKey + '=' + encodedValue);
+  }
+  formBody = formBody.join('&');
+
+  const getTokenRequestOptions = {
+    method: 'POST',
+    headers: getTokenRequestHeaders,
+    redirect: 'follow',
+  };
+
+  const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/token';
+
+  let token = await axios
+    .post(url, formBody, getTokenRequestOptions)
+    .then((result) => {
+      sessionStorage.setItem('token', result.data.access_token);
+    })
+    .catch((error) => console.log('error', error));
+
+  return token;
+};
+
+export const getUserMeInfo = async () => {
+  const getUserRequestHeaders = {
+    accept: 'application/json',
+    Authorization: 'Bearer ' + sessionStorage.token,
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  };
+
+  const config = {
+    method: 'GET',
+    headers: getUserRequestHeaders,
+    redirect: 'follow',
+  };
+
+  let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/';
+
+  let userInfo = await axios
+    .get(url, config)
+    .then((response) => {
+      sessionStorage.setItem('user_id', response.data.id);
+      sessionStorage.setItem('user_name', response.data.name);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log('error', error);
+    });
+
+  return userInfo;
+};
+
+/* ------------------- SAF ------------------- */
+/*
+function postHeaders() {
   let requestHeaders = new Headers();
   requestHeaders.append('accept', 'application/json');
+  requestHeaders.append('Content-Type', 'application/json');
+  requestHeaders.append('Access-Control-Allow-Origin', '*');
+  requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
+  return requestHeaders;
+} */
 
-  let payload;
-
-  let requestOptions = {
-    method: 'GET',
-    headers: requestHeaders,
-    body: payload,
-    redirect: 'follow',
+export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
+  const requestHeaders = {
+    accept: 'application/json',
   };
 
   let url =
@@ -22,16 +89,17 @@ export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
     '/run/' +
     run_hash;
 
-  let safrun = await fetch(url, requestOptions)
+  let config = {
+    method: 'GET',
+    headers: requestHeaders,
+    redirect: 'follow',
+  };
+
+  let safrun = await axios
+    .get(url, config)
     .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error('Something went wrong');
-    })
-    .then((result) => {
-      console.log(result);
-      return result['output'];
+      console.log(response);
+      return response.data['output'];
     })
     .catch((error) => {
       console.log('error', error);
@@ -41,37 +109,31 @@ export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
 };
 
 export const post_saf_run_and_get_hash = async (payload) => {
-  let requestHeaders = new Headers();
-  requestHeaders.append('accept', 'application/json');
-  requestHeaders.append('Content-Type', 'application/json');
-  requestHeaders.append('Access-Control-Allow-Origin', '*');
-  requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
+  const requestHeaders = {
+    accept: 'application/json',
+    Authorization: 'Bearer ' + sessionStorage.token,
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  };
 
   let requestOptions = {
     method: 'POST',
     headers: requestHeaders,
-    body: payload,
     redirect: 'follow',
   };
 
-  let hash = await fetch(
+  const url =
     process.env.REACT_APP_API_ENDPOINT +
-      '/api/v1/saf/users/' +
-      sessionStorage.user_id +
-      '/projects/' +
-      sessionStorage.project_id +
-      '/run',
-    requestOptions,
-  )
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      toast.error('Could not run SAF');
-      throw new Error('Something went wrong');
-    })
+    '/api/v1/saf/users/' +
+    sessionStorage.user_id +
+    '/projects/' +
+    sessionStorage.project_id +
+    '/run';
+
+  let hash = await axios
+    .post(url, payload, requestOptions)
     .then((result) => {
-      return result['gus_run_hash'];
+      return result.data['gus_run_hash'];
     })
     .catch((error) => {
       console.log('error', error);
@@ -80,39 +142,36 @@ export const post_saf_run_and_get_hash = async (payload) => {
 };
 
 export const create_project_and_get_ID = async (payload) => {
-  let requestHeaders = new Headers();
-  requestHeaders.append('accept', 'application/json');
-  requestHeaders.append('Content-Type', 'application/json');
-  requestHeaders.append('Access-Control-Allow-Origin', '*');
-  requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
+  const requestHeaders = {
+    accept: 'application/json',
+    Authorization: 'Bearer ' + sessionStorage.token,
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  };
 
   let requestOptions = {
     method: 'POST',
     headers: requestHeaders,
-    body: payload,
     redirect: 'follow',
   };
 
-  let response;
+  const url =
+    process.env.REACT_APP_API_ENDPOINT +
+    '/api/v1/saf/users/' +
+    sessionStorage.user_id +
+    '/projects';
 
-  try {
-    response = await fetch(
-      process.env.REACT_APP_API_ENDPOINT +
-        '/api/v1/saf/users/' +
-        sessionStorage.user_id +
-        '/projects',
-      requestOptions,
-    );
-  } catch (ex) {
-    return toast.error(ex);
-  }
-  if (!response.ok) {
-    return toast.error(response.status + ' : ' + response.statusText);
-  }
-  if (response.ok) {
-    let data = await response.json();
-    const dbProjectId = JSON.stringify(data.id);
-    sessionStorage.setItem('project_id', dbProjectId);
-    return dbProjectId;
-  }
+  let response = await axios
+    .post(url, payload, requestOptions)
+    .then((result) => {
+      let data = result.data;
+      const dbProjectId = data.id;
+      sessionStorage.setItem('project_id', dbProjectId);
+      return dbProjectId;
+    })
+    .catch((error) => {
+      console.log('error', error);
+    });
+
+  return response;
 };

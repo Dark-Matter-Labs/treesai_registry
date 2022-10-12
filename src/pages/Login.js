@@ -4,6 +4,8 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
 
+import { getUserMeInfo, getUserToken } from '../utils/backendCRUD';
+
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function Login() {
@@ -13,73 +15,23 @@ export default function Login() {
   const navigate = useNavigate();
 
   const loginUser = async () => {
-    const getTokenRequestHeaders = new Headers();
-    getTokenRequestHeaders.append('accept', 'application/json');
-    getTokenRequestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-
     const getTokenPayload = {
       username: email,
       password: password,
     };
 
-    let formBody = [];
-    for (var property in getTokenPayload) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(getTokenPayload[property]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-
-    const getTokenRequestOptions = {
-      method: 'POST',
-      headers: getTokenRequestHeaders,
-      body: formBody,
-      redirect: 'follow',
-    };
-
+    // Set LoadingSpinner
     setIsLoading(true);
-    await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        toast.error('Something went wrong');
-        setIsLoading(false);
-        throw new Error('Something went wrong');
-      })
-      .then((result) => {
-        sessionStorage.setItem('token', result.access_token);
 
-        const getUserRequestHeaders = new Headers();
-        getUserRequestHeaders.append('accept', 'application/json');
-        getUserRequestHeaders.append('Content-Type', 'application/json');
-        getUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
-        getUserRequestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-
-        const getUserRequestOptions = {
-          method: 'GET',
-          headers: getUserRequestHeaders,
-          redirect: 'follow',
-        };
-
-        fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/', getUserRequestOptions)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
-            toast.error('Something went wrong');
-            setIsLoading(false);
-            throw new Error('Something went wrong');
-          })
-          .then((result) => {
-            sessionStorage.setItem('user_id', JSON.stringify(result.id));
-            sessionStorage.setItem('user_name', JSON.stringify(result.name));
-            setIsLoading(false);
-            toast.success('Welcome ' + result.name);
-            navigate('/develop');
-            window.location.reload();
-          })
-          .catch((error) => console.log('error', error));
+    // Get user token and info
+    getUserToken(getTokenPayload)
+      .then(() => {
+        getUserMeInfo().then((result) => {
+          setIsLoading(false);
+          toast.success('Welcome ' + result.name);
+          navigate('/develop');
+          window.location.reload();
+        });
       })
       .catch((error) => console.log('error', error));
   };
