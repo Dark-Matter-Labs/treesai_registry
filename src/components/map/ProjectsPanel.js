@@ -24,11 +24,11 @@ export default function ProjectsPanel(props) {
         leaveTo='translate-x-full'
       >
         <div className=''>
-          <div className='px-4 py-4 bg-green-600 flex flex-row items-center'>
+          <div className='px-4 py-4 bg-green-600 flex flex-row items-center my-auto justify-between'>
             <div>
               <span className='bold-intro-md uppercase text-white-200 pl-10'>NbS Atlas</span>
             </div>
-            <div className='pl-56'>
+            <div className=''>
               <button onClick={() => props.setShowProjectPanel(false)}>
                 <ArrowCircleLeftIcon className='text-white-200 w-7 h-7' />
               </button>
@@ -48,7 +48,7 @@ export default function ProjectsPanel(props) {
             <p className='text-green-600 bold-intro-md'>Projects</p>
             <ul
               role='list'
-              className='overflow-scroll h-[22rem] styled-scrollbars '
+              className='overflow-scroll h-[20rem] styled-scrollbars '
             >
               {props.data.map((project) => {
                 if (project.properties.portfolio_A) {
@@ -85,7 +85,7 @@ export default function ProjectsPanel(props) {
             </ul>
           </div>
 
-          <div className='px-4 py-4 place-self-stretch absolute bottom-0'>
+          <div className='px-4 py-0 lg:py-8 bottom-0'>
             <Link to='/develop'>
               <button
                 type='button'
@@ -95,7 +95,7 @@ export default function ProjectsPanel(props) {
               </button>
             </Link>
             <p className='text-indigo-600 bold-intro-md pt-2'>Featured portfolios</p>
-            <div className='bg-white-300 relative  py-5 px-4 hover:bg-gray-50 rounded-full border border-indigo-600 my-4 mx-2'>
+            <div className='bg-white-300 relative py-5 px-4 hover:bg-gray-50 rounded-full border border-indigo-600 my-4 mx-2'>
               <div className='flex justify-between space-x-3'>
                 <div className='min-w-0 flex-1'>
                   <a className='block focus:outline-none'>
@@ -107,23 +107,30 @@ export default function ProjectsPanel(props) {
             </div>
 
             <div className='block lg:flex lg:flex-row gap-4'>
+              <div>
               <Link to='/invest'>
                 <button
                   type='button'
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-2 lg:px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
                 >
                   Invest →
                 </button>
               </Link>
 
-              <Link to='/glasgow-nbs-portfolio'>
+              </div>
+             
+             <div>
+             <Link to='/glasgow-nbs-portfolio'>
                 <button
                   type='button'
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-2 lg:px-8 text-white-200 shadow-sm hover:bg-indigo-800'
                 >
                   Glasgow NbS Portfolio →
                 </button>
               </Link>
+
+             </div>
+            
             </div>
           </div>
         </div>
