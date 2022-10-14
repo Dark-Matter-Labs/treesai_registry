@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 
 export default function ChartBlock(props) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
-      <div className='flex '>
-        <div className='rounded-3xl border border-indigo-600 px-10 text-left'>
+    <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 bg-gradient'>
+      <div className='flex'>
+        <div className='rounded-3xl border border-indigo-600 px-10 text-left bg-white'>
           <p className='py-5 text-indigo-600 medium-intro-lg'>{props.label}</p>
           <p className='text-indigo-600 medium-intro-lg'>
             You’ve selected “{props.maintenanceTypeName}” maintenance.
@@ -54,12 +54,12 @@ export default function ChartBlock(props) {
               </>
             )}
           </div>
-          <p className='book-info-sm py-4  text-left text-indigo-600'>{props.detail}</p>
+          <p className='book-info-sm my-4 text-left text-indigo-600'>{props.detail}</p>
         </div>
-        <div className='w-8 my-10 bg-indigo-800'></div>
+        <div className='shrink-0 w-6 my-10 bg-indigo-800'></div>
       </div>
 
-      <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5'>
+      <div className='col-span-2 rounded-3xl border border-indigo-600 px-10 pt-5 bg-white'>
         {props.children}
       </div>
     </div>
