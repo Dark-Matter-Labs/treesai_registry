@@ -5,6 +5,7 @@ import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { useNavigate, Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import useSWR from 'swr';
 // Components
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -86,7 +87,7 @@ export default function SubmitProject(props) {
   const [projectDescription, setProjectDescription] = useState('');
   const [projectDate, setProjectDate] = useState('2022-09');
   const [stakeholderEngt, setStakeholderEngt] = useState('');
-  const [treeNumber, setTreeNumber] = useState(1);
+  const [treeNumber, setTreeNumber] = useState(50);
   const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
   const [totalTreeNumber, setTotalTreeNumber] = useState(0);
   const [selectedStage, setSelectedStage] = useState(stages[0]);
@@ -108,9 +109,9 @@ export default function SubmitProject(props) {
   const [costOverSelectedTime, setCostOverSelectedTime] = useState(321);
 
   /* SAF Related variables */
-  const [safOutput0, setSafOutput0] = useState(saf_data);
-  const [safOutput1, setSafOutput1] = useState(saf_data);
-  const [safOutput2, setSafOutput2] = useState(saf_data);
+  const [safOutputHash0, setSafOutputHash0] = useState();
+  const [safOutputHash1, setSafOutputHash1] = useState();
+  const [safOutputHash2, setSafOutputHash2] = useState();
   const [totalSeq, setTotalSeq] = useState(0);
   const [totalStorage, setTotalStorage] = useState(0);
   const [comparativeSeq, setComparativeSeq] = useState([]);
@@ -123,6 +124,23 @@ export default function SubmitProject(props) {
   const [smallCostChart, setSmallCostChart] = useState([]);
 
   const navigate = useNavigate();
+
+  /* Data Fetching for the result page */
+
+  const swrOptions = {
+    // fallbackData: saf_data, // Default returned
+    onErrorRetry: (revalidate, { retryCount }) => {
+      // Only retry up to 10 times.
+      if (retryCount >= 10) return;
+      // Retry after 2 seconds.
+      setTimeout(() => revalidate({ retryCount }), 2000);
+    },
+  };
+
+  // Retreive the result from the simulation. It will only fetch if the Hash is defined
+  const { data: safOutput0 } = useSWR(safOutputHash0, getSAFRunbyHash, swrOptions);
+  const { data: safOutput1 } = useSWR(safOutputHash1, getSAFRunbyHash, swrOptions);
+  const { data: safOutput2 } = useSWR(safOutputHash2, getSAFRunbyHash, swrOptions);
 
   /* Helper functions */
 
@@ -170,7 +188,7 @@ export default function SubmitProject(props) {
 
   /* Pie Diagram */
 
-  function makePieChart(safOutput) {
+  function makePieChart(safOutput = saf_data) {
     // Alive - High
     const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
     const sixToTenAlive = sumRange(safOutput.Alive, 5, 10) / 5;
@@ -225,30 +243,36 @@ export default function SubmitProject(props) {
     }
   }, [pieChartShowType, safOutput2]);
 
-  function processSAFData(dataUserScope) {
+  function processSAFData(SAFOutput = saf_data) {
     /* SAF Related processing */
-    setTotalSeq(sumRange(dataUserScope.Seq, 0, getLastElement(dataUserScope.Seq)));
-    setTotalStorage(dataUserScope.Storage[getLastElement(dataUserScope.Storage)]); // last element of the array
+    setTotalSeq(sumRange(SAFOutput.Seq, 0, getLastElement(SAFOutput.Seq)));
+    setTotalStorage(SAFOutput.Storage[getLastElement(SAFOutput.Storage)]); // last element of the array
   }
 
   /* Data logic changes on receiving the SAF output */
   useEffect(() => {
-    switch (maintenanceType.name) {
-      case 'High':
-        processSAFData(safOutput2);
-        break;
-      case 'Medium':
-        processSAFData(safOutput1);
-        break;
-      case 'Low':
-        processSAFData(safOutput0);
-        break;
-      default:
-        toast.error('maintenance type not valid');
+    if (safOutput0 && safOutput1 && safOutput2) {
+      switch (maintenanceType.name) {
+        case 'High':
+          processSAFData(safOutput2);
+          break;
+        case 'Medium':
+          processSAFData(safOutput1);
+          break;
+        case 'Low':
+          processSAFData(safOutput0);
+          break;
+        default:
+          toast.error('maintenance type not valid');
+      }
     }
-  }, [safOutput0]);
+  }, [safOutput0, safOutput1, safOutput2]);
 
-  function makeComparativeSeqChart() {
+  function makeComparativeSeqChart(
+    safOutput0 = saf_data,
+    safOutput1 = saf_data,
+    safOutput2 = saf_data,
+  ) {
     let seq_0 = makeChartArray(safOutput0.Seq);
     let seq_1 = makeChartArray(safOutput1.Seq);
     let seq_2 = makeChartArray(safOutput2.Seq);
@@ -256,7 +280,11 @@ export default function SubmitProject(props) {
     setComparativeSeq(formatDataForMultilineChart(seq_0, seq_1, seq_2));
   }
 
-  function makeComparativeStorageChart() {
+  function makeComparativeStorageChart(
+    safOutput0 = saf_data,
+    safOutput1 = saf_data,
+    safOutput2 = saf_data,
+  ) {
     let storage_0 = makeChartArray(safOutput0.Storage);
     let storage_1 = makeChartArray(safOutput1.Storage);
     let storage_2 = makeChartArray(safOutput2.Storage);
@@ -264,7 +292,11 @@ export default function SubmitProject(props) {
     setComparativeStorage(formatDataForMultilineChart(storage_0, storage_1, storage_2));
   }
 
-  function makeComparativeCostBarChart() {
+  function makeComparativeCostBarChart(
+    safOutput0 = saf_data,
+    safOutput1 = saf_data,
+    safOutput2 = saf_data,
+  ) {
     const replacement_price = 480;
 
     let chartObj = [
@@ -304,9 +336,11 @@ export default function SubmitProject(props) {
   }
 
   useEffect(() => {
-    makeComparativeSeqChart();
-    makeComparativeStorageChart();
-    makeComparativeCostBarChart();
+    if (safOutput0 && safOutput1 && safOutput2) {
+      makeComparativeSeqChart(safOutput0, safOutput1, safOutput2);
+      makeComparativeStorageChart(safOutput0, safOutput1, safOutput2);
+      makeComparativeCostBarChart(safOutput0, safOutput1, safOutput2);
+    }
   }, [safOutput0, safOutput1, safOutput2]);
 
   const postSAFRun = async (maintenanceScope) => {
@@ -381,39 +415,39 @@ export default function SubmitProject(props) {
     setProcessStage(2);
   }
 
+  /* Get to the next page if all the results are in */
+  useEffect(() => {
+    if (safOutput0 && safOutput1 && safOutput2) {
+      toResultPage();
+    }
+  }, [safOutput2]);
+
   async function sendRequestAndFetchData() {
-    const user_id = sessionStorage.user_id;
     // set screen to loading
     setIsLoading(true);
 
-    // Create a project and get the ID
-    const project_id = await createProjectAndGetID();
+    // Create a project and get the ID - The ID is stored in the Sessionstorage
+    await createProjectAndGetID();
 
     for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
       // Make a post call to run the simulation on a project
       let run_hash = await postSAFRun(maintenanceScope);
 
-      setTimeout(async () => {
-        console.log('step ' + maintenanceScope + '/3');
+      console.log('step ' + maintenanceScope + '/3');
 
-        // Retreive the result from the simulation
-        getSAFRunbyHash(user_id, project_id, run_hash).then((result) => {
-          switch (maintenanceScope) {
-            case 0:
-              setSafOutput0(result);
-              break;
-            case 1:
-              setSafOutput1(result);
-              break;
-            case 2:
-              setSafOutput2(result);
-              toResultPage();
-              break;
-            default:
-              console.log('Oops, the simulation went too far!');
-          }
-        });
-      }, 15000); // wait for 15 seconds
+      switch (maintenanceScope) {
+        case 0:
+          setSafOutputHash0(run_hash);
+          break;
+        case 1:
+          setSafOutputHash1(run_hash);
+          break;
+        case 2:
+          setSafOutputHash2(run_hash);
+          break;
+        default:
+          console.log('Oops, the simulation went too far!');
+      }
     }
   }
 
