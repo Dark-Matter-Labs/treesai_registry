@@ -420,7 +420,7 @@ export default function SubmitProject(props) {
     if (safOutput0 && safOutput1 && safOutput2) {
       toResultPage();
     }
-  }, [safOutput2]);
+  }, [safOutput0, safOutput1, safOutput2]);
 
   async function sendRequestAndFetchData() {
     // set screen to loading
