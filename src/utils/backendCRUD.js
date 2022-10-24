@@ -75,7 +75,10 @@ function postHeaders() {
   return requestHeaders;
 } */
 
-export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
+export const getSAFRunbyHash = async (run_hash) => {
+  const user_id = sessionStorage.user_id;
+  const project_id = sessionStorage.project_id;
+
   const requestHeaders = {
     accept: 'application/json',
   };
@@ -97,9 +100,9 @@ export const getSAFRunbyHash = async (user_id, project_id, run_hash) => {
 
   let safrun = await axios
     .get(url, config)
-    .then((response) => {
-      console.log(response);
-      return response.data['output'];
+    .then((result) => {
+      console.log(result);
+      return result.data['output'];
     })
     .catch((error) => {
       console.log('error', error);
