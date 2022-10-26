@@ -5,6 +5,7 @@ const axios = require('axios').default;
 export const getUserToken = async (tokenPayload) => {
   const getTokenRequestHeaders = {
     accept: 'application/json',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/x-www-form-urlencoded',
   };
 
@@ -112,6 +113,9 @@ export const getSAFRunbyHash = async (run_hash) => {
 };
 
 export const post_saf_run_and_get_hash = async (payload) => {
+  const user_id = sessionStorage.user_id;
+  const project_id = sessionStorage.project_id;
+
   const requestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
@@ -128,9 +132,9 @@ export const post_saf_run_and_get_hash = async (payload) => {
   const url =
     process.env.REACT_APP_API_ENDPOINT +
     '/api/v1/saf/users/' +
-    sessionStorage.user_id +
+    user_id +
     '/projects/' +
-    sessionStorage.project_id +
+    project_id +
     '/run';
 
   let hash = await axios
@@ -145,6 +149,9 @@ export const post_saf_run_and_get_hash = async (payload) => {
 };
 
 export const create_project_and_get_ID = async (payload) => {
+
+  console.log(sessionStorage)
+
   const requestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
