@@ -139,6 +139,9 @@ export default function SubmitProject(props) {
       // Retry after 10 seconds.
       setTimeout(() => revalidate({ retryCount }), 10000);
     },
+    onSuccess: (data) => {
+      console.log('Data received:', data);
+    },
 
     // Revalidation documentation: https://swr.vercel.app/docs/revalidation
     revalidateIfStale: false,
@@ -453,7 +456,6 @@ export default function SubmitProject(props) {
           break;
         case 2:
           setSafOutputHash2(run_hash);
-          toResultPage();
           break;
         default:
           console.log('Oops, the simulation went too far!');
