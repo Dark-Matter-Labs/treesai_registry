@@ -453,6 +453,7 @@ export default function SubmitProject(props) {
           break;
         case 2:
           setSafOutputHash2(run_hash);
+          toResultPage();
           break;
         default:
           console.log('Oops, the simulation went too far!');
