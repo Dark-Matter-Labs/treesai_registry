@@ -135,6 +135,11 @@ export default function SubmitProject(props) {
       // Retry after 2 seconds.
       setTimeout(() => revalidate({ retryCount }), 2000);
     },
+    
+    // Revalidation documentation: https://swr.vercel.app/docs/revalidation
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
   };
 
   // Retreive the result from the simulation. It will only fetch if the Hash is defined
