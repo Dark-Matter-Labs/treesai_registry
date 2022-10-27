@@ -129,13 +129,17 @@ export default function SubmitProject(props) {
 
   const swrOptions = {
     // fallbackData: saf_data, // Default returned
-    onErrorRetry: (revalidate, { retryCount }) => {
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      // Log error
+      console.log('Error', error);
+
       // Only retry up to 10 times.
       if (retryCount >= 10) return;
-      // Retry after 2 seconds.
-      setTimeout(() => revalidate({ retryCount }), 2000);
+
+      // Retry after 10 seconds.
+      setTimeout(() => revalidate({ retryCount }), 10000);
     },
-    
+
     // Revalidation documentation: https://swr.vercel.app/docs/revalidation
     revalidateIfStale: false,
     revalidateOnFocus: false,

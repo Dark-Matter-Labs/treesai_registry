@@ -99,17 +99,12 @@ export const getSAFRunbyHash = async (run_hash) => {
     redirect: 'follow',
   };
 
-  let safrun = await axios
+  await axios
     .get(url, config)
     .then((result) => {
       console.log(result);
       return result.data['output'];
     })
-    .catch((error) => {
-      console.log('error', error);
-    });
-
-  return safrun;
 };
 
 export const post_saf_run_and_get_hash = async (payload) => {
