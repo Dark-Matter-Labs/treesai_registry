@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import toast, { Toaster } from 'react-hot-toast';
+import useSWR from 'swr';
 // Components
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -91,9 +92,9 @@ export default function Demo(props) {
   const [costOverSelectedTime] = useState(321);
 
   /* SAF Related variables */
-  const [safOutput0, setSafOutput0] = useState(saf_data);
-  const [safOutput1, setSafOutput1] = useState(saf_data);
-  const [safOutput2, setSafOutput2] = useState(saf_data);
+  const [safOutputHash0, setSafOutputHash0] = useState();
+  const [safOutputHash1, setSafOutputHash1] = useState();
+  const [safOutputHash2, setSafOutputHash2] = useState();
   const [totalSeq, setTotalSeq] = useState(0);
   const [totalStorage, setTotalStorage] = useState(0);
   const [comparativeSeq, setComparativeSeq] = useState([]);
@@ -101,6 +102,35 @@ export default function Demo(props) {
   const [oneToFivePie, setOneToFivePie] = useState([]);
   const [sixToTenPie, setSixToTen] = useState([]);
   const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
+
+  /* Data Fetching for the result page */
+
+  const swrOptions = {
+    // fallbackData: saf_data, // Default returned
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      // Log error
+      console.log('Error', error);
+
+      // Only retry up to 10 times.
+      if (retryCount >= 10) return;
+
+      // Retry after 10 seconds.
+      setTimeout(() => revalidate({ retryCount }), 10000);
+    },
+    onSuccess: (data) => {
+      console.log('Data received:', data);
+    },
+
+    // Revalidation documentation: https://swr.vercel.app/docs/revalidation
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  };
+
+  // Retreive the result from the simulation. It will only fetch if the Hash is defined
+  const { data: safOutput0 } = useSWR(safOutputHash0, getSAFRunbyHash, swrOptions);
+  const { data: safOutput1 } = useSWR(safOutputHash1, getSAFRunbyHash, swrOptions);
+  const { data: safOutput2 } = useSWR(safOutputHash2, getSAFRunbyHash, swrOptions);
 
   useEffect(() => {
     let sum = parseInt(treeNumber) + parseInt(treeNumberMaintain);
@@ -120,7 +150,7 @@ export default function Demo(props) {
 
   /* Pie Diagram */
 
-  function makePieChart(safOutput) {
+  function makePieChart(safOutput = saf_data) {
     // Alive - High
     const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
     const sixToTenAlive = sumRange(safOutput.Alive, 5, 10) / 5;
@@ -175,7 +205,7 @@ export default function Demo(props) {
     }
   }, [pieChartShowType, safOutput2]);
 
-  function processSAFData(dataUserScope) {
+  function processSAFData(dataUserScope = saf_data) {
     /* SAF Related processing */
     setTotalSeq(sumRange(dataUserScope.Seq, 0, getLastElement(dataUserScope.Seq)));
     setTotalStorage(dataUserScope.Storage[getLastElement(dataUserScope.Storage)]); // last element of the array
@@ -196,9 +226,13 @@ export default function Demo(props) {
       default:
         toast.error('maintenance type not valid');
     }
-  }, [safOutput0]);
+  }, [safOutput0, safOutput1, safOutput2]);
 
-  function makeComparativeSeqChart() {
+  function makeComparativeSeqChart(
+    safOutput0 = saf_data,
+    safOutput1 = saf_data,
+    safOutput2 = saf_data,
+  ) {
     let seq_0 = makeChartArray(safOutput0.Seq);
     let seq_1 = makeChartArray(safOutput1.Seq);
     let seq_2 = makeChartArray(safOutput2.Seq);
@@ -206,7 +240,11 @@ export default function Demo(props) {
     setComparativeSeq(formatDataForMultilineChart(seq_0, seq_1, seq_2));
   }
 
-  function makeComparativeStorageChart() {
+  function makeComparativeStorageChart(
+    safOutput0 = saf_data,
+    safOutput1 = saf_data,
+    safOutput2 = saf_data,
+  ) {
     let storage_0 = makeChartArray(safOutput0.Storage);
     let storage_1 = makeChartArray(safOutput1.Storage);
     let storage_2 = makeChartArray(safOutput2.Storage);
@@ -215,8 +253,10 @@ export default function Demo(props) {
   }
 
   useEffect(() => {
-    makeComparativeSeqChart();
-    makeComparativeStorageChart();
+    if (safOutput0 && safOutput1 && safOutput2) {
+      makeComparativeSeqChart(safOutput0, safOutput1, safOutput2);
+      makeComparativeStorageChart(safOutput0, safOutput1, safOutput2);
+    }
   }, [safOutput0, safOutput1, safOutput2]);
 
   const createProjectAndGetID = async () => {
@@ -284,46 +324,54 @@ export default function Demo(props) {
     // Login to the test user credentials
     loginDemoUser().then(() => {
       // Then do the data processing
-      sendRequestAndFetchData().then(() => {
-        // LOG OFF
-        sessionStorage.clear();
-        console.log('Finished!');
-      });
+      sendRequestAndFetchData();
     });
   }
 
+  function toResultPage() {
+    // Quit loading screen
+    setIsLoading(false);
+
+    // Make the result screen
+    window.scrollTo(0, 0);
+    setProcessStage(2);
+  }
+
+  function logOff() {
+    // LOG OFF
+    sessionStorage.clear();
+    console.log('Finished!');
+  }
+
+  /* Get to the next page if all the results are in */
+  useEffect(() => {
+    if (safOutput0 && safOutput1 && safOutput2) {
+      toResultPage();
+      logOff();
+    }
+  }, [safOutput0, safOutput1, safOutput2]);
+
   async function sendRequestAndFetchData() {
-    const user_id = sessionStorage.user_id;
     // set screen to loading
     setIsLoading(true);
 
-    // Create a project and get the ID
-    const project_id = await createProjectAndGetID();
+    await createProjectAndGetID();
 
     for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
       // Make a post call to run the simulation on a project
-      let run_hash = await postSAFRun(maintenanceScope);
-      // console.log('id ' + user_id + 'proj ' + project_id + 'hash ' + run_hash);
+      const run_hash = await postSAFRun(maintenanceScope);
 
-      // Retreive the result from the simulation
-      let safrun = await getSAFRunbyHash(user_id, project_id, run_hash);
+      console.log('step ' + maintenanceScope + '/3');
 
       switch (maintenanceScope) {
         case 0:
-          setSafOutput0(safrun);
+          setSafOutputHash0(run_hash);
           break;
         case 1:
-          setSafOutput1(safrun);
+          setSafOutputHash1(run_hash);
           break;
         case 2:
-          setSafOutput2(safrun);
-
-          // Quit loading screen
-          setIsLoading(false);
-
-          // Make the result screen
-          window.scrollTo(0, 0);
-          setProcessStage(2);
+          setSafOutputHash2(run_hash);
           break;
         default:
           console.log('Oops, the simulation went too far!');
