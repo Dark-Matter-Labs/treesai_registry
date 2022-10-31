@@ -3,6 +3,9 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import toast, { Toaster } from 'react-hot-toast';
 import useSWR from 'swr';
+import { RadioGroup } from '@headlessui/react';
+import { CheckCircleIcon } from '@heroicons/react/solid';
+import { useForm, FormProvider } from 'react-hook-form';
 // Components
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -10,8 +13,9 @@ import Breadcrumb from '../components/Breadcrumb';
 import SAFLoadingScreen from '../components/SAFLoadingScreen';
 import SectionHeader from '../components/SectionHeader';
 import FormBlock from '../components/form/FormBlock';
+import NumberInput from '../components/form/NumberInput';
+import RadioSelector from '../components/form/RadioSelector';
 import EmailInput from '../components/form/EmailInput';
-import TypologyInput from '../components/form/TypologyInput';
 import Dropdown from '../components/form/Dropdown';
 import ResultBlock from '../components/ResultBlock';
 import ValueDisplay from '../components/analysis/ValueDisplay';
@@ -26,7 +30,11 @@ import PieChart from '../components/charts/PieChart';
 import { saf_data } from '../utils/saf_data_model';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
-import { get_activity_types, get_piechart_types } from '../utils/project_details';
+import {
+  get_activity_types,
+  get_piechart_types,
+  get_typologies_types,
+} from '../utils/project_details';
 
 import { Link } from 'react-router-dom';
 
@@ -44,9 +52,14 @@ import { makePieOutput, formatDataForMultilineChart } from '../utils/chartUtils'
 // Demo user creds
 import demoUserData from '../utils/demo_user_creds.json';
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
 // set SAF parameters
 const typologies = get_typologies();
 const maintenanceTypes = get_maintenance_scopes();
+const typologyTabs = get_typologies_types();
 
 // set project parameters
 const activityTypes = get_activity_types();
@@ -76,13 +89,10 @@ export default function Demo(props) {
   const [processStage, setProcessStage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   /* Form variables, to be refactored to react-hook-form */
-  const [email, setEmail] = useState('');
-  const [treeNumber, setTreeNumber] = useState(1);
-  const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
+  const methods = useForm();
   const [totalTreeNumber, setTotalTreeNumber] = useState(0);
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
-  const [areaDensity, setAreaDensity] = useState(1);
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
   const [projectLength] = useState(60); // 5 years
@@ -133,20 +143,14 @@ export default function Demo(props) {
   const { data: safOutput2 } = useSWR(safOutputHash2, getSAFRunbyHash, swrOptions);
 
   useEffect(() => {
-    let sum = parseInt(treeNumber) + parseInt(treeNumberMaintain);
+    let sum =
+      parseInt(methods.getValues('treeNumber')) + parseInt(methods.getValues('treeNumberMaintain'));
     if (isNaN(parseInt(sum))) {
       setTotalTreeNumber(0);
     } else {
       setTotalTreeNumber(sum);
     }
-  }, [treeNumber, treeNumberMaintain]);
-
-  useEffect(() => {
-    /* I don't reallt like this function but we really need to check that AreaDensity is not 0 */
-    if (!Number.isInteger(areaDensity) || areaDensity <= 0) {
-      setAreaDensity(1);
-    }
-  }, [areaDensity]);
+  }, [methods.getValues('treeNumber'), methods.getValues('treeNumberMaintain')]);
 
   /* Pie Diagram */
 
@@ -271,7 +275,7 @@ export default function Demo(props) {
       owner_id: sessionStorage.user_id,
       activities: 'maintenance',
       area: 10,
-      cost: 0,
+      cost: 1,
       stage: 'demo',
       number_of_trees: totalTreeNumber,
       local_authority: 'string',
@@ -283,8 +287,16 @@ export default function Demo(props) {
     return id;
   };
 
-  const postSAFRun = async (maintenanceScope) => {
-    let payload;
+  const postSAFRun = async (maintenanceScope, data) => {
+    let payload, densityPerHa;
+
+    // TODO: validate if this is best place for this calculation and how/if to use total area here
+    if (selectedTypology.id !== 0) {
+      // for all typologies except street trees, as street trees do not have effective typology area
+      densityPerHa = (totalTreeNumber * 10000) / data.areaDensity; // Multiply by 10000 to transform m2 to Ha
+    } else {
+      densityPerHa = totalTreeNumber * 10000; // Multiply by 10000 to transform m2 to Ha
+    }
 
     if (activityType.name === 'Developing') {
       payload = JSON.stringify({
@@ -297,7 +309,7 @@ export default function Demo(props) {
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt(totalTreeNumber / areaDensity),
+        density_per_ha: densityPerHa,
         species: selectedTypology.species,
       });
     } else {
@@ -311,7 +323,7 @@ export default function Demo(props) {
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: parseInt(totalTreeNumber / areaDensity),
+        density_per_ha: densityPerHa,
         species: selectedTypology.species,
       });
     }
@@ -428,64 +440,217 @@ export default function Demo(props) {
                 </div>
               </div>
             </div>
-            <div className='py-10'>
-              <SectionHeader title='Project information' type='general' />
-              <FormBlock
-                title='Project information'
-                description='Start by telling us who you are and a bit about your project.'
-              >
-                <EmailInput
-                  span='sm:col-span-5'
-                  label='email'
-                  title='Email *'
-                  placeholder='name@xyz.com'
-                  type='general'
-                  defaultValue={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </FormBlock>
-              <hr className='mx-20 border-8 border-indigo-600' />
-              <TypologyInput
-                selectedTypology={selectedTypology}
-                setSelectedTypology={setSelectedTypology}
-                typologies={typologies}
-                areaDensity={areaDensity}
-                setAreaDensity={setAreaDensity}
-                treeNumber={treeNumber}
-                setTreeNumber={setTreeNumber}
-                treeNumberMaintain={treeNumberMaintain}
-                setTreeNumberMaintain={setTreeNumberMaintain}
-                setActivityType={setActivityType}
-                activityType={activityType}
-                activityTypes={activityTypes}
-                setMaintenanceType={setMaintenanceType}
-                maintenanceType={maintenanceType}
-                maintenanceTypes={maintenanceTypes}
-              />
-            </div>
+            <FormProvider {...methods}>
+              <form onSubmit={methods.handleSubmit(startDemoProcess)}>
+                <div className='py-10'>
+                  <SectionHeader title='Project information' type='general' />
+                  <FormBlock
+                    title='Project information'
+                    description='Start by telling us who you are and a bit about your project.'
+                  >
+                    <EmailInput
+                      span='sm:col-span-5'
+                      label='email'
+                      title='Email *'
+                      placeholder='name@xyz.com'
+                      type='general'
+                      required={true}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <div className='py-10'>
+                    <SectionHeader title='Project Layout *' type='typology' />
+                    <FormBlock
+                      title='Select the relevant typology'
+                      description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project. Right now, the platform only recognises tree-based projects, but we’ll soon add more typologies such as Sustainable Urban Drainage Systems (SuDS)'
+                      type='typology'
+                    >
+                      <div className='sm:hidden'>
+                        <label htmlFor='typology-type' className='sr-only'>
+                          Select a tab
+                        </label>
+                        <select
+                          id='typology-type'
+                          name='typology-type'
+                          className='block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+                          defaultValue={typologyTabs.find((tab) => tab.current).name}
+                        >
+                          {typologyTabs.map((tab) => (
+                            <option key={tab.name}>{tab.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className='sm:col-span-6 hidden justify-self-center sm:block'>
+                        <nav className='flex space-x-4' aria-label='Tabs'>
+                          {typologyTabs.map((tab) => (
+                            <button
+                              key={tab.name}
+                              className={classNames(
+                                tab.current
+                                  ? 'bg-green-600 text-white'
+                                  : 'pointer-events-none bg-white-300 text-dark-wood-500',
+                                'bold-intro-md rounded-full px-4 py-4',
+                              )}
+                              aria-current={tab.current ? 'page' : undefined}
+                            >
+                              {tab.name}
+                            </button>
+                          ))}
+                        </nav>
+                      </div>
+                      <div className='sm:col-span-6'>
+                        <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
+                          <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-2 sm:gap-x-4'>
+                            {typologies.map((typology) => (
+                              <RadioGroup.Option
+                                key={typology.id}
+                                value={typology}
+                                className={({ checked, active }) =>
+                                  classNames(
+                                    checked ? 'border-transparent' : 'border-dark-wood-500',
+                                    active ? 'border-green-600 ring-2 ring-green-600' : '',
+                                    'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
+                                  )
+                                }
+                              >
+                                {({ checked, active }) => (
+                                  <>
+                                    <span className='flex flex-1'>
+                                      <img className='h-24 rounded-full' src={typology.image} />
+                                      <span className='flex flex-col'>
+                                        <RadioGroup.Label
+                                          as='span'
+                                          className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
+                                        >
+                                          {typology.title}
+                                        </RadioGroup.Label>
+                                        <RadioGroup.Description
+                                          as='span'
+                                          className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
+                                        >
+                                          {typology.description}
+                                        </RadioGroup.Description>
+                                      </span>
+                                    </span>
+                                    <CheckCircleIcon
+                                      className={classNames(
+                                        !checked ? 'invisible' : '',
+                                        'h-5 w-5 text-green-600',
+                                      )}
+                                      aria-hidden='true'
+                                    />
+                                    <span
+                                      className={classNames(
+                                        active ? 'border' : 'border-2',
+                                        checked ? 'border-green-600' : 'border-transparent',
+                                        'pointer-events-none absolute -inset-px rounded-3xl',
+                                      )}
+                                      aria-hidden='true'
+                                    />
+                                  </>
+                                )}
+                              </RadioGroup.Option>
+                            ))}
+                          </div>
+                        </RadioGroup>
+                      </div>
+                    </FormBlock>
+                    <hr className='mx-20 border-8 border-green-600' />
+                    <FormBlock
+                      title={`How big is the ${selectedTypology.title} component of your project?`}
+                      description={`How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
+                      type='typology'
+                    >
+                      {selectedTypology.id !== 0 && (
+                        <>
+                          <NumberInput
+                            span='sm:col-span-3'
+                            label='areaDensity'
+                            title='The effective area used by typology'
+                            unit='Ha'
+                            placeholder=''
+                            type='typology'
+                            min={1}
+                            max={500}
+                            required={true}
+                            defaultValue={1}
+                          />
+                          <div className='col-span-3'></div>
+                        </>
+                      )}
 
-            <div className='grid pb-20'>
-              <div className='max-w-3xl place-self-center py-4 text-center'>
-                <p className='book-intro-lg'>
-                  This demo shows you only a short version of the form. To use the full version with
-                  extended data create an account. Click &quot;
-                  <span className='medium-intro-lg'>Run impact</span>&quot; to view your project
-                  impact assessment.
-                </p>
-              </div>
-              <div className='place-self-center pt-4'>
-                <button
-                  type='button'
-                  disabled={isLoading}
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                  onClick={startDemoProcess}
-                >
-                  Run impact
-                </button>
-              </div>
-            </div>
+                      <NumberInput
+                        span='sm:col-span-3'
+                        label='treeNumber'
+                        title='Number of new trees to be planted'
+                        placeholder='100'
+                        type='typology'
+                        unit='trees'
+                        min={1}
+                        max={1000}
+                        required={true}
+                        defaultValue={25}
+                      />
+                      <NumberInput
+                        span='sm:col-span-3'
+                        label='existing-trees'
+                        unit='trees'
+                        title='Number of existing trees to be maintained'
+                        placeholder='100'
+                        min={1}
+                        max={1000}
+                        type='typology'
+                        required={true}
+                        defaultValue={25}
+                      />
+                    </FormBlock>
+                    <hr className='mx-20 border-8 border-green-600' />
+                    <FormBlock
+                      title='What activities are you planning?'
+                      description='While we imagine you’re planning several activities, please select the main ones. (If you’re planning to plant trees, select DEVELOPING. If you’re maintaining existing tree stocks, select MAINTAINING)'
+                      type='typology'
+                    >
+                      <RadioSelector
+                        span='sm:col-span-5'
+                        label='activity-type'
+                        title='Primary activity'
+                        type='typology'
+                        setRadioType={setActivityType}
+                        radioType={activityType}
+                        radioTypes={activityTypes}
+                      />
+                      <RadioSelector
+                        span='sm:col-span-5'
+                        label='maintenance-type'
+                        title='Maintenance level'
+                        type='typology'
+                        setRadioType={setMaintenanceType}
+                        radioType={maintenanceType}
+                        radioTypes={maintenanceTypes}
+                      />
+                    </FormBlock>
+                  </div>
+                </div>
+
+                <div className='grid pb-20'>
+                  <div className='max-w-3xl place-self-center py-4 text-center'>
+                    <p className='book-intro-lg'>
+                      This demo shows you only a short version of the form. To use the full version
+                      with extended data create an account. Click &quot;
+                      <span className='medium-intro-lg'>Run impact</span>&quot; to view your project
+                      impact assessment.
+                    </p>
+                  </div>
+                  <div className='place-self-center pt-4'>
+                    <input
+                      type='submit'
+                      disabled={isLoading}
+                      className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
+                    />
+                  </div>
+                </div>
+              </form>
+            </FormProvider>
           </div>
         ))}
       {processStage === 2 && (
@@ -542,7 +707,7 @@ export default function Demo(props) {
                               Number of trees planted:
                             </td>
                             <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
-                              {treeNumber}
+                              {methods.getValues('treeNumber')}
                             </td>
                           </tr>
                           {(selectedTypology.id === 1 || selectedTypology.id === 2) && (
@@ -551,7 +716,7 @@ export default function Demo(props) {
                                 Number of trees maintained:
                               </td>
                               <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
-                                {treeNumberMaintain}
+                                {methods.getValues('treeNumberMaintain')}
                               </td>
                             </tr>
                           )}
