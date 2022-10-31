@@ -354,13 +354,13 @@ export default function SubmitProject(props) {
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
-  const postSAFRun = async (maintenanceScope, data) => {
+  const postSAFRun = async (maintenanceScope, formData) => {
     let payload;
 
     if (activityType.name === 'Developing') {
       payload = JSON.stringify({
-        title: data.projectName,
-        description: data.projectDescription,
+        title: formData.projectName,
+        description: formData.projectDescription,
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.fixedDBH),
         max_dbh: parseInt(selectedTypology.fixedDBH),
@@ -373,8 +373,8 @@ export default function SubmitProject(props) {
       });
     } else {
       payload = JSON.stringify({
-        title: data.projectName,
-        description: data.projectDescription,
+        title: formData.projectName,
+        description: formData.projectDescription,
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.minDBH),
         max_dbh: parseInt(selectedTypology.maxDBH),
@@ -391,22 +391,22 @@ export default function SubmitProject(props) {
     return hash;
   };
 
-  const createProjectAndGetID = async (data) => {
+  const createProjectAndGetID = async (formData) => {
     const payload = JSON.stringify({
-      title: data.projectName,
-      description: data.projectDescription,
+      title: formData.projectName,
+      description: formData.projectDescription,
       in_portfolio: true,
       publish: true,
-      project_dev: data.projectDeveloper,
+      project_dev: formData.projectDeveloper,
       owner_id: parseInt(sessionStorage.user_id),
       activities: 'maintenance',
-      area: parseInt(data.totalArea),
+      area: parseInt(formData.totalArea),
       cost: 0,
       stage: selectedStage + selectedLandUse,
       number_of_trees: totalTreeNumber,
-      local_authority: data.projectDeveloper,
+      local_authority: formData.projectDeveloper,
       location: 'string',
-      start_date: new Date(data.startDate),
+      start_date: new Date(formData.startDate),
     });
 
     let id = await create_project_and_get_ID(payload);
@@ -429,17 +429,17 @@ export default function SubmitProject(props) {
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
-  async function sendRequestAndFetchData(data) {
-    console.log(data);
+  async function sendRequestAndFetchData(formData) {
+    console.log(formData);
     // set screen to loading
     setIsLoading(true);
 
     // Create a project and get the ID - The ID is stored in the Sessionstorage
-    await createProjectAndGetID(data);
+    await createProjectAndGetID(formData);
 
     for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
       // Make a post call to run the simulation on a project
-      let run_hash = await postSAFRun(maintenanceScope, data);
+      let run_hash = await postSAFRun(maintenanceScope, formData);
 
       console.log('step ' + maintenanceScope + '/3');
 
