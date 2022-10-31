@@ -586,9 +586,9 @@ export default function SubmitProject(props) {
                           label='totalArea'
                           title='Total area of the project *'
                           unit='m2'
-                          placeholder='200'
-                          min={1}
-                          max={400}
+                          placeholder='2000'
+                          min={10}
+                          max={10000}
                           type='general'
                           required={true}
                           onChange={onChange}
@@ -733,7 +733,7 @@ export default function SubmitProject(props) {
                     <NumberInput
                       span='sm:col-span-3'
                       label='projectLength'
-                      title='Expected length of the project in months (if possible) *'
+                      title='Expected length of the project in months *'
                       placeholder='12'
                       type='general'
                       unit='months'
@@ -906,7 +906,7 @@ export default function SubmitProject(props) {
                           placeholder='100'
                           type='typology'
                           unit='trees'
-                          min={1}
+                          min={5}
                           max={1000}
                           required={true}
                           onChange={onChange}
@@ -926,7 +926,7 @@ export default function SubmitProject(props) {
                           unit='trees'
                           title='Number of existing trees to be maintained'
                           placeholder='100'
-                          min={1}
+                          min={0}
                           max={1000}
                           type='typology'
                           required={true}
