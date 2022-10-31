@@ -134,10 +134,10 @@ export default function SubmitProject(props) {
       console.log('Error', error);
 
       // Only retry up to 10 times.
-      if (retryCount >= 10) return;
+      if (retryCount >= 15) return;
 
       // Retry after 10 seconds.
-      setTimeout(() => revalidate({ retryCount }), 10000);
+      setTimeout(() => revalidate({ retryCount }), 5000);
     },
     onSuccess: (data) => {
       console.log('Data received:', data);
