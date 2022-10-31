@@ -79,7 +79,6 @@ export default function Register() {
             throw new Error('Something went wrong');
           })
           .then((result) => {
-            console.log(result);
             sessionStorage.setItem('token', JSON.stringify(result.access_token));
             setIsLoading(false);
             toast.success('Successfully registered!');
