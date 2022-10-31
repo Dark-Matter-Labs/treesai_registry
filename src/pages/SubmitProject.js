@@ -6,6 +6,8 @@ import { CheckCircleIcon } from '@heroicons/react/solid';
 import { useNavigate, Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import useSWR from 'swr';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 // Components
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -78,34 +80,29 @@ export default function SubmitProject(props) {
   const [processStage, setProcessStage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   /* Form variables, to be refactored to react-hook-form */
-  const [projectName, setProjectName] = useState('');
-  const [projectDev, setProjectDev] = useState('');
-  const [projectLocation, setProjectLocation] = useState(null);
-  const [landOwner, setLandOwner] = useState('');
+  const methods = useForm();
+  const {
+    formState: { errors },
+  } = methods;
+
+  const watchTotalArea = methods.watch('totalArea', 1);
+  const watchTreePlant = methods.watch('treeNumber', 1);
+  const watchTreeMaintain = methods.watch('existingTrees', 1);
+  const watchEffectiveArea = methods.watch('areaDensity', 1);
+  const [selectedCC, setSelectedCC] = useState(listCouncils[0]);
   const [landUseChange, setLandUseChange] = useState(false);
-  const [projectLength, setProjectLength] = useState(24);
-  const [projectDescription, setProjectDescription] = useState('');
-  const [projectDate, setProjectDate] = useState('2022-09');
-  const [stakeholderEngt, setStakeholderEngt] = useState('');
-  const [treeNumber, setTreeNumber] = useState(50);
-  const [treeNumberMaintain, setTreeNumberMaintain] = useState(0);
   const [totalTreeNumber, setTotalTreeNumber] = useState(0);
   const [selectedStage, setSelectedStage] = useState(stages[0]);
-  const [selectedCC, setSelectedCC] = useState(listCouncils[0]);
   const [selectedLandUse, setSelectedLandUse] = useState('Recreation');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
-  const [areaDensity, setAreaDensity] = useState(1);
-  const [densityPerHa, setDensityPerHa] = useState(1);
-  const [totalArea, setTotalArea] = useState(100);
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [budgetType, setBudgetType] = useState(budgetTypes[0]);
   const [raisedType, setRaisedType] = useState(raisedTypes[0]);
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
+  const [densityPerHa, setDensityPerHa] = useState(1);
   // Cost variables
-  const [capexCost, setCapexCost] = useState(200);
-  const [opexCost, setOpexCost] = useState(123);
-  const [totalCost, settotalCost] = useState(500);
+  const [totalCost, setTotalCost] = useState(500);
   const [costOverSelectedTime, setCostOverSelectedTime] = useState(321);
 
   /* SAF Related variables */
@@ -164,39 +161,41 @@ export default function SubmitProject(props) {
   });
 
   useEffect(() => {
-    let sum = parseInt(treeNumber) + parseInt(treeNumberMaintain);
-    if (isNaN(parseInt(sum))) {
-      setTotalTreeNumber(0);
+    let sum = parseInt(watchTreePlant) + parseInt(watchTreeMaintain);
+    setTotalTreeNumber(sum);
+  }, [watchTreePlant, watchTreeMaintain]);
+
+  useEffect(() => {
+    let densPerHa = 1;
+    // for all typologies except Street trees, use effective typology area
+    if (selectedTypology.id !== 0) {
+      densPerHa = (totalTreeNumber * 10000) / watchEffectiveArea; // Multiply by 10000 to transform m2 to Ha
     } else {
-      setTotalTreeNumber(sum);
+      densPerHa = totalTreeNumber * 10000;
     }
-  }, [treeNumber, treeNumberMaintain]);
 
-  useEffect(() => {
-    /* I don't reallt like this function but we really need to check that AreaDensity is not 0 */
-    if (!Number.isInteger(areaDensity) || areaDensity <= 0) {
-      setAreaDensity(1);
-    }
-  }, [areaDensity]);
-
-  useEffect(() => {
-    const densPerHa = (totalTreeNumber * 10000) / totalArea; // Multiply by 10000 to transform m2 to Ha
     setDensityPerHa(densPerHa);
-  }, [totalTreeNumber, totalArea]);
+  }, [totalTreeNumber, watchEffectiveArea]);
 
   useEffect(() => {
-    const cost = parseInt(opexCost) + parseInt(capexCost);
-    settotalCost(cost);
-    setCostOverSelectedTime((cost / (12 * 50)) * projectLength);
+    const cost =
+      parseInt(parseInt(methods.getValues('opexCost'))) + parseInt(methods.getValues('capexCost'));
+    setTotalCost(cost);
+    setCostOverSelectedTime((cost / (12 * 50)) * methods.getValues('projectLength'));
     // Render the smaller cost chart
     setSmallCostChart([
       {
         Expenditure: 'CAPEX',
-        Value: capexCost,
+        Value: methods.getValues('capexCost'),
       },
-      { Expenditure: 'OPEX', Value: opexCost },
+      { Expenditure: 'OPEX', Value: methods.getValues('opexCost') },
     ]);
-  }, [opexCost, capexCost, projectLength, safOutput0]);
+  }, [
+    methods.getValues('opexCost'),
+    methods.getValues('capexCost'),
+    methods.getValues('projectLength'),
+    safOutput0,
+  ]);
 
   /* Pie Diagram */
 
@@ -355,13 +354,13 @@ export default function SubmitProject(props) {
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
-  const postSAFRun = async (maintenanceScope) => {
+  const postSAFRun = async (maintenanceScope, data) => {
     let payload;
 
     if (activityType.name === 'Developing') {
       payload = JSON.stringify({
-        title: projectName,
-        description: projectDescription,
+        title: data.projectName,
+        description: data.projectDescription,
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.fixedDBH),
         max_dbh: parseInt(selectedTypology.fixedDBH),
@@ -369,13 +368,13 @@ export default function SubmitProject(props) {
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: densityPerHa,
+        density_per_ha: parseInt(densityPerHa),
         species: selectedTypology.species,
       });
     } else {
       payload = JSON.stringify({
-        title: projectName,
-        description: projectDescription,
+        title: data.projectName,
+        description: data.projectDescription,
         typology: selectedTypology.value,
         min_dbh: parseInt(selectedTypology.minDBH),
         max_dbh: parseInt(selectedTypology.maxDBH),
@@ -383,7 +382,7 @@ export default function SubmitProject(props) {
         season_growth_mean: 200,
         season_growth_var: 7,
         time_horizon: 50,
-        density_per_ha: densityPerHa,
+        density_per_ha: parseInt(densityPerHa),
         species: selectedTypology.species,
       });
     }
@@ -392,26 +391,22 @@ export default function SubmitProject(props) {
     return hash;
   };
 
-  const createProjectAndGetID = async () => {
-    if (projectName === '') {
-      setProjectName('Sample project title');
-    }
-
+  const createProjectAndGetID = async (data) => {
     const payload = JSON.stringify({
-      title: projectName,
-      description: projectDescription,
+      title: data.projectName,
+      description: data.projectDescription,
       in_portfolio: true,
       publish: true,
-      project_dev: projectDev,
-      owner_id: sessionStorage.user_id,
+      project_dev: data.projectDeveloper,
+      owner_id: parseInt(sessionStorage.user_id),
       activities: 'maintenance',
-      area: totalArea,
+      area: parseInt(data.totalArea),
       cost: 0,
-      stage: selectedStage + selectedLandUse + landOwner,
+      stage: selectedStage + selectedLandUse,
       number_of_trees: totalTreeNumber,
-      local_authority: projectDev,
+      local_authority: data.projectDeveloper,
       location: 'string',
-      start_date: new Date(projectDate),
+      start_date: new Date(data.startDate),
     });
 
     let id = await create_project_and_get_ID(payload);
@@ -434,16 +429,17 @@ export default function SubmitProject(props) {
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
-  async function sendRequestAndFetchData() {
+  async function sendRequestAndFetchData(data) {
+    console.log(data);
     // set screen to loading
     setIsLoading(true);
 
     // Create a project and get the ID - The ID is stored in the Sessionstorage
-    await createProjectAndGetID();
+    await createProjectAndGetID(data);
 
     for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
       // Make a post call to run the simulation on a project
-      let run_hash = await postSAFRun(maintenanceScope);
+      let run_hash = await postSAFRun(maintenanceScope, data);
 
       console.log('step ' + maintenanceScope + '/3');
 
@@ -512,568 +508,579 @@ export default function SubmitProject(props) {
                 </div>
               </div>
             </div>
-            <div className='py-10'>
-              <SectionHeader title='Project information' type='general' />
-              <FormBlock
-                title='Project information'
-                description='Start by telling us who you are and a bit about your project.'
-              >
-                <TextInput
-                  span='sm:col-span-5'
-                  label='project-name'
-                  title='Project Name *'
-                  placeholder='Title of the project'
-                  type='general'
-                  defaultValue={projectName}
-                  onChange={(e) => {
-                    setProjectName(e.target.value);
-                  }}
-                />
-
-                <Dropdown
-                  span='sm:col-span-3'
-                  label='city'
-                  title='City'
-                  type='general'
-                  options={cities}
-                />
-
-                <div className='sm:col-span-2' />
-
-                <AddressInput
-                  span='sm:col-span-3'
-                  label='address'
-                  title='Project Location *'
-                  placeholder='Street, street number, postal code'
-                  type='general'
-                  defaultValue={projectLocation}
-                  onChange={setProjectLocation}
-                />
-
-                <Dropdown
-                  span='sm:col-span-2'
-                  label='neighbourhood'
-                  title='Community Council *'
-                  type='general'
-                  onChange={(e) => {
-                    setSelectedCC(e.target.value);
-                  }}
-                  options={listCouncils}
-                />
-
-                <TextInput
-                  span='sm:col-span-5'
-                  label='project-developer'
-                  title='Project Developer *'
-                  placeholder='Name of the institution that is in charge of developing the project'
-                  type='general'
-                  defaultValue={projectDev}
-                  onChange={(e) => {
-                    setProjectDev(e.target.value);
-                  }}
-                />
-
-                <Dropdown
-                  span='sm:col-span-3'
-                  label='project-stage'
-                  title='Current stage'
-                  type='general'
-                  onChange={(e) => {
-                    setSelectedStage(e.target.value.toLowerCase());
-                  }}
-                  options={stages}
-                />
-
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='total_area'
-                  title='Total area of the project *'
-                  unit='m2'
-                  placeholder='200'
-                  min='0'
-                  type='general'
-                  defaultValue={totalArea}
-                  onChange={(e) => {
-                    setTotalArea(e.target.value);
-                  }}
-                />
-              </FormBlock>
-              <hr className='mx-20 border-8 border-indigo-600' />
-              <FormBlock
-                title='Land ownership and use'
-                description='Land usage prior to your intervention is a key determinant of a project’s future impact.'
-              >
-                <TextInput
-                  span='sm:col-span-5'
-                  label='land-owner'
-                  title='Land Owner'
-                  placeholder='Who owns the land?'
-                  type='general'
-                  defaultValue={landOwner}
-                  onChange={(e) => {
-                    setLandOwner(e.target.value);
-                  }}
-                />
-
-                <Dropdown
-                  span='sm:col-span-3'
-                  label='land-use'
-                  title='How would you describe the land-use prior to your project?'
-                  type='general'
-                  onChange={(e) => {
-                    setSelectedLandUse(e.target.value.toLowerCase());
-                  }}
-                  options={landUse}
-                />
-
-                <div className='sm:col-span-3'></div>
-
-                <Toggle
-                  checked={landUseChange}
-                  span='sm:col-span-2'
-                  label='land-use-change'
-                  title='Is the land-use going to change?'
-                  type='general'
-                  onChange={setLandUseChange}
-                  firstChoice='No'
-                  secondChoice='Yes'
-                />
-              </FormBlock>
-              <hr className='mx-20 border-8 border-indigo-600' />
-              <FormBlock
-                title='Describe your project'
-                description='Tell us about your project. Don’t worry about precise typologies or numbers for the moment, just let us know about the project’s location, what you hope to deliver, who you’re working with to make it happen.'
-              >
-                <div className='sm:col-span-3'>
-                  <label
-                    htmlFor='project-description'
-                    className='book-info-md pl-5 text-dark-wood-800'
-                  ></label>
-                  <div className='mt-1'>
-                    <textarea
-                      id='project-description'
-                      name='project-description'
-                      rows={3}
-                      className='block w-full rounded-2xl border border-indigo-600 pb-20 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-                      defaultValue={projectDescription}
-                      onChange={(e) => {
-                        setProjectDescription(e.target.value);
-                      }}
+            <FormProvider {...methods}>
+              <form onSubmit={methods.handleSubmit(sendRequestAndFetchData)}>
+                <div className='py-10'>
+                  <SectionHeader title='Project information' type='general' />
+                  <FormBlock
+                    title='Project information'
+                    description='Start by telling us who you are and a bit about your project.'
+                  >
+                    <TextInput
+                      span='sm:col-span-5'
+                      label='projectName'
+                      title='Project Name *'
+                      placeholder='Title of the project'
+                      type='general'
+                      required={true}
+                      errors={errors}
+                      defaultValue='Sample project title'
                     />
-                  </div>
-                  <p className='medium-intro-sm mt-2 text-gray-500'>
-                    There is no word limit, but for readability’s sake, we suggest you keep the
-                    description under 250 words.
-                  </p>
-                </div>
 
-                <div className='sm:col-span-3  '>
-                  <div className='mt-1 sm:col-span-2 sm:mt-5'>
-                    <div className='flex max-w-lg justify-center rounded-full border border-indigo-600 px-6 py-10'>
-                      <div className='space-y-1 text-center'>
-                        <svg
-                          className='mx-auto h-12 w-12 text-gray-400'
-                          stroke='currentColor'
-                          fill='none'
-                          viewBox='0 0 48 48'
-                          aria-hidden='true'
-                        >
-                          <path
-                            d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
-                            strokeWidth={2}
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                          />
-                        </svg>
-                        <div className='book-info-md flex text-dark-wood-800'>
-                          <label
-                            htmlFor='file-upload'
-                            className='relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500'
-                          >
-                            <span>Upload a file</span>
-                            <input
-                              id='file-upload'
-                              name='file-upload'
-                              type='file'
-                              className='sr-only'
-                            />
-                          </label>
-                          <p className='pl-1'>or drag and drop</p>
+                    <Dropdown
+                      span='sm:col-span-3'
+                      label='city'
+                      title='City'
+                      type='general'
+                      options={cities}
+                    />
+
+                    <div className='sm:col-span-2' />
+
+                    <AddressInput
+                      span='sm:col-span-3'
+                      label='address'
+                      title='Project Location *'
+                      placeholder='Street, street number, postal code'
+                      type='general'
+                      required={true}
+                    />
+
+                    <Dropdown
+                      span='sm:col-span-2'
+                      label='neighbourhood'
+                      title='Community Council *'
+                      type='general'
+                      onChange={(e) => {
+                        setSelectedCC(e.target.value);
+                      }}
+                      options={listCouncils}
+                    />
+
+                    <TextInput
+                      span='sm:col-span-5'
+                      label='projectDeveloper'
+                      title='Project Developer *'
+                      placeholder='Name of the institution that is in charge of developing the project'
+                      type='general'
+                      required={true}
+                    />
+
+                    <Dropdown
+                      span='sm:col-span-3'
+                      label='project-stage'
+                      title='Current stage'
+                      type='general'
+                      onChange={(e) => {
+                        setSelectedStage(e.target.value.toLowerCase());
+                      }}
+                      options={stages}
+                    />
+
+                    <Controller
+                      control={methods.control}
+                      name='totalArea'
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <NumberInput
+                          span='sm:col-span-3'
+                          label='totalArea'
+                          title='Total area of the project *'
+                          unit='m2'
+                          placeholder='200'
+                          min={1}
+                          max={400}
+                          type='general'
+                          required={true}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          selected={value}
+                        />
+                      )}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Land ownership and use'
+                    description='Land usage prior to your intervention is a key determinant of a project’s future impact.'
+                  >
+                    <TextInput
+                      span='sm:col-span-5'
+                      label='landOwner'
+                      title='Land Owner'
+                      placeholder='Who owns the land?'
+                      type='general'
+                    />
+
+                    <Dropdown
+                      span='sm:col-span-3'
+                      label='land-use'
+                      title='How would you describe the land-use prior to your project?'
+                      type='general'
+                      onChange={(e) => {
+                        setSelectedLandUse(e.target.value.toLowerCase());
+                      }}
+                      options={landUse}
+                    />
+
+                    <div className='sm:col-span-3'></div>
+
+                    <Toggle
+                      checked={landUseChange}
+                      span='sm:col-span-2'
+                      label='land-use-change'
+                      title='Is the land-use going to change?'
+                      type='general'
+                      onChange={setLandUseChange}
+                      firstChoice='No'
+                      secondChoice='Yes'
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Describe your project'
+                    description='Tell us about your project. Don’t worry about precise typologies or numbers for the moment, just let us know about the project’s location, what you hope to deliver, who you’re working with to make it happen.'
+                  >
+                    <div className='sm:col-span-3'>
+                      <label
+                        htmlFor='project-description'
+                        className='book-info-md pl-5 text-dark-wood-800'
+                      ></label>
+                      <div className='mt-1'>
+                        <textarea
+                          id='project-description'
+                          name='project-description'
+                          rows={3}
+                          className='block w-full rounded-2xl border border-indigo-600 pb-20 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                          {...methods.register('projectDescription')}
+                        />
+                      </div>
+                      <p className='medium-intro-sm mt-2 text-gray-500'>
+                        There is no word limit, but for readability’s sake, we suggest you keep the
+                        description under 250 words.
+                      </p>
+                    </div>
+
+                    <div className='sm:col-span-3  '>
+                      <div className='mt-1 sm:col-span-2 sm:mt-5'>
+                        <div className='flex max-w-lg justify-center rounded-full border border-indigo-600 px-6 py-10'>
+                          <div className='space-y-1 text-center'>
+                            <svg
+                              className='mx-auto h-12 w-12 text-gray-400'
+                              stroke='currentColor'
+                              fill='none'
+                              viewBox='0 0 48 48'
+                              aria-hidden='true'
+                            >
+                              <path
+                                d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
+                                strokeWidth={2}
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                              />
+                            </svg>
+                            <div className='book-info-md flex text-dark-wood-800'>
+                              <label
+                                htmlFor='file-upload'
+                                className='relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500'
+                              >
+                                <span>Upload a file</span>
+                                <input
+                                  id='file-upload'
+                                  name='file-upload'
+                                  type='file'
+                                  className='sr-only'
+                                />
+                              </label>
+                              <p className='pl-1'>or drag and drop</p>
+                            </div>
+                            <p className='book-info-sm text-dark-wood-800'>
+                              PNG, JPG, GIF up to 10MB
+                            </p>
+                          </div>
                         </div>
-                        <p className='book-info-sm text-dark-wood-800'>PNG, JPG, GIF up to 10MB</p>
+                        <p className='medium-intro-sm mt-2 text-gray-500 pl-20'>Cover photo</p>
                       </div>
                     </div>
-                    <p className='medium-intro-sm mt-2 text-gray-500 pl-20'>Cover photo</p>
-                  </div>
-                </div>
-              </FormBlock>
-              <hr className='mx-20 border-8 border-indigo-600' />
-              <FormBlock
-                title='Dates and timing'
-                description='We’d like to know roughly when you plan to start implementing the project, and how long it will take. Please note projects can (and are encouraged) to include maintenance activities.'
-              >
-                <div className='sm:col-span-3'>
-                  <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
-                    Expected starting date (MM/YY) *
-                  </label>
-                  <div className='mt-1'>
-                    <input
-                      id='start-date'
-                      name='start-date'
-                      type='month'
-                      defaultValue={projectDate}
-                      className='block w-full rounded-2xl border-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-                      onChange={(e) => {
-                        setProjectDate(e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='project-length'
-                  title='Expected length of the project in months (if possible) *'
-                  placeholder='12'
-                  type='general'
-                  unit='months'
-                  min='0'
-                  defaultValue={projectLength}
-                  onChange={(e) => {
-                    setProjectLength(e.target.value);
-                  }}
-                />
-              </FormBlock>
-              <hr className='mx-20 border-8 border-indigo-600' />
-              <FormBlock
-                title='Stakeholder engagement'
-                description='Who are the stakeholders affected by the project’s implementation? How were they identified and how are they being engaged?'
-              >
-                <div className='sm:col-span-6'>
-                  <label
-                    htmlFor='project-description'
-                    className='book-info-md pl-5 text-dark-wood-800'
-                  ></label>
-                  <div className='mt-1'>
-                    <textarea
-                      id='stakeholder-engagement'
-                      name='stakeholder-engagement'
-                      rows={3}
-                      className='block w-full rounded-2xl border border-indigo-600 pb-20 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-                      defaultValue={stakeholderEngt}
-                      onChange={(e) => {
-                        setStakeholderEngt(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <p className='medium-intro-sm mt-2 text-gray-500'>
-                    Tell us about stakeholder engagement.
-                  </p>
-                </div>
-              </FormBlock>
-            </div>
-            <div className='py-10'>
-              <SectionHeader title='Project Layout *' type='typology' />
-              <FormBlock
-                title='Select the relevant typology'
-                description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project. Right now, the platform only recognises tree-based projects, but we’ll soon add more typologies such as Sustainable Urban Drainage Systems (SuDS)'
-                type='typology'
-              >
-                <div className='sm:hidden'>
-                  <label htmlFor='typology-type' className='sr-only'>
-                    Select a tab
-                  </label>
-                  <select
-                    id='typology-type'
-                    name='typology-type'
-                    className='block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
-                    defaultValue={typologyTabs.find((tab) => tab.current).name}
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Dates and timing'
+                    description='We’d like to know roughly when you plan to start implementing the project, and how long it will take. Please note projects can (and are encouraged) to include maintenance activities.'
                   >
-                    {typologyTabs.map((tab) => (
-                      <option key={tab.name}>{tab.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className='sm:col-span-6 hidden justify-self-center sm:block'>
-                  <nav className='flex space-x-4' aria-label='Tabs'>
-                    {typologyTabs.map((tab) => (
-                      <button
-                        key={tab.name}
-                        className={classNames(
-                          tab.current
-                            ? 'bg-green-600 text-white'
-                            : 'pointer-events-none bg-white-300 text-dark-wood-500',
-                          'bold-intro-md rounded-full px-4 py-4',
-                        )}
-                        aria-current={tab.current ? 'page' : undefined}
-                      >
-                        {tab.name}
-                      </button>
-                    ))}
-                  </nav>
-                </div>
-                <div className='sm:col-span-6'>
-                  <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
-                    <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-2 sm:gap-x-4'>
-                      {typologies.map((typology) => (
-                        <RadioGroup.Option
-                          key={typology.id}
-                          value={typology}
-                          className={({ checked, active }) =>
-                            classNames(
-                              checked ? 'border-transparent' : 'border-dark-wood-500',
-                              active ? 'border-green-600 ring-2 ring-green-600' : '',
-                              'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
-                            )
-                          }
-                        >
-                          {({ checked, active }) => (
-                            <>
-                              <span className='flex flex-1'>
-                                <img className='h-24 rounded-full' src={typology.image} />
-                                <span className='flex flex-col'>
-                                  <RadioGroup.Label
-                                    as='span'
-                                    className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
-                                  >
-                                    {typology.title}
-                                  </RadioGroup.Label>
-                                  <RadioGroup.Description
-                                    as='span'
-                                    className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
-                                  >
-                                    {typology.description}
-                                  </RadioGroup.Description>
-                                </span>
-                              </span>
-                              <CheckCircleIcon
-                                className={classNames(
-                                  !checked ? 'invisible' : '',
-                                  'h-5 w-5 text-green-600',
-                                )}
-                                aria-hidden='true'
-                              />
-                              <span
-                                className={classNames(
-                                  active ? 'border' : 'border-2',
-                                  checked ? 'border-green-600' : 'border-transparent',
-                                  'pointer-events-none absolute -inset-px rounded-3xl',
-                                )}
-                                aria-hidden='true'
-                              />
-                            </>
+                    <div className='sm:col-span-3'>
+                      <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
+                        Expected starting date (MM/YY) *
+                      </label>
+                      <div className='mt-1'>
+                        <input
+                          id='start-date'
+                          name='startDate'
+                          type='month'
+                          className='block w-full rounded-2xl border-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                          {...methods.register('startDate', {
+                            required: { value: true, message: 'This is required!' },
+                          })}
+                        />
+                        <ErrorMessage
+                          name='startDate'
+                          render={({ message }) => (
+                            <p className='book-info-sm text-red-600 py-2'>{message}</p>
                           )}
-                        </RadioGroup.Option>
-                      ))}
+                        />
+                      </div>
                     </div>
-                  </RadioGroup>
-                </div>
-              </FormBlock>
-              <hr className='mx-20 border-8 border-green-600' />
-              <FormBlock
-                title={`How big is the ${selectedTypology.title} component of your project?`}
-                description={`Your total project area is ${totalArea} m2. How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
-                type='typology'
-              >
-                {selectedTypology.id !== 0 && (
-                  <>
+
                     <NumberInput
                       span='sm:col-span-3'
-                      label='area-density'
-                      title='The effective area used by typology'
-                      unit='Ha'
-                      placeholder=''
-                      type='typology'
-                      min='0'
-                      max='1000'
-                      defaultValue={areaDensity}
-                      onChange={(e) => {
-                        setAreaDensity(e.target.value);
-                      }}
+                      label='projectLength'
+                      title='Expected length of the project in months (if possible) *'
+                      placeholder='12'
+                      type='general'
+                      unit='months'
+                      min={1}
+                      required={true}
                     />
-                    <div className='col-span-3'></div>
-                  </>
-                )}
-
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='new-trees'
-                  title='Number of new trees to be planted'
-                  placeholder='100'
-                  type='typology'
-                  unit='trees'
-                  min='0'
-                  max='32000'
-                  defaultValue={treeNumber}
-                  onChange={(e) => {
-                    setTreeNumber(e.target.value);
-                  }}
-                />
-                {(selectedTypology.id === 1 || selectedTypology.id === 2) && (
-                  <NumberInput
-                    span='sm:col-span-3'
-                    label='existing-trees'
-                    unit='trees'
-                    title='Number of existing trees to be maintained'
-                    placeholder='100'
-                    min='0'
-                    max='32000'
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Stakeholder engagement'
+                    description='Who are the stakeholders affected by the project’s implementation? How were they identified and how are they being engaged?'
+                  >
+                    <div className='sm:col-span-6'>
+                      <label
+                        htmlFor='project-description'
+                        className='book-info-md pl-5 text-dark-wood-800'
+                      ></label>
+                      <div className='mt-1'>
+                        <textarea
+                          id='stakeholder-engagement'
+                          name='stakeholderEngagement'
+                          rows={3}
+                          className='block w-full rounded-2xl border border-indigo-600 pb-20 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                          {...methods.register('stakeholderEngagement')}
+                        />
+                      </div>
+                      <p className='medium-intro-sm mt-2 text-gray-500'>
+                        Tell us about stakeholder engagement.
+                      </p>
+                    </div>
+                  </FormBlock>
+                </div>
+                <div className='py-10'>
+                  <SectionHeader title='Project Layout *' type='typology' />
+                  <FormBlock
+                    title='Select the relevant typology'
+                    description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project. Right now, the platform only recognises tree-based projects, but we’ll soon add more typologies such as Sustainable Urban Drainage Systems (SuDS)'
                     type='typology'
-                    defaultValue={treeNumberMaintain}
-                    onChange={(e) => {
-                      setTreeNumberMaintain(e.target.value);
-                    }}
-                  />
-                )}
-              </FormBlock>
-              <hr className='mx-20 border-8 border-green-600' />
-              <FormBlock
-                title='What activities are you planning?'
-                description='While we imagine you’re planning several activities, please select the main ones. (If you’re planning to plant trees, select DEVELOPING. If you’re maintaining existing tree stocks, select MAINTAINING)'
-                type='typology'
-              >
-                <RadioSelector
-                  span='sm:col-span-5'
-                  label='activity-type'
-                  title='Primary activity'
-                  type='typology'
-                  setRadioType={setActivityType}
-                  radioType={activityType}
-                  radioTypes={activityTypes}
-                />
-                <RadioSelector
-                  span='sm:col-span-5'
-                  label='maintenance-type'
-                  title='Maintenance level'
-                  type='typology'
-                  setRadioType={setMaintenanceType}
-                  radioType={maintenanceType}
-                  radioTypes={maintenanceTypes}
-                />
-              </FormBlock>
-            </div>
-            <div className='py-10'>
-              <SectionHeader title='Project costs' type='cost' />
-              <FormBlock
-                title='Project budgeting'
-                description='TreesAI can help you in investing in your project. More you give us details and more we would be able to understand your needs.'
-                type='cost'
-              >
-                <RadioSelector
-                  span='sm:col-span-6'
-                  label='project-budget'
-                  title='What is your project budget?'
-                  type='cost'
-                  setRadioType={setBudgetType}
-                  radioType={budgetType}
-                  radioTypes={budgetTypes}
-                />
+                  >
+                    <div className='sm:hidden'>
+                      <label htmlFor='typology-type' className='sr-only'>
+                        Select a tab
+                      </label>
+                      <select
+                        id='typology-type'
+                        name='typology-type'
+                        className='block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+                        defaultValue={typologyTabs.find((tab) => tab.current).name}
+                      >
+                        {typologyTabs.map((tab) => (
+                          <option key={tab.name}>{tab.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className='sm:col-span-6 hidden justify-self-center sm:block'>
+                      <nav className='flex space-x-4' aria-label='Tabs'>
+                        {typologyTabs.map((tab) => (
+                          <button
+                            key={tab.name}
+                            className={classNames(
+                              tab.current
+                                ? 'bg-green-600 text-white'
+                                : 'pointer-events-none bg-white-300 text-dark-wood-500',
+                              'bold-intro-md rounded-full px-4 py-4',
+                            )}
+                            aria-current={tab.current ? 'page' : undefined}
+                          >
+                            {tab.name}
+                          </button>
+                        ))}
+                      </nav>
+                    </div>
+                    <div className='sm:col-span-6'>
+                      <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
+                        <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-2 sm:gap-x-4'>
+                          {typologies.map((typology) => (
+                            <RadioGroup.Option
+                              key={typology.id}
+                              value={typology}
+                              className={({ checked, active }) =>
+                                classNames(
+                                  checked ? 'border-transparent' : 'border-dark-wood-500',
+                                  active ? 'border-green-600 ring-2 ring-green-600' : '',
+                                  'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
+                                )
+                              }
+                            >
+                              {({ checked, active }) => (
+                                <>
+                                  <span className='flex flex-1'>
+                                    <img className='h-24 rounded-full' src={typology.image} />
+                                    <span className='flex flex-col'>
+                                      <RadioGroup.Label
+                                        as='span'
+                                        className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
+                                      >
+                                        {typology.title}
+                                      </RadioGroup.Label>
+                                      <RadioGroup.Description
+                                        as='span'
+                                        className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
+                                      >
+                                        {typology.description}
+                                      </RadioGroup.Description>
+                                    </span>
+                                  </span>
+                                  <CheckCircleIcon
+                                    className={classNames(
+                                      !checked ? 'invisible' : '',
+                                      'h-5 w-5 text-green-600',
+                                    )}
+                                    aria-hidden='true'
+                                  />
+                                  <span
+                                    className={classNames(
+                                      active ? 'border' : 'border-2',
+                                      checked ? 'border-green-600' : 'border-transparent',
+                                      'pointer-events-none absolute -inset-px rounded-3xl',
+                                    )}
+                                    aria-hidden='true'
+                                  />
+                                </>
+                              )}
+                            </RadioGroup.Option>
+                          ))}
+                        </div>
+                      </RadioGroup>
+                    </div>
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-green-600' />
+                  <FormBlock
+                    title={`How big is the ${selectedTypology.title} component of your project?`}
+                    description={`Your total project area is ${watchTotalArea} m2. How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
+                    type='typology'
+                  >
+                    {selectedTypology.id !== 0 && (
+                      <>
+                        <Controller
+                          control={methods.control}
+                          name='areaDensity'
+                          render={({ field: { onChange, onBlur, value } }) => (
+                            <NumberInput
+                              span='sm:col-span-3'
+                              label='areaDensity'
+                              title='The effective area used by typology'
+                              unit='Ha'
+                              placeholder=''
+                              type='typology'
+                              min={1}
+                              max={500}
+                              required={true}
+                              onChange={onChange}
+                              onBlur={onBlur}
+                              selected={value}
+                            />
+                          )}
+                        />
+                        <div className='col-span-3'></div>
+                      </>
+                    )}
 
-                <RadioSelector
-                  span='sm:col-span-6'
-                  label='money-raised'
-                  title='How much money have you raised so far?'
-                  type='cost'
-                  setRadioType={setRaisedType}
-                  radioType={raisedType}
-                  radioTypes={raisedTypes}
-                />
-              </FormBlock>
-              <hr className='mx-20 border-8 border-indigo-600' />
-              <FormBlock
-                title='Breakdown of costs'
-                description='Please tell us more about the initial costs of developing your project (capital expenditure) and ongoing costs of maintaining it (operational expenditure).'
-                type='cost'
-              >
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='capex'
-                  title='Total capital expenditure  '
-                  placeholder='£200'
-                  unit='£'
-                  type='cost'
-                  min='0'
-                  defaultValue={capexCost}
-                  onChange={(e) => {
-                    setCapexCost(e.target.value);
-                  }}
-                />
+                    <Controller
+                      control={methods.control}
+                      name='treeNumber'
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <NumberInput
+                          span='sm:col-span-3'
+                          label='treeNumber'
+                          title='Number of new trees to be planted'
+                          placeholder='100'
+                          type='typology'
+                          unit='trees'
+                          min={1}
+                          max={1000}
+                          required={true}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          selected={value}
+                        />
+                      )}
+                    />
 
-                <NumberInput
-                  span='sm:col-span-3'
-                  label='opex'
-                  title='Total operational expenditure'
-                  placeholder='£200'
-                  unit='£'
-                  type='cost'
-                  min='0'
-                  defaultValue={opexCost}
-                  onChange={(e) => {
-                    setOpexCost(e.target.value);
-                  }}
-                />
-                <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
-                  Capital expenditures (CAPEX) refers to the initial costs of developing a project.
-                </p>
-                <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
-                  Operating expenses (OPEX) are the maintenance expenses to keep the projects
-                  operation.
-                </p>
-              </FormBlock>
-            </div>
+                    <Controller
+                      control={methods.control}
+                      name='existingTrees'
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <NumberInput
+                          span='sm:col-span-3'
+                          label='existingTrees'
+                          unit='trees'
+                          title='Number of existing trees to be maintained'
+                          placeholder='100'
+                          min={1}
+                          max={1000}
+                          type='typology'
+                          required={true}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          selected={value}
+                        />
+                      )}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-green-600' />
+                  <FormBlock
+                    title='What activities are you planning?'
+                    description='While we imagine you’re planning several activities, please select the main ones. (If you’re planning to plant trees, select DEVELOPING. If you’re maintaining existing tree stocks, select MAINTAINING)'
+                    type='typology'
+                  >
+                    <RadioSelector
+                      span='sm:col-span-5'
+                      label='activity-type'
+                      title='Primary activity'
+                      type='typology'
+                      setRadioType={setActivityType}
+                      radioType={activityType}
+                      radioTypes={activityTypes}
+                    />
+                    <RadioSelector
+                      span='sm:col-span-5'
+                      label='maintenance-type'
+                      title='Maintenance level'
+                      type='typology'
+                      setRadioType={setMaintenanceType}
+                      radioType={maintenanceType}
+                      radioTypes={maintenanceTypes}
+                    />
+                  </FormBlock>
+                </div>
+                <div className='py-10'>
+                  <SectionHeader title='Project costs' type='cost' />
+                  <FormBlock
+                    title='Project budgeting'
+                    description='TreesAI can help you in investing in your project. More you give us details and more we would be able to understand your needs.'
+                    type='cost'
+                  >
+                    <RadioSelector
+                      span='sm:col-span-6'
+                      label='project-budget'
+                      title='What is your project budget?'
+                      type='cost'
+                      setRadioType={setBudgetType}
+                      radioType={budgetType}
+                      radioTypes={budgetTypes}
+                    />
 
-            <div className='py-10'>
-              <SectionHeader title='More information' type='info' />
-              <FormBlock
-                title='Would you like to add more information? '
-                description='Thanks for sharing the key information required to establish your project’s impact. However, if you share more information about your project specifications (such as your planning application, bills of quantity, or any other design packages) your measurements will be more accurate.'
-                type='cost'
-              >
-                <TextInput
-                  span='sm:col-span-3'
-                  label='file-upload'
-                  title='Upload file'
-                  placeholder='filename'
-                  type='additional'
-                />
-                <div className='sm:col-span-2' />
+                    <RadioSelector
+                      span='sm:col-span-6'
+                      label='money-raised'
+                      title='How much money have you raised so far?'
+                      type='cost'
+                      setRadioType={setRaisedType}
+                      radioType={raisedType}
+                      radioTypes={raisedTypes}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Breakdown of costs'
+                    description='Please tell us more about the initial costs of developing your project (capital expenditure) and ongoing costs of maintaining it (operational expenditure).'
+                    type='cost'
+                  >
+                    <NumberInput
+                      span='sm:col-span-3'
+                      label='capexCost'
+                      title='Total capital expenditure  '
+                      placeholder='200'
+                      unit='£'
+                      type='cost'
+                      min={1}
+                      max={5000}
+                      defaultValue={500}
+                    />
 
-                <TextInput
-                  span='sm:col-span-3'
-                  label='neighbourhood'
-                  title='Add link 1'
-                  placeholder='www.projectsite.com'
-                  type='additional'
-                />
-                <TextInput
-                  span='sm:col-span-3'
-                  label='neighbourhood'
-                  title='Add link 2'
-                  placeholder='www.projectsite.com'
-                  type='additional'
-                />
-              </FormBlock>
-            </div>
+                    <NumberInput
+                      span='sm:col-span-3'
+                      label='opexCost'
+                      title='Total operational expenditure'
+                      placeholder='200'
+                      unit='£'
+                      type='cost'
+                      min={1}
+                      max={5000}
+                      defaultValue={500}
+                    />
+                    <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
+                      Capital expenditures (CAPEX) refers to the initial costs of developing a
+                      project.
+                    </p>
+                    <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
+                      Operating expenses (OPEX) are the maintenance expenses to keep the projects
+                      operation.
+                    </p>
+                  </FormBlock>
+                </div>
 
-            <div className='grid pb-20'>
-              <div className='max-w-3xl place-self-center py-4 text-center'>
-                <p className='book-intro-lg'>
-                  Thanks for taking the time to fill in the form. Click &quot;
-                  <span className='medium-intro-lg'>Run impact</span>&quot; to view your project
-                  impact assessment.
-                </p>
-              </div>
-              <div className='place-self-center pt-4'>
-                <button
-                  type='button'
-                  disabled={isLoading}
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
-                  onClick={sendRequestAndFetchData}
-                >
-                  Run impact
-                </button>
-              </div>
-            </div>
+                <div className='py-10'>
+                  <SectionHeader title='More information' type='info' />
+                  <FormBlock
+                    title='Would you like to add more information? '
+                    description='Thanks for sharing the key information required to establish your project’s impact. However, if you share more information about your project specifications (such as your planning application, bills of quantity, or any other design packages) your measurements will be more accurate.'
+                    type='cost'
+                  >
+                    <TextInput
+                      span='sm:col-span-3'
+                      label='fileUpload'
+                      title='Upload file'
+                      placeholder='filename'
+                      type='additional'
+                    />
+                    <div className='sm:col-span-2' />
+
+                    <TextInput
+                      span='sm:col-span-3'
+                      label='link1'
+                      title='Add link 1'
+                      placeholder='www.projectsite.com'
+                      type='additional'
+                    />
+                    <TextInput
+                      span='sm:col-span-3'
+                      label='link2'
+                      title='Add link 2'
+                      placeholder='www.projectsite.com'
+                      type='additional'
+                    />
+                  </FormBlock>
+                </div>
+
+                <div className='grid pb-20'>
+                  <div className='max-w-3xl place-self-center py-4 text-center'>
+                    <p className='book-intro-lg'>
+                      Thanks for taking the time to fill in the form. Click &quot;
+                      <span className='medium-intro-lg'>Run impact</span>&quot; to view your project
+                      impact assessment.
+                    </p>
+                  </div>
+                  <div className='place-self-center pt-4'>
+                    <input
+                      type='submit'
+                      disabled={isLoading}
+                      className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
+                    />
+                  </div>
+                </div>
+              </form>
+            </FormProvider>
           </div>
         ))}
       {processStage === 2 && (
@@ -1088,7 +1095,7 @@ export default function SubmitProject(props) {
                 </h1>
               </div>
               <div className='place-self-center'>
-                <h1 className='text-left text-white-200'>{projectName}</h1>
+                <h1 className='text-left text-white-200'>{methods.getValues('projectName')}</h1>
               </div>
             </div>
           </div>
@@ -1115,7 +1122,9 @@ export default function SubmitProject(props) {
                   className='h-49 w-49 rounded-full border-8 border-green-600'
                 />
               </div>
-              <p className='bold-intro-sm para-break pt-10'>{projectDescription}</p>
+              <p className='bold-intro-sm para-break pt-10'>
+                {methods.getValues('projectDescription')}
+              </p>
               <div className='mt-8 flex flex-col'>
                 <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                   <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
@@ -1132,7 +1141,7 @@ export default function SubmitProject(props) {
                               Project developer:
                             </td>
                             <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
-                              {projectDev}
+                              {methods.getValues('projectDeveloper')}
                             </td>
                           </tr>
                           <tr>
@@ -1148,7 +1157,7 @@ export default function SubmitProject(props) {
                               Number of trees planted:
                             </td>
                             <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
-                              {treeNumber}
+                              {methods.getValues('treeNumber')}
                             </td>
                           </tr>
                           {(selectedTypology.id === 1 || selectedTypology.id === 2) && (
@@ -1157,7 +1166,7 @@ export default function SubmitProject(props) {
                                 Number of trees maintained:
                               </td>
                               <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
-                                {treeNumberMaintain}
+                                {methods.getValues('treeNumberMaintain')}
                               </td>
                             </tr>
                           )}
@@ -1224,7 +1233,7 @@ export default function SubmitProject(props) {
               </p>
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
               <CostBox
-                months={projectLength}
+                months={methods.getValues('projectLength')}
                 costMonths={costOverSelectedTime}
                 costTotal={totalCost}
               />
