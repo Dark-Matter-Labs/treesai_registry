@@ -31,7 +31,6 @@ import ChartMultiLine from '../components/charts/ChartMultiLine';
 import LocationRiskChart from '../components/analysis/LocationRisk';
 import PieChart from '../components/charts/PieChart';
 import BarChart from '../components/charts/BarChart';
-import SmallBarChart from '../components/charts/SmallBarChart';
 // utils functions
 import { saf_data } from '../utils/saf_data_model';
 import {
@@ -97,7 +96,7 @@ export default function SubmitProject(props) {
   const [densityPerHa, setDensityPerHa] = useState(1);
   // Cost variables
   const [totalCost, setTotalCost] = useState(500);
-  const [costOverSelectedTime, setCostOverSelectedTime] = useState(321);
+  const [moneyNeeded, setMoneyNeeded] = useState(500);
 
   /* SAF Related variables */
   const [safOutputHash0, setSafOutputHash0] = useState();
@@ -112,7 +111,6 @@ export default function SubmitProject(props) {
   const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
 
   const [costChart, setCostChart] = useState([]);
-  const [smallCostChart, setSmallCostChart] = useState([]);
 
   const navigate = useNavigate();
 
@@ -172,21 +170,16 @@ export default function SubmitProject(props) {
   }, [totalTreeNumber, watchEffectiveArea]);
 
   useEffect(() => {
-    const cost =
-      parseInt(parseInt(methods.getValues('opexCost'))) + parseInt(methods.getValues('capexCost'));
-    setTotalCost(cost);
-    setCostOverSelectedTime((cost / (12 * 50)) * methods.getValues('projectLength'));
-    // Render the smaller cost chart
-    setSmallCostChart([
-      {
-        Expenditure: 'CAPEX',
-        Value: methods.getValues('capexCost'),
-      },
-      { Expenditure: 'OPEX', Value: methods.getValues('opexCost') },
-    ]);
+    setTotalCost(methods.getValues('project-budget'));
+
+    setMoneyNeeded(
+      parseInt(parseInt(methods.getValues('project-budget'))) -
+        parseInt(methods.getValues('money-raised')),
+    );
+    console.log(moneyNeeded);
   }, [
-    methods.getValues('opexCost'),
-    methods.getValues('capexCost'),
+    methods.getValues('money-raised'),
+    methods.getValues('project-budget'),
     methods.getValues('projectLength'),
     safOutput0,
   ]);
@@ -1192,11 +1185,7 @@ export default function SubmitProject(props) {
                 The following ranges provide an estimated project costs over different time-spans:
               </p>
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
-              <CostBox
-                months={methods.getValues('projectLength')}
-                costMonths={costOverSelectedTime}
-                costTotal={totalCost}
-              />
+              <CostBox months={methods.getValues('projectLength')} costTotal={totalCost} />
               <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
@@ -1277,81 +1266,6 @@ export default function SubmitProject(props) {
             description='The assessment provides an estimated project costs over 50 years. *this estimate does not include any commercial mark-ups. These costs only reflect the direct infrastructural cost of your NbS project.'
             type='impact'
           />
-          <hr className='mx-20 border-[12px] border-indigo-600' />
-          <ResultBlock title='Breakdown of capital and operational costs'>
-            <div className='grid grid-cols-1 md:grid-cols-4 mt-5 gap-x-8'>
-              <div>
-                <p className='book-intro mt-10'>
-                  Here you can find breakdown of the capital and operational costs of your project
-                  for each typology under the maintenance scope you selected. The breakdown is
-                  calculated by annualising the capital and operational costs for a 50 year period.
-                </p>
-              </div>
-              <div className=''>
-                <p className='mt-4'>Typology</p>
-                <div className=''>
-                  <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
-                    <div className=''>
-                      <RadioGroup.Option
-                        key={selectedTypology.id}
-                        value={selectedTypology}
-                        className={({ checked, active }) =>
-                          classNames(
-                            checked ? 'border-transparent' : 'border-dark-wood-500',
-                            active ? 'border-green-600 ring-2 ring-green-600' : '',
-                            'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
-                          )
-                        }
-                      >
-                        {({ checked, active }) => (
-                          <>
-                            <span className='flex flex-1'>
-                              <img className='h-24 rounded-full' src={selectedTypology.image} />
-                              <span className='flex flex-col'>
-                                <RadioGroup.Label
-                                  as='span'
-                                  className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
-                                >
-                                  {selectedTypology.title}
-                                </RadioGroup.Label>
-                                <RadioGroup.Description
-                                  as='span'
-                                  className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
-                                >
-                                  {selectedTypology.description}
-                                </RadioGroup.Description>
-                              </span>
-                            </span>
-                            <CheckCircleIcon
-                              className={classNames(
-                                !checked ? 'invisible' : '',
-                                'h-5 w-5 text-green-600',
-                              )}
-                              aria-hidden='true'
-                            />
-                            <span
-                              className={classNames(
-                                active ? 'border' : 'border-2',
-                                checked ? 'border-green-600' : 'border-transparent',
-                                'pointer-events-none absolute -inset-px rounded-3xl',
-                              )}
-                              aria-hidden='true'
-                            />
-                          </>
-                        )}
-                      </RadioGroup.Option>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
-
-              <div className='col-span-2'>
-                <p>Annualised costs</p>
-
-                <SmallBarChart data={smallCostChart} />
-              </div>
-            </div>
-          </ResultBlock>
           <hr className='mx-20 border-[12px] border-indigo-600' />
           <ChartBlock
             maintenanceTypeName={maintenanceType.name}

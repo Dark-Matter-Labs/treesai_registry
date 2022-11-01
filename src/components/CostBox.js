@@ -8,9 +8,12 @@ export default function CostBox(props) {
 
   useEffect(() => {
     setMonths(props.months);
-    setCostMonths(props.costMonths);
     setCostsTotal(props.costTotal);
   }, [props]);
+
+  useEffect(() => {
+    setCostMonths((costTotal / months).toFixed(2));
+  }, [costTotal]);
 
   return (
     <div className='px-4'>
