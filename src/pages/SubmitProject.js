@@ -934,6 +934,7 @@ export default function SubmitProject(props) {
                       min={1}
                       max={5000000}
                       defaultValue={50000}
+                      required={true}
                     />
 
                     <NumberInput
@@ -946,6 +947,7 @@ export default function SubmitProject(props) {
                       min={0}
                       max={5000000}
                       defaultValue={2500}
+                      required={true}
                     />
                   </FormBlock>
                 </div>
