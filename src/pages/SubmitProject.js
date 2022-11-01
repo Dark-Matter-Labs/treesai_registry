@@ -48,8 +48,6 @@ import {
   get_stages,
   get_land_use,
   get_activity_types,
-  get_budget_types,
-  get_raised_types,
   get_piechart_types,
 } from '../utils/project_details';
 
@@ -69,8 +67,6 @@ const typologyTabs = get_typologies_types();
 const stages = get_stages();
 const landUse = get_land_use();
 const activityTypes = get_activity_types();
-const budgetTypes = get_budget_types();
-const raisedTypes = get_raised_types();
 const piechartTypes = get_piechart_types();
 
 function classNames(...classes) {
@@ -97,8 +93,6 @@ export default function SubmitProject(props) {
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [activityType, setActivityType] = useState(activityTypes[0]);
-  const [budgetType, setBudgetType] = useState(budgetTypes[0]);
-  const [raisedType, setRaisedType] = useState(raisedTypes[0]);
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
   const [densityPerHa, setDensityPerHa] = useState(1);
   // Cost variables
@@ -586,9 +580,9 @@ export default function SubmitProject(props) {
                           label='totalArea'
                           title='Total area of the project *'
                           unit='m2'
-                          placeholder='2000'
-                          min={10}
-                          max={10000}
+                          placeholder='10000'
+                          min={50}
+                          max={200000}
                           type='general'
                           required={true}
                           onChange={onChange}
@@ -970,63 +964,29 @@ export default function SubmitProject(props) {
                     description='TreesAI can help you in investing in your project. More you give us details and more we would be able to understand your needs.'
                     type='cost'
                   >
-                    <RadioSelector
-                      span='sm:col-span-6'
+                    <NumberInput
+                      span='sm:col-span-3'
                       label='project-budget'
                       title='What is your project budget?'
+                      placeholder='200'
+                      unit='£'
                       type='cost'
-                      setRadioType={setBudgetType}
-                      radioType={budgetType}
-                      radioTypes={budgetTypes}
+                      min={1}
+                      max={5000000}
+                      defaultValue={50000}
                     />
 
-                    <RadioSelector
-                      span='sm:col-span-6'
+                    <NumberInput
+                      span='sm:col-span-3'
                       label='money-raised'
                       title='How much money have you raised so far?'
-                      type='cost'
-                      setRadioType={setRaisedType}
-                      radioType={raisedType}
-                      radioTypes={raisedTypes}
-                    />
-                  </FormBlock>
-                  <hr className='mx-20 border-8 border-indigo-600' />
-                  <FormBlock
-                    title='Breakdown of costs'
-                    description='Please tell us more about the initial costs of developing your project (capital expenditure) and ongoing costs of maintaining it (operational expenditure).'
-                    type='cost'
-                  >
-                    <NumberInput
-                      span='sm:col-span-3'
-                      label='capexCost'
-                      title='Total capital expenditure  '
                       placeholder='200'
                       unit='£'
                       type='cost'
-                      min={1}
-                      max={5000}
-                      defaultValue={500}
+                      min={0}
+                      max={5000000}
+                      defaultValue={2500}
                     />
-
-                    <NumberInput
-                      span='sm:col-span-3'
-                      label='opexCost'
-                      title='Total operational expenditure'
-                      placeholder='200'
-                      unit='£'
-                      type='cost'
-                      min={1}
-                      max={5000}
-                      defaultValue={500}
-                    />
-                    <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
-                      Capital expenditures (CAPEX) refers to the initial costs of developing a
-                      project.
-                    </p>
-                    <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
-                      Operating expenses (OPEX) are the maintenance expenses to keep the projects
-                      operation.
-                    </p>
                   </FormBlock>
                 </div>
 
