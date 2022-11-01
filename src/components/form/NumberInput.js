@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function NumberInput(props) {
+  const { register } = useFormContext();
   return (
     <div className={props.span}>
       <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
@@ -13,6 +16,12 @@ export default function NumberInput(props) {
       </label>
       <div className='mt-1 flex'>
         <input
+          {...register(props.label, {
+            min: props.min,
+            max: { value: props.max, message: `Please keep value lower than ${props.max}` },
+            required: { value: props.required, message: 'This is required!' },
+            pattern: /^\d+$/,
+          })}
           type='number'
           name={props.label}
           id={props.label}
@@ -24,7 +33,6 @@ export default function NumberInput(props) {
           defaultValue={props.defaultValue}
           onChange={props.onChange}
           onWheel={(e) => e.target.blur()}
-          min='1'
         />
         <span
           className={classNames(
@@ -35,6 +43,10 @@ export default function NumberInput(props) {
           {props.unit}
         </span>
       </div>
+      <ErrorMessage
+        name={props.label}
+        render={({ message }) => <p className='book-info-sm text-red-600 py-2'>{message}</p>}
+      />
     </div>
   );
 }
@@ -48,4 +60,7 @@ NumberInput.propTypes = {
   defaultValue: PropTypes.number,
   unit: PropTypes.string,
   onChange: PropTypes.func,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  required: PropTypes.bool,
 };

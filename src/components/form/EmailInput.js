@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function EmailInput(props) {
+  const { register } = useFormContext();
   return (
     <div className={props.span}>
       <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
@@ -13,6 +16,14 @@ export default function EmailInput(props) {
       </label>
       <div className='mt-1'>
         <input
+          {...register(props.label, {
+            required: { value: props.required, message: 'This is required!' },
+            pattern: {
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: 'Not a valid email',
+            },
+          })}
           type='email'
           name={props.label}
           id={props.label}
@@ -23,6 +34,10 @@ export default function EmailInput(props) {
           )}
           defaultValue={props.defaultValue}
           onChange={props.onChange}
+        />
+        <ErrorMessage
+          name={props.label}
+          render={({ message }) => <p className='book-info-sm text-red-600 py-2'>{message}</p>}
         />
       </div>
     </div>
@@ -37,4 +52,5 @@ EmailInput.propTypes = {
   type: PropTypes.string,
   defaultValue: PropTypes.string,
   onChange: PropTypes.func,
+  required: PropTypes.bool,
 };

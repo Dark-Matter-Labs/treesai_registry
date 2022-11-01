@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import TextTransition, { presets } from 'react-text-transition';
 
 const TEXTS = [
@@ -13,18 +13,14 @@ const TEXTS = [
   'Estimating carbon release due to mulched trees',
   'Estimating carbon release through dead trunks',
   'Removing dead trees',
-  'Planting new trees'
+  'Planting new trees',
 ];
-
 
 export default function SAFLoadingScreen() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const intervalId = setInterval(() =>
-      setIndex(index => index + 1),
-      2000
-    );
+    const intervalId = setInterval(() => setIndex((index) => index + 1), 2000);
     return () => clearTimeout(intervalId);
   }, []);
 
@@ -36,9 +32,9 @@ export default function SAFLoadingScreen() {
       </div>
       <div className='text-center mx-auto max-w-3xl py-20'>
         <h1 className='text-indigo-600'>
-        <TextTransition springConfig={presets.wobbly}>
-        {TEXTS[index % TEXTS.length]}
-      </TextTransition>
+          <TextTransition springConfig={presets.wobbly}>
+            {TEXTS[index % TEXTS.length]}
+          </TextTransition>
         </h1>
       </div>
     </div>

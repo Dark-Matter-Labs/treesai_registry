@@ -99,7 +99,7 @@ export const getSAFRunbyHash = async (run_hash) => {
     redirect: 'follow',
   };
 
-  return axios.get(url, config).then(res => res.data['output']);
+  return axios.get(url, config).then((res) => res.data['output']);
 };
 
 export const post_saf_run_and_get_hash = async (payload) => {
@@ -139,8 +139,6 @@ export const post_saf_run_and_get_hash = async (payload) => {
 };
 
 export const create_project_and_get_ID = async (payload) => {
-  console.log(sessionStorage);
-
   const requestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,

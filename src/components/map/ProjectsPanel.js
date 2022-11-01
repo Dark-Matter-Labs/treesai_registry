@@ -46,10 +46,7 @@ export default function ProjectsPanel(props) {
 
           <div className='px-4 py-2'>
             <p className='text-green-600 bold-intro-md'>Projects</p>
-            <ul
-              role='list'
-              className='overflow-scroll h-[20rem] styled-scrollbars '
-            >
+            <ul role='list' className='overflow-scroll h-[20rem] styled-scrollbars '>
               {props.data.map((project) => {
                 if (project.properties.portfolio_A) {
                   return (
@@ -108,29 +105,26 @@ export default function ProjectsPanel(props) {
 
             <div className='block lg:flex lg:flex-row gap-4'>
               <div>
-              <Link to='/invest'>
-                <button
-                  type='button'
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-2 lg:px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
-                >
-                  Invest →
-                </button>
-              </Link>
-
+                <Link to='/invest'>
+                  <button
+                    type='button'
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-2 lg:px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
+                  >
+                    Invest →
+                  </button>
+                </Link>
               </div>
-             
-             <div>
-             <Link to='/glasgow-nbs-portfolio'>
-                <button
-                  type='button'
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-2 lg:px-8 text-white-200 shadow-sm hover:bg-indigo-800'
-                >
-                  Glasgow NbS Portfolio →
-                </button>
-              </Link>
 
-             </div>
-            
+              <div>
+                <Link to='/glasgow-nbs-portfolio'>
+                  <button
+                    type='button'
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-2 lg:px-8 text-white-200 shadow-sm hover:bg-indigo-800'
+                  >
+                    Glasgow NbS Portfolio →
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
