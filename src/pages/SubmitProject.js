@@ -83,7 +83,6 @@ export default function SubmitProject(props) {
   const watchTotalArea = methods.watch('totalArea', 1);
   const watchTreePlant = methods.watch('treeNumber', 1);
   const watchTreeMaintain = methods.watch('existingTrees', 1);
-  const watchEffectiveArea = methods.watch('areaDensity', 1);
   const [selectedCC, setSelectedCC] = useState(listCouncils[0]);
   const [landUseChange, setLandUseChange] = useState(false);
   const [totalTreeNumber, setTotalTreeNumber] = useState(0);
@@ -158,16 +157,9 @@ export default function SubmitProject(props) {
   }, [watchTreePlant, watchTreeMaintain]);
 
   useEffect(() => {
-    let densPerHa = 1;
-    // for all typologies except Street trees, use effective typology area
-    if (selectedTypology.id !== 0) {
-      densPerHa = (totalTreeNumber * 10000) / watchEffectiveArea; // Multiply by 10000 to transform m2 to Ha
-    } else {
-      densPerHa = totalTreeNumber * 10000;
-    }
-
+    let densPerHa = (totalTreeNumber * 10000) / watchTotalArea; // Multiply by 10000 to transform m2 to Ha
     setDensityPerHa(densPerHa);
-  }, [totalTreeNumber, watchEffectiveArea]);
+  }, [totalTreeNumber, watchTotalArea]);
 
   useEffect(() => {
     setTotalCost(methods.getValues('project-budget'));
@@ -176,6 +168,7 @@ export default function SubmitProject(props) {
       parseInt(parseInt(methods.getValues('project-budget'))) -
         parseInt(methods.getValues('money-raised')),
     );
+    // We'll be using the moneyNeeded variable with the new design
     console.log(moneyNeeded);
   }, [
     methods.getValues('money-raised'),
@@ -856,32 +849,6 @@ export default function SubmitProject(props) {
                     description={`Your total project area is ${watchTotalArea} m2. How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
                     type='typology'
                   >
-                    {selectedTypology.id !== 0 && (
-                      <>
-                        <Controller
-                          control={methods.control}
-                          name='areaDensity'
-                          render={({ field: { onChange, onBlur, value } }) => (
-                            <NumberInput
-                              span='sm:col-span-3'
-                              label='areaDensity'
-                              title='The effective area used by typology'
-                              unit='Ha'
-                              placeholder=''
-                              type='typology'
-                              min={1}
-                              max={500}
-                              required={true}
-                              onChange={onChange}
-                              onBlur={onBlur}
-                              selected={value}
-                            />
-                          )}
-                        />
-                        <div className='col-span-3'></div>
-                      </>
-                    )}
-
                     <Controller
                       control={methods.control}
                       name='treeNumber'
