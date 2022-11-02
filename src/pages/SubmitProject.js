@@ -31,7 +31,6 @@ import ChartMultiLine from '../components/charts/ChartMultiLine';
 import LocationRiskChart from '../components/analysis/LocationRisk';
 import PieChart from '../components/charts/PieChart';
 import BarChart from '../components/charts/BarChart';
-import SmallBarChart from '../components/charts/SmallBarChart';
 // utils functions
 import { saf_data } from '../utils/saf_data_model';
 import {
@@ -48,8 +47,6 @@ import {
   get_stages,
   get_land_use,
   get_activity_types,
-  get_budget_types,
-  get_raised_types,
   get_piechart_types,
 } from '../utils/project_details';
 
@@ -69,8 +66,6 @@ const typologyTabs = get_typologies_types();
 const stages = get_stages();
 const landUse = get_land_use();
 const activityTypes = get_activity_types();
-const budgetTypes = get_budget_types();
-const raisedTypes = get_raised_types();
 const piechartTypes = get_piechart_types();
 
 function classNames(...classes) {
@@ -88,7 +83,6 @@ export default function SubmitProject(props) {
   const watchTotalArea = methods.watch('totalArea', 1);
   const watchTreePlant = methods.watch('treeNumber', 1);
   const watchTreeMaintain = methods.watch('existingTrees', 1);
-  const watchEffectiveArea = methods.watch('areaDensity', 1);
   const [selectedCC, setSelectedCC] = useState(listCouncils[0]);
   const [landUseChange, setLandUseChange] = useState(false);
   const [totalTreeNumber, setTotalTreeNumber] = useState(0);
@@ -97,13 +91,11 @@ export default function SubmitProject(props) {
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [activityType, setActivityType] = useState(activityTypes[0]);
-  const [budgetType, setBudgetType] = useState(budgetTypes[0]);
-  const [raisedType, setRaisedType] = useState(raisedTypes[0]);
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
   const [densityPerHa, setDensityPerHa] = useState(1);
   // Cost variables
   const [totalCost, setTotalCost] = useState(500);
-  const [costOverSelectedTime, setCostOverSelectedTime] = useState(321);
+  const [moneyNeeded, setMoneyNeeded] = useState(500);
 
   /* SAF Related variables */
   const [safOutputHash0, setSafOutputHash0] = useState();
@@ -118,7 +110,6 @@ export default function SubmitProject(props) {
   const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
 
   const [costChart, setCostChart] = useState([]);
-  const [smallCostChart, setSmallCostChart] = useState([]);
 
   const navigate = useNavigate();
 
@@ -166,33 +157,22 @@ export default function SubmitProject(props) {
   }, [watchTreePlant, watchTreeMaintain]);
 
   useEffect(() => {
-    let densPerHa = 1;
-    // for all typologies except Street trees, use effective typology area
-    if (selectedTypology.id !== 0) {
-      densPerHa = (totalTreeNumber * 10000) / watchEffectiveArea; // Multiply by 10000 to transform m2 to Ha
-    } else {
-      densPerHa = totalTreeNumber * 10000;
-    }
-
+    let densPerHa = (totalTreeNumber * 10000) / watchTotalArea; // Multiply by 10000 to transform m2 to Ha
     setDensityPerHa(densPerHa);
-  }, [totalTreeNumber, watchEffectiveArea]);
+  }, [totalTreeNumber, watchTotalArea]);
 
   useEffect(() => {
-    const cost =
-      parseInt(parseInt(methods.getValues('opexCost'))) + parseInt(methods.getValues('capexCost'));
-    setTotalCost(cost);
-    setCostOverSelectedTime((cost / (12 * 50)) * methods.getValues('projectLength'));
-    // Render the smaller cost chart
-    setSmallCostChart([
-      {
-        Expenditure: 'CAPEX',
-        Value: methods.getValues('capexCost'),
-      },
-      { Expenditure: 'OPEX', Value: methods.getValues('opexCost') },
-    ]);
+    setTotalCost(methods.getValues('project-budget'));
+
+    setMoneyNeeded(
+      parseInt(parseInt(methods.getValues('project-budget'))) -
+        parseInt(methods.getValues('money-raised')),
+    );
+    // We'll be using the moneyNeeded variable with the new design
+    console.log(moneyNeeded);
   }, [
-    methods.getValues('opexCost'),
-    methods.getValues('capexCost'),
+    methods.getValues('money-raised'),
+    methods.getValues('project-budget'),
     methods.getValues('projectLength'),
     safOutput0,
   ]);
@@ -586,9 +566,9 @@ export default function SubmitProject(props) {
                           label='totalArea'
                           title='Total area of the project *'
                           unit='m2'
-                          placeholder='2000'
-                          min={10}
-                          max={10000}
+                          placeholder='10000'
+                          min={50}
+                          max={200000}
                           type='general'
                           required={true}
                           onChange={onChange}
@@ -869,32 +849,6 @@ export default function SubmitProject(props) {
                     description={`Your total project area is ${watchTotalArea} m2. How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
                     type='typology'
                   >
-                    {selectedTypology.id !== 0 && (
-                      <>
-                        <Controller
-                          control={methods.control}
-                          name='areaDensity'
-                          render={({ field: { onChange, onBlur, value } }) => (
-                            <NumberInput
-                              span='sm:col-span-3'
-                              label='areaDensity'
-                              title='The effective area used by typology'
-                              unit='Ha'
-                              placeholder=''
-                              type='typology'
-                              min={1}
-                              max={500}
-                              required={true}
-                              onChange={onChange}
-                              onBlur={onBlur}
-                              selected={value}
-                            />
-                          )}
-                        />
-                        <div className='col-span-3'></div>
-                      </>
-                    )}
-
                     <Controller
                       control={methods.control}
                       name='treeNumber'
@@ -970,63 +924,31 @@ export default function SubmitProject(props) {
                     description='TreesAI can help you in investing in your project. More you give us details and more we would be able to understand your needs.'
                     type='cost'
                   >
-                    <RadioSelector
-                      span='sm:col-span-6'
+                    <NumberInput
+                      span='sm:col-span-3'
                       label='project-budget'
                       title='What is your project budget?'
+                      placeholder='200'
+                      unit='£'
                       type='cost'
-                      setRadioType={setBudgetType}
-                      radioType={budgetType}
-                      radioTypes={budgetTypes}
+                      min={1}
+                      max={5000000}
+                      defaultValue={50000}
+                      required={true}
                     />
 
-                    <RadioSelector
-                      span='sm:col-span-6'
+                    <NumberInput
+                      span='sm:col-span-3'
                       label='money-raised'
                       title='How much money have you raised so far?'
-                      type='cost'
-                      setRadioType={setRaisedType}
-                      radioType={raisedType}
-                      radioTypes={raisedTypes}
-                    />
-                  </FormBlock>
-                  <hr className='mx-20 border-8 border-indigo-600' />
-                  <FormBlock
-                    title='Breakdown of costs'
-                    description='Please tell us more about the initial costs of developing your project (capital expenditure) and ongoing costs of maintaining it (operational expenditure).'
-                    type='cost'
-                  >
-                    <NumberInput
-                      span='sm:col-span-3'
-                      label='capexCost'
-                      title='Total capital expenditure  '
                       placeholder='200'
                       unit='£'
                       type='cost'
-                      min={1}
-                      max={5000}
-                      defaultValue={500}
+                      min={0}
+                      max={5000000}
+                      defaultValue={2500}
+                      required={true}
                     />
-
-                    <NumberInput
-                      span='sm:col-span-3'
-                      label='opexCost'
-                      title='Total operational expenditure'
-                      placeholder='200'
-                      unit='£'
-                      type='cost'
-                      min={1}
-                      max={5000}
-                      defaultValue={500}
-                    />
-                    <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
-                      Capital expenditures (CAPEX) refers to the initial costs of developing a
-                      project.
-                    </p>
-                    <p className='col-span-3 medium-intro-sm mt-2 text-gray-500'>
-                      Operating expenses (OPEX) are the maintenance expenses to keep the projects
-                      operation.
-                    </p>
                   </FormBlock>
                 </div>
 
@@ -1232,11 +1154,7 @@ export default function SubmitProject(props) {
                 The following ranges provide an estimated project costs over different time-spans:
               </p>
               <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
-              <CostBox
-                months={methods.getValues('projectLength')}
-                costMonths={costOverSelectedTime}
-                costTotal={totalCost}
-              />
+              <CostBox months={methods.getValues('projectLength')} costTotal={totalCost} />
               <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
@@ -1317,81 +1235,6 @@ export default function SubmitProject(props) {
             description='The assessment provides an estimated project costs over 50 years. *this estimate does not include any commercial mark-ups. These costs only reflect the direct infrastructural cost of your NbS project.'
             type='impact'
           />
-          <hr className='mx-20 border-[12px] border-indigo-600' />
-          <ResultBlock title='Breakdown of capital and operational costs'>
-            <div className='grid grid-cols-1 md:grid-cols-4 mt-5 gap-x-8'>
-              <div>
-                <p className='book-intro mt-10'>
-                  Here you can find breakdown of the capital and operational costs of your project
-                  for each typology under the maintenance scope you selected. The breakdown is
-                  calculated by annualising the capital and operational costs for a 50 year period.
-                </p>
-              </div>
-              <div className=''>
-                <p className='mt-4'>Typology</p>
-                <div className=''>
-                  <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
-                    <div className=''>
-                      <RadioGroup.Option
-                        key={selectedTypology.id}
-                        value={selectedTypology}
-                        className={({ checked, active }) =>
-                          classNames(
-                            checked ? 'border-transparent' : 'border-dark-wood-500',
-                            active ? 'border-green-600 ring-2 ring-green-600' : '',
-                            'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
-                          )
-                        }
-                      >
-                        {({ checked, active }) => (
-                          <>
-                            <span className='flex flex-1'>
-                              <img className='h-24 rounded-full' src={selectedTypology.image} />
-                              <span className='flex flex-col'>
-                                <RadioGroup.Label
-                                  as='span'
-                                  className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
-                                >
-                                  {selectedTypology.title}
-                                </RadioGroup.Label>
-                                <RadioGroup.Description
-                                  as='span'
-                                  className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
-                                >
-                                  {selectedTypology.description}
-                                </RadioGroup.Description>
-                              </span>
-                            </span>
-                            <CheckCircleIcon
-                              className={classNames(
-                                !checked ? 'invisible' : '',
-                                'h-5 w-5 text-green-600',
-                              )}
-                              aria-hidden='true'
-                            />
-                            <span
-                              className={classNames(
-                                active ? 'border' : 'border-2',
-                                checked ? 'border-green-600' : 'border-transparent',
-                                'pointer-events-none absolute -inset-px rounded-3xl',
-                              )}
-                              aria-hidden='true'
-                            />
-                          </>
-                        )}
-                      </RadioGroup.Option>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
-
-              <div className='col-span-2'>
-                <p>Annualised costs</p>
-
-                <SmallBarChart data={smallCostChart} />
-              </div>
-            </div>
-          </ResultBlock>
           <hr className='mx-20 border-[12px] border-indigo-600' />
           <ChartBlock
             maintenanceTypeName={maintenanceType.name}

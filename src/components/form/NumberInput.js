@@ -17,7 +17,7 @@ export default function NumberInput(props) {
       <div className='mt-1 flex'>
         <input
           {...register(props.label, {
-            min: props.min,
+            min: { value: props.min, message: `Please keep value higher than ${props.min}` },
             max: { value: props.max, message: `Please keep value lower than ${props.max}` },
             required: { value: props.required, message: 'This is required!' },
             pattern: /^\d+$/,
