@@ -15,7 +15,7 @@ export default function Account(props) {
     // Set LoadingSpinner
     setIsLoading(true);
 
-    getUserProjects()
+    getUserProjects(sessionStorage.user_id)
       .then((result) => {
         setIsLoading(false);
         setNumberOfProjects(result.projects.length);
