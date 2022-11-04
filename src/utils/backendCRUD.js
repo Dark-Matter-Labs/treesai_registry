@@ -172,3 +172,34 @@ export const create_project_and_get_ID = async (payload) => {
 
   return response;
 };
+
+/* ------------------- Account ------------------- */
+export const getUserProjects = async () => {
+  const getUserRequestHeaders = {
+    accept: 'application/json',
+    Authorization: 'Bearer ' + sessionStorage.token,
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  };
+
+  const config = {
+    method: 'GET',
+    headers: getUserRequestHeaders,
+    redirect: 'follow',
+  };
+
+  let url =
+    process.env.REACT_APP_API_ENDPOINT +
+    '/api/v1/saf/users/' +
+    sessionStorage.user_id +
+    '/projects/';
+
+  let userProjects = await axios
+    .get(url, config)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log('error', error);
+    });
+
+  return userProjects;
+};
