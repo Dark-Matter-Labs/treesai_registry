@@ -174,7 +174,7 @@ export const create_project_and_get_ID = async (payload) => {
 };
 
 /* ------------------- Account ------------------- */
-export const getUserProjects = async () => {
+export const getUserProjects = async (user_id) => {
   const getUserRequestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
@@ -188,18 +188,12 @@ export const getUserProjects = async () => {
     redirect: 'follow',
   };
 
-  let url =
-    process.env.REACT_APP_API_ENDPOINT +
-    '/api/v1/saf/users/' +
-    sessionStorage.user_id +
-    '/projects/';
+  let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/users/' + user_id + '/projects/';
 
-  let userProjects = await axios
+  return await axios
     .get(url, config)
     .then((response) => response.data)
     .catch((error) => {
       console.log('error', error);
     });
-
-  return userProjects;
 };
