@@ -11,6 +11,7 @@ import Invest from './pages/Invest';
 import Learn from './pages/Learn';
 import Contact from './pages/Contact';
 import Demo from './pages/Demo';
+import Account from './pages/Account';
 import ScrollToTop from './utils/ScrollToTop';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route exact path='/learn-more' element={<Learn />} />
         <Route exact path='/contact' element={<Contact />} />
         <Route exact path='/demo' element={<Demo />} />
+        <Route exact path='/account' element={<Account loggedIn={loggedIn} />} />
       </Routes>
     </Router>
   );
