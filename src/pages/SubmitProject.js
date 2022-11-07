@@ -24,7 +24,7 @@ import RadioSelector from '../components/form/RadioSelector';
 import ResultBlock from '../components/ResultBlock';
 import ValueDisplay from '../components/analysis/ValueDisplay';
 import ChartBlock from '../components/analysis/ChartBlock';
-// import pieChartBlock from '../components/analysis/PieChartBlock';
+import PieChartBlock from '../components/analysis/PieChartBlock';
 
 // Images
 import projectImg from '../images/project-default.png';
@@ -1140,7 +1140,7 @@ export default function SubmitProject(props) {
               <ChartMultiLine data={comparativeStorage} />
             </ChartBlock>
             <hr className='mx-20 border-[12px] border-indigo-600' />
-            <pieChartBlock
+            <PieChartBlock
               safOutput0={safOutput0}
               safOutput1={safOutput1}
               safOutput2={safOutput2}

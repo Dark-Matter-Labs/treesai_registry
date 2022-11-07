@@ -14,12 +14,12 @@ import { get_piechart_types } from '../../utils/project_details';
 
 const piechartTypes = get_piechart_types();
 
-export default function pieChartBlock(props) {
+export default function PieChartBlock(props) {
   // base data
-  const [safOutput0, setSafOutput0] = useState([]);
-  const [safOutput1, setSafOutput1] = useState([]);
-  const [safOutput2, setSafOutput2] = useState([]);
-  const [maintenanceTypeName, setMmaintenanceTypeName] = useState('medium');
+  const [safOutput0, setSafOutput0] = useState(saf_data);
+  const [safOutput1, setSafOutput1] = useState(saf_data);
+  const [safOutput2, setSafOutput2] = useState(saf_data);
+  const [maintenanceTypeName, setMaintenanceTypeName] = useState('medium');
   // show type
   const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
   // for display
@@ -31,7 +31,7 @@ export default function pieChartBlock(props) {
     setSafOutput0(props.safOutput0);
     setSafOutput1(props.safOutput1);
     setSafOutput2(props.safOutput2);
-    setMmaintenanceTypeName(props.setMmaintenanceTypeName);
+    setMaintenanceTypeName(props.maintenanceTypeName);
   }, [props]);
 
   /* Pie Diagram */
@@ -131,9 +131,9 @@ export default function pieChartBlock(props) {
   );
 }
 
-pieChartBlock.propTypes = {
-  safOutput0: saf_data,
-  safOutput1: saf_data,
-  safOutput2: saf_data,
+PieChartBlock.propTypes = {
+  safOutput0: PropTypes.object,
+  safOutput1: PropTypes.object,
+  safOutput2: PropTypes.object,
   maintenanceTypeName: PropTypes.string,
 };
