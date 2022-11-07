@@ -117,6 +117,7 @@ export default function SubmitProject(props) {
 
   const swrOptions = {
     // fallbackData: saf_data, // Default returned
+    /*
     onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
       // Log error
       console.log('Error', error);
@@ -126,7 +127,7 @@ export default function SubmitProject(props) {
 
       // Retry after 10 seconds.
       setTimeout(() => revalidate({ retryCount }), 5000);
-    },
+    },*/
     onSuccess: (data) => {
       console.log('Data received:', data);
     },
@@ -139,8 +140,16 @@ export default function SubmitProject(props) {
 
   // Retreive the result from the simulation. It will only fetch if the Hash is defined
   const { data: safOutput0 } = useSWR(safOutputHash0, getSAFRunbyHash, swrOptions);
-  const { data: safOutput1 } = useSWR(safOutputHash1, getSAFRunbyHash, swrOptions);
-  const { data: safOutput2 } = useSWR(safOutputHash2, getSAFRunbyHash, swrOptions);
+  const { data: safOutput1 } = useSWR(
+    safOutput0 ? safOutputHash1 : null,
+    getSAFRunbyHash,
+    swrOptions,
+  );
+  const { data: safOutput2 } = useSWR(
+    safOutput1 ? safOutputHash2 : null,
+    getSAFRunbyHash,
+    swrOptions,
+  );
 
   /* Helper functions */
 
