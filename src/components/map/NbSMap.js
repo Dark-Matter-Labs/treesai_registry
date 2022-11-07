@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
-import ReactMapboxGL, { Marker, Popup } from 'react-map-gl';
+import ReactMapboxGL, { Marker, Popup, Source, Layer } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import PropTypes from 'prop-types';
 import Pin from './Pin';
+import {
+  SocialDeprivationStyles,
+  LocationScoringStyles,
+  SubBasinStyles,
+} from '../../utils/map_data_layers';
+
+// get data layers
+import SocialDeprivation from '../../data/SocialDeprivation.geojson';
+import SubBasin from '../../data/SubBasin.geojson';
+import LocationScoring from '../../data/Location_scoring_councils.geojson';
 
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
@@ -21,9 +31,30 @@ export default function NbSMap(props) {
       mapboxAccessToken={MAPBOX_TOKEN}
       {...viewState}
       onMove={(evt) => setViewState(evt.viewState)}
-      mapStyle={props.mapLayer}
+      // TODO: refactor this when other TIFF layers are working
+      mapStyle={
+        props.mapDataLayer === 'mapbox://styles/gurden/cla6q7i2y00fb15ph0j37y0b4'
+          ? props.mapDataLayer
+          : 'mapbox://styles/mapbox/light-v10'
+      }
       style={{ width: '100vw', height: '100vh', overflowY: 'hidden' }}
     >
+      {props.mapDataLayer === 'Social Deprivation' && (
+        <Source type='geojson' data={SocialDeprivation}>
+          <Layer {...SocialDeprivationStyles} />
+        </Source>
+      )}
+      {props.mapDataLayer === 'Sub Basin' && (
+        <Source type='geojson' data={SubBasin}>
+          <Layer {...SubBasinStyles} />
+        </Source>
+      )}
+      {props.mapDataLayer === 'Location Scoring' && (
+        <Source type='geojson' data={LocationScoring}>
+          <Layer {...LocationScoringStyles} />
+        </Source>
+      )}
+
       <>
         {props.data.map((city, index) => (
           <Marker
@@ -116,4 +147,5 @@ NbSMap.propTypes = {
   popupInfo: PropTypes.object,
   setPopupInfo: PropTypes.func,
   mapLayer: PropTypes.string,
+  mapDataLayer: PropTypes.string,
 };

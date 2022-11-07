@@ -6,14 +6,14 @@ import NbSMap from '../components/map/NbSMap';
 import NavBar from '../components/NavBar';
 import ProjectsPanel from '../components/map/ProjectsPanel';
 import Filter from '../components/map/Filter';
-import LayerSelector from '../components/map/LayerSelector';
+import DataLayerSelector from '../components/map/DataLayerSelector';
 
 export default function Portfolio(props) {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
   const [data, setData] = useState(ProjectsJSON);
   const [showProjectPanel, setShowProjectPanel] = useState(true);
-  const [mapLayer, setMapLayer] = useState('mapbox://styles/mapbox/light-v10');
+  const [mapDataLayer, setMapDataLayer] = useState('Basic');
 
   const selectProject = (current) => {
     mapRef.current.flyTo({
@@ -44,9 +44,9 @@ export default function Portfolio(props) {
               selectProject={selectProject}
               popupInfo={popupInfo}
               setPopupInfo={setPopupInfo}
-              mapLayer={mapLayer}
+              mapDataLayer={mapDataLayer}
             />
-            <LayerSelector setMapLayer={setMapLayer} />
+            <DataLayerSelector setMapDataLayer={setMapDataLayer} />
           </div>
         </div>
       ) : (
@@ -66,9 +66,9 @@ export default function Portfolio(props) {
               selectProject={selectProject}
               popupInfo={popupInfo}
               setPopupInfo={setPopupInfo}
-              mapLayer={mapLayer}
+              mapDataLayer={mapDataLayer}
             />
-            <LayerSelector setMapLayer={setMapLayer} />
+            <DataLayerSelector setMapDataLayer={setMapDataLayer} />
           </div>
         </div>
       )}
