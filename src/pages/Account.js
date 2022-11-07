@@ -1,41 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import useSWR from 'swr';
+
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 import { getUserProjects } from '../utils/backendCRUD';
 
+function useUser(id) {
+  const swrOptions = {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  };
+
+  const { data, error } = useSWR(id, getUserProjects, swrOptions);
+
+  return {
+    userProjectList: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+function get_tot_trees(projectList) {
+  const totalTrees = projectList.reduce((accumulator, project) => {
+    return accumulator + project.number_of_trees;
+  }, 0);
+  return totalTrees;
+}
+
 export default function Account(props) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [numberOfProjects, setNumberOfProjects] = useState(0);
-  const [numberOfTrees, setNumberOfTrees] = useState(0);
-  // const [projectIDList, setProjectIDList] = useState([]);
-  useEffect(() => {
-    // Set LoadingSpinner
-    setIsLoading(true);
+  const { userProjectList, isLoading } = useUser(sessionStorage.user_id);
 
-    getUserProjects(sessionStorage.user_id)
-      .then((result) => {
-        setIsLoading(false);
-        setNumberOfProjects(result.projects.length);
-
-        const totalTrees = result.projects.reduce((accumulator, project) => {
-          return accumulator + project.number_of_trees;
-        }, 0);
-        setNumberOfTrees(totalTrees);
-
-        // append result[i].projectID to projectIDList
-        // and call /api/v1/saf/users/{user_id}/projects/{project_id}/runs for for each project? Sounds like bad perf idea and lots of GET requests
-        // should call /api/v1/saf/runs/?skip=0&limit=20' but currently not working
-        console.log(result);
-      })
-      .catch((error) => console.log('error', error));
-  }, []);
+  if (isLoading) return <LoadingSpinner />;
   return (
     <div className='font-favorit bg-white-200 bg-pattern '>
       <NavBar loggedIn={props.loggedIn} current='account' />
-      {isLoading && <LoadingSpinner />}
       <div className='bg-white-200 global-margin bg-pattern '>
         <div className='title-box mt-5 bg-dark-wood-800 py-20'>
           <h1 className='text-center text-white-200'>
@@ -44,8 +46,12 @@ export default function Account(props) {
         </div>
 
         <div className='bg-dark-wood-800 my-20 px-10 py-10'>
-          <h2 className='text-white-200'>Total Projects in Portfolio: {numberOfProjects}</h2>
-          <h2 className='text-white-200'>Total number of Trees: {numberOfTrees}</h2>
+          <h2 className='text-white-200'>
+            Total Projects in Portfolio: {userProjectList.projects.length}
+          </h2>
+          <h2 className='text-white-200'>
+            Total number of Trees: {get_tot_trees(userProjectList.projects)}
+          </h2>
         </div>
 
         <Footer />
