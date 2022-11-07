@@ -996,7 +996,7 @@ export default function SubmitProject(props) {
                   <div className='place-self-center pt-4'>
                     <input
                       type='submit'
-                      value='Run Impact' 
+                      value='Run Impact'
                       disabled={isLoading}
                       className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-2 px-8 text-white-200 shadow-sm hover:bg-indigo-800'
                     />
