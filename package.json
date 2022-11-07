@@ -19,7 +19,7 @@
     "axios": "^1.1.2",
     "eslint-config-prettier": "^8.5.0",
     "immutable": "^4.1.0",
-    "mapbox-gl": "^2.8.2",
+    "mapbox-gl": "^2.10.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-helmet": "^6.1.0",
