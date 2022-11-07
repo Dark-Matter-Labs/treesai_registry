@@ -24,12 +24,13 @@ import RadioSelector from '../components/form/RadioSelector';
 import ResultBlock from '../components/ResultBlock';
 import ValueDisplay from '../components/analysis/ValueDisplay';
 import ChartBlock from '../components/analysis/ChartBlock';
+// import pieChartBlock from '../components/analysis/PieChartBlock';
+
 // Images
 import projectImg from '../images/project-default.png';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
 import LocationRiskChart from '../components/analysis/LocationRisk';
-import PieChart from '../components/charts/PieChart';
 import BarChart from '../components/charts/BarChart';
 // utils functions
 import { saf_data } from '../utils/saf_data_model';
@@ -38,7 +39,7 @@ import {
   post_saf_run_and_get_hash,
   create_project_and_get_ID,
 } from '../utils/backendCRUD';
-import { makePieOutput, formatDataForMultilineChart } from '../utils/chartUtils';
+import { formatDataForMultilineChart } from '../utils/chartUtils';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import {
@@ -47,7 +48,6 @@ import {
   get_stages,
   get_land_use,
   get_activity_types,
-  get_piechart_types,
 } from '../utils/project_details';
 
 import { getCouncils } from '../utils/geojson_utils';
@@ -66,7 +66,6 @@ const typologyTabs = get_typologies_types();
 const stages = get_stages();
 const landUse = get_land_use();
 const activityTypes = get_activity_types();
-const piechartTypes = get_piechart_types();
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -91,7 +90,6 @@ export default function SubmitProject(props) {
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [activityType, setActivityType] = useState(activityTypes[0]);
-  const [pieChartShowType, setPieChartShowType] = useState('high maintenance');
   const [densityPerHa, setDensityPerHa] = useState(1);
   // Cost variables
   const [totalCost, setTotalCost] = useState(500);
@@ -105,9 +103,6 @@ export default function SubmitProject(props) {
   const [totalStorage, setTotalStorage] = useState(0);
   const [comparativeSeq, setComparativeSeq] = useState([]);
   const [comparativeStorage, setComparativeStorage] = useState([]);
-  const [oneToFivePie, setOneToFivePie] = useState([]);
-  const [sixToTenPie, setSixToTen] = useState([]);
-  const [eleventToFiftyPie, setEleventToFiftyPie] = useState([]);
 
   const [costChart, setCostChart] = useState([]);
 
@@ -185,63 +180,6 @@ export default function SubmitProject(props) {
     methods.getValues('projectLength'),
     safOutput0,
   ]);
-
-  /* Pie Diagram */
-
-  function makePieChart(safOutput = saf_data) {
-    // Alive - High
-    const oneToFiveAlive = sumRange(safOutput.Alive, 0, 5) / 5;
-    const sixToTenAlive = sumRange(safOutput.Alive, 5, 10) / 5;
-    const elevenToFiftyAlive = sumRange(safOutput.Alive, 10, 50) / 40;
-
-    const alive_buckets = [
-      { years: '1-5', trees: oneToFiveAlive },
-      { years: '6-10', trees: sixToTenAlive },
-      { years: '11-50', trees: elevenToFiftyAlive },
-    ];
-
-    // Dead - High
-    const oneToFiveDead = sumRange(safOutput.Dead, 0, 5) / 5;
-    const sixToTenDead = sumRange(safOutput.Dead, 5, 10) / 5;
-    const elevenToFiftyDead = sumRange(safOutput.Dead, 10, 50) / 40;
-
-    const dead_buckets = [
-      { years: '1-5', trees: oneToFiveDead },
-      { years: '6-10', trees: sixToTenDead },
-      { years: '11-50', trees: elevenToFiftyDead },
-    ];
-
-    // Critical - High
-    const oneToFiveCritical = sumRange(safOutput.Critical, 0, 5) / 5;
-    const sixToTenCritical = sumRange(safOutput.Critical, 5, 10) / 5;
-    const elevenToFiftyCritical = sumRange(safOutput.Critical, 10, 50) / 40;
-
-    let critical_buckets = [
-      { years: '1-5', trees: oneToFiveCritical },
-      { years: '6-10', trees: sixToTenCritical },
-      { years: '11-50', trees: elevenToFiftyCritical },
-    ];
-
-    setOneToFivePie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 0));
-    setSixToTen(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 1));
-    setEleventToFiftyPie(makePieOutput(alive_buckets, dead_buckets, critical_buckets, 2));
-  }
-
-  useEffect(() => {
-    switch (pieChartShowType) {
-      case 'high maintenance':
-        makePieChart(safOutput2);
-        break;
-      case 'medium maintenance':
-        makePieChart(safOutput1);
-        break;
-      case 'low maintenance':
-        makePieChart(safOutput0);
-        break;
-      default:
-        toast.error('Something went wrong in the maintenance type');
-    }
-  }, [pieChartShowType, safOutput2]);
 
   function processSAFData(SAFOutput = saf_data) {
     /* SAF Related processing */
@@ -1202,40 +1140,12 @@ export default function SubmitProject(props) {
               <ChartMultiLine data={comparativeStorage} />
             </ChartBlock>
             <hr className='mx-20 border-[12px] border-indigo-600' />
-            <ChartBlock
+            <pieChartBlock
+              safOutput0={safOutput0}
+              safOutput1={safOutput1}
+              safOutput2={safOutput2}
               maintenanceTypeName={maintenanceType.name}
-              label='Tree Health under three maintenance scopes'
-              type='pie'
-              detail='We consider a tree ‘non-critical’ if it has a dieback ratio of over 25%, this is the amount of living foliage as a proportion of the estimated original crown outline.'
-            >
-              <div className='flex'>
-                <p className='max-w-sm pt-5 text-indigo-600 medium-intro-lg'>
-                  Breakdown of trees in terms of their health (%)
-                </p>
-                <Dropdown
-                  span='sm:col-span-2'
-                  label='pie chart type'
-                  title=''
-                  type='general'
-                  onChange={(e) => {
-                    setPieChartShowType(e.target.value);
-                  }}
-                  options={piechartTypes}
-                />
-              </div>
-
-              <div className='grid grid-cols-1 sm:grid-cols-3'>
-                <div>
-                  <PieChart data={oneToFivePie} type={1} />
-                </div>
-                <div>
-                  <PieChart data={sixToTenPie} type={2} />
-                </div>
-                <div>
-                  <PieChart data={eleventToFiftyPie} type={3} />
-                </div>
-              </div>
-            </ChartBlock>
+            />
           </div>
 
           <div className='h-10' />
