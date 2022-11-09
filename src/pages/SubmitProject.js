@@ -35,7 +35,7 @@ import BarChart from '../components/charts/BarChart';
 // utils functions
 import { saf_data } from '../utils/saf_data_model';
 import {
-  getSAFRunbyHash,
+  get_saf_run_by_hash,
   post_saf_run_and_get_hash,
   create_project_and_get_ID,
 } from '../utils/backendCRUD';
@@ -134,15 +134,15 @@ export default function SubmitProject(props) {
   };
 
   // Retreive the result from the simulation. It will only fetch if the Hash is defined
-  const { data: safOutput0 } = useSWR(safOutputHash0, getSAFRunbyHash, swrOptions);
+  const { data: safOutput0 } = useSWR(safOutputHash0, get_saf_run_by_hash, swrOptions);
   const { data: safOutput1 } = useSWR(
     safOutput0 ? safOutputHash1 : null,
-    getSAFRunbyHash,
+    get_saf_run_by_hash,
     swrOptions,
   );
   const { data: safOutput2 } = useSWR(
     safOutput1 ? safOutputHash2 : null,
-    getSAFRunbyHash,
+    get_saf_run_by_hash,
     swrOptions,
   );
 

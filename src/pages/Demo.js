@@ -39,9 +39,9 @@ import {
 import { Link } from 'react-router-dom';
 
 import {
-  getUserMeInfo,
-  getUserToken,
-  getSAFRunbyHash,
+  get_user_me_info,
+  get_user_token,
+  get_saf_run_by_hash,
   post_saf_run_and_get_hash,
   create_project_and_get_ID,
 } from '../utils/backendCRUD';
@@ -74,9 +74,9 @@ const loginDemoUser = async () => {
   };
 
   // Get user token and info
-  getUserToken(getTokenPayload)
+  get_user_token(getTokenPayload)
     .then(() => {
-      getUserMeInfo().then(() => {
+      get_user_me_info().then(() => {
         console.log('logged in!');
       });
     })
@@ -138,9 +138,9 @@ export default function Demo(props) {
   };
 
   // Retreive the result from the simulation. It will only fetch if the Hash is defined
-  const { data: safOutput0 } = useSWR(safOutputHash0, getSAFRunbyHash, swrOptions);
-  const { data: safOutput1 } = useSWR(safOutputHash1, getSAFRunbyHash, swrOptions);
-  const { data: safOutput2 } = useSWR(safOutputHash2, getSAFRunbyHash, swrOptions);
+  const { data: safOutput0 } = useSWR(safOutputHash0, get_saf_run_by_hash, swrOptions);
+  const { data: safOutput1 } = useSWR(safOutputHash1, get_saf_run_by_hash, swrOptions);
+  const { data: safOutput2 } = useSWR(safOutputHash2, get_saf_run_by_hash, swrOptions);
 
   useEffect(() => {
     let sum =

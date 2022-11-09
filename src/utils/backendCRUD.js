@@ -2,7 +2,7 @@ const axios = require('axios').default;
 
 /* ------------------- Auth ------------------- */
 
-export const getUserToken = async (tokenPayload) => {
+export const get_user_token = async (tokenPayload) => {
   const getTokenRequestHeaders = {
     accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -35,7 +35,7 @@ export const getUserToken = async (tokenPayload) => {
   return token;
 };
 
-export const getUserMeInfo = async () => {
+export const get_user_me_info = async () => {
   const getUserRequestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
@@ -76,7 +76,7 @@ function postHeaders() {
   return requestHeaders;
 } */
 
-export const getSAFRunbyHash = async (run_hash) => {
+export const get_saf_run_by_hash = async (run_hash) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
 
@@ -224,7 +224,7 @@ export const get_user_projects = async (user_id) => {
 };
 
 export const get_all_user_runs = async (user_id) => {
-  // get all projects for a user
+  // get all runs for a user
   const projectList = await get_user_projects(user_id);
   // Initialize empty array to store all runs
   let allRuns = [];
