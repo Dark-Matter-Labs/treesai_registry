@@ -173,9 +173,7 @@ export const create_project_and_get_ID = async (payload) => {
   return response;
 };
 
-/* ------------------- Account ------------------- */
-
-export const getSAFRunByProjectID = async (project_id) => {
+export const get_SAF_runs_by_project_id = async (project_id) => {
   const user_id = sessionStorage.user_id;
 
   const requestHeaders = {
@@ -199,8 +197,7 @@ export const getSAFRunByProjectID = async (project_id) => {
   return await axios.get(url, config).then((res) => res.data['runs']);
 };
 
-
-export const getUserProjects = async (user_id) => {
+export const get_user_projects = async (user_id) => {
   const getUserRequestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
@@ -219,22 +216,23 @@ export const getUserProjects = async (user_id) => {
   return await axios
     .get(url, config)
     .then((response) => {
-      const runs = [];
-      Promise.all(response.data.projects.map(async (project) => getSAFRunByProjectID(project.id).then(res => {
-        runs.push(res);
-        return res;
-      })))
-      .then(() => {
-        for (let index = 0; index < response.data.projects.length; index++) {
-          response.data.projects[index].runs = runs[index];
-        }
-      });
-      return response.data;
-      
+      response.data['projects'];
     })
     .catch((error) => {
       console.log('error', error);
     });
 };
 
-
+export const get_all_user_runs = async (user_id) => {
+  // get all projects for a user
+  const projectList = await get_user_projects(user_id);
+  // Initialize empty array to store all runs
+  let allRuns = [];
+  // Loop through each project and get all runs
+  for (let i = 0; i < projectList.length; i++) {
+    let runs = await get_SAF_runs_by_project_id(projectList[i].id);
+    allRuns = allRuns.concat(runs);
+  }
+  // Return all runs
+  return allRuns;
+};
