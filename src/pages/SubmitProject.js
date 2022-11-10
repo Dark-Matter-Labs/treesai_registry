@@ -17,6 +17,7 @@ import SectionHeader from '../components/SectionHeader';
 import FormBlock from '../components/form/FormBlock';
 import TextInput from '../components/form/TextInput';
 import AddressInput from '../components/form/AddressInput';
+import AddressInputWithMap from '../components/form/AddressInputWithMap';
 import NumberInput from '../components/form/NumberInput';
 import Dropdown from '../components/form/Dropdown';
 import Toggle from '../components/form/Toggle';
@@ -54,6 +55,7 @@ import { getCouncils } from '../utils/geojson_utils';
 import CostBox from '../components/CostBox';
 
 import { makeChartArray, sumRange, getLastElement } from '../utils/objUtils';
+
 
 // set SAF parameters
 const typologies = get_typologies();
@@ -333,6 +335,8 @@ export default function SubmitProject(props) {
       local_authority: formData.projectDeveloper,
       location: 'string',
       start_date: new Date(formData.startDate),
+      lat: sessionStorage.getItem('lat'),
+      lng: sessionStorage.getItem('lng'),
     });
 
     let id = await create_project_and_get_ID(payload);
@@ -522,6 +526,20 @@ export default function SubmitProject(props) {
                           selected={value}
                         />
                       )}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Project information'
+                    description='Start by telling us who you are and a bit about your project.'
+                  >
+                    <AddressInputWithMap
+                      span='sm:col-span-3'
+                      label='address'
+                      title='Project Location *'
+                      placeholder='Street, street number, postal code'
+                      type='general'
+                      required={true}
                     />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
