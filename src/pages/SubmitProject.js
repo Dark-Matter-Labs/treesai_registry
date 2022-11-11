@@ -293,8 +293,7 @@ export default function SubmitProject(props) {
       time_horizon: 50,
       density_per_ha: parseInt(densityPerHa),
       species: selectedTypology.species,
-      conifer: formData.conifer,
-      deciduous: formData.deciduous,
+      conifer_ratio_percent: formData.conifer, // Integer
     };
     // Change dbh based on activity
     if (activityType.name === 'Developing') {
