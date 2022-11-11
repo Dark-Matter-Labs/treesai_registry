@@ -282,37 +282,37 @@ export default function SubmitProject(props) {
   }, [safOutput0, safOutput1, safOutput2]);
 
   const postSAFRun = async (maintenanceScope, formData) => {
-    let payload;
-
+    // Define payload based on maintenance scope
+    let payload = {
+      title: formData.projectName,
+      description: formData.projectDescription,
+      typology: selectedTypology.value,
+      maintenance_scope: maintenanceScope,
+      season_growth_mean: 200,
+      season_growth_var: 7,
+      time_horizon: 50,
+      density_per_ha: parseInt(densityPerHa),
+      species: selectedTypology.species,
+      conifer: formData.conifer,
+      deciduous: formData.deciduous,
+    };
+    // Change dbh based on activity
     if (activityType.name === 'Developing') {
-      payload = JSON.stringify({
-        title: formData.projectName,
-        description: formData.projectDescription,
-        typology: selectedTypology.value,
+      payload = {
+        ...payload,
         min_dbh: parseInt(selectedTypology.fixedDBH),
         max_dbh: parseInt(selectedTypology.fixedDBH),
-        maintenance_scope: maintenanceScope,
-        season_growth_mean: 200,
-        season_growth_var: 7,
-        time_horizon: 50,
-        density_per_ha: parseInt(densityPerHa),
-        species: selectedTypology.species,
-      });
+      };
     } else {
-      payload = JSON.stringify({
-        title: formData.projectName,
-        description: formData.projectDescription,
-        typology: selectedTypology.value,
+      payload = {
+        ...payload,
         min_dbh: parseInt(selectedTypology.minDBH),
         max_dbh: parseInt(selectedTypology.maxDBH),
-        maintenance_scope: maintenanceScope,
-        season_growth_mean: 200,
-        season_growth_var: 7,
-        time_horizon: 50,
-        density_per_ha: parseInt(densityPerHa),
-        species: selectedTypology.species,
-      });
+      };
     }
+
+    // parse payload to JSON
+    payload = JSON.stringify(payload);
 
     let hash = await post_saf_run_and_get_hash(payload);
     return hash;
@@ -830,6 +830,54 @@ export default function SubmitProject(props) {
                           min={0}
                           max={1000}
                           type='typology'
+                          required={true}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          selected={value}
+                        />
+                      )}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-green-600' />
+                  <FormBlock
+                    title={'What is the composition of your project?'}
+                    description={'Choose between conifer and deciduous'}
+                    type='typology'
+                  >
+                    <Controller
+                      control={methods.control}
+                      name='conifer'
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <NumberInput
+                          span='sm:col-span-3'
+                          label='conifer'
+                          title='% of conifer trees'
+                          placeholder='50'
+                          type='typology'
+                          unit='%'
+                          min={0}
+                          max={100}
+                          required={true}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          selected={value}
+                        />
+                      )}
+                    />
+
+                    <Controller
+                      control={methods.control}
+                      name='deciduous'
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <NumberInput
+                          span='sm:col-span-3'
+                          label='deciduous'
+                          unit='trees'
+                          title='% of deciduous trees'
+                          placeholder='50'
+                          min={0}
+                          max={100}
+                          type='%'
                           required={true}
                           onChange={onChange}
                           onBlur={onBlur}
