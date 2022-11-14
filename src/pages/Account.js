@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
-import { sumRange, getLastElement } from '../utils/objUtils';
+import { sumRange, getLastKeyInObj } from '../utils/objUtils';
 
 function useUser(id) {
   const swrOptions = {
@@ -56,7 +56,7 @@ function get_tot_carbon_sq(projectRuns) {
       totalCarbonSeq += sumRange(
         projectRuns[i].output.Seq,
         0,
-        getLastElement(projectRuns[i].output.Seq),
+        getLastKeyInObj(projectRuns[i].output.Seq),
       );
     }
   }
@@ -70,7 +70,7 @@ function get_tot_carbon_storage(projectRuns) {
     // Temporary check to not add carbon from all 3 runs, later to use user's chosen maintenance level
     if (i % 3 === 0) {
       totalCarbonStorage +=
-        projectRuns[i].output.Storage[getLastElement(projectRuns[i].output.Storage)];
+        projectRuns[i].output.Storage[getLastKeyInObj(projectRuns[i].output.Storage)];
     }
   }
 

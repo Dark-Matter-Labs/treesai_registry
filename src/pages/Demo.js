@@ -46,7 +46,7 @@ import {
   create_project_and_get_ID,
 } from '../utils/backendCRUD';
 
-import { makeChartArray, sumRange, getLastElement } from '../utils/objUtils';
+import { makeChartArray, sumRange, getLastKeyInObj } from '../utils/objUtils';
 import { makePieOutput, formatDataForMultilineChart } from '../utils/chartUtils';
 
 // Demo user creds
@@ -211,8 +211,8 @@ export default function Demo(props) {
 
   function processSAFData(dataUserScope = saf_data) {
     /* SAF Related processing */
-    setTotalSeq(sumRange(dataUserScope.Seq, 0, getLastElement(dataUserScope.Seq)));
-    setTotalStorage(dataUserScope.Storage[getLastElement(dataUserScope.Storage)]); // last element of the array
+    setTotalSeq(sumRange(dataUserScope.Seq, 0, getLastKeyInObj(dataUserScope.Seq)));
+    setTotalStorage(dataUserScope.Storage[getLastKeyInObj(dataUserScope.Storage)]); // last element of the array
   }
 
   /* Data logic changes on receiving the SAF output */

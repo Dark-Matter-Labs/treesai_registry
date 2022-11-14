@@ -53,7 +53,7 @@ import {
 import { getCouncils } from '../utils/geojson_utils';
 import CostBox from '../components/CostBox';
 
-import { makeChartArray, sumRange, getLastElement } from '../utils/objUtils';
+import { makeChartArray, sumRange, getLastKeyInObj } from '../utils/objUtils';
 
 // set SAF parameters
 const typologies = get_typologies();
@@ -183,8 +183,8 @@ export default function SubmitProject(props) {
 
   function processSAFData(SAFOutput = saf_data) {
     /* SAF Related processing */
-    setTotalSeq(sumRange(SAFOutput.Seq, 0, getLastElement(SAFOutput.Seq)));
-    setTotalStorage(SAFOutput.Storage[getLastElement(SAFOutput.Storage)]); // last element of the array
+    setTotalSeq(sumRange(SAFOutput.Seq, 0, getLastKeyInObj(SAFOutput.Seq)));
+    setTotalStorage(SAFOutput.Storage[getLastKeyInObj(SAFOutput.Storage)]); // last element of the array
   }
 
   /* Data logic changes on receiving the SAF output */
