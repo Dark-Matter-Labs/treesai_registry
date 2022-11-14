@@ -9,13 +9,13 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
 import { sumRange, getLastKeyInObj } from '../utils/objUtils';
 
-function useUser(id) {
-  const swrOptions = {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  };
+const swrOptions = {
+  revalidateIfStale: false,
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+};
 
+function useUser(id) {
   const { data, error } = useSWR(id, get_user_projects, swrOptions);
 
   return {
@@ -26,12 +26,6 @@ function useUser(id) {
 }
 
 function useRuns(projectList) {
-  const swrOptions = {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  };
-
   const { data, error } = useSWR(projectList, get_all_user_runs, swrOptions);
 
   return {
