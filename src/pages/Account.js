@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
-import { sumRange, getLastKeyInObj } from '../utils/objUtils';
+import { getLastKeyInObj } from '../utils/objUtils';
 
 const swrOptions = {
   revalidateIfStale: false,
@@ -31,7 +31,7 @@ function useRuns(projectList) {
   return {
     userRuns: data,
     isRunLoading: !error && !data,
-    isError: error,
+    isRunError: error,
   };
 }
 
@@ -47,11 +47,8 @@ function get_tot_carbon_sq(projectRuns) {
   for (let i = 0; i < projectRuns.length; i++) {
     // Temporary check to not add carbon from all 3 runs, later to use user's chosen maintenance level
     if (i % 3 === 0) {
-      totalCarbonSeq += sumRange(
-        projectRuns[i].output.Seq,
-        0,
-        getLastKeyInObj(projectRuns[i].output.Seq),
-      );
+      totalCarbonSeq +=
+        projectRuns[i].output.Cum_Seq[getLastKeyInObj(projectRuns[i].output.Cum_Seq)];
     }
   }
 
@@ -72,10 +69,14 @@ function get_tot_carbon_storage(projectRuns) {
 }
 
 export default function Account(props) {
-  const { userProjectList, isLoading } = useUser(sessionStorage.user_id);
-  const { userRuns, isRunLoading } = useRuns(userProjectList);
+  const { userProjectList, isLoading, isError } = useUser(sessionStorage.user_id);
+  const { userRuns, isRunLoading, isRunError } = useRuns(userProjectList);
+
+  console.log('projList', userProjectList);
+  console.log('runs', userRuns);
 
   if (isLoading || isRunLoading) return <LoadingSpinner />;
+  else if (isError || isRunError) return <div>Failed to load</div>;
   return (
     <div className='font-favorit bg-white-200 bg-pattern '>
       <NavBar loggedIn={props.loggedIn} current='account' />
