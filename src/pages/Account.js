@@ -6,7 +6,7 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-import { getUserProjects, get_all_user_runs } from '../utils/backendCRUD';
+import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
 import { sumRange, getLastElement } from '../utils/objUtils';
 
 function useUser(id) {
@@ -16,7 +16,7 @@ function useUser(id) {
     revalidateOnReconnect: false,
   };
 
-  const { data, error } = useSWR(id, getUserProjects, swrOptions);
+  const { data, error } = useSWR(id, get_user_projects, swrOptions);
 
   return {
     userProjectList: data,
