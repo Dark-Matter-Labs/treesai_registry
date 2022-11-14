@@ -6,7 +6,7 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-import { getUserProjects } from '../utils/backendCRUD';
+import { getUserProjects, get_all_user_runs } from '../utils/backendCRUD';
 
 function useUser(id) {
   const swrOptions = {
@@ -24,6 +24,22 @@ function useUser(id) {
   };
 }
 
+function useRuns(projectList) {
+  const swrOptions = {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  };
+
+  const { data, error } = useSWR(projectList, get_all_user_runs, swrOptions);
+
+  return {
+    userRuns: data,
+    isRunLoading: !error && !data,
+    isError: error,
+  };
+}
+
 function get_tot_trees(projectList) {
   const totalTrees = projectList.reduce((accumulator, project) => {
     return accumulator + project.number_of_trees;
@@ -33,8 +49,9 @@ function get_tot_trees(projectList) {
 
 export default function Account(props) {
   const { userProjectList, isLoading } = useUser(sessionStorage.user_id);
+  const { userRuns, isRunLoading } = useRuns(userProjectList);
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading || isRunLoading) return <LoadingSpinner />;
   return (
     <div className='font-favorit bg-white-200 bg-pattern '>
       <NavBar loggedIn={props.loggedIn} current='account' />
@@ -52,6 +69,7 @@ export default function Account(props) {
           <h2 className='text-white-200'>
             Total number of Trees: {get_tot_trees(userProjectList.projects)}
           </h2>
+          {console.log(userRuns)}
         </div>
 
         <Footer />
