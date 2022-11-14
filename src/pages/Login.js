@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-import { getUserMeInfo, getUserToken } from '../utils/backendCRUD';
+import { get_me_user_info, get_user_token } from '../utils/backendCRUD';
 
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -24,9 +24,9 @@ export default function Login() {
     setIsLoading(true);
 
     // Get user token and info
-    getUserToken(getTokenPayload)
+    get_user_token(getTokenPayload)
       .then(() => {
-        getUserMeInfo().then((result) => {
+        get_me_user_info().then((result) => {
           setIsLoading(false);
           toast.success('Welcome ' + result.name);
           navigate('/develop');

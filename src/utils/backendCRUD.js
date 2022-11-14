@@ -2,7 +2,7 @@ const axios = require('axios').default;
 
 /* ------------------- Auth ------------------- */
 
-export const getUserToken = async (tokenPayload) => {
+export const get_user_token = async (tokenPayload) => {
   const getTokenRequestHeaders = {
     accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -35,7 +35,7 @@ export const getUserToken = async (tokenPayload) => {
   return token;
 };
 
-export const getUserMeInfo = async () => {
+export const get_me_user_info = async () => {
   const getUserRequestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
@@ -66,17 +66,8 @@ export const getUserMeInfo = async () => {
 };
 
 /* ------------------- SAF ------------------- */
-/*
-function postHeaders() {
-  let requestHeaders = new Headers();
-  requestHeaders.append('accept', 'application/json');
-  requestHeaders.append('Content-Type', 'application/json');
-  requestHeaders.append('Access-Control-Allow-Origin', '*');
-  requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-  return requestHeaders;
-} */
 
-export const getSAFRunbyHash = async (run_hash) => {
+export const get_saf_run_by_hash = async (run_hash) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
 
@@ -174,7 +165,7 @@ export const create_project_and_get_ID = async (payload) => {
 };
 
 /* ------------------- Account ------------------- */
-export const getUserProjects = async (user_id) => {
+export const get_user_projects = async (user_id) => {
   const getUserRequestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
@@ -190,7 +181,7 @@ export const getUserProjects = async (user_id) => {
 
   let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/users/' + user_id + '/projects/';
 
-  return await axios
+  return axios
     .get(url, config)
     .then((response) => response.data)
     .catch((error) => {
