@@ -3,6 +3,7 @@ import ReactMapboxGL, { Marker, Popup, Source, Layer } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import PropTypes from 'prop-types';
 import Pin from './Pin';
+import GeocoderControl from './GeocoderControl';
 import {
   SocialDeprivationStyles,
   LocationScoringStyles,
@@ -39,6 +40,7 @@ export default function NbSMap(props) {
       }
       style={{ width: '100vw', height: '100vh', overflowY: 'hidden' }}
     >
+      <GeocoderControl mapboxAccessToken={MAPBOX_TOKEN} position='top-left' />
       {props.mapDataLayer === 'Social Deprivation' && (
         <Source type='geojson' data={SocialDeprivation}>
           <Layer {...SocialDeprivationStyles} />
