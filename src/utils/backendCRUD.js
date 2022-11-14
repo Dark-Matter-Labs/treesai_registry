@@ -222,7 +222,6 @@ export const get_saf_runs_by_projectID = async (project_id) => {
   return await axios.get(url, config).then((res) => res.data['runs']);
 };
 
-
 export const get_all_user_runs = async (projectList) => {
   // Initialize empty array to store all runs
   let allRuns = [];
