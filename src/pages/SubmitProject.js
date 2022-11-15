@@ -55,7 +55,7 @@ import { getCouncils } from '../utils/geojson_utils';
 import CostBox from '../components/CostBox';
 
 import { makeChartArray, sumRange, getLastKeyInObj } from '../utils/objUtils';
-
+import CompositionPieChart from '../components/charts/CompositionPieChart';
 
 // set SAF parameters
 const typologies = get_typologies();
@@ -84,6 +84,7 @@ export default function SubmitProject(props) {
   const watchTotalArea = methods.watch('totalArea', 1);
   const watchTreePlant = methods.watch('treeNumber', 1);
   const watchTreeMaintain = methods.watch('existingTrees', 1);
+  const watchConifer = methods.watch('conifer', 47);
   const [selectedCC, setSelectedCC] = useState(listCouncils[0]);
   const [landUseChange, setLandUseChange] = useState(false);
   const [totalTreeNumber, setTotalTreeNumber] = useState(0);
@@ -882,26 +883,8 @@ export default function SubmitProject(props) {
                       )}
                     />
 
-                    <Controller
-                      control={methods.control}
-                      name='deciduous'
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <NumberInput
-                          span='sm:col-span-3'
-                          label='deciduous'
-                          unit='trees'
-                          title='% of deciduous trees'
-                          placeholder='50'
-                          min={0}
-                          max={100}
-                          type='%'
-                          required={true}
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          selected={value}
-                        />
-                      )}
-                    />
+                    <CompositionPieChart data={watchConifer} />
+
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
