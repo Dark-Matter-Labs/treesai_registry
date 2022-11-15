@@ -56,6 +56,7 @@ import CostBox from '../components/CostBox';
 
 import { makeChartArray, sumRange, getLastKeyInObj } from '../utils/objUtils';
 import CompositionPieChart from '../components/charts/CompositionPieChart';
+import RiskRadar from '../components/analysis/RiskRadar';
 
 // set SAF parameters
 const typologies = get_typologies();
@@ -884,7 +885,6 @@ export default function SubmitProject(props) {
                     />
 
                     <CompositionPieChart data={watchConifer} />
-
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
@@ -1160,6 +1160,7 @@ export default function SubmitProject(props) {
                 Considering a combination of factors including your project typology, activity and
                 location, your project average could be:
               </p>
+              <RiskRadar cc_name={selectedCC} />
               <LocationRiskChart cc_name={selectedCC} />
             </div>
           </div>
