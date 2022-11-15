@@ -54,7 +54,7 @@ import {
 import { getCouncils } from '../utils/geojson_utils';
 import CostBox from '../components/CostBox';
 
-import { makeChartArray, sumRange, getLastElement } from '../utils/objUtils';
+import { makeChartArray, sumRange, getLastKeyInObj } from '../utils/objUtils';
 import CompositionPieChart from '../components/charts/CompositionPieChart';
 
 // set SAF parameters
