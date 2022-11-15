@@ -179,22 +179,24 @@ export default function SubmitProject(props) {
     setTotalStorage(SAFOutput.Storage[getLastKeyInObj(SAFOutput.Storage)]); // last element of the array
   }
 
-  /* Data logic changes on receiving the SAF output */
-  useEffect(() => {
+  function getSelectedOutput() {
     if (safOutput0 && safOutput1 && safOutput2) {
       switch (maintenanceType.name) {
         case 'High':
-          processSAFData(safOutput2);
-          break;
+          return safOutput2;
         case 'Medium':
-          processSAFData(safOutput1);
-          break;
+          return safOutput1;
         case 'Low':
-          processSAFData(safOutput0);
-          break;
+          return safOutput0;
         default:
           toast.error('maintenance type not valid');
       }
+    }
+  }
+  /* Data logic changes on receiving the SAF output */
+  useEffect(() => {
+    if (safOutput0 && safOutput1 && safOutput2) {
+      processSAFData(getSelectedOutput());
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
@@ -203,19 +205,19 @@ export default function SubmitProject(props) {
       {
         id: 'Alive',
         label: 'Alive',
-        color: 'hsl(0, 70%, 50%)',
+        color: 'hsl(80, 70%, 50%)',
         data: makeChartArray(safOutput.Alive),
       },
       {
         id: 'Dead',
         label: 'Dead',
-        color: 'hsl(40, 70%, 50%)',
+        color: 'hsl(266, 70%, 50%)',
         data: makeChartArray(safOutput.Dead),
       },
       {
-        id: 'Replaced',
+        id: 'Replaced (cumulative)',
         label: 'Replaced',
-        color: 'hsl(80, 70%, 50%)',
+        color: 'hsl(121, 100%, 30%)',
         data: makeChartArray(safOutput.Replaced),
       },
     ];
@@ -1189,7 +1191,7 @@ export default function SubmitProject(props) {
               label='Evolution of the population over time'
               detail='See how many trees are alive and replaced over time'
             >
-              <LineChart data={processPopulationDataForPieChart(safOutput1)} />
+              <LineChart data={processPopulationDataForPieChart(getSelectedOutput())} />
             </ChartBlock>
           </div>
 
