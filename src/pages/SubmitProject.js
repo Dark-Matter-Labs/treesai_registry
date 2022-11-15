@@ -26,6 +26,7 @@ import ResultBlock from '../components/ResultBlock';
 import ValueDisplay from '../components/analysis/ValueDisplay';
 import ChartBlock from '../components/analysis/ChartBlock';
 import PieChartBlock from '../components/analysis/PieChartBlock';
+import LineChart from '../components/charts/LineChart';
 
 // Images
 import projectImg from '../images/project-default.png';
@@ -114,18 +115,6 @@ export default function SubmitProject(props) {
   /* Data Fetching for the result page */
 
   const swrOptions = {
-    // fallbackData: saf_data, // Default returned
-    /*
-    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-      // Log error
-      console.log('Error', error);
-
-      // Only retry up to 10 times.
-      if (retryCount >= 15) return;
-
-      // Retry after 10 seconds.
-      setTimeout(() => revalidate({ retryCount }), 5000);
-    },*/
     onSuccess: (data) => {
       console.log('Data received:', data);
     },
@@ -208,6 +197,30 @@ export default function SubmitProject(props) {
       }
     }
   }, [safOutput0, safOutput1, safOutput2]);
+
+  function processPopulationDataForPieChart(safOutput) {
+    const output = [
+      {
+        id: 'Alive',
+        label: 'Alive',
+        color: 'hsl(0, 70%, 50%)',
+        data: makeChartArray(safOutput.Alive),
+      },
+      {
+        id: 'Dead',
+        label: 'Dead',
+        color: 'hsl(40, 70%, 50%)',
+        data: makeChartArray(safOutput.Dead),
+      },
+      {
+        id: 'Replaced',
+        label: 'Replaced',
+        color: 'hsl(80, 70%, 50%)',
+        data: makeChartArray(safOutput.Replaced),
+      },
+    ];
+    return output;
+  }
 
   function makeComparativeSeqChart(
     safOutput0 = saf_data,
@@ -884,7 +897,6 @@ export default function SubmitProject(props) {
                     />
 
                     <CompositionPieChart data={watchConifer} />
-
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
@@ -1164,7 +1176,26 @@ export default function SubmitProject(props) {
             </div>
           </div>
 
-          <SectionHeader title='In detail' type='details' />
+          <SectionHeader title='Your project population' type='Population' />
+          <ResultBlock
+            title='Your Project’s Population'
+            description='this section is aimed at helping you understand the evolution of the population over time'
+            type='pop'
+          />
+          <hr className='mx-20 border-[12px] border-indigo-600' />
+          <div className=''>
+            <ChartBlock
+              maintenanceTypeName={maintenanceType.name}
+              label='Evolution of the population over time'
+              detail='See how many trees are alive and replaced over time'
+            >
+              <LineChart data={processPopulationDataForPieChart(safOutput1)} />
+            </ChartBlock>
+          </div>
+
+          <div className='h-10' />
+
+          <SectionHeader title='Your Impact' type='details' />
           <ResultBlock
             title='Your Project’s Impact'
             description='Considering the combination of factors including typology, activity and location, calculated via an agent-based scenario analysis framework, your project could help achieve the following potential impact over the next 50 years:'
