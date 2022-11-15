@@ -17,7 +17,7 @@ export function sumRange(array, start = 0, end = 50) {
   return sum;
 }
 
-export function getLastElement(obj) {
+export function getLastKeyInObj(obj) {
   let last = Object.keys(obj)[Object.keys(obj).length - 1];
   return last;
 }

@@ -2,7 +2,7 @@ const axios = require('axios').default;
 
 /* ------------------- Auth ------------------- */
 
-export const getUserToken = async (tokenPayload) => {
+export const get_user_token = async (tokenPayload) => {
   const getTokenRequestHeaders = {
     accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -35,7 +35,7 @@ export const getUserToken = async (tokenPayload) => {
   return token;
 };
 
-export const getUserMeInfo = async () => {
+export const get_user_me_info = async () => {
   const getUserRequestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
@@ -76,7 +76,7 @@ function postHeaders() {
   return requestHeaders;
 } */
 
-export const getSAFRunbyHash = async (run_hash) => {
+export const get_saf_run_by_hash = async (run_hash) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
 
@@ -174,7 +174,7 @@ export const create_project_and_get_ID = async (payload) => {
 };
 
 /* ------------------- Account ------------------- */
-export const getUserProjects = async (user_id) => {
+export const get_user_projects = async (user_id) => {
   const getUserRequestHeaders = {
     accept: 'application/json',
     Authorization: 'Bearer ' + sessionStorage.token,
@@ -196,4 +196,40 @@ export const getUserProjects = async (user_id) => {
     .catch((error) => {
       console.log('error', error);
     });
+};
+
+export const get_saf_runs_by_projectID = async (project_id) => {
+  const user_id = sessionStorage.user_id;
+
+  const requestHeaders = {
+    accept: 'application/json',
+  };
+
+  let url =
+    process.env.REACT_APP_API_ENDPOINT +
+    '/api/v1/saf/users/' +
+    user_id +
+    '/projects/' +
+    project_id +
+    '/runs/';
+
+  let config = {
+    method: 'GET',
+    headers: requestHeaders,
+    redirect: 'follow',
+  };
+
+  return await axios.get(url, config).then((res) => res.data['runs']);
+};
+
+export const get_all_user_runs = async (projectList) => {
+  // Initialize empty array to store all runs
+  let allRuns = [];
+  // Loop through each project and get all runs
+  for (let i = 0; i < projectList.projects.length; i++) {
+    let runs = await get_saf_runs_by_projectID(projectList.projects[i].id);
+    allRuns = allRuns.concat(runs);
+  }
+  // Return all runs
+  return allRuns;
 };

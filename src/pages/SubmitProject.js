@@ -17,6 +17,7 @@ import SectionHeader from '../components/SectionHeader';
 import FormBlock from '../components/form/FormBlock';
 import TextInput from '../components/form/TextInput';
 import AddressInput from '../components/form/AddressInput';
+import AddressInputWithMap from '../components/form/AddressInputWithMap';
 import NumberInput from '../components/form/NumberInput';
 import Dropdown from '../components/form/Dropdown';
 import Toggle from '../components/form/Toggle';
@@ -35,7 +36,7 @@ import BarChart from '../components/charts/BarChart';
 // utils functions
 import { saf_data } from '../utils/saf_data_model';
 import {
-  getSAFRunbyHash,
+  get_saf_run_by_hash,
   post_saf_run_and_get_hash,
   create_project_and_get_ID,
 } from '../utils/backendCRUD';
@@ -136,15 +137,15 @@ export default function SubmitProject(props) {
   };
 
   // Retreive the result from the simulation. It will only fetch if the Hash is defined
-  const { data: safOutput0 } = useSWR(safOutputHash0, getSAFRunbyHash, swrOptions);
+  const { data: safOutput0 } = useSWR(safOutputHash0, get_saf_run_by_hash, swrOptions);
   const { data: safOutput1 } = useSWR(
     safOutput0 ? safOutputHash1 : null,
-    getSAFRunbyHash,
+    get_saf_run_by_hash,
     swrOptions,
   );
   const { data: safOutput2 } = useSWR(
     safOutput1 ? safOutputHash2 : null,
-    getSAFRunbyHash,
+    get_saf_run_by_hash,
     swrOptions,
   );
 
@@ -185,8 +186,8 @@ export default function SubmitProject(props) {
 
   function processSAFData(SAFOutput = saf_data) {
     /* SAF Related processing */
-    setTotalSeq(sumRange(SAFOutput.Seq, 0, getLastElement(SAFOutput.Seq)));
-    setTotalStorage(SAFOutput.Storage[getLastElement(SAFOutput.Storage)]); // last element of the array
+    setTotalSeq(sumRange(SAFOutput.Seq, 0, getLastKeyInObj(SAFOutput.Seq)));
+    setTotalStorage(SAFOutput.Storage[getLastKeyInObj(SAFOutput.Storage)]); // last element of the array
   }
 
   /* Data logic changes on receiving the SAF output */
@@ -335,6 +336,8 @@ export default function SubmitProject(props) {
       local_authority: formData.projectDeveloper,
       location: 'string',
       start_date: new Date(formData.startDate),
+      lat: sessionStorage.getItem('lat'),
+      lng: sessionStorage.getItem('lng'),
     });
 
     let id = await create_project_and_get_ID(payload);
@@ -524,6 +527,20 @@ export default function SubmitProject(props) {
                           selected={value}
                         />
                       )}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Project information'
+                    description='Start by telling us who you are and a bit about your project.'
+                  >
+                    <AddressInputWithMap
+                      span='sm:col-span-3'
+                      label='address'
+                      title='Project Location *'
+                      placeholder='Street, street number, postal code'
+                      type='general'
+                      required={true}
                     />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
