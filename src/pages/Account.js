@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import useSWR from 'swr';
+import { Helmet } from 'react-helmet';
 
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -79,6 +80,11 @@ export default function Account(props) {
   else if (isError || isRunError) return <div>Failed to load</div>;
   return (
     <div className='font-favorit bg-white-200 bg-pattern '>
+      {process.env.NODE_ENV === 'production' && (
+        <Helmet>
+          <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
+        </Helmet>
+      )}
       <NavBar loggedIn={props.loggedIn} current='account' />
       <div className='bg-white-200 global-margin bg-pattern '>
         <div className='title-box mt-5 bg-dark-wood-800 py-20'>
