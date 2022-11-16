@@ -66,23 +66,16 @@ export const get_user_me_info = async () => {
 };
 
 /* ------------------- SAF ------------------- */
-/*
-function postHeaders() {
-  let requestHeaders = new Headers();
-  requestHeaders.append('accept', 'application/json');
-  requestHeaders.append('Content-Type', 'application/json');
-  requestHeaders.append('Access-Control-Allow-Origin', '*');
-  requestHeaders.append('Authorization', 'Bearer ' + sessionStorage.token);
-  return requestHeaders;
-} */
+const requestHeaders = {
+  accept: 'application/json',
+  Authorization: 'Bearer ' + sessionStorage.token,
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+};
 
 export const get_saf_run_by_hash = async (run_hash) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
-
-  const requestHeaders = {
-    accept: 'application/json',
-  };
 
   let url =
     process.env.REACT_APP_API_ENDPOINT +
@@ -105,13 +98,6 @@ export const get_saf_run_by_hash = async (run_hash) => {
 export const post_saf_run_and_get_hash = async (payload) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
-
-  const requestHeaders = {
-    accept: 'application/json',
-    Authorization: 'Bearer ' + sessionStorage.token,
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  };
 
   let requestOptions = {
     method: 'POST',
@@ -139,13 +125,6 @@ export const post_saf_run_and_get_hash = async (payload) => {
 };
 
 export const create_project_and_get_ID = async (payload) => {
-  const requestHeaders = {
-    accept: 'application/json',
-    Authorization: 'Bearer ' + sessionStorage.token,
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  };
-
   let requestOptions = {
     method: 'POST',
     headers: requestHeaders,
@@ -156,7 +135,7 @@ export const create_project_and_get_ID = async (payload) => {
     process.env.REACT_APP_API_ENDPOINT +
     '/api/v1/saf/users/' +
     sessionStorage.user_id +
-    '/projects';
+    '/projects/';
 
   let response = await axios
     .post(url, payload, requestOptions)
@@ -175,16 +154,9 @@ export const create_project_and_get_ID = async (payload) => {
 
 /* ------------------- Account ------------------- */
 export const get_user_projects = async (user_id) => {
-  const getUserRequestHeaders = {
-    accept: 'application/json',
-    Authorization: 'Bearer ' + sessionStorage.token,
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  };
-
   const config = {
     method: 'GET',
-    headers: getUserRequestHeaders,
+    headers: requestHeaders,
     redirect: 'follow',
   };
 
@@ -201,17 +173,13 @@ export const get_user_projects = async (user_id) => {
 export const get_saf_runs_by_projectID = async (project_id) => {
   const user_id = sessionStorage.user_id;
 
-  const requestHeaders = {
-    accept: 'application/json',
-  };
-
   let url =
     process.env.REACT_APP_API_ENDPOINT +
     '/api/v1/saf/users/' +
     user_id +
     '/projects/' +
     project_id +
-    '/runs/';
+    '/runs';
 
   let config = {
     method: 'GET',
