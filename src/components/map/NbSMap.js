@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactMapboxGL, { Marker, Popup, Source, Layer } from 'react-map-gl';
+import ReactMapboxGL, { Marker, Popup, Source, Layer, NavigationControl } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import PropTypes from 'prop-types';
 import Pin from './Pin';
@@ -38,9 +38,10 @@ export default function NbSMap(props) {
           ? props.mapDataLayer
           : 'mapbox://styles/mapbox/light-v10'
       }
-      style={{ width: '100vw', height: '100vh', overflowY: 'hidden' }}
+      style={{ width: '100vw', height: '70vh', overflowY: 'hidden' }}
     >
       <GeocoderControl mapboxAccessToken={MAPBOX_TOKEN} position='top-left' />
+      <NavigationControl position='bottom-right' />
       {props.mapDataLayer === 'Social Deprivation' && (
         <Source type='geojson' data={SocialDeprivation}>
           <Layer {...SocialDeprivationStyles} />
@@ -88,52 +89,6 @@ export default function NbSMap(props) {
           >
             <div className='medium-intro-sm text-white-200 bg-green-600 p-4 rounded-t-3xl'>
               {props.popupInfo.properties.project_name}
-            </div>
-            <div className='medium-intro-sm'>
-              <table className='divide-y divide-green-300'>
-                <tbody className='divide-y divide-green-300 bg-white-200'>
-                  <tr>
-                    <td className='book-info-sm  py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
-                      District:
-                    </td>
-                    <td className='book-info-sm  px-3 py-4 text-green-600'>
-                      {props.popupInfo.properties.community_council}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='book-info-sm  py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
-                      Typology:
-                    </td>
-                    <td className='book-info-sm px-3 py-4 text-green-600'>
-                      {props.popupInfo.properties.typology}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='book-info-sm  py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
-                      Activity
-                    </td>
-                    <td className='book-info-sm  px-3 py-4 text-green-600'>
-                      {props.popupInfo.properties.activity}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='book-info-sm  py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
-                      Project stage:
-                    </td>
-                    <td className='book-info-sm  px-3 py-4 text-green-600'>
-                      {props.popupInfo.properties.stage}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='book-info-sm py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
-                      Project developer:
-                    </td>
-                    <td className='book-info-sm  px-3 py-4 text-green-600'>
-                      {props.popupInfo.properties.project_developer}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </Popup>
         )}
