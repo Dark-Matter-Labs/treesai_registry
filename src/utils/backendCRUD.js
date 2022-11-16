@@ -211,7 +211,7 @@ export const get_saf_runs_by_projectID = async (project_id) => {
     user_id +
     '/projects/' +
     project_id +
-    '/runs/';
+    '/runs';
 
   let config = {
     method: 'GET',
