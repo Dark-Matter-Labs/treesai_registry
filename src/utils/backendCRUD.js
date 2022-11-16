@@ -156,7 +156,7 @@ export const create_project_and_get_ID = async (payload) => {
     process.env.REACT_APP_API_ENDPOINT +
     '/api/v1/saf/users/' +
     sessionStorage.user_id +
-    '/projects';
+    '/projects/';
 
   let response = await axios
     .post(url, payload, requestOptions)
@@ -203,6 +203,8 @@ export const get_saf_runs_by_projectID = async (project_id) => {
 
   const requestHeaders = {
     accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   };
 
   let url =
