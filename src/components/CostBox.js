@@ -2,18 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 export default function CostBox(props) {
-  const [months, setMonths] = useState([]);
-  const [costMonths, setCostMonths] = useState([]);
-  const [costTotal, setCostsTotal] = useState([]);
+  const [costTotal, setCostsTotal] = useState(100);
+  const [moneyNeeded, setMoneyNeeded] = useState(0);
 
   useEffect(() => {
-    setMonths(props.months);
     setCostsTotal(props.costTotal);
+    setMoneyNeeded(props.moneyNeeded);
   }, [props]);
-
-  useEffect(() => {
-    setCostMonths((costTotal / months).toFixed(2));
-  }, [costTotal]);
 
   return (
     <div className='px-4'>
@@ -28,25 +23,22 @@ export default function CostBox(props) {
                       scope='col'
                       className='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6'
                     >
-                      {months} Months
+                      Budget
                     </th>
                     <th
                       scope='col'
                       className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
                     >
-                      50 years
-                    </th>
-                    <th scope='col' className='relative py-3.5 pl-3 pr-4 sm:pr-6'>
-                      <span className='sr-only'>Edit</span>
+                      Money Needed
                     </th>
                   </tr>
                 </thead>
                 <tbody className='divide-y divide-indigo-600 bg-white-200'>
                   <td className='whitespace-nowrap py-4 pl-4 pr-3 medium-intro-md text-indigo-600 sm:pl-6'>
-                    £ {costMonths}
+                    £ {costTotal}
                   </td>
                   <td className='whitespace-nowrap px-3 py-4 medium-intro-md text-indigo-600'>
-                    £ {costTotal}
+                    £ {moneyNeeded}
                   </td>
                 </tbody>
               </table>
@@ -59,7 +51,6 @@ export default function CostBox(props) {
 }
 
 CostBox.propTypes = {
-  months: PropTypes.number,
-  costMonths: PropTypes.number,
   costTotal: PropTypes.number,
+  moneyNeeded: PropTypes.number,
 };

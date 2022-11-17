@@ -165,14 +165,7 @@ export default function SubmitProject(props) {
       parseInt(parseInt(methods.getValues('project-budget'))) -
         parseInt(methods.getValues('money-raised')),
     );
-    // We'll be using the moneyNeeded variable with the new design
-    console.log(moneyNeeded);
-  }, [
-    methods.getValues('money-raised'),
-    methods.getValues('project-budget'),
-    methods.getValues('projectLength'),
-    safOutput0,
-  ]);
+  }, [methods.getValues('money-raised'), safOutput0]);
 
   function processSAFData(SAFOutput = saf_data) {
     /* SAF Related processing */
@@ -1164,8 +1157,10 @@ export default function SubmitProject(props) {
               <p className='book-info-sm pt-5 text-dark-wood-800'>
                 The following ranges provide an estimated project costs over different time-spans:
               </p>
-              <p className='text-green-600'>Total cost for 50 years (GBP per m2)</p>
-              <CostBox months={methods.getValues('projectLength')} costTotal={totalCost} />
+              <CostBox
+                costTotal={totalCost}
+                moneyNeeded={moneyNeeded}
+              />
               <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
