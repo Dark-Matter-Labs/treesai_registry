@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Map from 'react-map-gl';
 import GeocoderControl from '../map/GeocoderControl';
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
 
 export default function AddressInputWithMap(props) {
-  const [coordinates, setCoordinates] = React.useState({});
-
-  useEffect(() => {
-    if (coordinates) {
-      sessionStorage.setItem('lat', coordinates.lat);
-      sessionStorage.setItem('lng', coordinates.lng);
-    }
-  }, [coordinates]);
+  // function to handle the geocoder result
+  const handleResult = (result) => {
+    sessionStorage.setItem('lat', result.center[1]);
+    sessionStorage.setItem('lng', result.center[0]);
+    sessionStorage.setItem('address', result.place_name);
+  };
 
   return (
     <div className={props.span}>
@@ -31,7 +29,7 @@ export default function AddressInputWithMap(props) {
           mapboxAccessToken={MAPBOX_TOKEN}
           position='top-left'
           onResult={function (e) {
-            setCoordinates({ lat: e.result.center[1], lng: e.result.center[0] });
+            handleResult(e.result);
           }}
         />
       </Map>
