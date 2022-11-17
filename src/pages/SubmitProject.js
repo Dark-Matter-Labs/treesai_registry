@@ -32,7 +32,6 @@ import LineChart from '../components/charts/LineChart';
 import projectImg from '../images/project-default.png';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
-import LocationRiskChart from '../components/analysis/LocationRisk';
 import BarChart from '../components/charts/BarChart';
 // utils functions
 import { saf_data } from '../utils/saf_data_model';
@@ -1176,7 +1175,6 @@ export default function SubmitProject(props) {
                 location, your project average could be:
               </p>
               <RiskRadar cc_name={selectedCC} />
-              <LocationRiskChart cc_name={selectedCC} />
             </div>
           </div>
 
