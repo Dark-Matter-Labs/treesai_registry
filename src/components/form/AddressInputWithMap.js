@@ -17,9 +17,9 @@ export default function AddressInputWithMap(props) {
     <div className={props.span}>
       <Map
         initialViewState={{
-          latitude: 37.8,
-          longitude: -122.4,
-          zoom: 14,
+          latitude: 55.85,
+          longitude: -4.16,
+          zoom: 10,
         }}
         style={{ width: 600, height: 400 }}
         mapStyle='mapbox://styles/mapbox/streets-v9'
@@ -39,5 +39,4 @@ export default function AddressInputWithMap(props) {
 
 AddressInputWithMap.propTypes = {
   span: PropTypes.string,
-  onResult: PropTypes.func,
 };
