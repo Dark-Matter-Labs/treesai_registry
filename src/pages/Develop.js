@@ -191,24 +191,21 @@ export default function Develop(props) {
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
-  function processPopulationDataForPieChart(safOutput) {
+  function processPopulationDataForLineChart(safOutput) {
     const output = [
       {
         id: 'Alive',
         label: 'Alive',
-        color: 'hsl(80, 70%, 50%)',
         data: makeChartArray(safOutput.Alive),
       },
       {
         id: 'Dead',
         label: 'Dead',
-        color: 'hsl(266, 70%, 50%)',
         data: makeChartArray(safOutput.Dead),
       },
       {
         id: 'Replaced (cumulative)',
         label: 'Replaced',
-        color: 'hsl(121, 100%, 30%)',
         data: makeChartArray(safOutput.Replaced),
       },
     ];
@@ -1112,7 +1109,7 @@ export default function Develop(props) {
               label='Evolution of the population over time'
               detail='See how many trees are alive and replaced over time'
             >
-              <LineChart data={processPopulationDataForPieChart(getSelectedOutput())} />
+              <LineChart data={processPopulationDataForLineChart(getSelectedOutput())} />
             </ChartBlock>
           </div>
 

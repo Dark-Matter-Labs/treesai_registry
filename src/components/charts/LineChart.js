@@ -14,11 +14,13 @@ const LineChart = (props) => {
       <ResponsiveLine
         data={data}
         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-        curve='basis'
+        curve='cardinal'
         enableArea={true}
-        pointColor={{ from: 'color', modifiers: [] }}
+        colors={['#4F46E5', '#828784', '#1EB792']}
+        isInteractive={true}
+        pointSize={4}
         pointBorderWidth={2}
-        pointBorderColor={{ from: 'serieColor' }}
+        enableSlices='x'
         axisBottom={{
           orient: 'bottom',
           tickSize: 5,
@@ -33,7 +35,7 @@ const LineChart = (props) => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'count',
+          legend: 'Tree count',
           legendOffset: -40,
           legendPosition: 'middle',
         }}
