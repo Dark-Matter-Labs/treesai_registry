@@ -16,7 +16,6 @@ import SAFLoadingScreen from '../components/SAFLoadingScreen';
 import SectionHeader from '../components/SectionHeader';
 import FormBlock from '../components/form/FormBlock';
 import TextInput from '../components/form/TextInput';
-import AddressInput from '../components/form/AddressInput';
 import AddressInputWithMap from '../components/form/AddressInputWithMap';
 import NumberInput from '../components/form/NumberInput';
 import Dropdown from '../components/form/Dropdown';
@@ -350,7 +349,7 @@ export default function SubmitProject(props) {
       stage: selectedStage + selectedLandUse,
       number_of_trees: totalTreeNumber,
       local_authority: formData.projectDeveloper,
-      location: 'string',
+      location: sessionStorage.getItem('address'),
       start_date: new Date(formData.startDate),
       lat: sessionStorage.getItem('lat'),
       lng: sessionStorage.getItem('lng'),
@@ -484,15 +483,6 @@ export default function SubmitProject(props) {
 
                     <div className='sm:col-span-2' />
 
-                    <AddressInput
-                      span='sm:col-span-3'
-                      label='address'
-                      title='Project Location *'
-                      placeholder='Street, street number, postal code'
-                      type='general'
-                      required={true}
-                    />
-
                     <Dropdown
                       span='sm:col-span-2'
                       label='neighbourhood'
@@ -547,8 +537,8 @@ export default function SubmitProject(props) {
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
                   <FormBlock
-                    title='Project information'
-                    description='Start by telling us who you are and a bit about your project.'
+                    title='Project Location *'
+                    description='Where is your project located?'
                   >
                     <AddressInputWithMap
                       span='sm:col-span-3'
