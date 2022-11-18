@@ -77,9 +77,27 @@ const typologies_names = [
 ];
 
 const maintenance_types = [
-  { name: 'Low', enabled: true, value: 0 },
-  { name: 'Medium', enabled: true, value: 1 },
-  { name: 'High', enabled: true, value: 2 },
+  {
+    name: 'Low',
+    title: '1 x year',
+    description: 'WIP',
+    value: 0,
+    id: 0,
+  },
+  {
+    name: 'Medium',
+    title: '1 x month',
+    description: 'WIP',
+    value: 1,
+    id: 1,
+  },
+  {
+    name: 'High',
+    title: '1 x week',
+    description: 'WIP',
+    value: 2,
+    id: 2
+  },
 ];
 
 export function get_typologies() {

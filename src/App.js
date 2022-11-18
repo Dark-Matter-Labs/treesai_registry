@@ -2,7 +2,7 @@ import React, { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Home from './pages/Home';
-import SubmitProject from './pages/SubmitProject';
+import Develop from './pages/Develop';
 import Explore from './pages/Explore';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -25,7 +25,7 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route exact path='/' element={<Home loggedIn={loggedIn} />} />
-        <Route exact path='/develop' element={<SubmitProject loggedIn={loggedIn} />} />
+        <Route exact path='/develop' element={<Develop loggedIn={loggedIn} />} />
         <Route exact path='/explore' element={<Explore loggedIn={loggedIn} />} />
         <Route exact path='/demo' element={<Demo />} />
         <Route exact path='/register' element={<Register />} />
