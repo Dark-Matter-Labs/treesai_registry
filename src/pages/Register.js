@@ -7,6 +7,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 
+import { get_user_token, register_user, get_user_me_info } from '../utils/backendCRUD';
+
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -16,85 +18,32 @@ export default function Register() {
     formState: { errors },
   } = useForm();
 
-  const registerUser = async (formData) => {
-    const createUserRequestHeaders = new Headers();
-    createUserRequestHeaders.append('accept', 'application/json');
-    createUserRequestHeaders.append('Content-Type', 'application/json');
-    createUserRequestHeaders.append('Access-Control-Allow-Origin', '*');
-
+  const registerUser = async ({ name, email, password }) => {
     const createUserPayload = JSON.stringify({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
+      name: name,
+      email: email,
+      password: password,
     });
 
-    const createUserRequestOptions = {
-      method: 'POST',
-      headers: createUserRequestHeaders,
-      body: createUserPayload,
+    const getTokenPayload = {
+      username: email,
+      password: password,
     };
 
     setIsLoading(true);
-    await fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/users', createUserRequestOptions)
-      .then((response) => {
-        if (response.ok) {
-          sessionStorage.setItem('user_name', formData.name);
-          return response.json();
-        }
-        toast.error('Something went wrong');
-        setIsLoading(false);
-        throw new Error('Something went wrong');
-      })
-      .then((result) => {
-        sessionStorage.setItem('user_id', JSON.stringify(result.id));
 
-        const getTokenRequestHeaders = new Headers();
-        getTokenRequestHeaders.append('accept', 'application/json');
-        getTokenRequestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+    await register_user(createUserPayload).then(() => {
+      console.log('User created successfully');
 
-        const getTokenPayload = {
-          username: formData.email,
-          password: formData.password,
-        };
-
-        let formBody = [];
-        for (var property in getTokenPayload) {
-          var encodedKey = encodeURIComponent(property);
-          var encodedValue = encodeURIComponent(getTokenPayload[property]);
-          formBody.push(encodedKey + '=' + encodedValue);
-        }
-        formBody = formBody.join('&');
-
-        const getTokenRequestOptions = {
-          method: 'POST',
-          headers: getTokenRequestHeaders,
-          body: formBody,
-          redirect: 'follow',
-        };
-
-        fetch(process.env.REACT_APP_API_ENDPOINT + '/api/v1/token', getTokenRequestOptions)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
-            setIsLoading(false);
-            throw new Error('Something went wrong');
-          })
-          .then((result) => {
-            sessionStorage.setItem('token', JSON.stringify(result.access_token));
-            setIsLoading(false);
-            toast.success('Successfully registered!');
-            navigate('/develop');
-            window.location.reload();
-          })
-          .catch((error) => {
-            console.log('error', error);
-            toast.error('Something went wrong');
-          });
-      })
-      .catch((error) => {
-        console.log('error getting token', error);
+      get_user_token(getTokenPayload).then(() => {
+        get_user_me_info().then(() => {
+          setIsLoading(false);
+          toast.success('Welcome ' + name);
+          navigate('/develop');
+          window.location.reload();
+        });
       });
+    });
   };
 
   const onSubmit = (formData) => registerUser(formData);

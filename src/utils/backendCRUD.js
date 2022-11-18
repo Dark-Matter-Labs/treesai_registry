@@ -9,6 +9,27 @@ function onError(error) {
   toast.error(error.message);
 }
 
+export const register_user = async (createUserPayload) => {
+  const createUserRequestHeaders = {
+    accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  };
+
+  const createUserRequestOptions = {
+    method: 'POST',
+    headers: createUserRequestHeaders,
+    redirect: 'follow',
+  };
+
+  let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/';
+
+  return axios
+    .post(url, createUserPayload, createUserRequestOptions)
+    .then((res) => res.data)
+    .catch((error) => onError(error));
+};
+
 export const get_user_token = async (tokenPayload) => {
   const getTokenRequestHeaders = {
     accept: 'application/json',
