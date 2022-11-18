@@ -1,6 +1,13 @@
+import toast from 'react-hot-toast';
+
 const axios = require('axios').default;
 
 /* ------------------- Auth ------------------- */
+
+function onError(error) {
+  console.error(error);
+  toast.error(error.message);
+}
 
 export const get_user_token = async (tokenPayload) => {
   const getTokenRequestHeaders = {
@@ -25,14 +32,12 @@ export const get_user_token = async (tokenPayload) => {
 
   const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/token';
 
-  let token = await axios
+  return axios
     .post(url, formBody, getTokenRequestOptions)
     .then((result) => {
       sessionStorage.setItem('token', result.data.access_token);
     })
-    .catch((error) => console.log('error', error));
-
-  return token;
+    .catch((error) => onError(error));
 };
 
 export const get_user_me_info = async () => {
@@ -51,18 +56,14 @@ export const get_user_me_info = async () => {
 
   let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/';
 
-  let userInfo = await axios
+  return await axios
     .get(url, config)
     .then((response) => {
       sessionStorage.setItem('user_id', response.data.id);
       sessionStorage.setItem('user_name', response.data.name);
       return response.data;
     })
-    .catch((error) => {
-      console.log('error', error);
-    });
-
-  return userInfo;
+    .catch((error) => onError(error));
 };
 
 /* ------------------- SAF ------------------- */
@@ -92,7 +93,10 @@ export const get_saf_run_by_hash = async (run_hash) => {
     redirect: 'follow',
   };
 
-  return axios.get(url, config).then((res) => res.data['output']);
+  return axios
+    .get(url, config)
+    .then((res) => res.data['output'])
+    .catch((error) => onError(error));
 };
 
 export const post_saf_run_and_get_hash = async (payload) => {
@@ -118,9 +122,7 @@ export const post_saf_run_and_get_hash = async (payload) => {
     .then((result) => {
       return result.data['gus_run_hash'];
     })
-    .catch((error) => {
-      console.log('error', error);
-    });
+    .catch((error) => onError(error));
   return hash;
 };
 
@@ -145,9 +147,7 @@ export const create_project_and_get_ID = async (payload) => {
       sessionStorage.setItem('project_id', dbProjectId);
       return dbProjectId;
     })
-    .catch((error) => {
-      console.log('error', error);
-    });
+    .catch((error) => onError(error));
 
   return response;
 };
@@ -165,9 +165,7 @@ export const get_user_projects = async (user_id) => {
   return await axios
     .get(url, config)
     .then((response) => response.data)
-    .catch((error) => {
-      console.log('error', error);
-    });
+    .catch((error) => onError(error));
 };
 
 export const get_saf_runs_by_projectID = async (project_id) => {
