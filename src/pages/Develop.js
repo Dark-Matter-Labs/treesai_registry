@@ -366,6 +366,13 @@ export default function Develop(props) {
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
+  function stopSimulation(error) {
+    toast.error(error);
+    console.log(error);
+    setIsLoading(false);
+    setProcessStage(0);
+  }
+
   async function sendRequestAndFetchData(formData) {
     console.log(formData);
     // set screen to loading
@@ -374,11 +381,20 @@ export default function Develop(props) {
     // Create a project and get the ID - The ID is stored in the Sessionstorage
     await createProjectAndGetID(formData);
 
-    // TODO: check if createProjectAndGetID gave an error and stop simulation in that case, show user the error
+    // Check if createProjectAndGetID gave an error and stop simulation in that case, show user the error
+    if (!sessionStorage.getItem('project_id')) {
+      stopSimulation('Error creating project');
+      return;
+    }
 
     for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
       // Make a post call to run the simulation on a project
-      let run_hash = await postSAFRun(maintenanceScope, formData);
+      const run_hash = await postSAFRun(maintenanceScope, formData);
+
+      if (!run_hash) {
+        stopSimulation('Error simulating project');
+        return;
+      }
 
       console.log('step ' + maintenanceScope + '/3');
 
@@ -393,7 +409,7 @@ export default function Develop(props) {
           setSafOutputHash2(run_hash);
           break;
         default:
-          console.log('Oops, the simulation went too far!');
+          stopSimulation('Oops, the simulation went too far!');
       }
     }
   }
