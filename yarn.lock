@@ -8512,6 +8512,11 @@ react-spring@^9.4.5:
     "@react-spring/web" "~9.5.4"
     "@react-spring/zdog" "~9.5.4"
 
+react-table@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.8.0.tgz#07858c01c1718c09f7f1aed7034fcfd7bda907d2"
+  integrity sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==
+
 react-text-transition@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-text-transition/-/react-text-transition-3.0.2.tgz#b817990a811f0036e608778b4365599836ce7343"
