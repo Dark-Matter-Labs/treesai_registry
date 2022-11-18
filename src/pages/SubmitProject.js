@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
-import { RadioGroup } from '@headlessui/react';
-import { CheckCircleIcon } from '@heroicons/react/solid';
 import { useNavigate, Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import useSWR from 'swr';
@@ -21,6 +19,7 @@ import NumberInput from '../components/form/NumberInput';
 import Dropdown from '../components/form/Dropdown';
 import Toggle from '../components/form/Toggle';
 import RadioSelector from '../components/form/RadioSelector';
+import RadioGroupSelector from '../components/form/RadioGroupSelector';
 import ResultBlock from '../components/ResultBlock';
 import ValueDisplay from '../components/analysis/ValueDisplay';
 import ChartBlock from '../components/analysis/ChartBlock';
@@ -43,7 +42,6 @@ import { formatDataForMultilineChart } from '../utils/chartUtils';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
 import {
-  get_cities,
   get_typologies_types,
   get_stages,
   get_land_use,
@@ -62,7 +60,6 @@ const typologies = get_typologies();
 const maintenanceTypes = get_maintenance_scopes();
 
 // set project parameters
-const cities = get_cities();
 const listCouncils = getCouncils();
 const typologyTabs = get_typologies_types();
 const stages = get_stages();
@@ -90,6 +87,8 @@ export default function SubmitProject(props) {
   const [totalTreeNumber, setTotalTreeNumber] = useState(0);
   const [selectedStage, setSelectedStage] = useState(stages[0]);
   const [selectedLandUse, setSelectedLandUse] = useState('Recreation');
+  const [selectedLandUseChange, setSelectedLandUseChange] = useState('-');
+  const [selectedLandUseStatus, setSelectedLandUseStatus] = useState('Yes');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [activityType, setActivityType] = useState(activityTypes[0]);
@@ -338,7 +337,7 @@ export default function SubmitProject(props) {
       activities: 'maintenance',
       area: parseInt(formData.totalArea),
       cost: 0,
-      stage: selectedStage + selectedLandUse,
+      stage: selectedStage + selectedLandUse + selectedLandUseStatus + selectedLandUseChange, // TO:DO fix this and send stage data properly
       number_of_trees: totalTreeNumber,
       local_authority: formData.projectDeveloper,
       location: sessionStorage.getItem('address'),
@@ -374,6 +373,8 @@ export default function SubmitProject(props) {
 
     // Create a project and get the ID - The ID is stored in the Sessionstorage
     await createProjectAndGetID(formData);
+
+    // TODO: check if createProjectAndGetID gave an error and stop simulation in that case, show user the error
 
     for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
       // Make a post call to run the simulation on a project
@@ -466,16 +467,6 @@ export default function SubmitProject(props) {
                     />
 
                     <Dropdown
-                      span='sm:col-span-3'
-                      label='city'
-                      title='City'
-                      type='general'
-                      options={cities}
-                    />
-
-                    <div className='sm:col-span-2' />
-
-                    <Dropdown
                       span='sm:col-span-2'
                       label='neighbourhood'
                       title='Community Council *'
@@ -500,31 +491,11 @@ export default function SubmitProject(props) {
                       label='project-stage'
                       title='Current stage'
                       type='general'
+                      showInfo={true}
                       onChange={(e) => {
                         setSelectedStage(e.target.value.toLowerCase());
                       }}
                       options={stages}
-                    />
-
-                    <Controller
-                      control={methods.control}
-                      name='totalArea'
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <NumberInput
-                          span='sm:col-span-3'
-                          label='totalArea'
-                          title='Total area of the project *'
-                          unit='m2'
-                          placeholder='10000'
-                          min={50}
-                          max={200000}
-                          type='general'
-                          required={true}
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          selected={value}
-                        />
-                      )}
                     />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
@@ -532,14 +503,7 @@ export default function SubmitProject(props) {
                     title='Project Location *'
                     description='Where is your project located?'
                   >
-                    <AddressInputWithMap
-                      span='sm:col-span-3'
-                      label='address'
-                      title='Project Location *'
-                      placeholder='Street, street number, postal code'
-                      type='general'
-                      required={true}
-                    />
+                    <AddressInputWithMap span='sm:col-span-3' />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
                   <FormBlock
@@ -547,11 +511,22 @@ export default function SubmitProject(props) {
                     description='Land usage prior to your intervention is a key determinant of a project’s future impact.'
                   >
                     <TextInput
-                      span='sm:col-span-5'
+                      span='sm:col-span-3'
                       label='landOwner'
                       title='Land Owner'
                       placeholder='Who owns the land?'
                       type='general'
+                    />
+
+                    <Dropdown
+                      span='sm:col-span-3'
+                      label='landOwnerStatus'
+                      title='Do you own the land?'
+                      type='general'
+                      onChange={(e) => {
+                        setSelectedLandUseStatus(e.target.value.toLowerCase());
+                      }}
+                      options={['Yes', 'No']}
                     />
 
                     <Dropdown
@@ -577,13 +552,26 @@ export default function SubmitProject(props) {
                       firstChoice='No'
                       secondChoice='Yes'
                     />
+
+                    <div className='sm:col-span-1' />
+
+                    <Dropdown
+                      span='sm:col-span-3'
+                      label='land-use-change-type'
+                      title='How will it be used?'
+                      type='general'
+                      onChange={(e) => {
+                        setSelectedLandUseChange(e.target.value.toLowerCase());
+                      }}
+                      options={['-'].concat(landUse)}
+                    />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
                   <FormBlock
                     title='Describe your project'
                     description='Tell us about your project. Don’t worry about precise typologies or numbers for the moment, just let us know about the project’s location, what you hope to deliver, who you’re working with to make it happen.'
                   >
-                    <div className='sm:col-span-3'>
+                    <div className='sm:col-span-6'>
                       <label
                         htmlFor='project-description'
                         className='book-info-md pl-5 text-dark-wood-800'
@@ -601,48 +589,6 @@ export default function SubmitProject(props) {
                         There is no word limit, but for readability’s sake, we suggest you keep the
                         description under 250 words.
                       </p>
-                    </div>
-
-                    <div className='sm:col-span-3  '>
-                      <div className='mt-1 sm:col-span-2 sm:mt-5'>
-                        <div className='flex max-w-lg justify-center rounded-full border border-indigo-600 px-6 py-10'>
-                          <div className='space-y-1 text-center'>
-                            <svg
-                              className='mx-auto h-12 w-12 text-gray-400'
-                              stroke='currentColor'
-                              fill='none'
-                              viewBox='0 0 48 48'
-                              aria-hidden='true'
-                            >
-                              <path
-                                d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
-                                strokeWidth={2}
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                              />
-                            </svg>
-                            <div className='book-info-md flex text-dark-wood-800'>
-                              <label
-                                htmlFor='file-upload'
-                                className='relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500'
-                              >
-                                <span>Upload a file</span>
-                                <input
-                                  id='file-upload'
-                                  name='file-upload'
-                                  type='file'
-                                  className='sr-only'
-                                />
-                              </label>
-                              <p className='pl-1'>or drag and drop</p>
-                            </div>
-                            <p className='book-info-sm text-dark-wood-800'>
-                              PNG, JPG, GIF up to 10MB
-                            </p>
-                          </div>
-                        </div>
-                        <p className='medium-intro-sm mt-2 text-gray-500 pl-20'>Cover photo</p>
-                      </div>
                     </div>
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
@@ -749,62 +695,12 @@ export default function SubmitProject(props) {
                         ))}
                       </nav>
                     </div>
-                    <div className='sm:col-span-6'>
-                      <RadioGroup value={selectedTypology} onChange={setSelectedTypology}>
-                        <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-2 sm:gap-x-4'>
-                          {typologies.map((typology) => (
-                            <RadioGroup.Option
-                              key={typology.id}
-                              value={typology}
-                              className={({ checked, active }) =>
-                                classNames(
-                                  checked ? 'border-transparent' : 'border-dark-wood-500',
-                                  active ? 'border-green-600 ring-2 ring-green-600' : '',
-                                  'relative flex cursor-pointer rounded-3xl border bg-white p-4 focus:outline-none',
-                                )
-                              }
-                            >
-                              {({ checked, active }) => (
-                                <>
-                                  <span className='flex flex-1'>
-                                    <img className='h-24 rounded-full' src={typology.image} />
-                                    <span className='flex flex-col'>
-                                      <RadioGroup.Label
-                                        as='span'
-                                        className='bold-intro-sm block border-b border-dark-wood-800 pb-2 uppercase text-dark-wood-600'
-                                      >
-                                        {typology.title}
-                                      </RadioGroup.Label>
-                                      <RadioGroup.Description
-                                        as='span'
-                                        className='book-info-sm mt-1 flex items-center pt-2 pl-2 text-dark-wood-600'
-                                      >
-                                        {typology.description}
-                                      </RadioGroup.Description>
-                                    </span>
-                                  </span>
-                                  <CheckCircleIcon
-                                    className={classNames(
-                                      !checked ? 'invisible' : '',
-                                      'h-5 w-5 text-green-600',
-                                    )}
-                                    aria-hidden='true'
-                                  />
-                                  <span
-                                    className={classNames(
-                                      active ? 'border' : 'border-2',
-                                      checked ? 'border-green-600' : 'border-transparent',
-                                      'pointer-events-none absolute -inset-px rounded-3xl',
-                                    )}
-                                    aria-hidden='true'
-                                  />
-                                </>
-                              )}
-                            </RadioGroup.Option>
-                          ))}
-                        </div>
-                      </RadioGroup>
-                    </div>
+                    <RadioGroupSelector
+                      value={selectedTypology}
+                      setValue={setSelectedTypology}
+                      valueArray={typologies}
+                      hasImage={true}
+                    />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
@@ -812,6 +708,29 @@ export default function SubmitProject(props) {
                     description={`Your total project area is ${watchTotalArea} m2. How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
                     type='typology'
                   >
+                    <Controller
+                      control={methods.control}
+                      name='totalArea'
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <NumberInput
+                          span='sm:col-span-3'
+                          label='totalArea'
+                          title='Total area of the project *'
+                          unit='m2'
+                          placeholder='10000'
+                          min={50}
+                          max={200000}
+                          type='typology'
+                          required={true}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          selected={value}
+                        />
+                      )}
+                    />
+
+                    <div className='sm:col-span-2' />
+
                     <Controller
                       control={methods.control}
                       name='treeNumber'
@@ -881,7 +800,7 @@ export default function SubmitProject(props) {
                       )}
                     />
 
-                    <CompositionPieChart data={watchConifer} />
+                    <CompositionPieChart data={Number(watchConifer)} />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
@@ -898,14 +817,18 @@ export default function SubmitProject(props) {
                       radioType={activityType}
                       radioTypes={activityTypes}
                     />
-                    <RadioSelector
-                      span='sm:col-span-5'
-                      label='maintenance-type'
-                      title='Maintenance level'
-                      type='typology'
-                      setRadioType={setMaintenanceType}
-                      radioType={maintenanceType}
-                      radioTypes={maintenanceTypes}
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-green-600' />
+                  <FormBlock
+                    title='What is your project maintenance level? '
+                    description='According to the activity you have chosen, developing or maintenance, choose the level of maintenance.'
+                    type='typology'
+                  >
+                    <RadioGroupSelector
+                      value={maintenanceType}
+                      setValue={setMaintenanceType}
+                      valueArray={maintenanceTypes}
+                      hasImage={false}
                     />
                   </FormBlock>
                 </div>
@@ -917,7 +840,7 @@ export default function SubmitProject(props) {
                     type='cost'
                   >
                     <NumberInput
-                      span='sm:col-span-3'
+                      span='sm:col-span-4'
                       label='project-budget'
                       title='What is your project budget?'
                       placeholder='200'
@@ -930,7 +853,7 @@ export default function SubmitProject(props) {
                     />
 
                     <NumberInput
-                      span='sm:col-span-3'
+                      span='sm:col-span-4'
                       label='money-raised'
                       title='How much money have you raised so far?'
                       placeholder='200'
@@ -1146,10 +1069,7 @@ export default function SubmitProject(props) {
               <p className='book-info-sm pt-5 text-dark-wood-800'>
                 The following ranges provide an estimated project costs over different time-spans:
               </p>
-              <CostBox
-                costTotal={totalCost}
-                moneyNeeded={moneyNeeded}
-              />
+              <CostBox costTotal={totalCost} moneyNeeded={moneyNeeded} />
               <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
