@@ -69,7 +69,7 @@ const activityTypes = get_activity_types();
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
-export default function SubmitProject(props) {
+export default function Develop(props) {
   const [processStage, setProcessStage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   /* Form variables, to be refactored to react-hook-form */
@@ -1205,6 +1205,6 @@ export default function SubmitProject(props) {
   );
 }
 
-SubmitProject.propTypes = {
+Develop.propTypes = {
   loggedIn: PropTypes.bool,
 };
