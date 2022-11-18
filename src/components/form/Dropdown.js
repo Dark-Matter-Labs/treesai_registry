@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import InfoSlideOver from './InfoSlideOver';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -12,11 +13,12 @@ export default function Dropdown(props) {
         htmlFor={props.label}
         className={classNames(
           props.type === 'map' ? 'text-white-200' : 'text-dark-wood-800',
-          'book-info-md pl-5',
+          'book-info-md mx-4',
         )}
       >
         {props.title}
       </label>
+      {props.showInfo && <InfoSlideOver />}
       <div className='mt-1'>
         <select
           id={props.label}
@@ -43,4 +45,5 @@ Dropdown.propTypes = {
   type: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.array,
+  showInfo: PropTypes.bool,
 };
