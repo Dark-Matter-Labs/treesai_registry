@@ -303,7 +303,7 @@ export default function Develop(props) {
       conifer_ratio_percent: formData.conifer, // Integer
     };
     // Change dbh based on activity
-    if (activityType.name === 'Developing') {
+    if (watchTreePlant > watchTreeMaintain) {
       payload = {
         ...payload,
         min_dbh: parseInt(selectedTypology.fixedDBH),
