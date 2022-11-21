@@ -2,12 +2,22 @@ import toast from 'react-hot-toast';
 
 const axios = require('axios').default;
 
-/* ------------------- Auth ------------------- */
+/* ------------------- default parameters ------------------- */
 
-function onError(error) {
-  console.error(error);
-  toast.error(error.message);
-}
+const requestHeaders = {
+  accept: 'application/json',
+  Authorization: 'Bearer ' + sessionStorage.token,
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+};
+
+const getConfig = {
+  method: 'GET',
+  headers: requestHeaders,
+  redirect: 'follow',
+};
+
+/* ------------------- Auth ------------------- */
 
 export const register_user = async (createUserPayload) => {
   const createUserRequestHeaders = {
@@ -62,23 +72,10 @@ export const get_user_token = async (tokenPayload) => {
 };
 
 export const get_user_me_info = async () => {
-  const getUserRequestHeaders = {
-    accept: 'application/json',
-    Authorization: 'Bearer ' + sessionStorage.token,
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  };
-
-  const config = {
-    method: 'GET',
-    headers: getUserRequestHeaders,
-    redirect: 'follow',
-  };
-
-  let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/';
+  const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/';
 
   return await axios
-    .get(url, config)
+    .get(url, getConfig)
     .then((response) => {
       sessionStorage.setItem('user_id', response.data.id);
       sessionStorage.setItem('user_name', response.data.name);
@@ -88,18 +85,12 @@ export const get_user_me_info = async () => {
 };
 
 /* ------------------- SAF ------------------- */
-const requestHeaders = {
-  accept: 'application/json',
-  Authorization: 'Bearer ' + sessionStorage.token,
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-};
 
 export const get_saf_run_by_hash = async (run_hash) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
 
-  let url =
+  const url =
     process.env.REACT_APP_API_ENDPOINT +
     '/api/v1/saf/users/' +
     user_id +
@@ -108,14 +99,8 @@ export const get_saf_run_by_hash = async (run_hash) => {
     '/run/' +
     run_hash;
 
-  let config = {
-    method: 'GET',
-    headers: requestHeaders,
-    redirect: 'follow',
-  };
-
   return axios
-    .get(url, config)
+    .get(url, getConfig)
     .then((res) => res.data['output'])
     .catch((error) => onError(error));
 };
@@ -175,16 +160,10 @@ export const create_project_and_get_ID = async (payload) => {
 
 /* ------------------- Account ------------------- */
 export const get_user_projects = async (user_id) => {
-  const config = {
-    method: 'GET',
-    headers: requestHeaders,
-    redirect: 'follow',
-  };
-
-  let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/users/' + user_id + '/projects/';
+  const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/users/' + user_id + '/projects/';
 
   return await axios
-    .get(url, config)
+    .get(url, getConfig)
     .then((response) => response.data)
     .catch((error) => onError(error));
 };
@@ -192,7 +171,7 @@ export const get_user_projects = async (user_id) => {
 export const get_saf_runs_by_projectID = async (project_id) => {
   const user_id = sessionStorage.user_id;
 
-  let url =
+  const url =
     process.env.REACT_APP_API_ENDPOINT +
     '/api/v1/saf/users/' +
     user_id +
@@ -200,13 +179,7 @@ export const get_saf_runs_by_projectID = async (project_id) => {
     project_id +
     '/runs';
 
-  let config = {
-    method: 'GET',
-    headers: requestHeaders,
-    redirect: 'follow',
-  };
-
-  return await axios.get(url, config).then((res) => res.data['runs']);
+  return await axios.get(url, getConfig).then((res) => res.data['runs']);
 };
 
 export const get_all_user_runs = async (projectList) => {
@@ -220,3 +193,29 @@ export const get_all_user_runs = async (projectList) => {
   // Return all runs
   return allRuns;
 };
+
+/* ------------------- Explore ------------------- */
+
+export const get_all_portfolio_projects = async () => {
+  const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/projects/in_portfolio';
+
+  return await axios
+    .get(url, getConfig)
+    .then((response) => response.data['projects'])
+    .catch((error) => onError(error));
+};
+
+export const get_all_locs_for_portfolio_projects = async () => {
+  const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/projects/in_portfolio/locations/';
+
+  return await axios
+    .get(url, getConfig)
+    .then((response) => response.data)
+    .catch((error) => onError(error));
+};
+
+/* ------------------- Error Handling ------------------- */
+function onError(error) {
+  console.error(error);
+  toast.error(error.message);
+}
