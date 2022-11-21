@@ -69,10 +69,7 @@ export default function ChartBlock(props) {
 ChartBlock.propTypes = {
   maintenanceTypeName: PropTypes.string,
   label: PropTypes.string,
-  children: PropTypes.PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-]),
+  children: PropTypes.PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   type: PropTypes.string,
   detail: PropTypes.string,
 };

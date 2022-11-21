@@ -34,13 +34,13 @@ export default function CostBox(props) {
                   </tr>
                 </thead>
                 <tbody className='divide-y divide-indigo-600 bg-white-200'>
-                <tr>
-                  <td className='whitespace-nowrap py-4 pl-4 pr-3 medium-intro-md text-indigo-600 sm:pl-6'>
-                    £ {costTotal}
-                  </td>
-                  <td className='whitespace-nowrap px-3 py-4 medium-intro-md text-indigo-600'>
-                    £ {moneyNeeded}
-                  </td>
+                  <tr>
+                    <td className='whitespace-nowrap py-4 pl-4 pr-3 medium-intro-md text-indigo-600 sm:pl-6'>
+                      £ {costTotal}
+                    </td>
+                    <td className='whitespace-nowrap px-3 py-4 medium-intro-md text-indigo-600'>
+                      £ {moneyNeeded}
+                    </td>
                   </tr>
                 </tbody>
               </table>
