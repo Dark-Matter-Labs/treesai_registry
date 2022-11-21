@@ -9,6 +9,12 @@ import ProjectsTable from '../components/map/ProjectsTable';
 import Filter from '../components/map/Filter';
 import DataLayerSelector from '../components/map/DataLayerSelector';
 import { get_all_locs_for_portfolio_projects } from '../utils/backendCRUD';
+
+const getPortfolioLocs = async () => {
+  const locs = await get_all_locs_for_portfolio_projects();
+  return locs;
+};
+
 export default function Explore(props) {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
@@ -72,7 +78,7 @@ export default function Explore(props) {
     setPopupInfo(current);
   };
 
-  const projectsFromPortfolio = get_all_locs_for_portfolio_projects();
+  const projectsFromPortfolio = getPortfolioLocs();
   // either append to the original list or keep as a separate variable
   // const projects = [...projectsFromPortfolio, ...ProjectsJSON];
 
