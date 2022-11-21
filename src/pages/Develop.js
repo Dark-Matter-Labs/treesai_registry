@@ -372,11 +372,10 @@ export default function Develop(props) {
   }
 
   async function sendRequestAndFetchData(formData) {
-    
     // checking if user entered project location on the map
-    if(sessionStorage.getItem('lat') === null) {
+    if (sessionStorage.getItem('lat') === null) {
       setLocationInputError(true);
-      window.scrollTo(0,1000);
+      window.scrollTo(0, 1000);
       return;
     }
 
@@ -449,7 +448,7 @@ export default function Develop(props) {
 
                 <div className='title-box-info mt-10 bg-green-600 px-40 py-10 text-center'>
                   <p className='medium-intro-md mt-1 text-dark-wood-800'>
-                  Welcome to TreesAI NbS impact assessment demonstrator.  
+                    Welcome to TreesAI NbS impact assessment demonstrator.
                   </p>
                 </div>
               </div>
@@ -1016,16 +1015,14 @@ export default function Develop(props) {
                               {methods.getValues('treeNumber')}
                             </td>
                           </tr>
-                          {(selectedTypology.id === 1 || selectedTypology.id === 2) && (
-                            <tr>
-                              <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
-                                Number of trees maintained:
-                              </td>
-                              <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
-                                {methods.getValues('treeNumberMaintain')}
-                              </td>
-                            </tr>
-                          )}
+                          <tr>
+                            <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
+                              Number of trees maintained:
+                            </td>
+                            <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
+                              {methods.getValues('existingTrees')}
+                            </td>
+                          </tr>
                           <tr>
                             <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
                               Project stage:
@@ -1050,61 +1047,59 @@ export default function Develop(props) {
               </div>
             </div>
 
-            <div className='border-r border-green-600 px-8'>
-              <h3 className='text-dark-wood-800'>Your project&rsquo;s 50-year impact</h3>
-              <p className='book-info-sm pt-4 text-dark-wood-800 pb-10'>
-                Considering a range of factors including your project’s typology, activity and
-                location, you could help achieve the following estimated impact:
-              </p>
-              <ValueDisplay
-                value={Math.round(totalSeq)}
-                label='Net CO2 sequestered in 50 years (Kgs)'
-                disabled={false}
-              />
-              <hr className='mx-20 border-8 border-green-600' />
-              <ValueDisplay
-                value={Math.round(totalStorage)}
-                label='Total carbon stored in 50 years (Kgs) '
-                disabled={false}
-              />
+            <div className='col-span-2'>
+              <div className='grid grid-cols-1 lg:grid-cols-2'>
+                <div className='border-r border-green-600 px-8'>
+                  <h3 className='text-dark-wood-800'>Your project&rsquo;s 50-year impact</h3>
+                  <p className='book-info-sm pt-4 text-dark-wood-800 pb-10'>
+                    Considering a range of factors including your project’s typology, activity and
+                    location, you could help achieve the following estimated impact:
+                  </p>
+                  <ValueDisplay
+                    value={Math.round(totalSeq)}
+                    label='Net CO2 sequestered in 50 years (Kgs)'
+                    disabled={false}
+                  />
+                  <hr className='mx-20 border-8 border-green-600' />
+                  <ValueDisplay
+                    value={Math.round(totalStorage)}
+                    label='Total carbon stored in 50 years (Kgs) '
+                    disabled={false}
+                  />
+                </div>
+                <div className='px-8 '>
+                  <h3 className='text-dark-wood-800'>Your project’s cost</h3>
+                  <p className='book-info-sm pt-5 text-dark-wood-800'>
+                    The following ranges provide an estimated project costs over different
+                    time-spans:
+                  </p>
+                  <CostBox costTotal={Number(totalCost)} moneyNeeded={moneyNeeded} />
+                  <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
+                    These estimates do not include any commercial mark-ups and only reflect the
+                    direct costs of building and maintaining your NbS project.
+                  </p>
+                </div>
 
-              <div className='pt-5'>
-                <ValueDisplay
-                  value={0}
-                  label='Annual stormwater runoff avoided (1000L/m2) (Kgs) '
-                  disabled={true}
-                />
-                <hr className='mx-20 border-8 border-dark-wood-600' />
-                <ValueDisplay
-                  value={0}
-                  label='Annual average PM10 improvement (%)'
-                  disabled={true}
-                />
+                <div className='col-span-2 mt-5 mx-5'>
+                  <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>
+                    Your project’s location challenges
+                  </h3>
+                  <p className='book-info-sm pt-5 text-dark-wood-800'>
+                    The location of your project matters. It matters because cities are facing
+                    multiple climate and social challenges which your project can help mitigate. On
+                    the right you assess the challenges faced by the neighbourhood of your project:
+                  </p>
+                  <p className='medium-info-sm pt-5 text-dark-wood-800'>{selectedCC}</p>
+                  <RiskRadar cc_name={selectedCC} />
+                </div>
               </div>
-            </div>
-            <div className='px-8 '>
-              <h3 className='text-dark-wood-800'>Your project’s cost</h3>
-              <p className='book-info-sm pt-5 text-dark-wood-800'>
-                The following ranges provide an estimated project costs over different time-spans:
-              </p>
-              <CostBox costTotal={Number(totalCost)} moneyNeeded={moneyNeeded} />
-              <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
-                These estimates do not include any commercial mark-ups and only reflect the direct
-                costs of building and maintaining your NbS project.
-              </p>
-              <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>Risk addressed</h3>
-              <p className='book-info-sm pt-5 text-dark-wood-800'>
-                Considering a combination of factors including your project typology, activity and
-                location, your project average could be:
-              </p>
-              <RiskRadar cc_name={selectedCC} />
             </div>
           </div>
 
-          <SectionHeader title='Your project population' type='Population' />
+          <SectionHeader title='Your project’s estimated population' type='Population' />
           <ResultBlock
-            title='Your Project’s Population'
-            description='this section is aimed at helping you understand the evolution of the population over time'
+            title='Your Trees’ life'
+            description='Considering a combination of factors including typology, activity and location, calculated via an agent-based model, your project could achieve the following potential impact over the next 50 years:'
             type='pop'
           />
           <hr className='mx-20 border-[12px] border-indigo-600' />
@@ -1116,6 +1111,13 @@ export default function Develop(props) {
             >
               <LineChart data={processPopulationDataForLineChart(getSelectedOutput())} />
             </ChartBlock>
+            <hr className='mx-20 border-[12px] border-indigo-600' />
+            <PieChartBlock
+              safOutput0={safOutput0}
+              safOutput1={safOutput1}
+              safOutput2={safOutput2}
+              maintenanceTypeName={maintenanceType.name}
+            />
           </div>
 
           <div className='h-10' />
@@ -1143,17 +1145,11 @@ export default function Develop(props) {
             >
               <ChartMultiLine data={comparativeStorage} />
             </ChartBlock>
-            <hr className='mx-20 border-[12px] border-indigo-600' />
-            <PieChartBlock
-              safOutput0={safOutput0}
-              safOutput1={safOutput1}
-              safOutput2={safOutput2}
-              maintenanceTypeName={maintenanceType.name}
-            />
           </div>
 
           <div className='h-10' />
 
+          <SectionHeader title='Your project costs' type='details' />
           <ResultBlock
             title='Project Costs*'
             description='The assessment provides an estimated project costs over 50 years. *this estimate does not include any commercial mark-ups. These costs only reflect the direct infrastructural cost of your NbS project.'
