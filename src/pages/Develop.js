@@ -1087,7 +1087,7 @@ export default function Develop(props) {
               <p className='book-info-sm pt-5 text-dark-wood-800'>
                 The following ranges provide an estimated project costs over different time-spans:
               </p>
-              <CostBox costTotal={totalCost} moneyNeeded={moneyNeeded} />
+              <CostBox costTotal={Number(totalCost)} moneyNeeded={moneyNeeded} />
               <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
                 These estimates do not include any commercial mark-ups and only reflect the direct
                 costs of building and maintaining your NbS project.
