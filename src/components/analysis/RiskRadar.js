@@ -19,7 +19,7 @@ const RiskRadar = (props) => {
         keys={[councilName]}
         indexBy='attribute'
         margin={{ top: 80, right: 90, bottom: 50, left: 90 }}
-        colors={{ scheme: 'red_blue' }}
+        colors={['#1EB792', '#2F3130', '#4F46E5']}
         borderColor={{ from: 'color' }}
         dotSize={5}
       />

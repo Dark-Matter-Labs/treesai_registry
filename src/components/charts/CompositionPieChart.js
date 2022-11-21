@@ -8,13 +8,13 @@ function formatDataForPie(percentageConifer) {
       id: 'Conifer',
       label: 'Conifer',
       value: percentageConifer,
-      color: 'hsl(121, 100%, 13%)',
+      color: 'hsl(166, 61%, 72%)',
     },
     {
       id: 'Deciduous',
       label: 'Deciduous',
       value: 100 - percentageConifer,
-      color: 'hsl(121, 100%, 30%)',
+      color: 'hsl(166, 80%, 30%)',
     },
   ];
 }
