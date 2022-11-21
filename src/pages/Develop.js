@@ -93,6 +93,7 @@ export default function Develop(props) {
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
   const [activityType, setActivityType] = useState(activityTypes[0]);
   const [densityPerHa, setDensityPerHa] = useState(1);
+  const [locationInputError, setLocationInputError] = useState(false);
   // Cost variables
   const [totalCost, setTotalCost] = useState(500);
   const [moneyNeeded, setMoneyNeeded] = useState(500);
@@ -123,7 +124,7 @@ export default function Develop(props) {
     revalidateOnReconnect: false,
   };
 
-  // Retreive the result from the simulation. It will only fetch if the Hash is defined
+  // Retrieve the result from the simulation. It will only fetch if the Hash is defined
   const { data: safOutput0 } = useSWR(safOutputHash0, get_saf_run_by_hash, swrOptions);
   const { data: safOutput1 } = useSWR(
     safOutput0 ? safOutputHash1 : null,
@@ -371,7 +372,14 @@ export default function Develop(props) {
   }
 
   async function sendRequestAndFetchData(formData) {
-    console.log(formData);
+    
+    // checking if user entered project location on the map
+    if(sessionStorage.getItem('lat') === null) {
+      setLocationInputError(true);
+      window.scrollTo(0,1000);
+      return;
+    }
+
     // set screen to loading
     setIsLoading(true);
 
@@ -440,11 +448,8 @@ export default function Develop(props) {
                 </div>
 
                 <div className='title-box-info mt-10 bg-green-600 px-40 py-10 text-center'>
-                  <p className='book-intro-md mt-1 text-dark-wood-800'>
-                    Welcome to TreesAI NbS impact assessment tool
-                  </p>
                   <p className='medium-intro-md mt-1 text-dark-wood-800'>
-                    If you have any question don’t hesitate to contact us.
+                  Welcome to TreesAI NbS impact assessment demonstrator.  
                   </p>
                 </div>
               </div>
@@ -516,7 +521,7 @@ export default function Develop(props) {
                     title='Project Location *'
                     description='Where is your project located?'
                   >
-                    <AddressInputWithMap span='sm:col-span-3' />
+                    <AddressInputWithMap span='sm:col-span-3' showError={locationInputError} />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
                   <FormBlock

@@ -33,10 +33,14 @@ export default function AddressInputWithMap(props) {
           }}
         />
       </Map>
+      {props.showError &&
+      <p className='book-info-sm text-red-600 py-2'>Please enter project location.</p>
+      }
     </div>
   );
 }
 
 AddressInputWithMap.propTypes = {
   span: PropTypes.string,
+  showError: PropTypes.bool
 };
