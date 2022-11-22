@@ -196,21 +196,16 @@ export const get_all_user_runs = async (projectList) => {
 
 /* ------------------- Explore ------------------- */
 
-export const get_all_portfolio_projects = async () => {
-  const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/projects/in_portfolio';
+export const get_projects = async (queryArgs) => {
+  let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/projects/';
+
+  if (queryArgs) {
+    url = url + '?' + queryArgs;
+  }
 
   return await axios
     .get(url, getConfig)
     .then((response) => response.data['projects'])
-    .catch((error) => onError(error));
-};
-
-export const get_all_locs_for_portfolio_projects = async () => {
-  const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/projects/in_portfolio/locations/';
-
-  return await axios
-    .get(url, getConfig)
-    .then((response) => response.data)
     .catch((error) => onError(error));
 };
 
