@@ -8,11 +8,18 @@ import InfoPanel from '../components/map/InfoPanel';
 import ProjectsTable from '../components/map/ProjectsTable';
 import Filter from '../components/map/Filter';
 import DataLayerSelector from '../components/map/DataLayerSelector';
-import { get_all_locs_for_portfolio_projects } from '../utils/backendCRUD';
+import { get_projects } from '../utils/backendCRUD';
+import useSWR from 'swr';
 
-const getPortfolioLocs = async () => {
-  const locs = await get_all_locs_for_portfolio_projects();
-  return locs;
+const swrOptions = {
+  onSuccess: (data) => {
+    console.log('Data received:', data);
+  },
+
+  // Revalidation documentation: https://swr.vercel.app/docs/revalidation
+  revalidateIfStale: false,
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
 };
 
 export default function Explore(props) {
@@ -21,6 +28,10 @@ export default function Explore(props) {
   const [projects, setProjects] = useState(ProjectsJSON);
   const [showInfoPanel, setShowInfoPanel] = useState(true);
   const [mapDataLayer, setMapDataLayer] = useState('Basic');
+
+  const { data: projectsFromDB } = useSWR('portfolio=true', get_projects, swrOptions);
+
+  console.log(projectsFromDB);
 
   const columns = useMemo(
     () => [
@@ -77,13 +88,6 @@ export default function Explore(props) {
     });
     setPopupInfo(current);
   };
-
-  const projectsFromPortfolio = getPortfolioLocs();
-  // either append to the original list or keep as a separate variable
-  // const projects = [...projectsFromPortfolio, ...ProjectsJSON];
-
-  // Logging to remove a no-unused-vars error
-  console.log(projectsFromPortfolio);
 
   return (
     <div className='overflow-hidden h-screen m-0'>
