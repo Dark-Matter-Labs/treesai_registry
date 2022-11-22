@@ -72,10 +72,7 @@ export default function NbSMap(props) {
               props.selectProject(city);
             }}
           >
-            <Pin
-              isFeatured={city.properties.is_featured}
-              inPortfolio={city.properties.portfolio_A}
-            />
+            <Pin />
           </Marker>
         ))}
 
