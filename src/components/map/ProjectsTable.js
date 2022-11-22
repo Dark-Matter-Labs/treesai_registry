@@ -2,7 +2,7 @@ import React from 'react';
 import { useTable, useSortBy } from 'react-table';
 import PropTypes from 'prop-types';
 
-export default function ProjectsTable({ columns, data }) {
+export default function ProjectsTable({ columns, data, selectProject }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -39,9 +39,25 @@ export default function ProjectsTable({ columns, data }) {
               <tbody {...getTableBodyProps()} className='divide-y divide-gray-200 bg-white'>
                 {rows.map((row) => {
                   prepareRow(row);
-                  // TODO: add onClick event to select project
                   return (
-                    <tr key={row.id} {...row.getRowProps()}>
+                    <tr
+                      key={row.id}
+                      {...row.getRowProps()}
+                      onClick={() => {
+                        console.log(row);
+                        const mapObject = {
+                          type: 'Feature',
+                          geometry: {
+                            type: 'Point',
+                            coordinates: row.values['geometry.coordinates'],
+                          },
+                          properties: {
+                            project_name: row.values['properties.project_name'],
+                          },
+                        };
+                        selectProject(mapObject);
+                      }}
+                    >
                       {row.cells.map((cell) => {
                         return (
                           <td
