@@ -56,6 +56,10 @@ export default function Explore(props) {
             Header: 'Estimated project costs',
             accessor: 'properties.project_budget',
           },
+          {
+            Header: 'Coordinates',
+            accessor: 'geometry.coordinates',
+          },
         ],
       },
     ],
