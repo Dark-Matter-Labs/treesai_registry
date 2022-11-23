@@ -14,17 +14,23 @@ const BarChart = (props) => {
       <ResponsiveBar
         data={data}
         keys={['budget']}
-        indexBy='id'
-        groupMode='grouped'
+        indexBy='id' // Use name later
         padding={0.05}
-        innerPadding={1}
-        margin={{ top: 80, right: 20, bottom: 60, left: 40 }}
+        innerPadding={0.01}
+        margin={{ top: 80, right: 30, bottom: 60, left: 80 }}
         axisBottom={{
-          legend: 'YEARS RANGES',
+          legend: 'PROJECTS',
           legendOffset: 40,
         }}
-        colors={['#1EB792', '#2F3130', '#4F46E5']}
-        colorBy='id'
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: '£',
+          legendPosition: 'middle',
+          legendOffset: -60,
+        }}
+        colorBy='id' // Use name later
         theme={{
           background: '#FCFCFC',
           textColor: '#4F46E5',
