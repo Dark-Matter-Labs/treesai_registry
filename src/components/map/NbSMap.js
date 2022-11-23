@@ -78,13 +78,13 @@ export default function NbSMap(props) {
 
         {props.popupInfo && (
           <Popup
-            anchor='right'
+            anchor='bottom'
             longitude={Number(props.popupInfo.geometry.coordinates[0])}
             latitude={Number(props.popupInfo.geometry.coordinates[1])}
             onClose={() => props.setPopupInfo(null)}
             className=''
           >
-            <div className='medium-intro-sm text-white-200 bg-green-600 p-4 rounded-t-3xl'>
+            <div className='medium-intro-sm text-white-200 bg-green-600 p-4 rounded-[38px] text-center'>
               {props.popupInfo.properties.project_name}
             </div>
           </Popup>
