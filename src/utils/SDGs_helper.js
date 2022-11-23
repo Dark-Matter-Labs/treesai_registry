@@ -1,4 +1,4 @@
-export function getSDGIdsFromTypology(typology = 'street tree') {
+export function getSDGIdsFromTypology(typology = 'Street Trees') {
   // function to get the SDGs from the typology
   switch (typology) {
     case 'Urban Parks':
