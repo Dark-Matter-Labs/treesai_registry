@@ -334,7 +334,7 @@ export default function Develop(props) {
       owner_id: parseInt(sessionStorage.user_id),
       activities: 'maintenance',
       area: parseInt(formData.totalArea),
-      cost: 0,
+      cost: parseInt(totalCost),
       stage: selectedStage + selectedLandUse + selectedLandUseStatus + selectedLandUseChange, // TO:DO fix this and send stage data properly
       number_of_trees: totalTreeNumber,
       local_authority: formData.projectDeveloper,
