@@ -9,7 +9,7 @@ export default function InfoPanel(props) {
     <Transition.Root
       show={props.show}
       as={Fragment}
-      className='bg-white-200 w-5/12 mt-16 rounded-r-[30px]'
+      className='bg-white-200 max-w-md mt-16 rounded-r-[30px]'
     >
       <Transition.Child
         enter='transform transition ease-in-out duration-500 sm:duration-700'
