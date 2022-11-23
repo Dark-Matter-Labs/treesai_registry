@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import useSWR from 'swr';
 import { Helmet } from 'react-helmet';
@@ -6,6 +6,9 @@ import { Helmet } from 'react-helmet';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
+import SectionHeader from '../components/SectionHeader';
+import ProjectsTable from '../components/map/ProjectsTable';
+import BudgetBarChart from '../components/charts/BudgetBarChart';
 
 import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
 import { getLastKeyInObj } from '../utils/objUtils';
@@ -65,8 +68,21 @@ function get_tot_carbon_storage(projectRuns) {
         projectRuns[i].output.Storage[getLastKeyInObj(projectRuns[i].output.Storage)];
     }
   }
-
   return totalCarbonStorage.toFixed(2);
+}
+
+function prepare_data_for_budget_chart(projectList) {
+
+  const budgetData = projectList['projects'].map((project) => {
+    return {
+      id: project.id,
+      name: project.title,
+      budget: project.cost,
+    };
+  });
+
+  console.log('budget',budgetData);
+  return budgetData;
 }
 
 export default function Account(props) {
@@ -75,6 +91,45 @@ export default function Account(props) {
 
   console.log('projList', userProjectList);
   console.log('runs', userRuns);
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'projects',
+        columns: [
+          {
+            Header: 'Title',
+            accessor: 'title',
+          },
+          {
+            Header: 'Area',
+            accessor: 'area',
+          },
+          {
+            Header: 'Number of trees',
+            accessor: 'number_of_trees',
+          },
+          {
+            Header: 'Cost',
+            accessor: 'cost',
+          },
+          {
+            Header: 'Stage',
+            accessor: 'stage',
+          },
+          {
+            Header: 'Activities',
+            accessor: 'activities',
+          },
+          {
+            Header: 'Developer',
+            accessor: 'project_dev',
+          },
+        ],
+      },
+    ],
+    [],
+  );
 
   if (isLoading || isRunLoading) return <LoadingSpinner />;
   else if (isError || isRunError) return <div>Failed to load</div>;
@@ -93,17 +148,33 @@ export default function Account(props) {
           </h1>
         </div>
 
-        <div className='bg-dark-wood-800 my-20 px-10 py-10'>
+        <div className='py-10'>
+          <SectionHeader title='Your projects' type='general' />
+          <div className='flex flex-col items-center justify-center'>
+            <ProjectsTable data={userProjectList['projects']} columns={columns} />
+          </div>
+        </div>
+
+        <SectionHeader title='Aggregate project impact' type='general' />
+        <div className='bg-dark-wood-800 px-10 py-10'>
           <h2 className='text-white-200'>
             Total Projects in Portfolio: {userProjectList.projects.length}
           </h2>
           <h2 className='text-white-200'>
             Total number of Trees: {get_tot_trees(userProjectList.projects)}
           </h2>
+
+          <h2 className='text-center text-white-200'>Stage of projects based on RIBA plan</h2>
+          <h2 className='text-center text-white-200'>Impact generated</h2>
+          <h2 className='text-white-200'>Carbon Storage(Kgs) {get_tot_carbon_storage(userRuns)}</h2>
           <h2 className='text-white-200'>
             Cumulative Carbon Sequestration (Kgs): {get_tot_carbon_sq(userRuns)}
           </h2>
-          <h2 className='text-white-200'>Carbon Storage(Kgs) {get_tot_carbon_storage(userRuns)}</h2>
+          <h2 className='text-center text-white-200'>UN Sustainable Development Goals</h2>
+          <h2 className='text-center text-white-200'>
+            Distribution of portfolio (by typology) in £
+          </h2>
+          <BudgetBarChart data={prepare_data_for_budget_chart(userProjectList)} />
         </div>
 
         <Footer />
