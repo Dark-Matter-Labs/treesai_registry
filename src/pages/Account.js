@@ -9,6 +9,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SectionHeader from '../components/SectionHeader';
 import ProjectsTable from '../components/map/ProjectsTable';
 import BudgetBarChart from '../components/charts/BudgetBarChart';
+import RibaStageChart from '../components/charts/RibaStageChart';
 
 import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
 import { getLastKeyInObj } from '../utils/objUtils';
@@ -72,7 +73,6 @@ function get_tot_carbon_storage(projectRuns) {
 }
 
 function prepare_data_for_budget_chart(projectList) {
-
   const budgetData = projectList['projects'].map((project) => {
     return {
       id: project.id,
@@ -80,9 +80,30 @@ function prepare_data_for_budget_chart(projectList) {
       budget: project.cost,
     };
   });
-
-  console.log('budget',budgetData);
   return budgetData;
+}
+
+function prepare_data_for_RIBA_chart(projectList) {
+  // function to count how many projects are in each RIBA stage
+  const RIBACount = projectList['projects'].reduce((accumulator, project) => {
+    const stage = project.stage;
+    if (accumulator[stage]) {
+      accumulator[stage] += 1;
+    } else {
+      accumulator[stage] = 1;
+    }
+    return accumulator;
+  }, {});
+
+  // function to convert RIBA count object to array of objects
+  const RIBAData = Object.keys(RIBACount).map((key) => {
+    return {
+      id: key,
+      stage: RIBACount[key],
+    };
+  });
+
+  return RIBAData;
 }
 
 export default function Account(props) {
@@ -165,6 +186,7 @@ export default function Account(props) {
           </h2>
 
           <h2 className='text-center text-white-200'>Stage of projects based on RIBA plan</h2>
+          <RibaStageChart data={prepare_data_for_RIBA_chart(userProjectList)} />
           <h2 className='text-center text-white-200'>Impact generated</h2>
           <h2 className='text-white-200'>Carbon Storage(Kgs) {get_tot_carbon_storage(userRuns)}</h2>
           <h2 className='text-white-200'>
