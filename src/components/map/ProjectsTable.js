@@ -3,21 +3,24 @@ import { useTable, useSortBy } from 'react-table';
 import PropTypes from 'prop-types';
 
 export default function ProjectsTable({ columns, data, selectProject }) {
+  const initialState = { hiddenColumns: ['geometry.coordinates'] };
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
+      initialState
     },
     useSortBy,
   );
 
   return (
-    <div className='flex flex-col h-[30vh] styled-scrollbars pb-10'>
-      <div className='-my-2 -mx-4 overflow-y-scroll sm:-mx-6 lg:-mx-8'>
+    <div className='flex flex-col h-[30vh] pb-10'>
+      <div className='-my-2 -mx-4 overflow-y-scroll sm:-mx-6 lg:-mx-8 styled-scrollbars'>
         <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
-          <div className='shadow ring-1 ring-black ring-opacity-5 md:rounded-lg'>
-            <table {...getTableProps()} className='min-w-full divide-y divide-gray-300'>
-              <thead className='bg-gray-50'>
+          <div className='shadow ring-1 ring-green-600 ring-opacity-5 md:rounded-lg'>
+            <table {...getTableProps()} className='min-w-full divide-y divide-green-600'>
+              <thead className='bg-green-300'>
                 <tr key={headerGroups[1].Header} {...headerGroups[1].getHeaderGroupProps()}>
                   {headerGroups[1].headers.map((column) => (
                     <th
@@ -26,9 +29,9 @@ export default function ProjectsTable({ columns, data, selectProject }) {
                       className={
                         column.isSorted
                           ? column.isSortedDesc
-                            ? 'sort-desc whitespace-normal py-3.5 px-2 text-left text-sm font-semibold text-gray-900'
-                            : 'sort-asc whitespace-normal py-3.5 px-2 text-left text-sm font-semibold text-gray-900'
-                          : 'whitespace-normal py-3.5 px-2 text-left text-sm font-semibold text-gray-900'
+                            ? 'sort-desc whitespace-normal py-3.5 px-2 text-left book-intro-sm text-dark-wood-800'
+                            : 'sort-asc whitespace-normal py-3.5 px-2 text-left book-intro-sm text-dark-wood-800'
+                          : 'whitespace-normal py-3.5 px-2 text-left book-info-sm text-dark-wood-800'
                       }
                     >
                       {column.render('Header')}
@@ -36,7 +39,7 @@ export default function ProjectsTable({ columns, data, selectProject }) {
                   ))}
                 </tr>
               </thead>
-              <tbody {...getTableBodyProps()} className='divide-y divide-gray-200 bg-white'>
+              <tbody {...getTableBodyProps()} className='bg-white-200'>
                 {rows.map((row) => {
                   prepareRow(row);
                   return (
@@ -63,7 +66,7 @@ export default function ProjectsTable({ columns, data, selectProject }) {
                           <td
                             key={cell.id}
                             {...cell.getCellProps()}
-                            className='whitespace-normal px-2 py-2 text-sm text-gray-500'
+                            className='whitespace-normal px-2 py-2 book-info-sm text-dark-wood-600'
                           >
                             {cell.render('Cell')}
                           </td>
