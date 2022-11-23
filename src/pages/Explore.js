@@ -98,7 +98,7 @@ export default function Explore(props) {
         </div>
       ) : (
         <div className='relative'>
-          <div className='absolute z-50 top-96'>
+          <div className='absolute z-50 top-1/4'>
             <div className='px-4 py-10 bg-green-600 rounded-r-full'>
               <button onClick={() => setShowInfoPanel(true)}>
                 <ArrowCircleRightIcon className='text-white-200 w-7 h-7 ml-2' />
