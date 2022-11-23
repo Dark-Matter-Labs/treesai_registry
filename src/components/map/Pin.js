@@ -23,7 +23,6 @@ const pinStyleDark = {
   stroke: 'none',
 };
 
-
 // TO DO: change colour of pin to green when it is clicked
 function Pin({ size = 20 }) {
   return (

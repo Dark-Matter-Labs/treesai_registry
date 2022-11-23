@@ -2,8 +2,13 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 
 const colourStyles = {
-  control: (styles) => ({ ...styles, backgroundColor: 'white',  fontFamily: 'ABCFavorit', borderRadius: '10px' }),
-  menu: (styles) => ({...styles, fontFamily: 'ABCFavorit',  borderRadius: '10px'}),
+  control: (styles) => ({
+    ...styles,
+    backgroundColor: 'white',
+    fontFamily: 'ABCFavorit',
+    borderRadius: '10px',
+  }),
+  menu: (styles) => ({ ...styles, fontFamily: 'ABCFavorit', borderRadius: '10px' }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     return {
       ...styles,
@@ -18,11 +23,7 @@ const colourStyles = {
 
       ':active': {
         ...styles[':active'],
-        backgroundColor: !isDisabled
-          ? isSelected
-            ? data.color
-            : '#CFD0CF'
-          : undefined,
+        backgroundColor: !isDisabled ? (isSelected ? data.color : '#CFD0CF') : undefined,
       },
     };
   },
@@ -30,7 +31,7 @@ const colourStyles = {
     return {
       ...styles,
       borderRadius: '10px',
-      backgroundColor: '#CFD0CF'
+      backgroundColor: '#CFD0CF',
     };
   },
   multiValueLabel: (styles, { data }) => ({

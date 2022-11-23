@@ -9,7 +9,7 @@ export default function ProjectsTable({ columns, data, selectProject }) {
     {
       columns,
       data,
-      initialState
+      initialState,
     },
     useSortBy,
   );

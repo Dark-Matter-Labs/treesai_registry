@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 
 export default function InfoPanel(props) {
   return (
-    <Transition.Root show={props.show} as={Fragment} className='bg-white-200 w-5/12 mt-16 rounded-r-[30px]'>
+    <Transition.Root
+      show={props.show}
+      as={Fragment}
+      className='bg-white-200 w-5/12 mt-16 rounded-r-[30px]'
+    >
       <Transition.Child
         enter='transform transition ease-in-out duration-500 sm:duration-700'
         enterFrom='translate-x-full'
