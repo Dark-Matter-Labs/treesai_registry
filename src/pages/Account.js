@@ -40,14 +40,14 @@ function useRuns(projectList) {
   };
 }
 
-function get_tot_trees(projectList) {
+function getTotalTrees(projectList) {
   const totalTrees = projectList.reduce((accumulator, project) => {
     return accumulator + project.number_of_trees;
   }, 0);
   return totalTrees;
 }
 
-function get_tot_carbon_sq(projectRuns) {
+function getTotalCarbonSeq(projectRuns) {
   let totalCarbonSeq = 0;
   for (let i = 0; i < projectRuns.length; i++) {
     // Temporary check to not add carbon from all 3 runs, later to use user's chosen maintenance level
@@ -60,7 +60,7 @@ function get_tot_carbon_sq(projectRuns) {
   return totalCarbonSeq.toFixed(2);
 }
 
-function get_tot_carbon_storage(projectRuns) {
+function getTotalCarbonStorage(projectRuns) {
   let totalCarbonStorage = 0;
   for (let i = 0; i < projectRuns.length; i++) {
     // Temporary check to not add carbon from all 3 runs, later to use user's chosen maintenance level
@@ -72,7 +72,7 @@ function get_tot_carbon_storage(projectRuns) {
   return totalCarbonStorage.toFixed(2);
 }
 
-function prepare_data_for_budget_chart(projectList) {
+function processForBudgetChart(projectList) {
   const budgetData = projectList['projects'].map((project) => {
     return {
       id: project.id,
@@ -83,7 +83,7 @@ function prepare_data_for_budget_chart(projectList) {
   return budgetData;
 }
 
-function prepare_data_for_RIBA_chart(projectList) {
+function processRibaChart(projectList) {
   // function to count how many projects are in each RIBA stage
   const RIBACount = projectList['projects'].reduce((accumulator, project) => {
     const stage = project.stage;
@@ -182,21 +182,21 @@ export default function Account(props) {
             Total Projects in Portfolio: {userProjectList.projects.length}
           </h2>
           <h2 className='text-white-200'>
-            Total number of Trees: {get_tot_trees(userProjectList.projects)}
+            Total number of Trees: {getTotalTrees(userProjectList.projects)}
           </h2>
 
           <h2 className='text-center text-white-200'>Stage of projects based on RIBA plan</h2>
-          <RibaStageChart data={prepare_data_for_RIBA_chart(userProjectList)} />
+          <RibaStageChart data={processRibaChart(userProjectList)} />
           <h2 className='text-center text-white-200'>Impact generated</h2>
-          <h2 className='text-white-200'>Carbon Storage(Kgs) {get_tot_carbon_storage(userRuns)}</h2>
+          <h2 className='text-white-200'>Carbon Storage(Kgs) {getTotalCarbonStorage(userRuns)}</h2>
           <h2 className='text-white-200'>
-            Cumulative Carbon Sequestration (Kgs): {get_tot_carbon_sq(userRuns)}
+            Cumulative Carbon Sequestration (Kgs): {getTotalCarbonSeq(userRuns)}
           </h2>
           <h2 className='text-center text-white-200'>UN Sustainable Development Goals</h2>
           <h2 className='text-center text-white-200'>
             Distribution of portfolio (by typology) in £
           </h2>
-          <BudgetBarChart data={prepare_data_for_budget_chart(userProjectList)} />
+          <BudgetBarChart data={processForBudgetChart(userProjectList)} />
         </div>
 
         <Footer />
