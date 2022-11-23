@@ -16,7 +16,7 @@ const BarChart = (props) => {
         keys={['budget']}
         indexBy='id' // Use name later
         padding={0.05}
-        innerPadding={0.01}
+        innerPadding={0.1}
         margin={{ top: 80, right: 30, bottom: 60, left: 80 }}
         axisBottom={{
           legend: 'PROJECTS',
