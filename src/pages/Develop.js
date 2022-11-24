@@ -30,7 +30,6 @@ import LineChart from '../components/charts/LineChart';
 import projectImg from '../images/project-default.png';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
-import BarChart from '../components/charts/BarChart';
 // utils functions
 import { saf_data } from '../utils/saf_data_model';
 import {
@@ -106,8 +105,6 @@ export default function Develop(props) {
   const [totalStorage, setTotalStorage] = useState(0);
   const [comparativeSeq, setComparativeSeq] = useState([]);
   const [comparativeStorage, setComparativeStorage] = useState([]);
-
-  const [costChart, setCostChart] = useState([]);
 
   const navigate = useNavigate();
 
@@ -237,54 +234,11 @@ export default function Develop(props) {
     setComparativeStorage(formatDataForMultilineChart(storage_0, storage_1, storage_2));
   }
 
-  function makeComparativeCostBarChart(
-    safOutput0 = saf_data,
-    safOutput1 = saf_data,
-    safOutput2 = saf_data,
-  ) {
-    const replacement_price = 480;
-
-    let chartObj = [
-      {
-        years: '0-10',
-        'High Maintenance': sumRange(safOutput2.Replaced, 0, 10) * replacement_price,
-        'Medium maintenance': sumRange(safOutput1.Replaced, 0, 10) * replacement_price,
-        'Low maintenance': sumRange(safOutput0.Replaced, 0, 10) * replacement_price,
-      },
-      {
-        years: '10-20',
-        'High Maintenance': sumRange(safOutput2.Replaced, 10, 20) * replacement_price,
-        'Medium maintenance': sumRange(safOutput1.Replaced, 10, 20) * replacement_price,
-        'Low maintenance': sumRange(safOutput0.Replaced, 10, 20) * replacement_price,
-      },
-      {
-        years: '20-30',
-        'High Maintenance': sumRange(safOutput2.Replaced, 20, 30) * replacement_price,
-        'Medium maintenance': sumRange(safOutput1.Replaced, 20, 30) * replacement_price,
-        'Low maintenance': sumRange(safOutput0.Replaced, 20, 30) * replacement_price,
-      },
-      {
-        years: '30-40',
-        'High Maintenance': sumRange(safOutput2.Replaced, 30, 40) * replacement_price,
-        'Medium maintenance': sumRange(safOutput1.Replaced, 30, 40) * replacement_price,
-        'Low maintenance': sumRange(safOutput0.Replaced, 30, 40) * replacement_price,
-      },
-      {
-        years: '40-50',
-        'High Maintenance': sumRange(safOutput2.Replaced, 40, 50) * replacement_price,
-        'Medium maintenance': sumRange(safOutput1.Replaced, 40, 50) * replacement_price,
-        'Low maintenance': sumRange(safOutput0.Replaced, 40, 50) * replacement_price,
-      },
-    ];
-
-    setCostChart(chartObj);
-  }
 
   useEffect(() => {
     if (safOutput0 && safOutput1 && safOutput2) {
       makeComparativeSeqChart(safOutput0, safOutput1, safOutput2);
       makeComparativeStorageChart(safOutput0, safOutput1, safOutput2);
-      makeComparativeCostBarChart(safOutput0, safOutput1, safOutput2);
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
@@ -327,7 +281,11 @@ export default function Develop(props) {
   const createProjectAndGetID = async (formData) => {
     const payload = JSON.stringify({
       title: formData.projectName,
-      description: formData.projectDescription + selectedLandUse + selectedLandUseStatus + selectedLandUseChange, // TO:DO fix this and send stage data properly,
+      description:
+        formData.projectDescription +
+        selectedLandUse +
+        selectedLandUseStatus +
+        selectedLandUseChange, // TO:DO fix this and send stage data properly,
       in_portfolio: true,
       publish: true,
       project_dev: formData.projectDeveloper,
@@ -335,7 +293,7 @@ export default function Develop(props) {
       activities: 'maintenance',
       area: parseInt(formData.totalArea),
       cost: parseInt(totalCost),
-      stage: selectedStage, 
+      stage: selectedStage,
       number_of_trees: totalTreeNumber,
       local_authority: formData.projectDeveloper,
       location: sessionStorage.getItem('address'),
@@ -1148,20 +1106,6 @@ export default function Develop(props) {
           </div>
 
           <div className='h-10' />
-
-          <SectionHeader title='Your project costs' type='details' />
-          <ResultBlock
-            title='Project Costs*'
-            description='The assessment provides an estimated project costs over 50 years. *this estimate does not include any commercial mark-ups. These costs only reflect the direct infrastructural cost of your NbS project.'
-            type='impact'
-          />
-          <hr className='mx-20 border-[12px] border-indigo-600' />
-          <ChartBlock
-            maintenanceTypeName={maintenanceType.name}
-            label='Your projects tree replacements'
-          >
-            <BarChart data={costChart} />
-          </ChartBlock>
 
           <div className='grid pb-20 pt-10'>
             <div className='max-w-3xl place-self-center py-4 text-center'>
