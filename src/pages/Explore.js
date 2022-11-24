@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState, useRef, useMemo } from 'react';
-import { ArrowCircleRightIcon } from '@heroicons/react/outline';
+import {
+  ArrowCircleRightIcon,
+  ArrowCircleUpIcon,
+  ArrowCircleDownIcon,
+} from '@heroicons/react/outline';
 import ProjectsJSON from '../data/NbS_projects_database.json';
 import NbSMap from '../components/map/NbSMap';
 import NavBar from '../components/NavBar';
@@ -14,6 +18,8 @@ export default function Explore(props) {
   const [projects, setProjects] = useState(ProjectsJSON);
   const [showInfoPanel, setShowInfoPanel] = useState(true);
   const [mapDataLayer, setMapDataLayer] = useState('Basic');
+  const [mapHeight, setMapHeight] = useState('65vh');
+  const [tableHeight, setTableHeight] = useState('35vh');
 
   const columns = useMemo(
     () => [
@@ -79,7 +85,7 @@ export default function Explore(props) {
       <NavBar loggedIn={props.loggedIn} current='portfolio' />
       {showInfoPanel ? (
         <div className='relative'>
-          <div className='absolute z-50'>
+          <div className='absolute z-20'>
             <InfoPanel show={showInfoPanel} setShowPanel={setShowInfoPanel} />
           </div>
           <div className=''>
@@ -92,9 +98,40 @@ export default function Explore(props) {
               popupInfo={popupInfo}
               setPopupInfo={setPopupInfo}
               mapDataLayer={mapDataLayer}
+              height={mapHeight}
             />
           </div>
-          <ProjectsTable data={projects} columns={columns} selectProject={selectProject} />
+          <div className='absolute z-40'>
+            <div className='px-4 py-2 bg-green-600 flex flex-row items-center my-auto rounded-tr-[30px]'>
+              <div>
+                <span className='bold-intro-md text-white-200 pl-6'>Project Details</span>
+              </div>
+              <div className=''>
+                <button
+                  onClick={() => {
+                    setMapHeight('20vh');
+                    setTableHeight('80vh');
+                  }}
+                >
+                  <ArrowCircleUpIcon className='text-white-200 w-7 h-7' />
+                </button>
+                <button
+                  onClick={() => {
+                    setMapHeight('65vh');
+                    setTableHeight('35vh');
+                  }}
+                >
+                  <ArrowCircleDownIcon className='text-white-200 w-7 h-7' />
+                </button>
+              </div>
+            </div>
+            <ProjectsTable
+              data={projects}
+              columns={columns}
+              selectProject={selectProject}
+              height={tableHeight}
+            />
+          </div>
         </div>
       ) : (
         <div className='relative'>
@@ -115,8 +152,39 @@ export default function Explore(props) {
               popupInfo={popupInfo}
               setPopupInfo={setPopupInfo}
               mapDataLayer={mapDataLayer}
+              height={mapHeight}
             />
-            <ProjectsTable data={projects} columns={columns} selectProject={selectProject} />
+          </div>
+          <div className='absolute z-40'>
+            <div className='px-4 py-2 bg-green-600 flex flex-row items-center my-auto rounded-tr-[30px]'>
+              <div>
+                <span className='bold-intro-md text-white-200 pl-6'>Project Details</span>
+              </div>
+              <div className=''>
+                <button
+                  onClick={() => {
+                    setMapHeight('20vh');
+                    setTableHeight('80vh');
+                  }}
+                >
+                  <ArrowCircleUpIcon className='text-white-200 w-7 h-7' />
+                </button>
+                <button
+                  onClick={() => {
+                    setMapHeight('65vh');
+                    setTableHeight('35vh');
+                  }}
+                >
+                  <ArrowCircleDownIcon className='text-white-200 w-7 h-7' />
+                </button>
+              </div>
+            </div>
+            <ProjectsTable
+              data={projects}
+              columns={columns}
+              selectProject={selectProject}
+              height={tableHeight}
+            />
           </div>
         </div>
       )}
