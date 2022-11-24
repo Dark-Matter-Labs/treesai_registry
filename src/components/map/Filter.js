@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import FilterSelect from './FilterSelect';
@@ -14,24 +14,51 @@ const districts = get_districts();
 const typologies = get_typologies();
 
 export default function Filter(props) {
-  const [stage, setStage] = useState(null);
-  const [district, setDistrict] = useState(null);
-  const [typology, setTypology] = useState(null);
+  const [filterEnabled, setFilterEnabled] = useState(false);
+  const [stage, setStage] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [typology, setTypology] = useState([]);
+
+  useEffect(() => {
+    if (stage.length !== 0 || district.length !== 0 || typology.length !== 0) {
+      setFilterEnabled(true);
+    } else {
+      setFilterEnabled(false);
+    }
+  }, [stage, district, typology]);
+
   return (
     <Popover className='relative z-50'>
       {({ open }) => (
         <>
           <Popover.Button
             className={classNames(
-              open ? 'text-white-200' : 'text-white-200',
-              'control-panel group inline-flex items-center rounded-full bg-dark-wood-800 medium-intro-sm focus:outline-none',
+              filterEnabled ? 'bg-green-600' : 'bg-dark-wood-800',
+              'text-white-200 control-panel rounded-[30px] medium-intro-sm focus:outline-none',
             )}
           >
-            <span>Filters</span>
-            <ChevronDownIcon
-              className={classNames(open ? 'text-white-200' : 'text-white-300', 'ml-2 h-5 w-5')}
-              aria-hidden='true'
-            />
+            <div className='group inline-flex items-center '>
+              {filterEnabled ? (
+                <span className=''>Filters enabled</span>
+              ) : (
+                <span className=''>Filters</span>
+              )}
+
+              <ChevronDownIcon
+                className={classNames(open ? 'text-white-200' : 'text-white-300', 'ml-2 h-5 w-5')}
+                aria-hidden='true'
+              />
+            </div>
+
+            {filterEnabled && (
+              <div className='pt-1 border-t'>
+                {stage.length + district.length + typology.length > 1 ? (
+                  <p>{stage.length + district.length + typology.length} projects found.</p>
+                ) : (
+                  <p>{stage.length + district.length + typology.length} project found.</p>
+                )}
+              </div>
+            )}
           </Popover.Button>
 
           <Transition
@@ -45,7 +72,12 @@ export default function Filter(props) {
           >
             <Popover.Panel className='absolute right-0 mt-20 z-10 mt-3 w-screen max-w-xs transform px-2 sm:px-0'>
               <div className='rounded-lg shadow-lg ring-1 ring-black ring-opacity-5'>
-                <div className='relative grid bg-dark-wood-800 px-5 py-4 gap-2 rounded-30'>
+                <div
+                  className={classNames(
+                    filterEnabled ? 'bg-green-600' : 'bg-dark-wood-800',
+                    'relative grid px-5 py-4 gap-2 rounded-30',
+                  )}
+                >
                   <FilterSelect
                     name='stage'
                     value={stage}

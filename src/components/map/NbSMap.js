@@ -38,7 +38,7 @@ export default function NbSMap(props) {
           ? props.mapDataLayer
           : 'mapbox://styles/mapbox/light-v10'
       }
-      style={{ width: '100vw', height: '70vh', overflowY: 'hidden' }}
+      style={Object.assign({ width: '100vw', overflowY: 'hidden' }, { height: props.height })}
     >
       <GeocoderControl mapboxAccessToken={MAPBOX_TOKEN} position='top-left' />
       <NavigationControl position='bottom-right' />
@@ -72,22 +72,19 @@ export default function NbSMap(props) {
               props.selectProject(city);
             }}
           >
-            <Pin
-              isFeatured={city.properties.is_featured}
-              inPortfolio={city.properties.portfolio_A}
-            />
+            <Pin />
           </Marker>
         ))}
 
         {props.popupInfo && (
           <Popup
-            anchor='right'
+            anchor='bottom'
             longitude={Number(props.popupInfo.geometry.coordinates[0])}
             latitude={Number(props.popupInfo.geometry.coordinates[1])}
             onClose={() => props.setPopupInfo(null)}
             className=''
           >
-            <div className='medium-intro-sm text-white-200 bg-green-600 p-4 rounded-t-3xl'>
+            <div className='medium-intro-sm text-white-200 bg-green-600 p-4 rounded-[38px] text-center'>
               {props.popupInfo.properties.project_name}
             </div>
           </Popup>
@@ -105,4 +102,5 @@ NbSMap.propTypes = {
   setPopupInfo: PropTypes.func,
   mapLayer: PropTypes.string,
   mapDataLayer: PropTypes.string,
+  height: PropTypes.string,
 };
