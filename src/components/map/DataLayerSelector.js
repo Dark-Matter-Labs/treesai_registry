@@ -10,7 +10,7 @@ const layers = [
 
 export default function LayerSelector(props) {
   return (
-    <div className='absolute z-50 top-80 right-0 mx-5'>
+    <div className='absolute z-10 top-2/4 right-0 mx-5'>
       <label htmlFor='map-layers' className='book-info-md text-dark-wood-200'>
         Map Layers
       </label>
