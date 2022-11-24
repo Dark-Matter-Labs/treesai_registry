@@ -327,15 +327,15 @@ export default function Develop(props) {
   const createProjectAndGetID = async (formData) => {
     const payload = JSON.stringify({
       title: formData.projectName,
-      description: formData.projectDescription,
+      description: formData.projectDescription + selectedLandUse + selectedLandUseStatus + selectedLandUseChange, // TO:DO fix this and send stage data properly,
       in_portfolio: true,
       publish: true,
       project_dev: formData.projectDeveloper,
       owner_id: parseInt(sessionStorage.user_id),
       activities: 'maintenance',
       area: parseInt(formData.totalArea),
-      cost: 0,
-      stage: selectedStage + selectedLandUse + selectedLandUseStatus + selectedLandUseChange, // TO:DO fix this and send stage data properly
+      cost: parseInt(totalCost),
+      stage: selectedStage, 
       number_of_trees: totalTreeNumber,
       local_authority: formData.projectDeveloper,
       location: sessionStorage.getItem('address'),
