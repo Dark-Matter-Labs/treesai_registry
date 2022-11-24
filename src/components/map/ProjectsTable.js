@@ -2,7 +2,7 @@ import React from 'react';
 import { useTable, useSortBy } from 'react-table';
 import PropTypes from 'prop-types';
 
-export default function ProjectsTable({ columns, data, selectProject }) {
+export default function ProjectsTable({ columns, data, selectProject, height }) {
   const initialState = { hiddenColumns: ['geometry.coordinates'] };
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
@@ -15,9 +15,9 @@ export default function ProjectsTable({ columns, data, selectProject }) {
   );
 
   return (
-    <div className='flex flex-col h-[30vh] pb-10'>
-      <div className='-my-2 -mx-4 overflow-y-scroll sm:-mx-6 lg:-mx-8 styled-scrollbars'>
-        <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
+    <div style={{ height: height }} className='flex flex-col pb-10 z-60'>
+      <div className='-my-2 overflow-y-scroll styled-scrollbars'>
+        <div className='inline-block min-w-full py-2 align-middle '>
           <div className='shadow ring-1 ring-green-600 ring-opacity-5 md:rounded-lg'>
             <table {...getTableProps()} className='min-w-full divide-y divide-green-600'>
               <thead className='bg-green-300'>
@@ -29,12 +29,13 @@ export default function ProjectsTable({ columns, data, selectProject }) {
                       className={
                         column.isSorted
                           ? column.isSortedDesc
-                            ? 'sort-desc whitespace-normal py-3.5 px-2 text-left book-intro-sm text-dark-wood-800'
-                            : 'sort-asc whitespace-normal py-3.5 px-2 text-left book-intro-sm text-dark-wood-800'
+                            ? 'sort-desc whitespace-normal py-3.5 px-2 text-left book-info-sm text-dark-wood-800 bg-green-600'
+                            : 'sort-asc whitespace-normal py-3.5 px-2 text-left book-info-sm text-dark-wood-800 bg-green-600'
                           : 'whitespace-normal py-3.5 px-2 text-left book-info-sm text-dark-wood-800'
                       }
                     >
                       {column.render('Header')}
+                      <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
                     </th>
                   ))}
                 </tr>
@@ -88,4 +89,5 @@ ProjectsTable.propTypes = {
   data: PropTypes.array,
   columns: PropTypes.array,
   selectProject: PropTypes.func,
+  height: PropTypes.string,
 };
