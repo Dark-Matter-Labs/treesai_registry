@@ -10,17 +10,17 @@ export default function SDGList(props) {
     setListOfSDGNumbers(props.sdgs);
   }, [props]);
 
-  console.log('listOfSDGNumbers', listOfSDGNumbers);
-
   useEffect(() => {
     let listOfSDGData = [];
     listOfSDGNumbers.forEach((sdgNumber) => {
-      listOfSDGData.push(getSDGDetailsFromId(sdgNumber));
+      const details = getSDGDetailsFromId(sdgNumber);
+      // Push if the result is not undefined
+      if (details) {
+        listOfSDGData.push(details);
+      }
     });
     setListOfSDGData(listOfSDGData);
   }, [listOfSDGNumbers]);
-
-  console.log('listOfSDGData', listOfSDGData);
 
   return (
     <ul role='list' className='divide-y divide-gray-200'>
@@ -29,6 +29,7 @@ export default function SDGList(props) {
           <img className='h-10 w-10 rounded-full' src={SDG.image} alt='' />
           <div className='ml-3'>
             <p className='text-sm font-medium text-gray-900'>{SDG.name}</p>
+            <p className='text-sm text-gray-500'>{SDG.number}</p>
           </div>
         </li>
       ))}
