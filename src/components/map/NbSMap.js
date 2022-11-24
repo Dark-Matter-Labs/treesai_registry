@@ -38,7 +38,7 @@ export default function NbSMap(props) {
           ? props.mapDataLayer
           : 'mapbox://styles/mapbox/light-v10'
       }
-      style={{ width: '100vw', height: '70vh', overflowY: 'hidden' }}
+      style={Object.assign({ width: '100vw', overflowY: 'hidden' }, { height: props.height })}
     >
       <GeocoderControl mapboxAccessToken={MAPBOX_TOKEN} position='top-left' />
       <NavigationControl position='bottom-right' />
@@ -102,4 +102,5 @@ NbSMap.propTypes = {
   setPopupInfo: PropTypes.func,
   mapLayer: PropTypes.string,
   mapDataLayer: PropTypes.string,
+  height: PropTypes.string,
 };
