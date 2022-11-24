@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import useSWR from 'swr';
 import { Helmet } from 'react-helmet';
 
+/* Components */
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -10,7 +11,9 @@ import SectionHeader from '../components/SectionHeader';
 import ProjectsTable from '../components/map/ProjectsTable';
 import BudgetBarChart from '../components/charts/BudgetBarChart';
 import RibaStageChart from '../components/charts/RibaStageChart';
+import SDGList from '../components/SDGList';
 
+/* Functions */
 import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
 
 import {
@@ -134,6 +137,7 @@ export default function Account(props) {
             Cumulative Carbon Sequestration (Kgs): {getTotalCarbonSeq(userRuns)}
           </h2>
           <h2 className='text-center text-white-200'>UN Sustainable Development Goals</h2>
+          <SDGList sdgs={['11', '8']} />
           <h2 className='text-center text-white-200'>
             Distribution of portfolio (by typology) in £
           </h2>
