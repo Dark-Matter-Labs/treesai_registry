@@ -12,6 +12,7 @@ export function getSDGIdsFromTypology(typology = 'Street Trees') {
   }
 }
 
+/*
 function getSDGDetailsFromId(SDGId) {
   // function to get the SDG details from the SDG ID
   switch (SDGId) {
@@ -41,3 +42,4 @@ function getSDGDetailsFromId(SDGId) {
       };
   }
 }
+*/
