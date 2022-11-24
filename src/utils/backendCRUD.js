@@ -72,6 +72,20 @@ export const get_user_token = async (tokenPayload) => {
 };
 
 export const get_user_me_info = async () => {
+  const requestHeaders = {
+    accept: 'application/json',
+    Authorization: 'Bearer ' + sessionStorage.token,
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  };
+  
+  const getConfig = {
+    method: 'GET',
+    headers: requestHeaders,
+    redirect: 'follow',
+  };
+  
+
   const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/';
 
   return await axios
