@@ -7,6 +7,8 @@ export function getSDGIdsFromTypology(typology = 'Street Trees') {
       return [11, 8, 12, 13];
     case 'Woodland':
       return [11, 8, 13];
+    default:
+      return [];
   }
 }
 
