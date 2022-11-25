@@ -12,6 +12,11 @@ export function getSDGIdsFromTypology(typology = 'Street Trees') {
   }
 }
 
+import sdgs12 from '../images/sdgs_12.png';
+import sdgs8 from '../images/sdgs_8.png';
+import sdgs11 from '../images/sdgs_3.png';
+import sdgs13 from '../images/sdgs_4.png';
+
 export function getSDGDetailsFromId(SDGNumber) {
   // function to get the SDG details from the SDG ID
   switch (SDGNumber) {
@@ -20,28 +25,28 @@ export function getSDGDetailsFromId(SDGNumber) {
         number: 11,
         name: 'Sustainable Cities and Communities',
         description: 'WIP',
-        image: 'SDG11Image',
+        image: sdgs11,
       };
     case '8':
       return {
         number: 8,
         name: 'Decent Work and Economic Growth',
         description: 'WIP',
-        image: 'SDG8Image',
+        image: sdgs8,
       };
     case '12':
       return {
         number: 12,
         name: 'Responsible Consumption and Production',
         description: 'WIP',
-        image: 'SDG12Image',
+        image: sdgs12,
       };
     case '13':
       return {
         number: 13,
         name: 'Climate Action',
         description: 'WIP',
-        image: 'SDG13Image',
+        image: sdgs13,
       };
   }
 }
