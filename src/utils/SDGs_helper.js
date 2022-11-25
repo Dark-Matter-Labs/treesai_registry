@@ -7,35 +7,41 @@ export function getSDGIdsFromTypology(typology = 'Street Trees') {
       return [11, 8, 12, 13];
     case 'Woodland':
       return [11, 8, 13];
+    default:
+      return [];
   }
 }
 
-function getSDGDetailsFromId(SDGId) {
+export function getSDGDetailsFromId(SDGNumber) {
   // function to get the SDG details from the SDG ID
-  switch (SDGId) {
-    case 11:
+  switch (SDGNumber) {
+    case '11':
       return {
+        number: 11,
         name: 'Sustainable Cities and Communities',
         description: 'WIP',
-        // image: SDG11Image,
+        image: 'SDG11Image',
       };
-    case 8:
+    case '8':
       return {
+        number: 8,
         name: 'Decent Work and Economic Growth',
         description: 'WIP',
-        // image: SDG8Image,
+        image: 'SDG8Image',
       };
-    case 12:
+    case '12':
       return {
+        number: 12,
         name: 'Responsible Consumption and Production',
         description: 'WIP',
-        // image: SDG12Image,
+        image: 'SDG12Image',
       };
-    case 13:
+    case '13':
       return {
+        number: 13,
         name: 'Climate Action',
         description: 'WIP',
-        // image: SDG13Image,
+        image: 'SDG13Image',
       };
   }
 }
