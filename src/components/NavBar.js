@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { ChevronDownIcon } from '@heroicons/react/solid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../images/logo-black.svg';
 
 function classNames(...classes) {
@@ -11,8 +11,11 @@ function classNames(...classes) {
 }
 
 export default function NavBar(props) {
+  const navigate = useNavigate();
+
   const signOut = () => {
     sessionStorage.clear();
+    navigate('/');
     window.location.reload();
   };
 
