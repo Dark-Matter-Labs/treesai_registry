@@ -78,13 +78,12 @@ export const get_user_me_info = async () => {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
   };
-  
+
   const getConfig = {
     method: 'GET',
     headers: requestHeaders,
     redirect: 'follow',
   };
-  
 
   const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/users/me/';
 
@@ -113,10 +112,7 @@ export const get_saf_run_by_hash = async (run_hash) => {
     '/run/' +
     run_hash;
 
-  return axios
-    .get(url, getConfig)
-    .then((res) => res.data['output'])
-    .catch((error) => onError(error));
+  return axios.get(url, getConfig).then((res) => res.data['output']);
 };
 
 export const post_saf_run_and_get_hash = async (payload) => {
@@ -224,7 +220,9 @@ export const get_projects = async (queryArgs) => {
 };
 
 /* ------------------- Error Handling ------------------- */
-function onError(error) {
+function onError(error, display = true) {
   console.error(error);
-  toast.error(error.message);
+  if (display) {
+    toast.error(error.message);
+  }
 }
