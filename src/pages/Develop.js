@@ -234,7 +234,6 @@ export default function Develop(props) {
     setComparativeStorage(formatDataForMultilineChart(storage_0, storage_1, storage_2));
   }
 
-
   useEffect(() => {
     if (safOutput0 && safOutput1 && safOutput2) {
       makeComparativeSeqChart(safOutput0, safOutput1, safOutput2);
@@ -287,7 +286,7 @@ export default function Develop(props) {
         selectedLandUseStatus +
         selectedLandUseChange, // TO:DO fix this and send stage data properly,
       in_portfolio: true,
-      publish: true,
+      publish: false,
       project_dev: formData.projectDeveloper,
       owner_id: parseInt(sessionStorage.user_id),
       activities: 'maintenance',
