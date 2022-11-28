@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import PropTypes from 'prop-types';
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
 export default function ProjectsTable({ columns, data, selectProject, height }) {
   const initialState = { hiddenColumns: ['geometry.coordinates'] };
+  const [activeRow, setActiveRow] = useState();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -40,15 +44,22 @@ export default function ProjectsTable({ columns, data, selectProject, height }) 
                   ))}
                 </tr>
               </thead>
-              <tbody {...getTableBodyProps()} className='bg-white-200'>
+              <tbody {...getTableBodyProps()} className='bg-white-200 '>
                 {rows.map((row) => {
                   prepareRow(row);
                   return (
                     <tr
                       key={row.id}
                       {...row.getRowProps()}
+                      className={classNames(
+                        row.id === activeRow
+                          ? 'bg-green-600 text-white-200'
+                          : 'bg-white-200 text-dark-wood-600',
+                        'hover:bg-green-600 hover:cursor-pointer hover:text-white-200',
+                      )}
                       onClick={() => {
-                        console.log(row);
+                        // if active row, give bg color
+                        setActiveRow(row.id);
                         const mapObject = {
                           type: 'Feature',
                           geometry: {
@@ -67,7 +78,7 @@ export default function ProjectsTable({ columns, data, selectProject, height }) 
                           <td
                             key={cell.id}
                             {...cell.getCellProps()}
-                            className='whitespace-normal px-2 py-2 book-info-sm text-dark-wood-600'
+                            className='whitespace-normal px-2 py-2 book-info-sm '
                           >
                             {cell.render('Cell')}
                           </td>
