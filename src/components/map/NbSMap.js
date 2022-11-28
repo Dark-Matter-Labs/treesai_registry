@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import ReactMapboxGL, { Marker, Popup, Source, Layer, NavigationControl } from 'react-map-gl';
+import ReactMapboxGL, {
+  Marker,
+  Popup,
+  Source,
+  Layer,
+  NavigationControl,
+  FullscreenControl,
+} from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import PropTypes from 'prop-types';
 import Pin from './Pin';
@@ -40,8 +47,9 @@ export default function NbSMap(props) {
       }
       style={Object.assign({ width: '100vw', overflowY: 'hidden' }, { height: props.height })}
     >
-      <GeocoderControl mapboxAccessToken={MAPBOX_TOKEN} position='top-left' />
       <NavigationControl position='bottom-right' />
+      <FullscreenControl position='bottom-right' />
+      <GeocoderControl mapboxAccessToken={MAPBOX_TOKEN} position='bottom-right' />
       {props.mapDataLayer === 'Social Deprivation' && (
         <Source type='geojson' data={SocialDeprivation}>
           <Layer {...SocialDeprivationStyles} />
