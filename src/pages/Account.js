@@ -12,6 +12,7 @@ import ProjectsTable from '../components/map/ProjectsTable';
 import BudgetBarChart from '../components/charts/BudgetBarChart';
 import RibaStageChart from '../components/charts/RibaStageChart';
 import SDGList from '../components/SDGList';
+import WaterfallChart from '../components/charts/WaterfallChart';
 
 /* Functions */
 import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
@@ -142,6 +143,11 @@ export default function Account(props) {
             Distribution of portfolio (by typology) in £
           </h2>
           <BudgetBarChart data={processForBudgetChart(userProjectList)} />
+          <h2 className='text-center text-white-200'>
+            Portoflio Tree population growth (Cumulative biomass)
+          </h2>
+          <WaterfallChart data={['0','1']}/>
+
         </div>
 
         <Footer />

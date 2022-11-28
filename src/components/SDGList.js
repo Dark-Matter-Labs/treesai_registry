@@ -26,7 +26,7 @@ export default function SDGList(props) {
     <ul role='list' className='divide-y divide-gray-200'>
       {listOfSDGData.map((SDG) => (
         <li key={SDG.number} className='flex py-4'>
-          <img className='h-10 w-10 rounded-full' src={SDG.image} alt='' />
+          <img className='h-10 w-10' src={SDG.image} alt='' />
           <div className='ml-3'>
             <p className='text-sm font-medium text-gray-900'>{SDG.name}</p>
             <p className='text-sm text-gray-500'>{SDG.number}</p>
