@@ -62,7 +62,7 @@ export default function Login() {
                   </label>
                   <div className='mt-1'>
                     <input
-                      type='text'
+                      type='email'
                       placeholder='email'
                       className='block w-full appearance-none rounded-full border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                       {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
