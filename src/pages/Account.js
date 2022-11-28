@@ -146,8 +146,7 @@ export default function Account(props) {
           <h2 className='text-center text-white-200'>
             Portoflio Tree population growth (Cumulative biomass)
           </h2>
-          <WaterfallChart data={['0','1']}/>
-
+          <WaterfallChart data={['0', '1']} />
         </div>
 
         <Footer />
