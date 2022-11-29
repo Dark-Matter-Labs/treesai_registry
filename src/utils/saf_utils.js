@@ -43,22 +43,22 @@ const typologies_names = [
 const maintenance_types = [
   {
     name: 'Low',
-    title: '1 x year',
-    description: 'WIP',
+    title: '0% replacements',
+    description: 'Low',
     value: 0,
     id: 0,
   },
   {
     name: 'Medium',
-    title: '1 x month',
-    description: 'WIP',
+    title: '30% replacements',
+    description: 'Medium',
     value: 1,
     id: 1,
   },
   {
     name: 'High',
-    title: '1 x week',
-    description: 'WIP',
+    title: '100% replacements',
+    description: 'High',
     value: 2,
     id: 2,
   },
