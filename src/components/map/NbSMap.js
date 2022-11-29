@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMapboxGL, {
   Marker,
   Popup,
@@ -32,6 +32,13 @@ export default function NbSMap(props) {
     latitude: 55.85,
     zoom: 11,
   });
+
+  useEffect(() => {
+    if(props.mapRef.current !== null){
+      props.mapRef.current.getMap().resize()
+    }
+   
+  }, [props.height])
 
   return (
     <ReactMapboxGL
