@@ -15,6 +15,7 @@ export default function AddressInputWithMap(props) {
 
   return (
     <div className={props.span}>
+      <span className='book-info-md mx-4 text-dark-wood-800'>Address *</span>
       <Map
         initialViewState={{
           latitude: 55.85,

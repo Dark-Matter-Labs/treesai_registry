@@ -9,9 +9,9 @@ function classNames(...classes) {
 
 export default function RadioGroupSelector(props) {
   return (
-    <div className='sm:col-span-6'>
+    <div className={props.span}>
       <RadioGroup value={props.value} onChange={props.setValue}>
-        <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-2 sm:gap-x-4'>
+        <div className='mt-4 grid grid-cols-1 gap-y-6 xl:grid-cols-3 sm:gap-x-4'>
           {props.valueArray.map((option) => (
             <RadioGroup.Option
               key={option.id}
@@ -70,4 +70,5 @@ RadioGroupSelector.propTypes = {
   setValue: PropTypes.func,
   valueArray: PropTypes.array,
   hasImage: PropTypes.bool,
+  span: PropTypes.string,
 };
