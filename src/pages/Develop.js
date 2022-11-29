@@ -430,7 +430,7 @@ export default function Develop(props) {
                     description='Start by telling us who you are and a bit about your project.'
                   >
                     <TextInput
-                      span='sm:col-span-5'
+                      span='sm:col-span-3'
                       label='projectName'
                       title='Project Name *'
                       placeholder='Title of the project'
@@ -440,6 +440,20 @@ export default function Develop(props) {
                       defaultValue='Sample project title'
                     />
 
+                    <TextInput
+                      span='sm:col-span-3'
+                      label='projectDeveloper'
+                      title='Project Developer *'
+                      placeholder='Name of the institution that is in charge of developing the project'
+                      type='general'
+                      required={true}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Project Location *'
+                    description='Where is your project located?'
+                  >
                     <Dropdown
                       span='sm:col-span-2'
                       label='neighbourhood'
@@ -451,32 +465,8 @@ export default function Develop(props) {
                       options={listCouncils}
                     />
 
-                    <TextInput
-                      span='sm:col-span-5'
-                      label='projectDeveloper'
-                      title='Project Developer *'
-                      placeholder='Name of the institution that is in charge of developing the project'
-                      type='general'
-                      required={true}
-                    />
+                    <div className='col-span-2'></div>
 
-                    <Dropdown
-                      span='sm:col-span-3'
-                      label='project-stage'
-                      title='Current stage'
-                      type='general'
-                      showInfo={true}
-                      onChange={(e) => {
-                        setSelectedStage(e.target.value.toLowerCase());
-                      }}
-                      options={stages}
-                    />
-                  </FormBlock>
-                  <hr className='mx-20 border-8 border-indigo-600' />
-                  <FormBlock
-                    title='Project Location *'
-                    description='Where is your project located?'
-                  >
                     <AddressInputWithMap span='sm:col-span-3' showError={locationInputError} />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
@@ -567,45 +557,6 @@ export default function Develop(props) {
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
                   <FormBlock
-                    title='Dates and timing'
-                    description='We’d like to know roughly when you plan to start implementing the project, and how long it will take. Please note projects can (and are encouraged) to include maintenance activities.'
-                  >
-                    <div className='sm:col-span-3'>
-                      <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
-                        Expected starting date (MM/YY) *
-                      </label>
-                      <div className='mt-1'>
-                        <input
-                          id='start-date'
-                          name='startDate'
-                          type='month'
-                          className='block w-full rounded-2xl border-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-                          {...methods.register('startDate', {
-                            required: { value: true, message: 'This is required!' },
-                          })}
-                        />
-                        <ErrorMessage
-                          name='startDate'
-                          render={({ message }) => (
-                            <p className='book-info-sm text-red-600 py-2'>{message}</p>
-                          )}
-                        />
-                      </div>
-                    </div>
-
-                    <NumberInput
-                      span='sm:col-span-3'
-                      label='projectLength'
-                      title='Expected length of the project in months *'
-                      placeholder='12'
-                      type='general'
-                      unit='months'
-                      min={1}
-                      required={true}
-                    />
-                  </FormBlock>
-                  <hr className='mx-20 border-8 border-indigo-600' />
-                  <FormBlock
                     title='Stakeholder engagement'
                     description='Who are the stakeholders affected by the project’s implementation? How were they identified and how are they being engaged?'
                   >
@@ -674,6 +625,7 @@ export default function Develop(props) {
                       setValue={setSelectedTypology}
                       valueArray={typologies}
                       hasImage={true}
+                      span='sm:col-span-6'
                     />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
@@ -682,28 +634,32 @@ export default function Develop(props) {
                     description={`Your total project area is ${watchTotalArea} m2. How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
                     type='typology'
                   >
-                    <Controller
-                      control={methods.control}
-                      name='totalArea'
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <NumberInput
-                          span='sm:col-span-3'
-                          label='totalArea'
-                          title='Total area of the project *'
-                          unit='m2'
-                          placeholder='10000'
-                          min={50}
-                          max={200000}
-                          type='typology'
-                          required={true}
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          selected={value}
+                    {selectedTypology.id !== 0 && (
+                      <>
+                        <Controller
+                          control={methods.control}
+                          name='totalArea'
+                          render={({ field: { onChange, onBlur, value } }) => (
+                            <NumberInput
+                              span='sm:col-span-3'
+                              label='totalArea'
+                              title='Total area of the project *'
+                              unit='m2'
+                              placeholder='10000'
+                              min={50}
+                              max={200000}
+                              defaultValue={125}
+                              type='typology'
+                              required={true}
+                              onChange={onChange}
+                              onBlur={onBlur}
+                              selected={value}
+                            />
+                          )}
                         />
-                      )}
-                    />
-
-                    <div className='sm:col-span-2' />
+                        <div className='sm:col-span-2' />
+                      </>
+                    )}
 
                     <Controller
                       control={methods.control}
@@ -803,6 +759,7 @@ export default function Develop(props) {
                       setValue={setMaintenanceType}
                       valueArray={maintenanceTypes}
                       hasImage={false}
+                      span='sm:col-span-4'
                     />
                   </FormBlock>
                 </div>
@@ -837,6 +794,57 @@ export default function Develop(props) {
                       max={5000000}
                       defaultValue={2500}
                       required={true}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-green-600' />
+                  <FormBlock
+                    title='Dates and timing'
+                    description='We’d like to know roughly when you plan to start implementing the project, and how long it will take. Please note projects can (and are encouraged) to include maintenance activities.'
+                  >
+                    <div className='sm:col-span-3'>
+                      <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
+                        Expected starting date (MM/YY) *
+                      </label>
+                      <div className='mt-1'>
+                        <input
+                          id='start-date'
+                          name='startDate'
+                          type='month'
+                          className='block w-full rounded-2xl border-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                          {...methods.register('startDate', {
+                            required: { value: true, message: 'This is required!' },
+                          })}
+                        />
+                        <ErrorMessage
+                          name='startDate'
+                          render={({ message }) => (
+                            <p className='book-info-sm text-red-600 py-2'>{message}</p>
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    <NumberInput
+                      span='sm:col-span-3'
+                      label='projectLength'
+                      title='Expected length of the project in months *'
+                      placeholder='12'
+                      type='general'
+                      unit='months'
+                      min={1}
+                      required={true}
+                    />
+
+                    <Dropdown
+                      span='sm:col-span-3'
+                      label='project-stage'
+                      title='Current stage'
+                      type='general'
+                      showInfo={true}
+                      onChange={(e) => {
+                        setSelectedStage(e.target.value.toLowerCase());
+                      }}
+                      options={stages}
                     />
                   </FormBlock>
                 </div>
