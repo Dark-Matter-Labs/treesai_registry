@@ -28,7 +28,7 @@ const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_KEY;
 
 export default function NbSMap(props) {
   const [viewState, setViewState] = useState({
-    longitude: -4.16,
+    longitude: -4.28,
     latitude: 55.85,
     zoom: 11,
   });
