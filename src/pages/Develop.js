@@ -241,6 +241,14 @@ export default function Develop(props) {
     }
   }, [safOutput0, safOutput1, safOutput2]);
 
+  function whichActivity() {
+    if (watchTreePlant > watchTreeMaintain) {
+      return 'developing';
+    } else {
+      return 'maintenance';
+    }
+  }
+
   const postSAFRun = async (maintenanceScope, formData) => {
     // Define payload based on maintenance scope
     let payload = {
@@ -256,18 +264,23 @@ export default function Develop(props) {
       conifer_ratio_percent: formData.conifer, // Integer
     };
     // Change dbh based on activity
-    if (watchTreePlant > watchTreeMaintain) {
-      payload = {
-        ...payload,
-        min_dbh: parseInt(selectedTypology.fixedDBH),
-        max_dbh: parseInt(selectedTypology.fixedDBH),
-      };
-    } else {
-      payload = {
-        ...payload,
-        min_dbh: parseInt(selectedTypology.minDBH),
-        max_dbh: parseInt(selectedTypology.maxDBH),
-      };
+    switch (whichActivity()) {
+      case 'developing':
+        payload = {
+          ...payload,
+          min_dbh: parseInt(selectedTypology.fixedDBH),
+          max_dbh: parseInt(selectedTypology.fixedDBH),
+        };
+        break;
+      case 'maintenance':
+        payload = {
+          ...payload,
+          min_dbh: parseInt(selectedTypology.minDBH),
+          max_dbh: parseInt(selectedTypology.maxDBH),
+        };
+        break;
+      default:
+        toast.error('Activity not valid');
     }
 
     // parse payload to JSON
@@ -289,7 +302,7 @@ export default function Develop(props) {
       publish: false,
       project_dev: formData.projectDeveloper,
       owner_id: parseInt(sessionStorage.user_id),
-      activities: 'maintenance',
+      activities: whichActivity(),
       area: parseInt(formData.totalArea),
       cost: parseInt(totalCost),
       stage: selectedStage,
