@@ -1,10 +1,12 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { ArrowCircleUpIcon, ArrowCircleDownIcon } from '@heroicons/react/outline';
 import ProjectsJSON from '../../data/NbS_projects_database.json';
 import NbSMap from './NbSMap';
 import ProjectsTable from './ProjectsTable';
 import Filter from './Filter';
 import DataLayerSelector from './DataLayerSelector';
+
+import { useProjects } from '../../utils/explore_page_helper';
 
 export default function FilterMapTable() {
   const mapRef = useRef();
@@ -64,6 +66,14 @@ export default function FilterMapTable() {
     ],
     [],
   );
+
+  const { dBprojects } = useProjects();
+
+  useEffect(() => {
+    console.log(dBprojects);
+    // setProjects(dBprojects);
+    // Here either append the list of project to the existing list of projects or replace the UseEffect altogether to just use the dBprojects variable
+  }, [dBprojects]);
 
   const selectProject = (current) => {
     mapRef.current.flyTo({
