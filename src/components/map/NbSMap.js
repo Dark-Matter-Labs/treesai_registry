@@ -34,11 +34,10 @@ export default function NbSMap(props) {
   });
 
   useEffect(() => {
-    if(props.mapRef.current !== null){
-      props.mapRef.current.getMap().resize()
+    if (props.mapRef.current !== null) {
+      props.mapRef.current.getMap().resize();
     }
-   
-  }, [props.height])
+  }, [props.height]);
 
   return (
     <ReactMapboxGL
