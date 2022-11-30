@@ -45,14 +45,14 @@ const WaterfallChart = (props) => {
   }, [props.data]);
 
   return (
-    <div className='border border-indigo-600 px-5 py-5 rounded-2xl' style={{ height: '300px' }}>
+    <div className='px-4 py-4 rounded-[30px]' style={{ height: '300px' }}>
       <ResponsiveBar
         data={data}
         keys={['previous', 'Value']}
         indexBy='Year'
         padding={0.1}
         innerPadding={2}
-        margin={{ top: 20, right: 20, bottom: 60, left: 40 }}
+        margin={{ top: 20, right: 80, bottom: 60, left: 80 }}
         axisBottom={{
           legend: 'Years',
           legendOffset: 40,
