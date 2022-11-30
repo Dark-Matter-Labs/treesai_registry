@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import useSWR from 'swr';
 import { Helmet } from 'react-helmet';
 
 /* Components */
@@ -14,10 +13,11 @@ import RibaStageChart from '../components/charts/RibaStageChart';
 import SDGList from '../components/SDGList';
 import WaterfallChart from '../components/charts/WaterfallChart';
 
-/* Functions */
-import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
+/* Hooks */
 
 import {
+  useUser,
+  useRuns,
   getTotalTrees,
   getTotalCarbonSeq,
   getTotalCarbonStorage,
@@ -25,32 +25,6 @@ import {
   processRibaChart,
 } from '../utils/account_page_helper';
 import StatBlock from '../components/analysis/StatBlock';
-
-const swrOptions = {
-  revalidateIfStale: false,
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
-};
-
-function useUser(id) {
-  const { data, error } = useSWR(id, get_user_projects, swrOptions);
-
-  return {
-    userProjectList: data,
-    isLoading: !error && !data,
-    isError: error,
-  };
-}
-
-function useRuns(projectList) {
-  const { data, error } = useSWR(projectList, get_all_user_runs, swrOptions);
-
-  return {
-    userRuns: data,
-    isRunLoading: !error && !data,
-    isRunError: error,
-  };
-}
 
 export default function Account(props) {
   const { userProjectList, isLoading, isError } = useUser(sessionStorage.user_id);

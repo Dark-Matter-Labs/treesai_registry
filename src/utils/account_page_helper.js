@@ -1,5 +1,51 @@
+import useSWR from 'swr';
+
 import { getLastKeyInObj } from './objUtils';
 import { getSDGIdsFromTypology } from './SDGs_helper';
+import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
+
+/* Data Fetching */
+const swrOptions = {
+  revalidateIfStale: false,
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+};
+
+export function useUser(id) {
+  const { data, error } = useSWR(id, get_user_projects, swrOptions);
+
+  return {
+    userProjectList: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useRuns(projectList) {
+  const { data, error } = useSWR(projectList, get_all_user_runs, swrOptions);
+
+  return {
+    userRuns: data,
+    isRunLoading: !error && !data,
+    isRunError: error,
+  };
+}
+
+/* Logic */
+
+function getUniqueElements(List) {
+  const uniqueElements = [...new Set(List)];
+  return uniqueElements;
+}
+
+/* Data processing */
+
+function getAllTypologies(projectList) {
+  const typologies = projectList['projects'].map((project) => {
+    return project.typology;
+  });
+  return typologies;
+}
 
 export function getTotalTrees(projectList) {
   const totalTrees = projectList.reduce((accumulator, project) => {
@@ -33,6 +79,7 @@ export function getTotalCarbonStorage(projectRuns) {
   return totalCarbonStorage.toFixed(2);
 }
 
+/* Chart related functions */
 export function processForBudgetChart(projectList) {
   const budgetData = projectList['projects'].map((project) => {
     return {
@@ -65,18 +112,6 @@ export function processRibaChart(projectList) {
   });
 
   return RIBAData;
-}
-
-function getAllTypologies(projectList) {
-  const typologies = projectList['projects'].map((project) => {
-    return project.typology;
-  });
-  return typologies;
-}
-
-function getUniqueElements(List) {
-  const uniqueElements = [...new Set(List)];
-  return uniqueElements;
 }
 
 export function listSDGsFromProjects(projectList) {
