@@ -210,7 +210,12 @@ export const get_projects = async (queryArgs) => {
   let url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/projects/';
 
   if (queryArgs) {
-    url = url + '?' + queryArgs;
+    url += '?';
+    for (let key in queryArgs) {
+      if (queryArgs[key]) {
+        url += key + '=' + queryArgs[key] + '&';
+      }
+    }
   }
 
   return await axios
