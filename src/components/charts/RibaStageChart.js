@@ -10,14 +10,14 @@ const BarChart = (props) => {
   }, [props.data]);
 
   return (
-    <div style={{ height: '400px' }}>
+    <div className='px-4 py-4 rounded-[30px]' style={{ height: '400px' }}>
       <ResponsiveBar
         data={data}
         keys={['stage']}
         indexBy='id' // Use name later
         padding={0.05}
         innerPadding={0.1}
-        margin={{ top: 80, right: 30, bottom: 60, left: 80 }}
+        margin={{ top: 40, right: 30, bottom: 60, left: 80 }}
         axisBottom={{
           legend: 'RIBA STAGES',
           legendOffset: 40,
@@ -35,6 +35,7 @@ const BarChart = (props) => {
           background: '#FCFCFC',
           textColor: '#4F46E5',
         }}
+        colors={['#1EB792', '#2F3130', '#4F46E5']}
         enableGridX={false}
         enableGridY={false}
         enableLabel={false}

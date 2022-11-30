@@ -10,7 +10,7 @@ const BarChart = (props) => {
   }, [props.data]);
 
   return (
-    <div style={{ height: '400px' }}>
+    <div className='px-4 py-4 rounded-[30px]' style={{ height: '400px' }}>
       <ResponsiveBar
         data={data}
         keys={['budget']}
@@ -35,6 +35,7 @@ const BarChart = (props) => {
           background: '#FCFCFC',
           textColor: '#4F46E5',
         }}
+        colors={['#1EB792', '#2F3130', '#4F46E5']}
         enableGridX={false}
         enableGridY={false}
         enableLabel={false}
