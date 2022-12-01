@@ -18,7 +18,6 @@ import AddressInputWithMap from '../components/form/AddressInputWithMap';
 import NumberInput from '../components/form/NumberInput';
 import Dropdown from '../components/form/Dropdown';
 import Toggle from '../components/form/Toggle';
-import RadioSelector from '../components/form/RadioSelector';
 import RadioGroupSelector from '../components/form/RadioGroupSelector';
 import ResultBlock from '../components/ResultBlock';
 import ValueDisplay from '../components/analysis/ValueDisplay';
@@ -40,12 +39,7 @@ import {
 import { formatDataForMultilineChart } from '../utils/chartUtils';
 
 import { get_typologies, get_maintenance_scopes } from '../utils/saf_utils';
-import {
-  get_typologies_types,
-  get_stages,
-  get_land_use,
-  get_activity_types,
-} from '../utils/project_details';
+import { get_typologies_types, get_stages, get_land_use } from '../utils/project_details';
 
 import { getCouncils } from '../utils/geojson_utils';
 import CostBox from '../components/CostBox';
@@ -63,7 +57,6 @@ const listCouncils = getCouncils();
 const typologyTabs = get_typologies_types();
 const stages = get_stages();
 const landUse = get_land_use();
-const activityTypes = get_activity_types();
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -90,7 +83,6 @@ export default function Develop(props) {
   const [selectedLandUseStatus, setSelectedLandUseStatus] = useState('Yes');
   const [selectedTypology, setSelectedTypology] = useState(typologies[0]);
   const [maintenanceType, setMaintenanceType] = useState(maintenanceTypes[0]);
-  const [activityType, setActivityType] = useState(activityTypes[0]);
   const [densityPerHa, setDensityPerHa] = useState(1);
   const [locationInputError, setLocationInputError] = useState(false);
   // Cost variables
@@ -744,22 +736,6 @@ export default function Develop(props) {
                     />
 
                     <CompositionPieChart data={Number(watchConifer)} />
-                  </FormBlock>
-                  <hr className='mx-20 border-8 border-green-600' />
-                  <FormBlock
-                    title='What activities are you planning?'
-                    description='While we imagine you’re planning several activities, please select the main ones. (If you’re planning to plant trees, select DEVELOPING. If you’re maintaining existing tree stocks, select MAINTAINING)'
-                    type='typology'
-                  >
-                    <RadioSelector
-                      span='sm:col-span-5'
-                      label='activity-type'
-                      title='Primary activity'
-                      type='typology'
-                      setRadioType={setActivityType}
-                      radioType={activityType}
-                      radioTypes={activityTypes}
-                    />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
