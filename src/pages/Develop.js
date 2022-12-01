@@ -651,10 +651,10 @@ export default function Develop(props) {
                               label='totalArea'
                               title='Total area of the project *'
                               unit='m2'
-                              placeholder='10000'
-                              min={50}
+                              placeholder='12500'
+                              min={100}
                               max={200000}
-                              defaultValue={125}
+                              defaultValue={12500}
                               type='typology'
                               required={true}
                               onChange={onChange}
