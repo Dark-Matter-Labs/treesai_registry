@@ -253,7 +253,7 @@ export const publishProject = async (project_id) => {
   // A function to publish a project to the explore page
   patch_project(project_id, { publish: true }).then((res) => {
     toast.success('Project published!');
-    // console.log(res);
+    console.log(res);
   });
 };
 
