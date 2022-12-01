@@ -71,7 +71,7 @@ export default function Develop(props) {
     formState: { errors },
   } = methods;
 
-  const watchTotalArea = methods.watch('totalArea', 1);
+  const watchTotalArea = methods.watch('totalArea', 12500);
   const watchTreePlant = methods.watch('treeNumber', 1);
   const watchTreeMaintain = methods.watch('existingTrees', 1);
   const watchConifer = methods.watch('conifer', 47);
@@ -142,7 +142,12 @@ export default function Develop(props) {
   }, [watchTreePlant, watchTreeMaintain]);
 
   useEffect(() => {
-    let densPerHa = (totalTreeNumber * 10000) / watchTotalArea; // Multiply by 10000 to transform m2 to Ha
+    let densPerHa;
+    if(watchTotalArea !== undefined){
+      densPerHa = (totalTreeNumber * 10000) / watchTotalArea; // Multiply by 10000 to transform m2 to Ha
+    } else{
+      densPerHa = (totalTreeNumber * 10000) / 12500; // Multiply by 10000 to transform m2 to Ha
+    }
     setDensityPerHa(densPerHa);
   }, [totalTreeNumber, watchTotalArea]);
 
@@ -296,7 +301,7 @@ export default function Develop(props) {
       project_dev: formData.projectDeveloper,
       owner_id: parseInt(sessionStorage.user_id),
       activities: whichActivity(),
-      area: parseInt(formData.totalArea),
+      area: parseInt(formData.totalArea ? formData.totalArea : 12500),
       cost: parseInt(totalCost),
       stage: selectedStage,
       number_of_trees: totalTreeNumber,
@@ -654,7 +659,6 @@ export default function Develop(props) {
                               placeholder='12500'
                               min={100}
                               max={200000}
-                              defaultValue={12500}
                               type='typology'
                               required={true}
                               onChange={onChange}
