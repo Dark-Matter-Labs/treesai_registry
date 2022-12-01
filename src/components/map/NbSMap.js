@@ -18,9 +18,9 @@ import {
 } from '../../utils/map_data_layers';
 
 // get data layers
-import SocialDeprivation from '../../data/SocialDeprivation.geojson';
 import SubBasin from '../../data/SubBasin.geojson';
 import LocationScoring from '../../data/Location_scoring_councils.geojson';
+
 
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
@@ -32,6 +32,14 @@ export default function NbSMap(props) {
     latitude: 55.85,
     zoom: 11,
   });
+
+  const [SocialDeprivation, setSocialDeprivation] =useState();
+
+  useEffect(() => {
+    import('../../data/SocialDeprivation.json').then(layer => {
+      setSocialDeprivation(layer);
+     })
+  },[]);
 
   useEffect(() => {
     if (props.mapRef.current !== null) {
