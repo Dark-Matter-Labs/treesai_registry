@@ -168,6 +168,29 @@ export const create_project_and_get_ID = async (payload) => {
   return response;
 };
 
+export const patch_project = async (project_id, payload) => {
+  let requestOptions = {
+    method: 'PATCH',
+    headers: requestHeaders,
+    redirect: 'follow',
+  };
+
+  const url =
+    process.env.REACT_APP_API_ENDPOINT +
+    '/api/v1/saf/users/' +
+    sessionStorage.user_id +
+    '/projects/' +
+    project_id +
+    '/';
+
+  return axios
+    .patch(url, payload, requestOptions)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((error) => onError(error));
+};
+
 /* ------------------- Account ------------------- */
 export const get_user_projects = async (user_id) => {
   const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/users/' + user_id + '/projects/';
@@ -222,6 +245,16 @@ export const get_projects = async (queryArgs) => {
     .get(url, getConfig)
     .then((response) => response.data['projects'])
     .catch((error) => onError(error));
+};
+
+/* ------------------- Develop ------------------- */
+
+export const publishProject = async (project_id) => {
+  // A function to publish a project to the explore page
+  patch_project(project_id, { publish: true }).then((res) => {
+    toast.success('Project published!');
+    console.log(res);
+  });
 };
 
 /* ------------------- Error Handling ------------------- */
