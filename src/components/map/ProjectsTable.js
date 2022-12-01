@@ -62,18 +62,13 @@ export default function ProjectsTable({ columns, data, selectProject, height }) 
                         setActiveRow(row.id);
                         const mapObject = {
                           type: 'Feature',
-                          geometry: {
-                            type: 'Point',
-                            coordinates: row.values['geometry.coordinates'],
-                          },
-                          properties: {
-                            project_name: row.values['properties.project_name'],
-                          },
+                          lat: row.values['lat'],
+                          lng: row.values['lng'],
+                          title: row.values['title'],
                         };
-                        if(selectProject !== undefined){
+                        if (selectProject !== undefined) {
                           selectProject(mapObject);
                         }
-                       
                       }}
                     >
                       {row.cells.map((cell) => {
