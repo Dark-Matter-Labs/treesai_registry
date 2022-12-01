@@ -247,6 +247,16 @@ export const get_projects = async (queryArgs) => {
     .catch((error) => onError(error));
 };
 
+/* ------------------- Develop ------------------- */
+
+export const publishProject = async (project_id) => {
+  // A function to publish a project to the explore page
+  patch_project(project_id, { publish: true }).then((res) => {
+    toast.success('Project published!');
+    // console.log(res);
+  });
+};
+
 /* ------------------- Error Handling ------------------- */
 function onError(error, display = true) {
   console.error(error);

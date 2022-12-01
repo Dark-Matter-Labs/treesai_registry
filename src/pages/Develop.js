@@ -36,6 +36,7 @@ import {
   get_saf_run_by_hash,
   post_saf_run_and_get_hash,
   create_project_and_get_ID,
+  publishProject,
 } from '../utils/backendCRUD';
 import { formatDataForMultilineChart } from '../utils/chartUtils';
 
@@ -1158,11 +1159,22 @@ export default function Develop(props) {
               <button
                 type='button'
                 onClick={() => {
-                  setProcessStage(1);
+                  setProcessStage(1); // reset to first stage
+                  // TODO: make this a function so that the database is updated instead of new project
                 }}
                 className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
               >
                 Edit/add project info
+              </button>
+
+              <button
+                type='button'
+                onClick={() => {
+                  publishProject(sessionStorage.getItem('project_id'));
+                }}
+                className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
+              >
+                Publish project
               </button>
             </div>
           </div>
