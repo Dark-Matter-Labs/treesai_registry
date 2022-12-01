@@ -168,6 +168,29 @@ export const create_project_and_get_ID = async (payload) => {
   return response;
 };
 
+export const patch_project = async (project_id, payload) => {
+  let requestOptions = {
+    method: 'PATCH',
+    headers: requestHeaders,
+    redirect: 'follow',
+  };
+
+  const url =
+    process.env.REACT_APP_API_ENDPOINT +
+    '/api/v1/saf/users/' +
+    sessionStorage.user_id +
+    '/projects/' +
+    project_id +
+    '/';
+
+  return axios
+    .patch(url, payload, requestOptions)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((error) => onError(error));
+};
+
 /* ------------------- Account ------------------- */
 export const get_user_projects = async (user_id) => {
   const url = process.env.REACT_APP_API_ENDPOINT + '/api/v1/saf/users/' + user_id + '/projects/';
