@@ -947,8 +947,8 @@ export default function Develop(props) {
               </p>
               <hr className='border-dark-wood-600' />
               <p className='book-intro-md pt-4'>
-                Below you can check the impact of your project, edit parts and run new simulations
-                if needed!
+                Below you can check the impact of your project, you can run the simulation as many
+                times as you want.
               </p>
             </div>
           </div>
@@ -1054,38 +1054,42 @@ export default function Develop(props) {
                   />
                 </div>
                 <div className='px-8 '>
-                  <h3 className='text-dark-wood-800'>Your project’s cost</h3>
+                  <h3 className='text-dark-wood-800'>Your project’s cost profile</h3>
                   <p className='book-info-sm pt-5 text-dark-wood-800'>
                     The following ranges provide an estimated project costs over different
                     time-spans:
                   </p>
                   <CostBox costTotal={Number(totalCost)} moneyNeeded={moneyNeeded} />
-                  <p className='book-info-sm pt-5 mb-5 text-dark-wood-800'>
-                    These estimates do not include any commercial mark-ups and only reflect the
-                    direct costs of building and maintaining your NbS project.
-                  </p>
                 </div>
 
                 <div className='col-span-2 mt-5 mx-5'>
-                  <h3 className='border-t border-green-600 pt-5 text-dark-wood-800'>
-                    Your project’s location challenges
-                  </h3>
-                  <p className='book-info-sm pt-5 text-dark-wood-800'>
-                    The location of your project matters. It matters because cities are facing
-                    multiple climate and social challenges which your project can help mitigate. On
-                    the right you assess the challenges faced by the neighbourhood of your project:
-                  </p>
-                  <p className='medium-info-sm pt-5 text-dark-wood-800'>{selectedCC}</p>
-                  <RiskRadar cc_name={selectedCC} />
+                  <div className='grid grid-cols-1 sm:grid-cols-2 border-t border-green-600'>
+                    <div className=''>
+                      <h3 className=' pt-5 text-dark-wood-800'>
+                        Challenges facing your project’s neighbourhood
+                      </h3>
+                      <p className='book-info-sm pt-5 text-dark-wood-800'>
+                        The location of your project influences its impact.
+                      </p>
+                      <p className='book-info-sm pt-5 text-dark-wood-800'>
+                        On the right you can see the challenges facing the neighbourhood where your
+                        project is located, and therefore could help tackle.
+                      </p>
+                      <p className='medium-info-sm pt-5 text-dark-wood-800'>{selectedCC}</p>
+                    </div>
+                    <div>
+                      <RiskRadar cc_name={selectedCC} />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <SectionHeader title='Your project’s estimated population' type='Population' />
+          <SectionHeader title='Your Project (over time)' type='Population' />
           <ResultBlock
-            title='Your Trees’ life'
-            description='Considering a combination of factors including typology, activity and location, calculated via an agent-based model, your project could achieve the following potential impact over the next 50 years:'
+            title='Development of your project'
+            description='In this section you can see your projects estimated tree and biomass over 50 years, which is an important proxy for the impact of your project.  This has been modelled based on multiple factors and calculated via an agent-based model.'
             type='pop'
           />
           <hr className='mx-20 border-[12px] border-indigo-600' />
@@ -1141,8 +1145,9 @@ export default function Develop(props) {
                 Thank you very much for your time.
                 <br />
                 <br />
-                In a few months you will be able to publish your project to the NbS map, as well as
-                being able to save your project and come back to it later.
+                If your project is final, you can publish it on our registry, for other project
+                developers and investors to see - if you’re still working on it you’ll be able to
+                access it through your account page.
               </p>
             </div>
             <div className='place-self-center pt-4'>
