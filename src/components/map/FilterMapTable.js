@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { ArrowCircleUpIcon, ArrowCircleDownIcon } from '@heroicons/react/outline';
 import NbSMap from './NbSMap';
 import ProjectsTable from './ProjectsTable';
@@ -10,17 +10,23 @@ import { useProjects } from '../../utils/explore_page_helper';
 export default function FilterMapTable() {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
-  const [, setProjects] = useState();
+  const [projects, setProjects] = useState();
   const [mapDataLayer, setMapDataLayer] = useState('Basic');
   const [mapHeight, setMapHeight] = useState('65vh');
   const [tableHeight, setTableHeight] = useState('35vh');
 
   const { dBprojects } = useProjects();
 
+  useEffect(() => {
+    if (dBprojects) {
+      setProjects(dBprojects);
+    }
+  }, [dBprojects]);
+
   const columns = useMemo(
     () => [
       {
-        Header: 'Project',
+        Header: 'projects',
         columns: [
           {
             Header: 'Project name',
@@ -60,9 +66,6 @@ export default function FilterMapTable() {
     [],
   );
 
-  // TBR
-  console.log(dBprojects);
-
   const selectProject = (current) => {
     mapRef.current.flyTo({
       center: [current.lng, current.lat],
@@ -72,15 +75,15 @@ export default function FilterMapTable() {
     setPopupInfo(current);
   };
 
-  if (dBprojects) {
+  if (projects) {
     return (
       <div className='overflow-hidden h-screen m-0'>
         <div className=''>
-          <Filter projects={dBprojects} setData={setProjects} />
+          <Filter projects={projects} setData={setProjects} />
           <DataLayerSelector setMapDataLayer={setMapDataLayer} />
           <NbSMap
             mapRef={mapRef}
-            data={dBprojects}
+            data={projects}
             selectProject={selectProject}
             popupInfo={popupInfo}
             setPopupInfo={setPopupInfo}
@@ -118,7 +121,7 @@ export default function FilterMapTable() {
             </div>
           </div>
           <ProjectsTable
-            data={dBprojects}
+            data={projects}
             columns={columns}
             selectProject={selectProject}
             height={tableHeight}
