@@ -142,12 +142,10 @@ export default function Develop(props) {
   }, [watchTreePlant, watchTreeMaintain]);
 
   useEffect(() => {
-    let densPerHa;
-    if(watchTotalArea !== undefined){
-      densPerHa = (totalTreeNumber * 10000) / watchTotalArea; // Multiply by 10000 to transform m2 to Ha
-    } else{
-      densPerHa = (totalTreeNumber * 10000) / 12500; // Multiply by 10000 to transform m2 to Ha
-    }
+    // Calculate the density per ha
+    let area = watchTotalArea ? watchTotalArea : 12500;
+    area = area / 10000; // Divide by 10'000 to transform m2 to Ha
+    const densPerHa = totalTreeNumber / area;
     setDensityPerHa(densPerHa);
   }, [totalTreeNumber, watchTotalArea]);
 
