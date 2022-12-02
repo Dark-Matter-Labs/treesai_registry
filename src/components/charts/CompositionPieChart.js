@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 function formatDataForPie(percentageConifer) {
   return [
     {
-      id: 'Conifer',
-      label: 'Conifer',
+      id: '% of evergreen',
+      label: '% of evergreen',
       value: percentageConifer,
       color: 'hsl(166, 61%, 72%)',
     },
     {
-      id: 'Deciduous',
-      label: 'Deciduous',
+      id: '% of decidious trees',
+      label: '% of decidious trees',
       value: 100 - percentageConifer,
       color: 'hsl(166, 80%, 30%)',
     },
@@ -35,7 +35,7 @@ export default function CompositionPieChart(props) {
           colors={{ datum: 'data.color' }}
           width={350}
           height={350}
-          margin={{ top: 80, right: 80, bottom: 80, left: 80 }}
+          margin={{ top: 80, right: 0, bottom: 80, left: 0 }}
           animate={true}
           activeOuterRadiusOffset={8}
           innerRadius={0.8}
