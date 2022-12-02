@@ -62,6 +62,10 @@ const landUse = get_land_use();
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
+
+// Default values
+const DEFAULT_TOTAL_AREA = 12500;
+
 export default function Develop(props) {
   const [processStage, setProcessStage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,7 +75,7 @@ export default function Develop(props) {
     formState: { errors },
   } = methods;
 
-  const watchTotalArea = methods.watch('totalArea', 12500);
+  const watchTotalArea = methods.watch('totalArea', DEFAULT_TOTAL_AREA);
   const watchTreePlant = methods.watch('treeNumber', 1);
   const watchTreeMaintain = methods.watch('existingTrees', 1);
   const watchConifer = methods.watch('conifer', 47);
@@ -142,10 +146,11 @@ export default function Develop(props) {
   }, [watchTreePlant, watchTreeMaintain]);
 
   useEffect(() => {
+    if (watchTotalArea == null) {
+      methods.setValue('totalArea', DEFAULT_TOTAL_AREA);
+    }
     // Calculate the density per ha
-    let area = watchTotalArea ? watchTotalArea : 12500;
-    area = area / 10000; // Divide by 10'000 to transform m2 to Ha
-    const densPerHa = totalTreeNumber / area;
+    const densPerHa = totalTreeNumber / (watchTotalArea / 10000); // Divide by 10'000 to transform m2 to Ha
     setDensityPerHa(densPerHa);
   }, [totalTreeNumber, watchTotalArea]);
 
@@ -299,7 +304,7 @@ export default function Develop(props) {
       project_dev: formData.projectDeveloper,
       owner_id: parseInt(sessionStorage.user_id),
       activities: whichActivity(),
-      area: parseInt(formData.totalArea ? formData.totalArea : 12500),
+      area: parseInt(formData.totalArea ? formData.totalArea : DEFAULT_TOTAL_AREA),
       cost: parseInt(totalCost),
       stage: selectedStage,
       number_of_trees: totalTreeNumber,
@@ -654,7 +659,7 @@ export default function Develop(props) {
                               label='totalArea'
                               title='Total area of the project *'
                               unit='m2'
-                              placeholder='12500'
+                              placeholder={DEFAULT_TOTAL_AREA}
                               min={100}
                               max={200000}
                               type='typology'
