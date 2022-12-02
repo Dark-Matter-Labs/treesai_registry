@@ -9,7 +9,7 @@ const swrOptions = {
 };
 
 export function useProjects() {
-  const args = { portfolio: true };
+  const args = { publish: true };
   const { data, error } = useSWR(args, get_projects, swrOptions);
 
   return {
