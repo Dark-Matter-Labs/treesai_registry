@@ -27,6 +27,7 @@ import LineChart from '../components/charts/LineChart';
 
 // Images
 import projectImg from '../images/project-default.png';
+import infoImage from '../images/info_eye.svg';
 // Charts
 import ChartMultiLine from '../components/charts/ChartMultiLine';
 // utils functions
@@ -403,7 +404,6 @@ export default function Develop(props) {
         ) : (
           <div className='global-margin'>
             <div className=''>
-              <Breadcrumb title='Run Impact Explorer' />
               <div className='title-box mt-4 grid grid-cols-1 bg-indigo-600 pt-8'>
                 <div className='place-self-end pr-10'>
                   <button
@@ -427,18 +427,27 @@ export default function Develop(props) {
               <div className='my-10 grid'>
                 <div className='book-intro-md max-w-3xl place-self-center text-dark-wood-700'>
                   <p className='pb-4'>
-                    By filling in this form you’ll be able to forecast costs, model impacts and
-                    publish your project on our NbS map.
+                    By filling in this form you’ll be able to rapidly estimate the impacts of your
+                    project. In order to rapidly estimate impacts, we only need simple information,
+                    however please share more details at the end of the form.
                   </p>
                   <hr className='border-dark-wood-600' />
-                  <p className='pt-4 '>Sections marked * are mandatory.</p>
+                  <p className='pt-4 '>
+                    Sections marked * are mandatory however if you are missing any information, you
+                    can save the form and return later.
+                  </p>
+                  <hr className='border-dark-wood-600' />
+                  <p className='pt-4 '>
+                    If anything isn’t clear, check this{' '}
+                    <img className='inline-block h-12 w-12' src={infoImage} /> for more info.
+                  </p>
                 </div>
               </div>
             </div>
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(sendRequestAndFetchData)}>
                 <div className='py-10'>
-                  <SectionHeader title='Project information' type='general' />
+                  <SectionHeader title='Project Information' type='general' />
                   <FormBlock
                     title='Project information'
                     description='Start by telling us who you are and a bit about your project.'
@@ -458,15 +467,16 @@ export default function Develop(props) {
                       span='sm:col-span-3'
                       label='projectDeveloper'
                       title='Project Developer *'
-                      placeholder='Name of the institution that is in charge of developing the project'
+                      placeholder='Who is developing the project?'
                       type='general'
                       required={true}
                     />
                   </FormBlock>
                   <hr className='mx-20 border-8 border-indigo-600' />
                   <FormBlock
-                    title='Project Location *'
-                    description='Where is your project located?'
+                    title='Project location *'
+                    description='Please add the location by searching through a nearby postcode, address, or point of interest.'
+                    description_nextLine='If you already know the precise location and area of your project you can share this in the section below ‘More Information’'
                   >
                     <Dropdown
                       span='sm:col-span-2'
@@ -589,16 +599,101 @@ export default function Develop(props) {
                         />
                       </div>
                       <p className='medium-intro-sm mt-2 text-gray-500'>
-                        Tell us about stakeholder engagement.
+                        Summary of what the project will deliver, the project or site history and
+                        the involved partners.
                       </p>
                     </div>
                   </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Project budgeting'
+                    description='TreesAI can help you in investing in your project. More you give us details and more we would be able to understand your needs.'
+                    type='cost'
+                  >
+                    <NumberInput
+                      span='sm:col-span-4'
+                      label='project-budget'
+                      title='What is your project budget?'
+                      placeholder='200'
+                      unit='£'
+                      type='cost'
+                      min={1}
+                      max={5000000}
+                      defaultValue={50000}
+                      required={true}
+                    />
+
+                    <NumberInput
+                      span='sm:col-span-4'
+                      label='money-raised'
+                      title='How much money have you raised so far?'
+                      placeholder='200'
+                      unit='£'
+                      type='cost'
+                      min={0}
+                      max={5000000}
+                      defaultValue={2500}
+                      required={true}
+                    />
+                  </FormBlock>
+                  <hr className='mx-20 border-8 border-indigo-600' />
+                  <FormBlock
+                    title='Dates and timing'
+                    description='We’d like to know roughly when you plan to start implementing the project, and how long it will take. Please note projects can (and are encouraged) to include maintenance activities.'
+                  >
+                    <div className='sm:col-span-3'>
+                      <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
+                        Expected starting date (MM/YY) *
+                      </label>
+                      <div className='mt-1'>
+                        <input
+                          id='start-date'
+                          name='startDate'
+                          type='month'
+                          className='block w-full rounded-2xl border-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                          {...methods.register('startDate', {
+                            required: { value: true, message: 'This is required!' },
+                          })}
+                        />
+                        <ErrorMessage
+                          name='startDate'
+                          render={({ message }) => (
+                            <p className='book-info-sm text-red-600 py-2'>{message}</p>
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    <NumberInput
+                      span='sm:col-span-3'
+                      label='projectLength'
+                      title='Expected length of the project in months *'
+                      placeholder='12'
+                      type='general'
+                      unit='months'
+                      min={1}
+                      required={true}
+                    />
+
+                    <Dropdown
+                      span='sm:col-span-3'
+                      label='project-stage'
+                      title='Current stage'
+                      type='general'
+                      showInfo={true}
+                      onChange={(e) => {
+                        setSelectedStage(e.target.value.toLowerCase());
+                      }}
+                      options={stages}
+                    />
+                  </FormBlock>
                 </div>
                 <div className='py-10'>
-                  <SectionHeader title='Project Layout *' type='typology' />
+                  <SectionHeader title='Characteristics & Activities *' type='typology' />
                   <FormBlock
                     title='Select the relevant typology'
-                    description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project. Right now, the platform only recognises tree-based projects, but we’ll soon add more typologies such as Sustainable Urban Drainage Systems (SuDS)'
+                    description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project.'
+                    description_nextLine='Right now, the platform only recognises tree-based projects, but we’ll soon add more typologies such as Sustainable Urban Drainage Systems (SuDS)'
                     type='typology'
                   >
                     <div className='sm:hidden'>
@@ -644,8 +739,8 @@ export default function Develop(props) {
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
-                    title={`How big is the ${selectedTypology.title} component of your project?`}
-                    description={`Your total project area is ${watchTotalArea} m2. How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
+                    title={`How large is your ${selectedTypology.title} project?`}
+                    description={`How much of that will be comprised of ${selectedTypology.title}, and how many trees will there be?`}
                     type='typology'
                   >
                     {selectedTypology.id !== 0 && (
@@ -718,8 +813,8 @@ export default function Develop(props) {
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
-                    title={'What is the composition of your project?'}
-                    description={'Choose between conifer and deciduous'}
+                    title={'Tree species composition'}
+                    description={'Choose which percentage you want your species to be.'}
                     type='typology'
                   >
                     <Controller
@@ -729,7 +824,7 @@ export default function Develop(props) {
                         <NumberInput
                           span='sm:col-span-3'
                           label='conifer'
-                          title='% of conifer trees'
+                          title='Percentage of evergreen trees (out of total trees)'
                           placeholder='50'
                           type='typology'
                           unit='%'
@@ -760,97 +855,23 @@ export default function Develop(props) {
                     />
                   </FormBlock>
                 </div>
-                <div className='py-10'>
-                  <SectionHeader title='Project costs' type='cost' />
-                  <FormBlock
-                    title='Project budgeting'
-                    description='TreesAI can help you in investing in your project. More you give us details and more we would be able to understand your needs.'
-                    type='cost'
-                  >
-                    <NumberInput
-                      span='sm:col-span-4'
-                      label='project-budget'
-                      title='What is your project budget?'
-                      placeholder='200'
-                      unit='£'
-                      type='cost'
-                      min={1}
-                      max={5000000}
-                      defaultValue={50000}
-                      required={true}
-                    />
 
-                    <NumberInput
-                      span='sm:col-span-4'
-                      label='money-raised'
-                      title='How much money have you raised so far?'
-                      placeholder='200'
-                      unit='£'
-                      type='cost'
-                      min={0}
-                      max={5000000}
-                      defaultValue={2500}
-                      required={true}
-                    />
-                  </FormBlock>
-                  <hr className='mx-20 border-8 border-green-600' />
-                  <FormBlock
-                    title='Dates and timing'
-                    description='We’d like to know roughly when you plan to start implementing the project, and how long it will take. Please note projects can (and are encouraged) to include maintenance activities.'
-                  >
-                    <div className='sm:col-span-3'>
-                      <label htmlFor='start-date' className='book-info-md pl-5 text-dark-wood-800'>
-                        Expected starting date (MM/YY) *
-                      </label>
-                      <div className='mt-1'>
-                        <input
-                          id='start-date'
-                          name='startDate'
-                          type='month'
-                          className='block w-full rounded-2xl border-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-                          {...methods.register('startDate', {
-                            required: { value: true, message: 'This is required!' },
-                          })}
-                        />
-                        <ErrorMessage
-                          name='startDate'
-                          render={({ message }) => (
-                            <p className='book-info-sm text-red-600 py-2'>{message}</p>
-                          )}
-                        />
-                      </div>
-                    </div>
-
-                    <NumberInput
-                      span='sm:col-span-3'
-                      label='projectLength'
-                      title='Expected length of the project in months *'
-                      placeholder='12'
-                      type='general'
-                      unit='months'
-                      min={1}
-                      required={true}
-                    />
-
-                    <Dropdown
-                      span='sm:col-span-3'
-                      label='project-stage'
-                      title='Current stage'
-                      type='general'
-                      showInfo={true}
-                      onChange={(e) => {
-                        setSelectedStage(e.target.value.toLowerCase());
-                      }}
-                      options={stages}
-                    />
-                  </FormBlock>
+                <div className='py-4 grid'>
+                  <div className='book-intro-md max-w-3xl place-self-center text-dark-wood-700'>
+                    <p className=''>
+                      As you will have noticed we haven’t asked you for many details. While we’ve
+                      asked you for enough to perform rapid modelling, we’d love to know more -
+                      please use the space below to share.
+                    </p>
+                  </div>
                 </div>
 
                 <div className='py-10'>
                   <SectionHeader title='More information' type='info' />
                   <FormBlock
                     title='Would you like to add more information? '
-                    description='Thanks for sharing the key information required to establish your project’s impact. However, if you share more information about your project specifications (such as your planning application, bills of quantity, or any other design packages) your measurements will be more accurate.'
+                    description='Please use this space to share more project specifications (such as your planning application, bills of quantity, or any other design packages)'
+                    description_nextLine='This platform is in Beta, meaning features are still being developed, so please share this information through a link (e.g. dropbox, googledrive etc.)'
                     type='cost'
                   >
                     <TextInput
@@ -882,9 +903,12 @@ export default function Develop(props) {
                 <div className='grid pb-20'>
                   <div className='max-w-3xl place-self-center py-4 text-center'>
                     <p className='book-intro-lg'>
-                      Thanks for taking the time to fill in the form. Click &quot;
-                      <span className='medium-intro-lg'>Run impact</span>&quot; to view your project
-                      impact assessment.
+                      Click &quot;
+                      <span className='medium-intro-lg'>Run impact</span>&quot; to view the modelled
+                      impacts. Thanks for taking the time to fill in the form - please note that
+                      larger projects will take longer to assess (with run times up to a minute).
+                      Apologies for the inconvenience, but just think how insignificant that is in
+                      the life of a tree.
                     </p>
                   </div>
                   <div className='place-self-center pt-4'>
