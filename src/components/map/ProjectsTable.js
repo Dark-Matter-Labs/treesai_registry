@@ -70,10 +70,9 @@ export default function ProjectsTable({ columns, data, selectProject, height }) 
                             project_name: row.values['properties.project_name'],
                           },
                         };
-                        if(selectProject !== undefined){
+                        if (selectProject !== undefined) {
                           selectProject(mapObject);
                         }
-                       
                       }}
                     >
                       {row.cells.map((cell) => {
