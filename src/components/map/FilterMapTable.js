@@ -23,6 +23,10 @@ export default function FilterMapTable() {
     }
   }, [dBprojects]);
 
+  function formatLargeNumber(number) {
+    return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -49,6 +53,14 @@ export default function FilterMapTable() {
             accessor: 'area',
           },
           {
+            Header: 'Numer of trees',
+            accessor: 'number_of_trees',
+          },
+          {
+            Header: 'Typology',
+            accessor: 'typology ',
+          },
+          {
             Header: 'Estimated project costs',
             accessor: 'cost',
           },
@@ -59,6 +71,16 @@ export default function FilterMapTable() {
           {
             Header: 'Longitude',
             accessor: 'lng',
+          },
+          {
+            Header: 'Carbon sequestation (Kgs)',
+            accessor: 'Seq',
+            Cell: ({ value }) => formatLargeNumber(value),
+          },
+          {
+            Header: 'Carbon Storage (Kgs)',
+            accessor: 'Storage',
+            Cell: ({ value }) => formatLargeNumber(value),
           },
         ],
       },
