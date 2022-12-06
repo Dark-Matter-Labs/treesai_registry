@@ -247,6 +247,15 @@ export const get_projects = async (queryArgs) => {
     .catch((error) => onError(error));
 };
 
+export const get_explore_table = async () => {
+  let url = API_ENDPOINT + 'saf/projects/explore_table';
+
+  return await axios
+    .get(url, getConfig)
+    .then((response) => response.data)
+    .catch((error) => onError(error));
+};
+
 /* ------------------- Develop ------------------- */
 
 export const publishProject = async (project_id) => {
