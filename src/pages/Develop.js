@@ -264,6 +264,7 @@ export default function Develop(props) {
       density_per_ha: parseInt(densityPerHa),
       species: selectedTypology.species,
       conifer_ratio_percent: formData.conifer, // Integer
+      user_selected: maintenanceScope === maintenanceType.value ? true : false,
     };
     // Change dbh based on activity
     switch (whichActivity()) {
