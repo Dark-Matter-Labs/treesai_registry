@@ -1,6 +1,5 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { ArrowCircleUpIcon, ArrowCircleDownIcon } from '@heroicons/react/outline';
-import ProjectsJSON from '../../data/NbS_projects_database.json';
 import NbSMap from './NbSMap';
 import ProjectsTable from './ProjectsTable';
 import Filter from './Filter';
@@ -11,10 +10,22 @@ import { useProjects } from '../../utils/explore_page_helper';
 export default function FilterMapTable() {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
-  const [projects, setProjects] = useState(ProjectsJSON);
+  const [projects, setProjects] = useState();
   const [mapDataLayer, setMapDataLayer] = useState('Basic');
   const [mapHeight, setMapHeight] = useState('65vh');
   const [tableHeight, setTableHeight] = useState('35vh');
+
+  const { dBprojects } = useProjects();
+
+  useEffect(() => {
+    if (dBprojects) {
+      setProjects(dBprojects);
+    }
+  }, [dBprojects]);
+
+  function formatLargeNumber(number) {
+    return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  }
 
   const columns = useMemo(
     () => [
@@ -22,44 +33,54 @@ export default function FilterMapTable() {
         Header: 'projects',
         columns: [
           {
-            Header: 'Code',
-            accessor: 'properties.id',
-          },
-          {
             Header: 'Project name',
-            accessor: 'properties.project_name',
+            accessor: 'title',
           },
           {
             Header: 'Project Developer',
-            accessor: 'properties.project_developer',
-          },
-          {
-            Header: 'Project city',
-            accessor: 'properties.project_city',
+            accessor: 'project_dev',
           },
           {
             Header: 'Stage',
-            accessor: 'properties.stage',
-          },
-          {
-            Header: 'Typologies',
-            accessor: 'properties.typology',
+            accessor: 'stage',
           },
           {
             Header: 'Activities',
-            accessor: 'properties.activity',
+            accessor: 'activities',
           },
           {
             Header: 'Total Area',
-            accessor: 'properties.total_area',
+            accessor: 'area',
+          },
+          {
+            Header: 'Numer of trees',
+            accessor: 'number_of_trees',
+          },
+          {
+            Header: 'Typology',
+            accessor: 'typology ',
           },
           {
             Header: 'Estimated project costs',
-            accessor: 'properties.project_budget',
+            accessor: 'cost',
           },
           {
-            Header: 'Coordinates',
-            accessor: 'geometry.coordinates',
+            Header: 'Latitude',
+            accessor: 'lat',
+          },
+          {
+            Header: 'Longitude',
+            accessor: 'lng',
+          },
+          {
+            Header: 'Carbon sequestation (Kgs)',
+            accessor: 'Seq',
+            Cell: ({ value }) => formatLargeNumber(value),
+          },
+          {
+            Header: 'Carbon Storage (Kgs)',
+            accessor: 'Storage',
+            Cell: ({ value }) => formatLargeNumber(value),
           },
         ],
       },
@@ -67,73 +88,70 @@ export default function FilterMapTable() {
     [],
   );
 
-  const { dBprojects } = useProjects();
-
-  useEffect(() => {
-    console.log(dBprojects);
-    // setProjects(dBprojects);
-    // Here either append the list of project to the existing list of projects or replace the UseEffect altogether to just use the dBprojects variable
-  }, [dBprojects]);
-
   const selectProject = (current) => {
     mapRef.current.flyTo({
-      center: [current.geometry.coordinates[0], current.geometry.coordinates[1]],
+      center: [current.lng, current.lat],
       duration: 2000,
       zoom: 12,
     });
     setPopupInfo(current);
   };
-  return (
-    <div className='overflow-hidden h-screen m-0'>
-      <div className=''>
-        <Filter projects={ProjectsJSON} setData={setProjects} />
-        <DataLayerSelector setMapDataLayer={setMapDataLayer} />
-        <NbSMap
-          mapRef={mapRef}
-          data={projects}
-          selectProject={selectProject}
-          popupInfo={popupInfo}
-          setPopupInfo={setPopupInfo}
-          mapDataLayer={mapDataLayer}
-          height={mapHeight}
-        />
-      </div>
-      <div className='absolute z-40 left-0 right-0'>
-        <div className='px-4 py-2 bg-green-600 flex flex-row items-center my-auto rounded-tr-[30px]'>
-          <div>
-            <span className='bold-intro-md text-white-200 pl-6'>Project Details</span>
-          </div>
-          <div className=''>
-            <button
-              onClick={() => {
-                setMapHeight('20vh');
-                setTableHeight('80vh');
-              }}
-            >
-              <ArrowCircleUpIcon className='text-white-200 w-7 h-7' />
-            </button>
-            <button
-              onClick={() => {
-                if (tableHeight === '80vh') {
-                  setMapHeight('65vh');
-                  setTableHeight('35vh');
-                } else {
-                  setMapHeight('80vh');
-                  setTableHeight('20vh');
-                }
-              }}
-            >
-              <ArrowCircleDownIcon className='text-white-200 w-7 h-7' />
-            </button>
-          </div>
+
+  if (projects) {
+    return (
+      <div className='overflow-hidden h-screen m-0'>
+        <div className=''>
+          <Filter projects={projects} setData={setProjects} />
+          <DataLayerSelector setMapDataLayer={setMapDataLayer} />
+          <NbSMap
+            mapRef={mapRef}
+            data={projects}
+            selectProject={selectProject}
+            popupInfo={popupInfo}
+            setPopupInfo={setPopupInfo}
+            mapDataLayer={mapDataLayer}
+            height={mapHeight}
+          />
         </div>
-        <ProjectsTable
-          data={projects}
-          columns={columns}
-          selectProject={selectProject}
-          height={tableHeight}
-        />
+        <div className='absolute z-40 left-0 right-0'>
+          <div className='px-4 py-2 bg-green-600 flex flex-row items-center my-auto rounded-tr-[30px]'>
+            <div>
+              <span className='bold-intro-md text-white-200 pl-6'>Project Details</span>
+            </div>
+            <div className=''>
+              <button
+                onClick={() => {
+                  setMapHeight('20vh');
+                  setTableHeight('80vh');
+                }}
+              >
+                <ArrowCircleUpIcon className='text-white-200 w-7 h-7' />
+              </button>
+              <button
+                onClick={() => {
+                  if (tableHeight === '80vh') {
+                    setMapHeight('65vh');
+                    setTableHeight('35vh');
+                  } else {
+                    setMapHeight('80vh');
+                    setTableHeight('20vh');
+                  }
+                }}
+              >
+                <ArrowCircleDownIcon className='text-white-200 w-7 h-7' />
+              </button>
+            </div>
+          </div>
+          <ProjectsTable
+            data={projects}
+            columns={columns}
+            selectProject={selectProject}
+            height={tableHeight}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <div>Loading...</div>;
+  }
 }

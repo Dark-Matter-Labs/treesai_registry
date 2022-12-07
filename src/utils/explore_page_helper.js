@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import { get_projects } from './backendCRUD';
+import { get_explore_table } from './backendCRUD';
 
 const swrOptions = {
   revalidateIfStale: false,
@@ -9,8 +9,7 @@ const swrOptions = {
 };
 
 export function useProjects() {
-  const args = { portfolio: true };
-  const { data, error } = useSWR(args, get_projects, swrOptions);
+  const { data, error } = useSWR({} ,get_explore_table, swrOptions);
 
   return {
     dBprojects: data,

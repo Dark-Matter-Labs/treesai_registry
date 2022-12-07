@@ -83,8 +83,8 @@ export default function NbSMap(props) {
         {props.data.map((city, index) => (
           <Marker
             key={`marker-${index}`}
-            longitude={city.geometry.coordinates[0]}
-            latitude={city.geometry.coordinates[1]}
+            longitude={city.lng}
+            latitude={city.lat}
             anchor='bottom'
             onClick={(e) => {
               // If we let the click event propagates to the map, it will immediately close the popup
@@ -100,13 +100,13 @@ export default function NbSMap(props) {
         {props.popupInfo && (
           <Popup
             anchor='bottom'
-            longitude={Number(props.popupInfo.geometry.coordinates[0])}
-            latitude={Number(props.popupInfo.geometry.coordinates[1])}
+            longitude={Number(props.popupInfo.lng)}
+            latitude={Number(props.popupInfo.lat)}
             onClose={() => props.setPopupInfo(null)}
             className=''
           >
             <div className='medium-intro-sm text-white-200 bg-green-600 p-4 rounded-[38px] text-center'>
-              {props.popupInfo.properties.project_name}
+              {props.popupInfo.title}
             </div>
           </Popup>
         )}
