@@ -24,50 +24,14 @@ import {
   processRibaChart,
 } from '../utils/account_page_helper';
 import StatBlock from '../components/analysis/StatBlock';
+import { getAccountTableColumns } from '../utils/table_helper';
 
 export default function Account(props) {
   const { userProjectList, isLoading, isError } = useUserProjects(sessionStorage.user_id);
 
   console.log('projList', userProjectList);
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'projects',
-        columns: [
-          {
-            Header: 'Title',
-            accessor: 'title',
-          },
-          {
-            Header: 'Area',
-            accessor: 'area',
-          },
-          {
-            Header: 'Number of trees',
-            accessor: 'number_of_trees',
-          },
-          {
-            Header: 'Cost',
-            accessor: 'cost',
-          },
-          {
-            Header: 'Stage',
-            accessor: 'stage',
-          },
-          {
-            Header: 'Activities',
-            accessor: 'activities',
-          },
-          {
-            Header: 'Developer',
-            accessor: 'project_dev',
-          },
-        ],
-      },
-    ],
-    [],
-  );
+  const columns = useMemo(() => getAccountTableColumns(), []);
 
   if (isLoading) return <LoadingSpinner />;
   else if (isError) return <div>Failed to load</div>;

@@ -33,7 +33,7 @@ function getUniqueElements(List) {
 /* Data processing */
 
 function getAllTypologies(projectList) {
-  const typologies = projectList['projects'].map((project) => {
+  const typologies = projectList.map((project) => {
     return project.typology;
   });
   return typologies;
