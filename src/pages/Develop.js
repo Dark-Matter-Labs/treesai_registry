@@ -697,6 +697,7 @@ export default function Develop(props) {
                     description='We know that projects can be made up of multiple types of nature-based solutions. Please, select the typologies that you will develop in your project.'
                     description_nextLine='Right now, the platform only recognises tree-based projects, but we’ll soon add more typologies such as Sustainable Urban Drainage Systems (SuDS)'
                     type='typology'
+                    showTitleInfo={true}
                   >
                     <div className='sm:hidden'>
                       <label htmlFor='typology-type' className='sr-only'>

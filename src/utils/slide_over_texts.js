@@ -6,6 +6,10 @@ const slide_texts = {
   projectStage: {
     text:  '<p>To better understand the NbS projects and set a timeline of activities, Trees AI has defined the 7 stages that these projects go through based on the <u>RIBA Plan of Work</u></p><p class="mt-2"><ul><li>1 Strategic Development: definition of a project, the preparation and briefing</li><li>2 Pre-planning Application: concept design and spatial coordination</li></ul></p>',
     title: 'Current Stage'
+  },
+  'Select the relevant typology': {
+    text: '<p>To better understand a project we have developed a classification system, with typologies to enable the rapid understanding of a project’s existing and planned characteristics, thus a faster modelling of costs and impacts.</p><p>Each typology is defined in terms of its biophysical features. </p><p>We divide these features into three main categories that provide different functions to the urban climate; vegetation layers, ground surfaces and building structures.</p>',
+    title: 'Typologies'
   }
 };
 
