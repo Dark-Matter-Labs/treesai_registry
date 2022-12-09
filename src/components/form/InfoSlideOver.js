@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
+import DOMPurify from 'dompurify';
 import infoImage from '../../images/info_eye.svg';
 import { get_slide_texts } from '../../utils/slide_over_texts';
 
@@ -41,7 +42,7 @@ export default function InfoSlideOver({ label }) {
                       <div className='bg-indigo-600 py-6 px-4 sm:px-6'>
                         <div className='flex items-center justify-between'>
                           <Dialog.Title className='text-white-200'>
-                            <h3>Panel information</h3>
+                            <h3>{slide_text[label].title}</h3>
                           </Dialog.Title>
                           <div className='ml-3 flex h-7 items-center'>
                             <button
@@ -58,7 +59,7 @@ export default function InfoSlideOver({ label }) {
                       <div className='relative flex-1 py-6 px-4 sm:px-6'>
                         <p
                           className='book-intro-md text-dark-wood-800'
-                          dangerouslySetInnerHTML={{ __html: slide_text[label] }}
+                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(slide_text[label].text) }}
                         ></p>
                         <div className='absolute inset-0 py-6 px-4 sm:px-6'>
                           <div className='h-full' aria-hidden='true' />
