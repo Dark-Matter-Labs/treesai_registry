@@ -3,8 +3,10 @@ import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import infoImage from '../../images/info_eye.svg';
+import { get_slide_texts } from '../../utils/slide_over_texts';
 
-export default function InfoSlideOver() {
+const slide_text = get_slide_texts();
+export default function InfoSlideOver({ label }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -54,22 +56,12 @@ export default function InfoSlideOver() {
                         </div>
                       </div>
                       <div className='relative flex-1 py-6 px-4 sm:px-6'>
-                        <p className='book-intro-md text-dark-wood-800'>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis
-                          molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla
-                          accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
-                          Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent
-                          taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                          himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante
-                          pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor
-                          urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit
-                          amet lacinia. Aliquam in elementum tellus.
-                        </p>
+                        <p
+                          className='book-intro-md text-dark-wood-800'
+                          dangerouslySetInnerHTML={{ __html: slide_text[label] }}
+                        ></p>
                         <div className='absolute inset-0 py-6 px-4 sm:px-6'>
-                          <div
-                            className='h-full border-2 border-dashed border-gray-200'
-                            aria-hidden='true'
-                          />
+                          <div className='h-full' aria-hidden='true' />
                         </div>
                         {/* /End replace */}
                       </div>
@@ -86,11 +78,5 @@ export default function InfoSlideOver() {
 }
 
 InfoSlideOver.propTypes = {
-  span: PropTypes.string,
   label: PropTypes.string,
-  title: PropTypes.string,
-  type: PropTypes.string,
-  onChange: PropTypes.func,
-  options: PropTypes.array,
-  showInfo: PropTypes.bool,
 };
