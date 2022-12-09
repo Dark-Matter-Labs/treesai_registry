@@ -674,11 +674,12 @@ export default function Develop(props) {
                       unit='months'
                       min={1}
                       required={true}
+                      showInfo={true}
                     />
 
                     <Dropdown
                       span='sm:col-span-3'
-                      label='project-stage'
+                      label='projectStage'
                       title='Current stage'
                       type='general'
                       showInfo={true}

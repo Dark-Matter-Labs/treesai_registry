@@ -18,7 +18,7 @@ export default function Dropdown(props) {
       >
         {props.title}
       </label>
-      {props.showInfo && <InfoSlideOver />}
+      {props.showInfo && <InfoSlideOver label={props.label} />}
       <div className='mt-1'>
         <select
           id={props.label}

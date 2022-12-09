@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import InfoSlideOver from './InfoSlideOver';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -14,6 +15,7 @@ export default function NumberInput(props) {
       <label htmlFor={props.label} className='book-info-md pl-5 text-dark-wood-800'>
         {props.title}
       </label>
+      {props.showInfo && <InfoSlideOver label={props.label} />}
       <div className='mt-1 flex'>
         <input
           {...register(props.label, {
@@ -63,4 +65,5 @@ NumberInput.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
   required: PropTypes.bool,
+  showInfo: PropTypes.bool,
 };
