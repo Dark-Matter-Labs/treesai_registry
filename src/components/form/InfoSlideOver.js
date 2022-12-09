@@ -56,7 +56,7 @@ export default function InfoSlideOver({ label }) {
                         </div>
                       </div>
                       <div className='relative flex-1 py-6 px-4 sm:px-6'>
-                      {slide_text[label].text}
+                        {slide_text[label].text}
                         <div className='absolute inset-0 py-6 px-4 sm:px-6'>
                           <div className='h-full' aria-hidden='true' />
                         </div>
