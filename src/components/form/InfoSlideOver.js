@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
-import DOMPurify from 'dompurify';
 import infoImage from '../../images/info_eye.svg';
 import { get_slide_texts } from '../../utils/slide_over_texts';
 
@@ -57,10 +56,7 @@ export default function InfoSlideOver({ label }) {
                         </div>
                       </div>
                       <div className='relative flex-1 py-6 px-4 sm:px-6'>
-                        <p
-                          className='book-intro-md text-dark-wood-800'
-                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(slide_text[label].text) }}
-                        ></p>
+                      {slide_text[label].text}
                         <div className='absolute inset-0 py-6 px-4 sm:px-6'>
                           <div className='h-full' aria-hidden='true' />
                         </div>
