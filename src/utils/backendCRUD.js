@@ -202,6 +202,15 @@ export const get_all_user_runs = async (projectList) => {
   return allRuns;
 };
 
+export const get_user_projects_summary = async (user_id) => {
+  const url = API_ENDPOINT + 'saf/users/' + user_id + '/summary/';
+
+  return await axios
+    .get(url, getConfig)
+    .then((response) => response.data)
+    .catch((error) => onError(error));
+};
+
 /* ------------------- Explore ------------------- */
 
 export const get_projects = async (queryArgs) => {

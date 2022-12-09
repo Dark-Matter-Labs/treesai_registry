@@ -1,8 +1,9 @@
 import useSWR from 'swr';
 
-import { getLastKeyInObj } from './objUtils';
 import { getSDGIdsFromTypology } from './SDGs_helper';
-import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
+import {
+  get_user_projects_summary,
+} from '../utils/backendCRUD';
 
 /* Data Fetching */
 const swrOptions = {
@@ -11,8 +12,8 @@ const swrOptions = {
   revalidateOnReconnect: false,
 };
 
-export function useUser(id) {
-  const { data, error } = useSWR(id, get_user_projects, swrOptions);
+export function useUserProjects(id) {
+  const { data, error } = useSWR(id, get_user_projects_summary, swrOptions);
 
   return {
     userProjectList: data,
@@ -21,15 +22,6 @@ export function useUser(id) {
   };
 }
 
-export function useRuns(projectList) {
-  const { data, error } = useSWR(projectList, get_all_user_runs, swrOptions);
-
-  return {
-    userRuns: data,
-    isRunLoading: !error && !data,
-    isRunError: error,
-  };
-}
 
 /* Logic */
 
@@ -41,7 +33,7 @@ function getUniqueElements(List) {
 /* Data processing */
 
 function getAllTypologies(projectList) {
-  const typologies = projectList['projects'].map((project) => {
+  const typologies = projectList.map((project) => {
     return project.typology;
   });
   return typologies;
@@ -54,34 +46,25 @@ export function getTotalTrees(projectList) {
   return totalTrees;
 }
 
-export function getTotalCarbonSeq(projectRuns) {
+export function getTotalCarbonSeq(projectList) {
   let totalCarbonSeq = 0;
-  for (let i = 0; i < projectRuns.length; i++) {
-    // Temporary check to not add carbon from all 3 runs, later to use user's chosen maintenance level
-    if (i % 3 === 0) {
-      totalCarbonSeq +=
-        projectRuns[i].output.Cum_Seq[getLastKeyInObj(projectRuns[i].output.Cum_Seq)];
-    }
+  for (let i = 0; i < projectList.length; i++) {
+    totalCarbonSeq += projectList[i].Seq;
   }
-
   return totalCarbonSeq.toFixed(2);
 }
 
-export function getTotalCarbonStorage(projectRuns) {
+export function getTotalCarbonStorage(projectList) {
   let totalCarbonStorage = 0;
-  for (let i = 0; i < projectRuns.length; i++) {
-    // Temporary check to not add carbon from all 3 runs, later to use user's chosen maintenance level
-    if (i % 3 === 0) {
-      totalCarbonStorage +=
-        projectRuns[i].output.Storage[getLastKeyInObj(projectRuns[i].output.Storage)];
-    }
+  for (let i = 0; i < projectList.length; i++) {
+    totalCarbonStorage += projectList[i].Storage;
   }
   return totalCarbonStorage.toFixed(2);
 }
 
 /* Chart related functions */
 export function processForBudgetChart(projectList) {
-  const budgetData = projectList['projects'].map((project) => {
+  const budgetData = projectList.map((project) => {
     return {
       id: project.id,
       name: project.title,
@@ -93,7 +76,7 @@ export function processForBudgetChart(projectList) {
 
 export function processRibaChart(projectList) {
   // export function to count how many projects are in each RIBA stage
-  const RIBACount = projectList['projects'].reduce((accumulator, project) => {
+  const RIBACount = projectList.reduce((accumulator, project) => {
     const stage = project.stage;
     if (accumulator[stage]) {
       accumulator[stage] += 1;
