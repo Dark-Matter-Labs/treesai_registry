@@ -1,9 +1,7 @@
 import useSWR from 'swr';
 
 import { getSDGIdsFromTypology } from './SDGs_helper';
-import {
-  get_user_projects_summary,
-} from '../utils/backendCRUD';
+import { get_user_projects_summary } from '../utils/backendCRUD';
 
 /* Data Fetching */
 const swrOptions = {
@@ -21,7 +19,6 @@ export function useUserProjects(id) {
     isError: error,
   };
 }
-
 
 /* Logic */
 
@@ -62,15 +59,38 @@ export function getTotalCarbonStorage(projectList) {
   return totalCarbonStorage.toFixed(2);
 }
 
+function renameTypology(typology) {
+  const typologyDict = {
+    individual_street_trees: 'Street Trees',
+    park: 'Urban Park',
+    forest: 'Woodland',
+  };
+  return typologyDict[typology];
+}
+
 /* Chart related functions */
 export function processForBudgetChart(projectList) {
-  const budgetData = projectList.map((project) => {
-    return {
-      id: project.id,
-      name: project.title,
-      budget: project.cost,
-    };
+  // sum the total budget for each typology
+
+  const budgetData = [];
+
+  projectList.forEach((project) => {
+    const index = budgetData.findIndex((item) => item.typology === project.typology);
+    if (index === -1) {
+      budgetData.push({
+        typology: project.typology,
+        budget: project.cost,
+      });
+    } else {
+      budgetData[index].budget += project.cost;
+    }
   });
+
+  // rename typology
+  budgetData.forEach((item) => {
+    item.typology = renameTypology(item.typology);
+  });
+
   return budgetData;
 }
 
