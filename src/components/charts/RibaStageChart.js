@@ -13,8 +13,8 @@ const BarChart = (props) => {
     <div className='px-4 py-4 rounded-[30px]' style={{ height: '400px' }}>
       <ResponsiveBar
         data={data}
-        keys={['stage']}
-        indexBy='id' // Use name later
+        keys={['projectsNumber']}
+        indexBy='RIBAid'
         padding={0.05}
         innerPadding={0.1}
         margin={{ top: 40, right: 30, bottom: 60, left: 80 }}
