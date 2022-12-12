@@ -2,6 +2,7 @@ import useSWR from 'swr';
 
 import { getSDGIdsFromTypology } from './SDGs_helper';
 import { get_user_projects_summary } from '../utils/backendCRUD';
+import { get_stages } from '../utils/map_filters';
 
 /* Data Fetching */
 const swrOptions = {
@@ -94,6 +95,13 @@ export function processForBudgetChart(projectList) {
   return budgetData;
 }
 
+const stages = get_stages();
+
+function ribaNameToID(ribaName) {
+  const stage = stages.find((stage) => stage.label === ribaName);
+  return stage ? stage.id : undefined;
+}
+
 export function processRibaChart(projectList) {
   // export function to count how many projects are in each RIBA stage
   const RIBACount = projectList.reduce((accumulator, project) => {
@@ -106,13 +114,21 @@ export function processRibaChart(projectList) {
     return accumulator;
   }, {});
 
-  // export function to convert RIBA count object to array of objects
-  const RIBAData = Object.keys(RIBACount).map((key) => {
-    return {
-      id: key,
-      stage: RIBACount[key],
-    };
-  });
+  // export function to convert RIBA count object to array of objects, remove undefined
+  const RIBAData = Object.keys(RIBACount)
+    .map((key) => {
+      const id = ribaNameToID(key);
+      if (id) {
+        return {
+          RIBAid: id,
+          name: key,
+          projectsNumber: RIBACount[key],
+        };
+      } else {
+        return undefined;
+      }
+    })
+    .filter((item) => item !== undefined);
 
   return RIBAData;
 }
