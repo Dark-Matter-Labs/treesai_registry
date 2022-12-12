@@ -22,6 +22,7 @@ import {
   getTotalCarbonStorage,
   processForBudgetChart,
   processRibaChart,
+  listSDGsFromProjects,
 } from '../utils/account_page_helper';
 import StatBlock from '../components/analysis/StatBlock';
 import { getAccountTableColumns } from '../utils/table_helper';
@@ -114,7 +115,7 @@ export default function Account(props) {
               <div className='px-4 mt-4 medium-intro-lg text-green-600'>
                 UN Sustainable Development Goals
               </div>
-              <SDGList sdgs={['11', '8']} />
+              <SDGList sdgs={listSDGsFromProjects(userProjectList)} />
             </div>
             <div className='my-5 rounded-[30px] bg-white-200 col-span-2'>
               <div className='px-4 mt-4 medium-intro-lg text-green-600'>
