@@ -159,16 +159,7 @@ export default function Develop(props) {
 
   function getSelectedOutput() {
     if (safOutputs) {
-      switch (maintenanceType.name) {
-        case 'High':
-          return safOutputs[2].output;
-        case 'Medium':
-          return safOutputs[1].output;
-        case 'Low':
-          return safOutputs[0].output;
-        default:
-          toast.error('maintenance type not valid');
-      }
+      return safOutputs[maintenanceType.id].output;
     }
   }
   /* Data logic changes on receiving the SAF output */
