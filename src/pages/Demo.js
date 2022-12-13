@@ -41,8 +41,8 @@ import { Link } from 'react-router-dom';
 import {
   get_user_me_info,
   get_user_token,
-  get_saf_run_by_hash,
-  post_saf_run_and_get_hash,
+  get_saf_runs_by_hash,
+  post_saf_runs_and_get_hash,
   create_project_and_get_ID,
 } from '../utils/backendCRUD';
 
@@ -138,9 +138,9 @@ export default function Demo(props) {
   };
 
   // Retreive the result from the simulation. It will only fetch if the Hash is defined
-  const { data: safOutput0 } = useSWR(safOutputHash0, get_saf_run_by_hash, swrOptions);
-  const { data: safOutput1 } = useSWR(safOutputHash1, get_saf_run_by_hash, swrOptions);
-  const { data: safOutput2 } = useSWR(safOutputHash2, get_saf_run_by_hash, swrOptions);
+  const { data: safOutput0 } = useSWR(safOutputHash0, get_saf_runs_by_hash, swrOptions);
+  const { data: safOutput1 } = useSWR(safOutputHash1, get_saf_runs_by_hash, swrOptions);
+  const { data: safOutput2 } = useSWR(safOutputHash2, get_saf_runs_by_hash, swrOptions);
 
   useEffect(() => {
     let sum =
@@ -328,7 +328,7 @@ export default function Demo(props) {
       });
     }
 
-    let hash = await post_saf_run_and_get_hash(payload);
+    let hash = await post_saf_runs_and_get_hash(payload);
     return hash;
   };
 
