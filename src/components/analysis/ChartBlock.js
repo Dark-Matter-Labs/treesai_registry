@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import InfoPopup from '../form/InfoPopup';
 
 export default function ChartBlock(props) {
   return (
@@ -8,6 +9,7 @@ export default function ChartBlock(props) {
           <p className='py-5 text-indigo-600 medium-intro-lg'>{props.label}</p>
           <p className='text-indigo-600 medium-intro-lg'>
             You’ve selected “{props.maintenanceTypeName}” maintenance.
+            <InfoPopup label='What is your project maintenance level?' />
           </p>
           <div className='my-10 '>
             {props.type !== 'pie' ? (
