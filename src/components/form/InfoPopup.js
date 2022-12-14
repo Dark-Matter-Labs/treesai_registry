@@ -41,7 +41,7 @@ export default function InfoSlideOver({ label }) {
                       <div className='bg-indigo-600 py-6 px-4 sm:px-6'>
                         <div className='flex items-center justify-between'>
                           <Dialog.Title className='text-white-200'>
-                            <h3>{slide_text[label].title}</h3>
+                            {slide_text[label].title}
                           </Dialog.Title>
                           <div className='ml-3 flex h-7 items-center'>
                             <button
