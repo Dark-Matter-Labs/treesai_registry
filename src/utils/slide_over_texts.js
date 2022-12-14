@@ -18,40 +18,38 @@ const slide_texts = {
           To better understand the NbS projects and set a timeline of activities, Trees AI has
           defined the 7 stages that these projects go through based on the <u>RIBA Plan of Work</u>
         </p>
-        <p className='mt-2'>
-          <ul>
-            <li>1 Strategic Development: definition of a project, the preparation and briefing</li>
-            <li>2 Pre-planning Application: concept design and spatial coordination</li>
-            <li>3 Post-Planning Application: technical design of project</li>
-            <li>4 Construction: construction and commissioning of the project</li>
-            <li>5 Maintenance & Monitoring : maintenance and monitoring of the project</li>
-            <li>6 Completed / Archived: no more activities</li>
-          </ul>
-        </p>
+        <ul className='pt-4'>
+          <li>1 Strategic Development: definition of a project, the preparation and briefing</li>
+          <li>2 Pre-planning Application: concept design and spatial coordination</li>
+          <li>3 Post-Planning Application: technical design of project</li>
+          <li>4 Construction: construction and commissioning of the project</li>
+          <li>5 Maintenance & Monitoring : maintenance and monitoring of the project</li>
+          <li>6 Completed / Archived: no more activities</li>
+        </ul>
       </div>
     ),
     title: 'Current Stage',
   },
-  'Select the relevant typology': {
+  impact: {
     text: (
       <div className='book-intro-md text-dark-wood-800'>
         <p>
           As you’ll see from the questions in this section, we aren’t asking for a lot of detailed
           information.
         </p>
-        <p>
+        <p className='pt-4'>
           While we know that in order to model impact accurately we need information on each tree,
           each specific activity, the existing level of pollution (to name a few data points) this
           is our MVP where you can perform <b>simple modelling</b> rapidly.
         </p>
-        <p>
+        <p className='pt-4'>
           <b>Learn More</b> about our modelling here.
         </p>
       </div>
     ),
     title: 'Impact Inputs',
   },
-  typologies: {
+  'Select the relevant typology': {
     text: (
       <div className='book-intro-md text-dark-wood-800'>
         <p>
@@ -59,8 +57,8 @@ const slide_texts = {
           to enable the rapid understanding of a project’s existing and planned characteristics,
           thus a faster modelling of costs and impacts.
         </p>
-        <p>Each typology is defined in terms of its biophysical features. </p>
-        <p>
+        <p className='pt-4'>Each typology is defined in terms of its biophysical features. </p>
+        <p className='pt-4'>
           We divide these features into three main categories that provide different functions to
           the urban climate; vegetation layers, ground surfaces and building structures.
         </p>
@@ -75,12 +73,12 @@ const slide_texts = {
           In order to model impacts of your project we run simulations under different conditions to
           understand the dynamics of its development and associated benefits.
         </p>
-        <p>
+        <p className='pt-4'>
           In order to provide rapid estimations to projects at varying stages we have created a
           methodology of simple modelling, where assessment is through standardised inputs of
           features based on their typology, activities and size.
         </p>
-        <p>
+        <p className='pt-4'>
           For the advanced modelling, our Green Urban Scenarios Framework is based on a digital
           representation, or digital twin, of the project, on which we can conduct diverse granular
           computational experiments under a specific geophysical context.
@@ -99,11 +97,11 @@ const slide_texts = {
           In order to model the impact of your Woodland or Park, we are asking for the project area
           in order to calculate density.
         </p>
-        <p>
+        <p className='pt-4'>
           This is because the growth, health and impact potential of your project depends on
           density.
         </p>
-        <p>
+        <p className='pt-4'>
           In order to measure the area please use the boundaries of the land you are hoping to plant
           on. This platform is in Beta and so we are only modelling certain typologies, and
           therefore we have set a minimum boundary at 50sqm.
@@ -112,18 +110,18 @@ const slide_texts = {
     ),
     title: 'Project Area',
   },
-  species: {
+  'Tree species composition': {
     text: (
       <div className='book-intro-md text-dark-wood-800'>
         <p>
           While we recognise that species is one of the most important characteristic in order to do
           modelling of many impacts, we have yet to integrate this into our front-end.
         </p>
-        <p>
+        <p className='pt-4'>
           Therefore, for our <b>simple</b> models we use the <b>simplified</b> inputs of evergreen/
           deciduous.
         </p>
-        <p>
+        <p className='pt-4'>
           However, as we have capacity to incorporate this into our models, please share details at
           the end of the form.
         </p>
@@ -138,7 +136,7 @@ const slide_texts = {
           Developing, and stewarding, your project will require a range of activities - see the list
           below for examples. Please let us know what you plan to be doing:
         </p>
-        <ul>
+        <ul className='pt-4'>
           <li>Planting</li>
           <li>Landscaping</li>
           <li>Early care</li>
@@ -155,7 +153,7 @@ const slide_texts = {
     ),
     title: 'Activities',
   },
-  maintenance: {
+  'What is your project maintenance level?': {
     text: (
       <div className='book-intro-md text-dark-wood-800'>
         <p>
@@ -163,13 +161,13 @@ const slide_texts = {
           is an important factor in modelling ecosystem services since it determines the number of
           living trees across the years.
         </p>
-        <p>
+        <p className='pt-4'>
           Maintenance involves a range of activities such as inspecting, watering, pruning etc.
           However, in order to run the simplified model, we have pre-defined three maintenance
           scopes, based on the rate of tree replacement. As this determines the number of living
           trees, it is important for impact modelling:
         </p>
-        <p>The three maintenance scopes are:</p>
+        <p className='pt-4'>The three maintenance scopes are:</p>
         <ol>
           <li>
             <b>Low</b>: A dead tree will not be replaced.
@@ -234,7 +232,7 @@ const slide_texts = {
           </li>
           <li>Air pollution: uses PM2.5 index and PM10 index</li>
         </ol>
-        <p>
+        <p className='pt-4'>
           The remaining four are either open data sets or have been shared for the purpose of the
           TreesAI platform.
         </p>
@@ -247,13 +245,13 @@ const slide_texts = {
           </li>
           <li>Habitat connectivity: % of ecological network area</li>
         </ol>
-        <p>
+        <p className='pt-4'>
           We will be publishing detailed information on the indicators, where they came from, why we
           picked them and how they’ve been weighted in our Portfolio Strategy Doc in the new year.
         </p>
       </div>
     ),
-    title: '',
+    title: 'Challenges facing your project’s neighbourhood',
   },
   biomass: {
     text: (
@@ -263,12 +261,12 @@ const slide_texts = {
           over time, as this is strongly (and positively) correlated with the benefits of your
           project.
         </p>
-        <p>
+        <p className='pt-4'>
           These benefits, as they are related to growth, only peak after 50 years - however our
           short-term approach means fifty percent of urban trees don’t survive after ten years of
           life.
         </p>
-        <p>
+        <p className='pt-4'>
           We therefore take a long-term horizon, helping to demonstrate that, in order for our
           cities to reach their climate targets, we need to invest in our NbS projects over 50
           years.
@@ -277,18 +275,18 @@ const slide_texts = {
     ),
     title: 'Why we model biomass over 50 years? ',
   },
-  abm: {
+  'Your project’s growth': {
     text: (
-      <div className='book-intro-md text-dark-wood-800'>
+      <div>
         <p>
           From the data you have provided us with we create an agent based model - a stochastic
           model built from the bottom up.
         </p>
-        <p>
+        <p className='pt-4'>
           By deploying a stochastic model, we can predict impacts that account for unpredictability
           - by running a series of simulatons.
         </p>
-        <p>
+        <p className='pt-4'>
           And by ‘bottom up’ we mean these simulations are built in order to study the interactions
           between ‘agents’ - where an agent are information-processing entities such as trees, bees,
           birds, residents, policies etc.
@@ -297,12 +295,21 @@ const slide_texts = {
           We have chosen this approach due to the complexity of nature, and the increasingly likely
           extreme weather events will have a strong impact on the dynamics of your NbS project.{' '}
         </p>
-        <p>
+        <p className='pt-4'>
           <b>Learn more </b>here.
         </p>
       </div>
     ),
     title: 'Agent-based Modelling',
+  },
+  efficiency: {
+    text: (
+      <p className='book-intro-md text-dark-wood-800'>
+        To calculate the efficiency ratio per impact metric we divide the estimated impact by the
+        project costs.{' '}
+      </p>
+    ),
+    title: 'Efficiency ratio',
   },
 };
 
