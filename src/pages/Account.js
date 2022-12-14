@@ -12,6 +12,7 @@ import BudgetBarChart from '../components/charts/BudgetBarChart';
 import RibaStageChart from '../components/charts/RibaStageChart';
 import SDGList from '../components/SDGList';
 import WaterfallChart from '../components/charts/WaterfallChart';
+import InfoPopup from '../components/form/InfoPopup';
 
 /* Hooks */
 
@@ -121,12 +122,14 @@ export default function Account(props) {
             <div className='my-5 rounded-[30px] bg-white-200 '>
               <div className='px-4 mt-4 medium-intro-lg text-dark-wood-800'>
                 Stage of projects based on RIBA plan
+                <InfoPopup label='projectStage' />
               </div>
               <RibaStageChart data={processRibaChart(userProjectList)} />
             </div>
             <div className='my-5 rounded-[30px] bg-white-200 col-span-2'>
               <div className='px-4 mt-4 medium-intro-lg text-green-600'>
                 Impacts generated (and related efficiency ratio)
+                <InfoPopup label='efficiency' />
               </div>
 
               <div className='grid grid-cols-6 gap-12 mx-5 my-5'>

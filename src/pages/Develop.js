@@ -24,6 +24,7 @@ import ValueDisplay from '../components/analysis/ValueDisplay';
 import ChartBlock from '../components/analysis/ChartBlock';
 import PieChartBlock from '../components/analysis/PieChartBlock';
 import LineChart from '../components/charts/LineChart';
+import InfoPopup from '../components/form/InfoPopup';
 
 // Images
 import projectImg from '../images/project-default.png';
@@ -429,8 +430,10 @@ export default function Develop(props) {
                 <div className='book-intro-md max-w-3xl place-self-center text-dark-wood-700'>
                   <p className='pb-4'>
                     By filling in this form you’ll be able to rapidly estimate the impacts of your
-                    project. In order to rapidly estimate impacts, we only need simple information,
-                    however please share more details at the end of the form.
+                    project. In order to rapidly estimate impacts, we only need{' '}
+                    <span className='bold-intro-md'>simple</span>
+                    <InfoPopup label='simple' /> information, however please share more details at
+                    the end of the form.
                   </p>
                   <hr className='border-dark-wood-600' />
                   <p className='pt-4 '>
@@ -819,6 +822,7 @@ export default function Develop(props) {
                     title={'Tree species composition'}
                     description={'Choose which percentage you want your species to be.'}
                     type='typology'
+                    showTitleInfo={true}
                   >
                     <Controller
                       control={methods.control}
@@ -845,9 +849,10 @@ export default function Develop(props) {
                   </FormBlock>
                   <hr className='mx-20 border-8 border-green-600' />
                   <FormBlock
-                    title='What is your project maintenance level? '
+                    title='What is your project maintenance level?'
                     description='According to the activity you have chosen, developing or maintenance, choose the level of maintenance.'
                     type='typology'
+                    showTitleInfo={true}
                   >
                     <RadioGroupSelector
                       value={maintenanceType}
@@ -1022,10 +1027,10 @@ export default function Develop(props) {
                           </tr>
                           <tr>
                             <td className='book-info-sm whitespace-nowrap py-4 pl-4 pr-3 text-dark-wood-800 sm:pl-6'>
-                              Project status:
+                              <InfoPopup label='status' /> Project status:
                             </td>
                             <td className='book-info-sm whitespace-nowrap px-3 py-4 text-green-600'>
-                              To be reviewed
+                              Under review
                             </td>
                           </tr>
                         </tbody>
@@ -1059,8 +1064,7 @@ export default function Develop(props) {
                 <div className='px-8 '>
                   <h3 className='text-dark-wood-800'>Your project’s cost profile</h3>
                   <p className='book-info-sm pt-5 text-dark-wood-800'>
-                    The following ranges provide an estimated project costs over different
-                    time-spans:
+                    The following ranges provide your budget and the required budget:
                   </p>
                   <CostBox costTotal={Number(totalCost)} moneyNeeded={moneyNeeded} />
                 </div>
@@ -1070,6 +1074,7 @@ export default function Develop(props) {
                     <div className=''>
                       <h3 className=' pt-5 text-dark-wood-800'>
                         Challenges facing your project’s neighbourhood
+                        <InfoPopup label='lbs' />
                       </h3>
                       <p className='book-info-sm pt-5 text-dark-wood-800'>
                         The location of your project influences its impact.
@@ -1091,9 +1096,10 @@ export default function Develop(props) {
 
           <SectionHeader title='Your Project (over time)' type='Population' />
           <ResultBlock
-            title='Development of your project'
+            title='Your project’s growth'
             description='In this section you can see your projects estimated tree and biomass over 50 years, which is an important proxy for the impact of your project.  This has been modelled based on multiple factors and calculated via an agent-based model.'
             type='pop'
+            showTitleInfo={true}
           />
           <hr className='mx-20 border-[12px] border-indigo-600' />
           <div className=''>
@@ -1117,7 +1123,7 @@ export default function Develop(props) {
 
           <SectionHeader title='Your Impact' type='details' />
           <ResultBlock
-            title='Your Project’s Impact'
+            title='Your project’s impact'
             description='Considering the combination of factors including typology, activity and location, calculated via an agent-based scenario analysis framework, your project could help achieve the following potential impact over the next 50 years:'
             type='impact'
           />
