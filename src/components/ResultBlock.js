@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import InfoPopup from './form/InfoPopup';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -19,6 +20,7 @@ export default function ResultBlock(props) {
         </div>
         <div>
           <p className='book-intro-sm max-w-lg text-dark-wood-800'>{props.description}</p>
+          {props.showTitleInfo && <InfoPopup label={props.title} />}
         </div>
       </div>
       {props.children}
@@ -31,4 +33,5 @@ ResultBlock.propTypes = {
   description: PropTypes.string,
   children: PropTypes.any,
   type: PropTypes.string,
+  showTitleInfo: PropTypes.bool,
 };
