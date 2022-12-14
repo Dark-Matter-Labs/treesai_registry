@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import InfoSlideOver from './InfoSlideOver';
+import InfoPopup from './InfoPopup';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -17,7 +17,7 @@ export default function FormBlock(props) {
       <div className='grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3'>
         <div>
           <h3 className=''>
-            {props.title} {props.showTitleInfo && <InfoSlideOver label={props.title} />}
+            {props.title} {props.showTitleInfo && <InfoPopup label={props.title} />}
           </h3>
           <p className='book-intro-sm max-w-sm pt-10 text-dark-wood-800'>{props.description}</p>
           <p className='book-intro-sm max-w-sm pt-10 text-dark-wood-800'>

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import InfoSlideOver from './InfoSlideOver';
+import InfoPopup from './InfoPopup';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -18,7 +18,7 @@ export default function Dropdown(props) {
       >
         {props.title}
       </label>
-      {props.showInfo && <InfoSlideOver label={props.label} />}
+      {props.showInfo && <InfoPopup label={props.label} />}
       <div className='mt-1'>
         <select
           id={props.label}
