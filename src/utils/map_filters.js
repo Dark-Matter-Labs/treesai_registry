@@ -48,12 +48,12 @@ const typologies = [
 ];
 
 const stages = [
-  { value: 'Strategic Development', label: 'Strategic Development' },
-  { value: 'Pre-Planning Application', label: 'Pre-Planning Application' },
-  { value: 'Post-Planning Application', label: 'Post-Planning Application' },
-  { value: 'Construction', label: 'Construction' },
-  { value: 'Maintenance & Monitoring', label: 'Maintenance & Monitoring' },
-  { value: 'Completed', label: 'Completed' },
+  { value: 'Strategic Development', label: 'Strategic Development', id: 1 },
+  { value: 'Pre-Planning Application', label: 'Pre-Planning Application', id: 2 },
+  { value: 'Post-Planning Application', label: 'Post-Planning Application', id: 3 },
+  { value: 'Construction', label: 'Construction', id: 4 },
+  { value: 'Maintenance & Monitoring', label: 'Maintenance & Monitoring', id: 5 },
+  { value: 'Completed', label: 'Completed', id: 6 },
 ];
 
 export function get_districts() {

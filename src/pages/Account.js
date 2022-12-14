@@ -11,70 +11,31 @@ import ProjectsTable from '../components/map/ProjectsTable';
 import BudgetBarChart from '../components/charts/BudgetBarChart';
 import RibaStageChart from '../components/charts/RibaStageChart';
 import SDGList from '../components/SDGList';
-import WaterfallChart from '../components/charts/WaterfallChart';
 import InfoPopup from '../components/form/InfoPopup';
 
 /* Hooks */
 
 import {
-  useUser,
-  useRuns,
+  useUserProjects,
   getTotalTrees,
   getTotalCarbonSeq,
   getTotalCarbonStorage,
   processForBudgetChart,
   processRibaChart,
+  listSDGsFromProjects,
 } from '../utils/account_page_helper';
 import StatBlock from '../components/analysis/StatBlock';
+import { getAccountTableColumns } from '../utils/table_helper';
 
 export default function Account(props) {
-  const { userProjectList, isLoading, isError } = useUser(sessionStorage.user_id);
-  const { userRuns, isRunLoading, isRunError } = useRuns(userProjectList);
+  const { userProjectList, isLoading, isError } = useUserProjects(sessionStorage.user_id);
 
   console.log('projList', userProjectList);
-  console.log('runs', userRuns);
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'projects',
-        columns: [
-          {
-            Header: 'Title',
-            accessor: 'title',
-          },
-          {
-            Header: 'Area',
-            accessor: 'area',
-          },
-          {
-            Header: 'Number of trees',
-            accessor: 'number_of_trees',
-          },
-          {
-            Header: 'Cost',
-            accessor: 'cost',
-          },
-          {
-            Header: 'Stage',
-            accessor: 'stage',
-          },
-          {
-            Header: 'Activities',
-            accessor: 'activities',
-          },
-          {
-            Header: 'Developer',
-            accessor: 'project_dev',
-          },
-        ],
-      },
-    ],
-    [],
-  );
+  const columns = useMemo(() => getAccountTableColumns(), []);
 
-  if (isLoading || isRunLoading) return <LoadingSpinner />;
-  else if (isError || isRunError) return <div>Failed to load</div>;
+  if (isLoading) return <LoadingSpinner />;
+  else if (isError) return <div>Failed to load</div>;
   return (
     <div className='font-favorit bg-white-200 bg-pattern '>
       {process.env.NODE_ENV === 'production' && (
@@ -102,7 +63,7 @@ export default function Account(props) {
         <div className='py-10'>
           <SectionHeader title='Your projects' type='typology' />
           <div className='mx-10 rounded-3xl border bg-white-200 px-20 py-10'>
-            <ProjectsTable data={userProjectList['projects']} columns={columns} />
+            <ProjectsTable data={userProjectList} columns={columns} />
           </div>
         </div>
         <SectionHeader title='Aggregate project impact' type='account' />
@@ -111,12 +72,12 @@ export default function Account(props) {
             <StatBlock
               highlightColour='dark'
               label='Total Projects in Portfolio:'
-              stat={userProjectList.projects.length}
+              stat={userProjectList.length}
             />
             <StatBlock
               highlightColour='green'
               label=' Total number of Trees:'
-              stat={getTotalTrees(userProjectList.projects)}
+              stat={getTotalTrees(userProjectList)}
             />
             <div className='col-span-3'></div>
             <div className='my-5 rounded-[30px] bg-white-200 '>
@@ -135,7 +96,7 @@ export default function Account(props) {
               <div className='grid grid-cols-6 gap-12 mx-5 my-5'>
                 <div className='flex-col justify-center items-center'>
                   <div className='medium-intro-sm rounded-full bg-green-600 px-8 py-9 text-white text-center'>
-                    {getTotalCarbonStorage(userRuns)}
+                    {getTotalCarbonStorage(userProjectList)}
                   </div>
                   <div className='text-center text-green-600 medium-intro-md'>
                     Cumulative Carbon Sequestration (Kgs)
@@ -144,7 +105,7 @@ export default function Account(props) {
 
                 <div className='flex-col justify-center items-center'>
                   <div className='medium-intro-sm rounded-full bg-green-600 px-8 py-9 text-white text-center'>
-                    {getTotalCarbonSeq(userRuns)}
+                    {getTotalCarbonSeq(userProjectList)}
                   </div>
                   <div className='text-center text-green-600 medium-intro-md'>
                     Carbon Storage (Kgs)
@@ -156,19 +117,13 @@ export default function Account(props) {
               <div className='px-4 mt-4 medium-intro-lg text-green-600'>
                 UN Sustainable Development Goals
               </div>
-              <SDGList sdgs={['11', '8']} />
+              <SDGList sdgs={listSDGsFromProjects(userProjectList)} />
             </div>
             <div className='my-5 rounded-[30px] bg-white-200 col-span-2'>
               <div className='px-4 mt-4 medium-intro-lg text-green-600'>
                 Distribution of portfolio (by typology) in £
               </div>
               <BudgetBarChart data={processForBudgetChart(userProjectList)} />
-            </div>
-            <div className='my-5 rounded-[30px] bg-white-200 col-span-3'>
-              <div className='px-4 mt-4 medium-intro-lg text-dark-wood-800'>
-                Portoflio Tree population growth (Cumulative biomass)
-              </div>
-              <WaterfallChart data={['0', '1']} />
             </div>
           </div>
         </div>

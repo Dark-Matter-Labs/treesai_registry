@@ -1,8 +1,8 @@
 import useSWR from 'swr';
 
-import { getLastKeyInObj } from './objUtils';
 import { getSDGIdsFromTypology } from './SDGs_helper';
-import { get_user_projects, get_all_user_runs } from '../utils/backendCRUD';
+import { get_user_projects_summary } from '../utils/backendCRUD';
+import { get_stages } from '../utils/map_filters';
 
 /* Data Fetching */
 const swrOptions = {
@@ -11,23 +11,13 @@ const swrOptions = {
   revalidateOnReconnect: false,
 };
 
-export function useUser(id) {
-  const { data, error } = useSWR(id, get_user_projects, swrOptions);
+export function useUserProjects(id) {
+  const { data, error } = useSWR(id, get_user_projects_summary, swrOptions);
 
   return {
     userProjectList: data,
     isLoading: !error && !data,
     isError: error,
-  };
-}
-
-export function useRuns(projectList) {
-  const { data, error } = useSWR(projectList, get_all_user_runs, swrOptions);
-
-  return {
-    userRuns: data,
-    isRunLoading: !error && !data,
-    isRunError: error,
   };
 }
 
@@ -41,7 +31,7 @@ function getUniqueElements(List) {
 /* Data processing */
 
 function getAllTypologies(projectList) {
-  const typologies = projectList['projects'].map((project) => {
+  const typologies = projectList.map((project) => {
     return project.typology;
   });
   return typologies;
@@ -54,46 +44,67 @@ export function getTotalTrees(projectList) {
   return totalTrees;
 }
 
-export function getTotalCarbonSeq(projectRuns) {
+export function getTotalCarbonSeq(projectList) {
   let totalCarbonSeq = 0;
-  for (let i = 0; i < projectRuns.length; i++) {
-    // Temporary check to not add carbon from all 3 runs, later to use user's chosen maintenance level
-    if (i % 3 === 0) {
-      totalCarbonSeq +=
-        projectRuns[i].output.Cum_Seq[getLastKeyInObj(projectRuns[i].output.Cum_Seq)];
-    }
+  for (let i = 0; i < projectList.length; i++) {
+    totalCarbonSeq += projectList[i].Seq;
   }
-
   return totalCarbonSeq.toFixed(2);
 }
 
-export function getTotalCarbonStorage(projectRuns) {
+export function getTotalCarbonStorage(projectList) {
   let totalCarbonStorage = 0;
-  for (let i = 0; i < projectRuns.length; i++) {
-    // Temporary check to not add carbon from all 3 runs, later to use user's chosen maintenance level
-    if (i % 3 === 0) {
-      totalCarbonStorage +=
-        projectRuns[i].output.Storage[getLastKeyInObj(projectRuns[i].output.Storage)];
-    }
+  for (let i = 0; i < projectList.length; i++) {
+    totalCarbonStorage += projectList[i].Storage;
   }
   return totalCarbonStorage.toFixed(2);
 }
 
+function renameTypology(typology) {
+  const typologyDict = {
+    individual_street_trees: 'Street Trees',
+    park: 'Urban Park',
+    forest: 'Woodland',
+  };
+  return typologyDict[typology];
+}
+
 /* Chart related functions */
 export function processForBudgetChart(projectList) {
-  const budgetData = projectList['projects'].map((project) => {
-    return {
-      id: project.id,
-      name: project.title,
-      budget: project.cost,
-    };
+  // sum the total budget for each typology
+
+  const budgetData = [];
+
+  projectList.forEach((project) => {
+    const index = budgetData.findIndex((item) => item.typology === project.typology);
+    if (index === -1) {
+      budgetData.push({
+        typology: project.typology,
+        budget: project.cost,
+      });
+    } else {
+      budgetData[index].budget += project.cost;
+    }
   });
+
+  // rename typology
+  budgetData.forEach((item) => {
+    item.typology = renameTypology(item.typology);
+  });
+
   return budgetData;
+}
+
+const stages = get_stages();
+
+function ribaNameToID(ribaName) {
+  const stage = stages.find((stage) => stage.label === ribaName);
+  return stage ? stage.id : undefined;
 }
 
 export function processRibaChart(projectList) {
   // export function to count how many projects are in each RIBA stage
-  const RIBACount = projectList['projects'].reduce((accumulator, project) => {
+  const RIBACount = projectList.reduce((accumulator, project) => {
     const stage = project.stage;
     if (accumulator[stage]) {
       accumulator[stage] += 1;
@@ -103,13 +114,21 @@ export function processRibaChart(projectList) {
     return accumulator;
   }, {});
 
-  // export function to convert RIBA count object to array of objects
-  const RIBAData = Object.keys(RIBACount).map((key) => {
-    return {
-      id: key,
-      stage: RIBACount[key],
-    };
-  });
+  // export function to convert RIBA count object to array of objects, remove undefined
+  const RIBAData = Object.keys(RIBACount)
+    .map((key) => {
+      const id = ribaNameToID(key);
+      if (id) {
+        return {
+          RIBAid: id,
+          name: key,
+          projectsNumber: RIBACount[key],
+        };
+      } else {
+        return undefined;
+      }
+    })
+    .filter((item) => item !== undefined);
 
   return RIBAData;
 }
