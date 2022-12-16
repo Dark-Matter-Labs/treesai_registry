@@ -89,7 +89,7 @@ export default function Filter(props) {
                       e.map((selection) => {
                         let filteredDataRow = [];
                         filteredDataRow = props.projects.filter((item) =>
-                          item.properties.stage.includes(selection.value),
+                          item.stage.includes(selection.value),
                         );
                         filteredDataRow.map((element) => filteredData.push(element));
                       });
@@ -111,7 +111,7 @@ export default function Filter(props) {
                       e.map((selection) => {
                         let filteredDataRow = [];
                         filteredDataRow = props.projects.filter((item) =>
-                          item.properties.community_council.includes(selection.value),
+                          item.project_dev.includes(selection.value), // TODO: update to community council when change made in DB
                         );
                         filteredDataRow.map((element) => filteredData.push(element));
                       });
@@ -133,7 +133,7 @@ export default function Filter(props) {
                       e.map((selection) => {
                         let filteredDataRow = [];
                         filteredDataRow = props.projects.filter((item) =>
-                          item.properties.typology.includes(selection.value),
+                          item.typology.includes(selection.value),
                         );
                         filteredDataRow.map((element) => filteredData.push(element));
                       });

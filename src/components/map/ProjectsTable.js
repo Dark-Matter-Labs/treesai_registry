@@ -6,7 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 export default function ProjectsTable({ columns, data, selectProject, height }) {
-  const initialState = { hiddenColumns: ['geometry.coordinates'] };
+  const initialState = { hiddenColumns: ['lat', 'lng'] };
   const [activeRow, setActiveRow] = useState();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
