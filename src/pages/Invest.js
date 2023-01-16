@@ -1,247 +1,253 @@
-import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import SectionHeader from '../components/SectionHeader';
-import sdgs1 from '../images/sdgs_1.png';
-import sdgs2 from '../images/sdgs_2.png';
-import sdgs3 from '../images/sdgs_3.png';
-import sdgs4 from '../images/sdgs_4.png';
-import sdgs5 from '../images/sdgs_5.png';
 import Footer from '../components/Footer';
+import waterImg from '../images/water.png';
+import lenderImg from '../images/lenders.png';
+import insuranceImg from '../images/insure.png';
+import assetImg from '../images/asset.png';
+import findIcon from '../images/find.png';
+import investIcon from '../images/invest.png';
+import receiveIcon from '../images/receive.png';
+import mapScreen from '../images/MapScreen.png';
+import glasgowImg from '../images/glasgow.jpg';
+import GCCLogo from '../images/partner_logos/GCC.png';
+import FloodLogo from '../images/partner_logos/FloodRe.png';
+import SWLogo from '../images/partner_logos/ScottWater.png';
+import TerraLogo from '../images/partner_logos/terra.png';
+
+import curiousIcon from '../images/curious2.png';
 
 export default function Invest() {
   return (
-    <div className='font-favorit bg-white-200 bg-pattern '>
+    <div className='bg-white-300 '>
       <NavBar current='invest' />
-      <div className='bg-white-200 global-margin bg-pattern '>
-        <div className='title-box mt-4 grid grid-cols-1 bg-indigo-600 pt-8'>
-          <div className='place-self-end pr-10'>
-            <button
-              type='button'
-              className='w-lg bold-intro-sm flex justify-center rounded-full border border-transparent bg-green-600 py-2 px-4 text-white-200 shadow-sm hover:bg-green-800'
-            >
-              Want to know more?
-            </button>
+      <div className='global-margin '>
+        <div className='bg-investor mt-4 grid grid-cols-2 py-40 justify-items-center content-center place-content-center place-items-center gap-x-0'>
+          <div className='bg-white-200 rounded-br-[100px] px-4 py-10 max-w-sm '>
+            <h1 className='text-center text-indigo-600'>Green Urban Investors</h1>
           </div>
-          <div className='title-text-container text-background-shape py-24'>
-            <h1 className='text-center text-indigo-600'>Invest</h1>
-          </div>
-
-          <div className='title-box-info mt-10 bg-green-600 px-40 py-10 text-center'>
-            <p className='medium-intro-md mt-1 text-dark-wood-800'>
-              Welcome to our NbS Portfolio Manager
-            </p>
+          <div className='max-w-sm'>
+          <h3 className='text-white-200'>Providing green investors with the tools to invest in urban nature to reduce climate-related risks.</h3>
           </div>
         </div>
 
-        <div className='my-10 grid'>
-          <div className='book-intro-md max-w-3xl place-self-center text-dark-wood-700'>
-            <p className='pb-4'>
-              Are you looking for NbS investments that deliver multiple benefits?
+        <div className='py-10'>
+            <div className='max-w-2xl m-auto text-center'>
+              <h2 className='pb-8 text-dark-wood-800'>
+              How could you benefit from investing in urban Nature-based Solutions? 
+              </h2>
+              <p className='pb-10 book-intro-lg text-dark-wood-600'>
+              Nature provides many benefits helping to mitigate climate risks.
+              </p>
+            </div>
+            </div>
+
+            <div className='my-10'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-0 text-center'>
+          <div className='flex flex-col items-center justify-center'>
+            <img className='pb-2' src={waterImg} alt='' />
+            <h3 className='text-dark-wood-800 py-8'>Water Utilities</h3>
+            <p className='book-intro-lg text-dark-wood-800 max-w-xs'>
+            Mitigate against potential sewer spills
             </p>
-            <hr className='border-dark-wood-600' />
-            <p className='pt-4 '>
-              Below you can check out existing NbS portfolios, see what’s in them, their modelled
-              impact, who has been involved so far – and invest in them!{' '}
+          </div>
+          <div className='flex flex-col items-center justify-center'>
+            <img className='pb-2' src={lenderImg} alt='' />
+            <h3 className='text-dark-wood-800 py-8'>Lenders</h3>
+            <p className='book-intro-lg text-dark-wood-800 max-w-xs'>
+            Mitigate against mortgage debt impairment
+            </p>
+          </div>
+          <div className='flex flex-col items-center justify-center'>
+            <img className='pb-2' src={insuranceImg} alt='' />
+            <h3 className='text-dark-wood-800 py-8'>(Re)insurers</h3>
+            <p className='book-intro-lg text-dark-wood-800 max-w-xs'>
+            Mitigate against insurance payouts
+            </p>
+          </div>
+
+          <div className='flex flex-col items-center justify-center'>
+            <img className='pb-2' src={assetImg} alt='' />
+            <h3 className='text-dark-wood-800 py-8'>Asset Owners</h3>
+            <p className='book-intro-lg text-dark-wood-800 max-w-xs'>
+            Mitigate against property damage
             </p>
           </div>
         </div>
+      </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-3 mt-5 gap-x-4'>
-          <div className='bg-dark-wood-800 rounded-br-[100px] px-8 '>
-            <h2 className='text-white-200 pt-4'>Glasgow NbS Portfolio</h2>
+      <div className='py-10'>
+            <div className='max-w-2xl m-auto text-center'>
+              <h2 className='pb-8 text-dark-wood-800'>How does it work?</h2>
+            </div>
+
+            <div className='grid grid-cols-1 sm:grid-cols-4 bg-white-200 rounded-[140px] border border-indigo-600 pt-14 px-16 justify-items-center place-items-baseline'>
+              <div>
+                <img className='h-48' src={findIcon} />
+                <hr width='1' className='h-24 mx-auto  border border-indigo-600' />
+              </div>
+              <div className='col-span-2'>
+                <h2 className='text-dark-wood-800'>FIND</h2>
+                <p className='text-dark-wood-800 book-intro-sm max-w-xl pt-10'>
+                Whether you’re a financial institution, a large corporation, an SME or a public entity – if you hold climate-related risks – use our <b>Explore</b> tool to find vetted high-quality projects in your region tailored to your climate-related demands.
+                </p>
+              </div>
+              <div className='py-20'>
+                <button
+                  type='button'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                >
+                  Explore
+                </button>
+              </div>
+            </div>
+            <hr className='mx-40 border-8 border-indigo-600' />
+
+            <div className='grid grid-cols-1 sm:grid-cols-4 bg-white-200 rounded-[140px] border border-indigo-600 px-16 justify-items-center place-items-baseline'>
+              <div>
+                <hr width='1' className='h-20 mx-auto border border-indigo-600' />
+                <img className='h-48' src={investIcon} />
+                <hr width='1' className='h-32 mx-auto  border border-indigo-600' />
+              </div>
+              <div className='col-span-2 pt-14'>
+                <h2 className='text-dark-wood-800'>
+                INVEST
+                </h2>
+
+                <p className='text-dark-wood-800 book-intro-sm max-w-xl pt-10'>
+                We are currently developing a marketplace for seamless transactions - in the meantime, register your interest and our origination team will reach out to help you find the investment solutions best tailored to your needs.
+                </p>
+              </div>
+              <div className='py-20'>
+                <button
+                  type='button'
+                  className='mt-14 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                >
+                  Get in touch
+                </button>
+              </div>
+            </div>
+            <hr className='mx-40 border-8 border-indigo-600' />
+
+            <div className='grid grid-cols-1 sm:grid-cols-4 bg-white-200 rounded-[140px] border border-indigo-600 pb-20 px-16 justify-items-center place-items-baseline'>
+              <div>
+                <hr width='1' className='h-20 mx-auto border border-indigo-600' />
+                <img className='h-48' src={receiveIcon} />
+              </div>
+              <div className='col-span-2 pt-14'>
+                <h2 className='text-dark-wood-800'>
+                RECEIVE
+                </h2>
+                <p className='text-dark-wood-800 book-intro-sm max-w-xl pt-10'>
+                Receive verified nature-positive tokens in return for your investment.
+                </p>
+                <p className='text-dark-wood-800 book-intro-sm max-w-xl pt-10'>
+                Keep track of the risk-mitigation outcomes associated with your investment by logging back into your account and getting customised reporting.
+                </p>
+              </div>
+              <div className='py-20'>
+                <button
+                  type='button'
+                  className='mt-14 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-600 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                >
+                  Create an account
+                </button>
+              </div>
+            </div>
           </div>
-          <div className='col-span-2 '>
-            <div className='sm:flex sm:flex-col'>
-              <div className=''>
-                <div className='inline-block sm:min-w-full align-middle'>
-                  <div className='overflow-hidden border border-dark-wood-600 rounded-br-[100px] '>
-                    <table className='min-w-full divide-y divide-gray-300'>
-                      <thead className='bg-dark-wood-300'>
-                        <tr className='divide-x divide-dark-wood-600'>
-                          <th
-                            scope='col'
-                            className='py-3.5 pl-4 pr-4 text-left medium-intro-md text-dark-wood-800 sm:pl-6'
-                          >
-                            Key impacts
-                          </th>
-                          <th
-                            scope='col'
-                            className='px-4 py-3.5 text-left medium-intro-md text-dark-wood-800'
-                          >
-                            Investment Target
-                          </th>
-                          <th
-                            scope='col'
-                            className='px-4 py-3.5 text-left medium-intro-md text-dark-wood-800'
-                          >
-                            Portfolio Size
-                          </th>
-                          <th
-                            scope='col'
-                            className='py-3.5 pl-4 pr-4 text-left medium-intro-md text-dark-wood-800'
-                          >
-                            Start Date
-                          </th>
-                          <th
-                            scope='col'
-                            className='py-3.5 pl-4 pr-4 text-left medium-intro-md text-dark-wood-800 sm:pr-6'
-                          >
-                            Investment Period
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className='divide-y divide-gray-200 bg-white-200'>
-                        <tr className='divide-x divide-dark-wood-600'>
-                          <td className='whitespace-nowrap py-4 pl-4 pr-4 book-intro-md text-dark-wood-800 sm:pl-6'>
-                            <ul className='list-disc ml-2 medium-intro-md'>
-                              <li>Carbon Sequestration</li>
-                              <li>Natural Flood Management</li>
-                              <li>Green Job Creation</li>
-                            </ul>
-                          </td>
-                          <td className='whitespace-nowrap p-4 book-intro-md text-dark-wood-800'>
-                            £5M
-                          </td>
-                          <td className='whitespace-nowrap p-4 book-intro-md text-dark-wood-800'>
-                            30-40 NbS projects
-                          </td>
-                          <td className='whitespace-nowrap p-4 book-intro-md text-dark-wood-800'>
-                            2023
-                          </td>
-                          <td className='whitespace-nowrap py-4 pl-4 pr-4 book-intro-md text-dark-wood-800 '>
-                            5 years
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+          <div className='my-10 grid grid-cols-1 sm:grid-cols-2 gap-x-8'>
+            <div className='max-w-4xl'>
+              <img src={mapScreen} alt='Map screenshot' />
+            </div>
+            <div className='max-w-lg px-10 py-20'>
+              <h3 className='text-dark-wood-800'>View projects on the map</h3>
+              <p className='text-dark-wood-800 book-intro-sm pt-5'>
+              Through the Registry, you can use the Explore tool to view projects and portfolios in the context of different map data sets (from canopy cover to social deprivation) and explore investment opportunities.
+              </p>
+              <button
+                type='button'
+                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+              >
+                Explore
+              </button>
+            </div>
+          </div>
+
+          <div className='my-20'>
+        <div className='rounded-[60px] mt-4 bg-dark-wood-800 py-20 px-20 mt-10'>
+          <div className='grid grid-cols-1 sm:grid-cols-3'>
+            <div className='max-w-sm'>
+              <h2 className='text-white-200 pt-4'>
+              Pilot Study: TreesAI is partnering with Glasgow to drive investments in Nature-based Solutions.
+              </h2>
+              <p className='text-white-200 medium-intro-lg pt-5'>
+              Public agencies, corporates and financial institutions are launching a pilot to co-finance the delivery of projects that reduce Glasgow’s flood risks.
+              </p>
+              <button
+                type='button'
+                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-white-200 my-10 py-2 px-8 text-dark-wood-800 shadow-sm hover:bg-dark-wood-700 '
+              >
+                Learn More
+              </button>
+            </div>
+            <div className='col-span-2'>
+              <img className='rounded-r-[60px]' src={glasgowImg} alt='Glasgow city' />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className='rounded-[60px] bg-indigo-500 my-10 py-10 px-10 border border-green-600'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-28'>
+              <div className='pl-5'>
+                <h3 className='text-dark-wood-800'>Exploring collective investment models</h3>
+                <p className='book-intro-sm pt-4 text-dark-wood-800'>
+                TreesAI is working with public and private organisations to better understand the requirements for collectively investing in nature. 
+                </p>
+              </div>
+              <div className='col-span-2'>
+                <div className='mt-8 flow-root self-center lg:mt-0'>
+                  <div className='-mt-4 -ml-4 flex flex-wrap justify-around lg:-ml-4'>
+                    <div className='mt-4 lex flex-shrink-0 flex-grow justify-center  lg:flex-grow-0'>
+                      <img className='h-40' src={GCCLogo} alt='Glasgow City Council Logo' />
+                    </div>
+                    <div className='mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0'>
+                      <img className='h-40' src={SWLogo} alt='Tuple' />
+                    </div>
+                    <div className='mt-4  flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0'>
+                      <img className='h-40' src={TerraLogo} alt='Level' />
+                    </div>
+                    <div className='mt-4 flex flex-shrink-0 flex-grow justify-center lg:flex-grow-0'>
+                      <img className='h-40' src={FloodLogo} alt='Level' />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className='py-10'>
-          <SectionHeader title='Glasgow Portfolio' type='typology' />
-
-          <div className='grid grid-cols-1 sm:grid-cols-2 mb-20'>
-            <div className='bg-green-400 px-20 py-10'>
-              <p className='text-dark-wood-800 medium-intro-lg pb-4'>Impact</p>
-              <p className='text-dark-wood-800 medium-intro-md pb-4 max-w-lg'>
-                This portfolio aims to improve stormwater retention and natural flood management to
-                reduce cost of flooding and increase carbon sequestration.
-              </p>
-              <p className='text-dark-wood-800 medium-intro-md max-w-lg'>
-                The portfolio also aims to deliver co-benefits to local communities, such as access
-                to green space and improved mental wellbeing.
-              </p>
+          <div className='bg-curious-registry px-20 py-10 mx-auto max-w-6xl my-20  grid grid-cols-4 justify-items-center content-center place-content-center place-items-center'>
+            <div>
+              <img src={curiousIcon} alt='curious investor icon' />
             </div>
-
-            <div className='bg-green-300 px-20 py-10'>
-              <p className='text-dark-wood-800 medium-intro-lg pb-4'>Portfolio Overview</p>
-              <p className='text-dark-wood-800 medium-intro-md max-w-lg'>
-                The projects in the portfolio include
-              </p>
-              <ul className='list-disc text-dark-wood-800 ml-2 medium-intro-md'>
-                <li>5,000+ new trees</li>
-                <li>15ha+ new woodland</li>
-                <li>30ha+ trees preserved</li>
-                <li>SUDs in Vulnerable Areas</li>
-              </ul>
+            <div className='col-span-2'>
+              <h3 className='text-white-200'>Curious about how TreesAI works with project developers?</h3>
             </div>
-
-            <div className='bg-dark-wood-400 px-20 py-10'>
-              <p className='text-dark-wood-800 medium-intro-lg pb-2'>Related SDGs:</p>
-              <div className='grid grid-cols-1 sm:grid-cols-5 gap-x-0 justify-items-start pr-10'>
-                <div>
-                  <img src={sdgs1} width='78px' />
-                </div>
-                <div>
-                  <img src={sdgs2} width='78px' />
-                </div>
-                <div>
-                  <img src={sdgs3} width='78px' />
-                </div>
-                <div>
-                  <img src={sdgs4} width='78px' />
-                </div>
-                <div>
-                  <img src={sdgs5} width='78px' />
-                </div>
-              </div>
-              <p className='text-dark-wood-800 medium-intro-lg pt-4'>Modelled Impacts:</p>
-              <ul className='list-disc text-dark-wood-800 ml-2 pt-5 medium-intro-md'>
-                <li>Total CO2 Sequestered: 812,240 (Kgs)</li>
-                <li>Total Carbon Stored: 43,757,051 (Kgs)</li>
-                <li>Total Improvement on stormwater retention: 1,121,761 (1000L/m2)</li>
-                <li>Total Avoided stormwater runoff: 295,640 (1000L/m2)</li>
-                <li>Annual hourly average PM10 % improvement: 4.69%</li>
-              </ul>
-            </div>
-
-            <div className='bg-dark-wood-300 px-20 py-10'>
-              <p className='text-dark-wood-800 medium-intro-lg pb-4'>Portfolio Type</p>
-              <p className='text-dark-wood-800 medium-intro-md pb-8 max-w-lg'>
-                Investors will gain access to financial and environmental returns through
-                outcomes-based financing instruments.
-              </p>
-              <p className='text-dark-wood-800 medium-intro-lg pb-4'>How the portfolio’s built</p>
-              <p className='text-dark-wood-800 medium-intro-md pb-8 max-w-lg'>
-                Combining TreesAI impact assesment tools with outcomes-based financing to optimise
-                project selection and boost environmental, social and economic impact.
-              </p>
-              <p className='text-dark-wood-800 medium-intro-lg pb-4'>
-                Who’s currently involved in the pilot:
-              </p>
-              <p className='text-dark-wood-800 medium-intro-md max-w-lg'>
-                Clyde Climate Forest, Flood Re (research partner), Glasgow City Council,
-                Metropolitan Glasgow Strategic Drainage Partnership, Nationwide, Scottish Water
-              </p>
-            </div>
-
-            <div className='bg-indigo-600 px-20 py-10 rounded-bl-[100px]'>
-              <div className='grid grid-cols-2  justify-items-center place-content-around'>
-                <div>
-                  <p className='text-white-200 medium-intro-md pb-4 max-w-lg'>
-                    Find out more about the Glasgow Portfolio
-                  </p>
-                </div>
-                <div>
-                  <Link to='/glasgow-nbs-portfolio'>
-                    <button
-                      type='button'
-                      className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-                    >
-                      View Portfolio
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className='bg-indigo-500 px-20 py-10 rounded-br-[100px]'>
-              <div className='grid grid-cols-2  justify-items-center place-content-around'>
-                <div>
-                  <p className='text-white-200 medium-intro-md pb-4 max-w-lg'>
-                    Get in touch about investing
-                  </p>
-                </div>
-                <div>
-                  <Link to='/contact'>
-                    <button
-                      type='button'
-                      className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-                    >
-                      Contact Us
-                    </button>
-                  </Link>
-                </div>
-              </div>
+            <div>
+              <button
+                type='button'
+                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+              >
+                Registry
+              </button>
             </div>
           </div>
-        </div>
+
+
+
+       
+
+                </div>
         <Footer />
       </div>
-    </div>
   );
 }
