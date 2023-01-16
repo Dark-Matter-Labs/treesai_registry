@@ -500,6 +500,12 @@ html {
   background-size: 100%;
 }
 
+.bg-investor {
+  background-image: url('./images/investor-bg.svg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
 .bg-pd {
   background-image: url('./images/PDShape.svg');
   background-repeat: no-repeat;
@@ -507,6 +513,11 @@ html {
 
 .bg-curious {
   background-image: url('./images/curious-bg.svg');
+  background-repeat: no-repeat;
+}
+
+.bg-curious-registry {
+  background-image: url('./images/curious2.svg');
   background-repeat: no-repeat;
 }
 
