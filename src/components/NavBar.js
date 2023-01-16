@@ -4,7 +4,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../images/logo-black.svg';
+import logo from '../images/TreesAIRegistry.svg';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -21,13 +21,10 @@ export default function NavBar(props) {
 
   return (
     <>
-      <Disclosure
-        as='nav'
-        className='bg-white-200 border-2 border-b-dark-wood-800 sticky top-0 z-50'
-      >
+      <Disclosure as='nav' className='bg-white border sticky top-0 z-50 rounded-full'>
         {({ open }) => (
           <>
-            <div className='global-margin px-2 sm:px-6 lg:px-8'>
+            <div className='global-margin px-2 sm:px-6 lg:px-8 border-b-2 border-b-dark-wood-800'>
               <div className='relative flex h-16 justify-between'>
                 <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
                   {/* Mobile menu button */}
@@ -46,12 +43,12 @@ export default function NavBar(props) {
                       <img
                         className='block h-8 w-auto lg:hidden'
                         src={logo}
-                        alt='TreesAI Impact Planner logo'
+                        alt='TreesAI Registry logo'
                       />
                       <img
                         className='hidden h-6 w-auto lg:block'
                         src={logo}
-                        alt='TreesAI Impact Planner logo'
+                        alt='TreesAI Registry logo'
                       />
                     </Link>
                   </div>
@@ -60,7 +57,7 @@ export default function NavBar(props) {
                       className={classNames(
                         props.current === 'projectSubmit'
                           ? 'border-green-600 text-dark-wood-800'
-                          : 'border-transparent text-dark-wood-600',
+                          : 'border-transparent text-gray-500',
                         'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                       )}
                     >
@@ -70,7 +67,7 @@ export default function NavBar(props) {
                       className={classNames(
                         props.current === 'portfolio'
                           ? 'border-green-600 text-dark-wood-800'
-                          : 'border-transparent text-dark-wood-600',
+                          : 'border-transparent text-gray-500',
                         'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                       )}
                     >
@@ -91,7 +88,7 @@ export default function NavBar(props) {
                                 className={classNames(
                                   props.current === 'invest'
                                     ? 'text-dark-wood-800'
-                                    : 'text-dark-wood-600',
+                                    : 'text-gray-500',
                                   'medium-intro-sm inline-flex items-center px-1 pt-1',
                                 )}
                               >
@@ -100,7 +97,7 @@ export default function NavBar(props) {
                                   className={classNames(
                                     props.current === 'invest'
                                       ? 'text-dark-wood-800'
-                                      : 'text-dark-wood-600',
+                                      : 'text-gray-500',
                                     'h-4 w-4',
                                   )}
                                   aria-hidden='true'
@@ -155,88 +152,86 @@ export default function NavBar(props) {
                       className={classNames(
                         props.current === 'demo'
                           ? 'border-green-600 text-dark-wood-800'
-                          : 'border-transparent text-dark-wood-600',
+                          : 'border-transparent text-gray-500',
                         'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
                       )}
                     >
                       <Link to='/demo'>Demo</Link>
                     </span>
-                    <div
-                      className={classNames(
-                        props.current === 'learn' ? 'border-green-600 ' : 'border-transparent ',
-                        'flex border-b-2 items-center',
-                      )}
+                  </div>
+                </div>
+                <div
+                  className={classNames(
+                    props.current === 'learn' ? 'border-green-600 ' : 'border-transparent ',
+                    'flex border-b-2 items-center',
+                  )}
+                >
+                  <Menu as='div' className='relative'>
+                    <div>
+                      <Menu.Button className='flex rounded-full bg-white-200 text-sm'>
+                        <span className='sr-only'>Open learn more menu</span>
+                        <span className='medium-intro-sm'>
+                          <span
+                            className={classNames(
+                              props.current === 'learn' ? 'text-dark-wood-800' : 'text-gray-500',
+                              'medium-intro-sm inline-flex items-center px-1 pt-1',
+                            )}
+                          >
+                            Learn More
+                            <ChevronDownIcon
+                              className={classNames(
+                                props.current === 'learn'
+                                  ? 'text-dark-wood-800'
+                                  : 'text-dark-wood-600',
+                                'h-4 w-4',
+                              )}
+                              aria-hidden='true'
+                            />
+                          </span>
+                        </span>
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter='transition ease-out duration-200'
+                      enterFrom='transform opacity-0 scale-95'
+                      enterTo='transform opacity-100 scale-100'
+                      leave='transition ease-in duration-75'
+                      leaveFrom='transform opacity-100 scale-100'
+                      leaveTo='transform opacity-0 scale-95'
                     >
-                      <Menu as='div' className='relative'>
-                        <div>
-                          <Menu.Button className='flex rounded-full bg-white-200 text-sm'>
-                            <span className='sr-only'>Open learn more menu</span>
-                            <span className='medium-intro-sm'>
-                              <span
+                      <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link to='/learn-more'>
+                              <a
                                 className={classNames(
-                                  props.current === 'learn'
-                                    ? 'text-dark-wood-800'
-                                    : 'text-dark-wood-600',
-                                  'medium-intro-sm inline-flex items-center px-1 pt-1',
+                                  active ? 'bg-gray-100' : '',
+                                  'medium-intro-sm block px-4 py-2 text-gray-700',
                                 )}
                               >
-                                Learn More
-                                <ChevronDownIcon
-                                  className={classNames(
-                                    props.current === 'learn'
-                                      ? 'text-dark-wood-800'
-                                      : 'text-dark-wood-600',
-                                    'h-4 w-4',
-                                  )}
-                                  aria-hidden='true'
-                                />
-                              </span>
-                            </span>
-                          </Menu.Button>
-                        </div>
-                        <Transition
-                          as={Fragment}
-                          enter='transition ease-out duration-200'
-                          enterFrom='transform opacity-0 scale-95'
-                          enterTo='transform opacity-100 scale-100'
-                          leave='transition ease-in duration-75'
-                          leaveFrom='transform opacity-100 scale-100'
-                          leaveTo='transform opacity-0 scale-95'
-                        >
-                          <Menu.Items className='absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                            <Menu.Item>
-                              {({ active }) => (
-                                <Link to='/learn-more'>
-                                  <a
-                                    className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'medium-intro-sm block px-4 py-2 text-gray-700',
-                                    )}
-                                  >
-                                    Learn more
-                                  </a>
-                                </Link>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {({ active }) => (
-                                <Link to='/contact'>
-                                  <a
-                                    className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'medium-intro-sm block px-4 py-2 text-gray-700',
-                                    )}
-                                  >
-                                    Contact
-                                  </a>
-                                </Link>
-                              )}
-                            </Menu.Item>
-                          </Menu.Items>
-                        </Transition>
-                      </Menu>
-                    </div>
-                  </div>
+                                Learn more
+                              </a>
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link to='/contact'>
+                              <a
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'medium-intro-sm block px-4 py-2 text-gray-700',
+                                )}
+                              >
+                                Contact
+                              </a>
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
                 </div>
                 {props.loggedIn ? (
                   <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
@@ -293,15 +288,9 @@ export default function NavBar(props) {
                   <div className='flex items-center '>
                     <button
                       type='button'
-                      className='bold-intro-sm inline-flex justify-center rounded-full py-2 px-2 mx-2 shadow-sm border border-green-600 bg-white-200 text-green-600 hover:bg-indigo-700'
+                      className='medium-intro-sm inline-flex justify-center rounded-full py-2 px-2 mx-2 shadow-sm bg-gray-800 text-white hover:bg-indigo-700'
                     >
                       <Link to='/register'>Sign up</Link>
-                    </button>
-                    <button
-                      type='button'
-                      className='bold-intro-sm inline-flex justify-center rounded-full py-2 px-2 mx-2 shadow-sm border border-transparent bg-green-600 text-white-200 hover:bg-green-800'
-                    >
-                      <Link to='/login'>Login</Link>
                     </button>
                   </div>
                 )}
@@ -379,24 +368,6 @@ export default function NavBar(props) {
           </>
         )}
       </Disclosure>
-      <div className='bg-dark-wood-700 rounded-b-[30px]'>
-        <div className='mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8'>
-          <div className='flex flex-wrap '>
-            <div className='flex w-0 flex-1 justify-center '>
-              <p className='ml-3 truncate font-medium text-white'>
-                <span className='md:hidden book-info-md'>
-                  This is still a prototype, the full platform is scheduled to go live in November
-                  2022
-                </span>
-                <span className='hidden md:inline book-info-md'>
-                  This is still a prototype, the full platform is scheduled to go live in November
-                  2022
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }
