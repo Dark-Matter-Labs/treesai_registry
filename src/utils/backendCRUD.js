@@ -17,6 +17,18 @@ const getConfig = {
   redirect: 'follow',
 };
 
+const postConfig = {
+  method: 'POST',
+  headers: requestHeaders,
+  redirect: 'follow',
+};
+
+const patchConfig = {
+  method: 'PATCH',
+  headers: requestHeaders,
+  redirect: 'follow',
+};
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT + '/api/v1/';
 
 /* ------------------- Auth ------------------- */
@@ -101,30 +113,24 @@ export const get_user_me_info = async () => {
 
 /* ------------------- SAF ------------------- */
 
-export const get_saf_run_by_hash = async (run_hash) => {
+export const get_saf_runs_by_hash = async (run_hash) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
 
   const url =
-    API_ENDPOINT + 'saf/users/' + user_id + '/projects/' + project_id + '/run/' + run_hash;
+    API_ENDPOINT + 'saf/users/' + user_id + '/projects/' + project_id + '/runs/' + run_hash;
 
-  return axios.get(url, getConfig).then((res) => res.data['output']);
+  return axios.get(url, getConfig).then((res) => res.data['runs']);
 };
 
-export const post_saf_run_and_get_hash = async (payload) => {
+export const post_saf_runs_and_get_hash = async (payload) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
 
-  let requestOptions = {
-    method: 'POST',
-    headers: requestHeaders,
-    redirect: 'follow',
-  };
-
-  const url = API_ENDPOINT + 'saf/users/' + user_id + '/projects/' + project_id + '/run';
+  const url = API_ENDPOINT + 'saf/users/' + user_id + '/projects/' + project_id + '/runs';
 
   let hash = await axios
-    .post(url, payload, requestOptions)
+    .post(url, payload, postConfig)
     .then((result) => {
       return result.data['gus_run_hash'];
     })
@@ -133,16 +139,10 @@ export const post_saf_run_and_get_hash = async (payload) => {
 };
 
 export const create_project_and_get_ID = async (payload) => {
-  let requestOptions = {
-    method: 'POST',
-    headers: requestHeaders,
-    redirect: 'follow',
-  };
-
   const url = API_ENDPOINT + 'saf/users/' + sessionStorage.user_id + '/projects/';
 
   let response = await axios
-    .post(url, payload, requestOptions)
+    .post(url, payload, postConfig)
     .then((result) => {
       let data = result.data;
       const dbProjectId = data.id;
@@ -155,17 +155,11 @@ export const create_project_and_get_ID = async (payload) => {
 };
 
 export const patch_project = async (project_id, payload) => {
-  let requestOptions = {
-    method: 'PATCH',
-    headers: requestHeaders,
-    redirect: 'follow',
-  };
-
   const url =
     API_ENDPOINT + 'saf/users/' + sessionStorage.user_id + '/projects/' + project_id + '/';
 
   return axios
-    .patch(url, payload, requestOptions)
+    .patch(url, payload, patchConfig)
     .then((result) => {
       return result.data;
     })
@@ -184,26 +178,13 @@ export const get_user_projects = async (user_id) => {
 
 export const get_saf_runs_by_projectID = async (project_id) => {
   const user_id = sessionStorage.user_id;
-
   const url = API_ENDPOINT + 'saf/users/' + user_id + '/projects/' + project_id + '/runs';
 
   return await axios.get(url, getConfig).then((res) => res.data['runs']);
 };
 
-export const get_all_user_runs = async (projectList) => {
-  // Initialize empty array to store all runs
-  let allRuns = [];
-  // Loop through each project and get all runs
-  for (let i = 0; i < projectList.projects.length; i++) {
-    let runs = await get_saf_runs_by_projectID(projectList.projects[i].id);
-    allRuns = allRuns.concat(runs);
-  }
-  // Return all runs
-  return allRuns;
-};
-
-export const get_user_projects_summary = async (user_id) => {
-  const url = API_ENDPOINT + 'saf/users/' + user_id + '/summary/';
+export const get_projects_summary = async (user_id) => {
+  let url = API_ENDPOINT + 'saf/summary/' +'?user_id=' + user_id ;
 
   return await axios
     .get(url, getConfig)
@@ -231,8 +212,8 @@ export const get_projects = async (queryArgs) => {
     .catch((error) => onError(error));
 };
 
-export const get_explore_table = async () => {
-  let url = API_ENDPOINT + 'saf/projects/explore_table';
+export const get_explore_summary = async () => {
+  let url = API_ENDPOINT + 'saf/summary/';
 
   return await axios
     .get(url, getConfig)

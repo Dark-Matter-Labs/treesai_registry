@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 
 import { getSDGIdsFromTypology } from './SDGs_helper';
-import { get_user_projects_summary } from '../utils/backendCRUD';
+import { get_projects_summary } from '../utils/backendCRUD';
 import { get_stages } from '../utils/map_filters';
 
 /* Data Fetching */
@@ -12,7 +12,7 @@ const swrOptions = {
 };
 
 export function useUserProjects(id) {
-  const { data, error } = useSWR(id, get_user_projects_summary, swrOptions);
+  const { data, error } = useSWR(id, get_projects_summary, swrOptions);
 
   return {
     userProjectList: data,

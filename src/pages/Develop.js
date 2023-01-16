@@ -34,8 +34,8 @@ import ChartMultiLine from '../components/charts/ChartMultiLine';
 // utils functions
 import { saf_data } from '../utils/saf_data_model';
 import {
-  get_saf_run_by_hash,
-  post_saf_run_and_get_hash,
+  get_saf_runs_by_hash,
+  post_saf_runs_and_get_hash,
   create_project_and_get_ID,
   publishProject,
 } from '../utils/backendCRUD';
@@ -97,9 +97,7 @@ export default function Develop(props) {
   const [moneyNeeded, setMoneyNeeded] = useState(500);
 
   /* SAF Related variables */
-  const [safOutputHash0, setSafOutputHash0] = useState();
-  const [safOutputHash1, setSafOutputHash1] = useState();
-  const [safOutputHash2, setSafOutputHash2] = useState();
+  const [safOutputHash, setsafOutputHash] = useState();
   const [totalSeq, setTotalSeq] = useState(0);
   const [totalStorage, setTotalStorage] = useState(0);
   const [comparativeSeq, setComparativeSeq] = useState([]);
@@ -121,20 +119,9 @@ export default function Develop(props) {
   };
 
   // Retrieve the result from the simulation. It will only fetch if the Hash is defined
-  const { data: safOutput0 } = useSWR(safOutputHash0, get_saf_run_by_hash, swrOptions);
-  const { data: safOutput1 } = useSWR(
-    safOutput0 ? safOutputHash1 : null,
-    get_saf_run_by_hash,
-    swrOptions,
-  );
-  const { data: safOutput2 } = useSWR(
-    safOutput1 ? safOutputHash2 : null,
-    get_saf_run_by_hash,
-    swrOptions,
-  );
+  const { data: safOutputs } = useSWR(safOutputHash, get_saf_runs_by_hash, swrOptions);
 
   /* Helper functions */
-
   useEffect(() => {
     if (sessionStorage.getItem('token') === null || sessionStorage.getItem('token') === undefined) {
       toast.error('You must be logged in to submit a project.');
@@ -163,7 +150,7 @@ export default function Develop(props) {
       parseInt(parseInt(methods.getValues('project-budget'))) -
         parseInt(methods.getValues('money-raised')),
     );
-  }, [methods.getValues('money-raised'), safOutput0]);
+  }, [methods.getValues('money-raised'), safOutputs]);
 
   function processSAFData(SAFOutput = saf_data) {
     /* SAF Related processing */
@@ -172,25 +159,16 @@ export default function Develop(props) {
   }
 
   function getSelectedOutput() {
-    if (safOutput0 && safOutput1 && safOutput2) {
-      switch (maintenanceType.name) {
-        case 'High':
-          return safOutput2;
-        case 'Medium':
-          return safOutput1;
-        case 'Low':
-          return safOutput0;
-        default:
-          toast.error('maintenance type not valid');
-      }
+    if (safOutputs) {
+      return safOutputs[maintenanceType.id].output;
     }
   }
   /* Data logic changes on receiving the SAF output */
   useEffect(() => {
-    if (safOutput0 && safOutput1 && safOutput2) {
+    if (safOutputs) {
       processSAFData(getSelectedOutput());
     }
-  }, [safOutput0, safOutput1, safOutput2]);
+  }, [safOutputs]);
 
   function processPopulationDataForLineChart(safOutput) {
     const output = [
@@ -213,36 +191,28 @@ export default function Develop(props) {
     return output;
   }
 
-  function makeComparativeSeqChart(
-    safOutput0 = saf_data,
-    safOutput1 = saf_data,
-    safOutput2 = saf_data,
-  ) {
-    let seq_0 = makeChartArray(safOutput0.Seq);
-    let seq_1 = makeChartArray(safOutput1.Seq);
-    let seq_2 = makeChartArray(safOutput2.Seq);
+  function makeComparativeSeqChart() {
+    let seq_0 = makeChartArray(safOutputs[0].output.Seq);
+    let seq_1 = makeChartArray(safOutputs[1].output.Seq);
+    let seq_2 = makeChartArray(safOutputs[2].output.Seq);
 
     setComparativeSeq(formatDataForMultilineChart(seq_0, seq_1, seq_2));
   }
 
-  function makeComparativeStorageChart(
-    safOutput0 = saf_data,
-    safOutput1 = saf_data,
-    safOutput2 = saf_data,
-  ) {
-    let storage_0 = makeChartArray(safOutput0.Storage);
-    let storage_1 = makeChartArray(safOutput1.Storage);
-    let storage_2 = makeChartArray(safOutput2.Storage);
+  function makeComparativeStorageChart() {
+    let storage_0 = makeChartArray(safOutputs[0].output.Storage);
+    let storage_1 = makeChartArray(safOutputs[1].output.Storage);
+    let storage_2 = makeChartArray(safOutputs[2].output.Storage);
 
     setComparativeStorage(formatDataForMultilineChart(storage_0, storage_1, storage_2));
   }
 
   useEffect(() => {
-    if (safOutput0 && safOutput1 && safOutput2) {
-      makeComparativeSeqChart(safOutput0, safOutput1, safOutput2);
-      makeComparativeStorageChart(safOutput0, safOutput1, safOutput2);
+    if (safOutputs) {
+      makeComparativeSeqChart(safOutputs[0].output, safOutputs[1].output, safOutputs[2].output);
+      makeComparativeStorageChart(safOutputs[0].output, safOutputs[1].output, safOutputs[2].output);
     }
-  }, [safOutput0, safOutput1, safOutput2]);
+  }, [safOutputs]);
 
   function whichActivity() {
     if (watchTreePlant > watchTreeMaintain) {
@@ -252,20 +222,20 @@ export default function Develop(props) {
     }
   }
 
-  const postSAFRun = async (maintenanceScope, formData) => {
+  const postSAFRun = async (formData) => {
+
     // Define payload based on maintenance scope
     let payload = {
       title: formData.projectName,
       description: formData.projectDescription,
       typology: selectedTypology.value,
-      maintenance_scope: maintenanceScope,
+      maintenance_scope: maintenanceType.id,
       season_growth_mean: 200,
       season_growth_var: 7,
       time_horizon: 50,
       density_per_ha: parseInt(densityPerHa),
       species: selectedTypology.species,
       conifer_ratio_percent: formData.conifer, // Integer
-      user_selected: maintenanceScope === maintenanceType.value ? true : false,
     };
     // Change dbh based on activity
     switch (whichActivity()) {
@@ -290,7 +260,7 @@ export default function Develop(props) {
     // parse payload to JSON
     payload = JSON.stringify(payload);
 
-    let hash = await post_saf_run_and_get_hash(payload);
+    let hash = await post_saf_runs_and_get_hash(payload);
     return hash;
   };
 
@@ -333,10 +303,10 @@ export default function Develop(props) {
 
   /* Get to the next page if all the results are in */
   useEffect(() => {
-    if (safOutput0 && safOutput1 && safOutput2) {
+    if (safOutputs) {
       toResultPage();
     }
-  }, [safOutput0, safOutput1, safOutput2]);
+  }, [safOutputs]);
 
   function stopSimulation(error) {
     toast.error(error);
@@ -365,31 +335,9 @@ export default function Develop(props) {
       return;
     }
 
-    for (let maintenanceScope = 0; maintenanceScope < 3; maintenanceScope++) {
-      // Make a post call to run the simulation on a project
-      const run_hash = await postSAFRun(maintenanceScope, formData);
-
-      if (!run_hash) {
-        stopSimulation('Error simulating project');
-        return;
-      }
-
-      console.log('step ' + maintenanceScope + '/3');
-
-      switch (maintenanceScope) {
-        case 0:
-          setSafOutputHash0(run_hash);
-          break;
-        case 1:
-          setSafOutputHash1(run_hash);
-          break;
-        case 2:
-          setSafOutputHash2(run_hash);
-          break;
-        default:
-          stopSimulation('Oops, the simulation went too far!');
-      }
-    }
+    // Make a post call to run the simulation on a project
+    const run_hash = await postSAFRun(formData);
+    run_hash ? setsafOutputHash(run_hash) : stopSimulation('Error simulating project');
   }
 
   return (
@@ -1112,9 +1060,9 @@ export default function Develop(props) {
             </ChartBlock>
             <hr className='mx-20 border-[12px] border-indigo-600' />
             <PieChartBlock
-              safOutput0={safOutput0}
-              safOutput1={safOutput1}
-              safOutput2={safOutput2}
+              safOutput0={safOutputs[0].output}
+              safOutput1={safOutputs[1].output}
+              safOutput2={safOutputs[2].output}
               maintenanceTypeName={maintenanceType.name}
             />
           </div>
