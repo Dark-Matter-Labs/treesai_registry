@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import { get_explore_table } from './backendCRUD';
+import { get_explore_summary } from './backendCRUD';
 
 const swrOptions = {
   revalidateIfStale: false,
@@ -9,7 +9,7 @@ const swrOptions = {
 };
 
 export function useProjects() {
-  const { data, error } = useSWR({} ,get_explore_table, swrOptions);
+  const { data, error } = useSWR({} ,get_explore_summary, swrOptions);
 
   return {
     dBprojects: data,

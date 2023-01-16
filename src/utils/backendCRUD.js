@@ -183,8 +183,8 @@ export const get_saf_runs_by_projectID = async (project_id) => {
   return await axios.get(url, getConfig).then((res) => res.data['runs']);
 };
 
-export const get_user_projects_summary = async (user_id) => {
-  const url = API_ENDPOINT + 'saf/users/' + user_id + '/summary/';
+export const get_projects_summary = async (user_id) => {
+  let url = API_ENDPOINT + 'saf/summary/' +'?user_id=' + user_id ;
 
   return await axios
     .get(url, getConfig)
@@ -212,8 +212,8 @@ export const get_projects = async (queryArgs) => {
     .catch((error) => onError(error));
 };
 
-export const get_explore_table = async () => {
-  let url = API_ENDPOINT + 'saf/projects/explore_table';
+export const get_explore_summary = async () => {
+  let url = API_ENDPOINT + 'saf/summary/';
 
   return await axios
     .get(url, getConfig)
