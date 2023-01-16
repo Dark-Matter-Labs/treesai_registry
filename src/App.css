@@ -8,35 +8,35 @@
   }
 
   h2 {
-    @apply font-favorit text-4xl font-bold leading-6;
+    @apply font-favorit text-4xl font-medium leading-6;
   }
 
   h3 {
-    @apply font-favorit text-3xl font-book leading-5;
+    @apply font-favorit text-3xl font-medium leading-5;
   }
 
   .book-info-sm {
-    @apply font-favorit text-sm font-book leading-4;
+    @apply font-favoritBook text-sm font-book leading-4;
   }
 
   .book-info-md {
-    @apply font-favorit text-base font-book leading-4;
+    @apply font-favoritBook text-base font-book leading-4;
   }
 
   .book-intro-sm {
-    @apply font-favoritBook text-md leading-4;
+    @apply font-favoritBook font-book text-md leading-4;
   }
 
   .book-intro-md {
-    @apply font-favoritBook text-xl font-book leading-4;
+    @apply font-favoritBook font-book text-xl font-book leading-4;
   }
 
   .book-intro-lg {
-    @apply font-favoritBook text-2xl font-book leading-5;
+    @apply font-favoritBook font-book text-2xl font-book leading-5;
   }
 
   .medium-intro-sm {
-    @apply font-favorit text-base font-medium leading-4;
+    @apply font-favorit text-md font-medium leading-4;
   }
 
   .medium-intro-md {
@@ -52,11 +52,11 @@
   }
 
   .bold-intro-md {
-    @apply font-favorit text-xl font-bold leading-4;
+    @apply font-favorit text-4xl font-bold leading-4;
   }
 
   .bold-intro-lg {
-    @apply font-favorit text-2xl font-bold leading-5;
+    @apply font-favorit text-5xl font-bold leading-5;
   }
 
   .global-margin {
@@ -161,18 +161,15 @@ html {
 }
 
 .plan-background-shape {
-  background: url('data:image/svg+xml;utf8,<svg width="339" height="206" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M0 140C0 62.6801 62.6801 0 140 0L185 0L185 206L0 206L0 140Z" fill="%232F3130"/><rect x="66" width="273" height="206" rx="103" fill="%232F3130"/></svg>')
-    top no-repeat;
+  background: url('./images/demo.svg') top no-repeat;
 }
 
 .measure-background-shape {
-  background: url('data:image/svg+xml;utf8,<svg idth="357" height="247" viewBox="0 0 357 247" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 140C0 62.6801 62.6801 0 140 0H314V206H0V140Z" fill="%231EB792"/><path d="M357 107C357 184.32 294.32 247 217 247L44 247L44 40L357 40L357 107Z" fill="%231EB792"/></svg>')
-    top no-repeat;
+  background: url('./images/upload.svg') top no-repeat;
 }
 
 .list-background-shape {
-  background: url('data:image/svg+xml;utf8,<svg width="338" height="186" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338 46C338 123.32 275.32 186 198 186L0 186L1.62606e-05 -2.95489e-05L338 0L338 46Z" fill="%234F46E5"/></svg>')
-    top no-repeat;
+  background: url('./images/explore.svg') top no-repeat;
 }
 
 .title-box {
@@ -496,4 +493,23 @@ html {
     rgba(79, 70, 229, 1) 32%,
     rgba(255, 255, 255, 1) 100%
   );
+}
+
+.bg-header {
+  background-image: url('./images/header.svg');
+  background-size: 100%;
+}
+
+.bg-pd {
+  background-image: url('./images/PDShape.svg');
+  background-repeat: no-repeat;
+}
+
+.bg-curious {
+  background-image: url('./images/curious-bg.svg');
+  background-repeat: no-repeat;
+}
+
+.m-over {
+  margin-left: -16%;
 }
