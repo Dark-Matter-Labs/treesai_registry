@@ -17,9 +17,9 @@ import loadingPlaceholder from '../images/loadingPlaceholder.png';
 
 export default function Glasgow() {
   return (
-    <div className='font-favorit bg-white-200 bg-pattern '>
+    <div className='bg-white-300'>
       <NavBar current='invest' />
-      <div className='bg-white-200 global-margin bg-pattern '>
+      <div className='global-margin'>
         <div className='title-box mt-5 bg-dark-wood-800 py-20'>
           <h1 className='text-center text-white-200'>Glasgow NbS Portfolio</h1>
         </div>
@@ -69,12 +69,8 @@ export default function Glasgow() {
                       </thead>
                       <tbody className='divide-y divide-gray-200 bg-white-200'>
                         <tr className='divide-x divide-gray-200'>
-                          <td className='whitespace-nowrap py-4 pl-4 pr-4 book-intro-md text-dark-wood-800 sm:pl-6'>
-                            <ul className='list-disc ml-2'>
-                              <li>Carbon Sequestration</li>
-                              <li>Natural Flood Management</li>
-                              <li>Green Job Creation</li>
-                            </ul>
+                          <td className='whitespace-nowrap py-10 pl-4 pr-4 book-intro-md text-dark-wood-800 sm:pl-6'>
+                            Natural Flood Management
                           </td>
                           <td className='whitespace-nowrap p-4 book-intro-md text-dark-wood-800'>
                             £5M
@@ -106,23 +102,23 @@ export default function Glasgow() {
             <p className='book-intro-md text-dark-wood-800 pb-4'>
               Glasgow is the UK’s third wettest city – rainfall often overwhelms its Victorian sewer
               causing a 40% increase in raw sewage. There’s post-industrial, contaminated land and
-              with 99,000 properties at high risk of flooding, it’s projected that flooding damage
+              with 99,000 properties at high risk of flooding, it’s projected that flooding damages
               will cost the region £100 million a year by 2050. Glasgow also faces multiple public
               health issues, with a 15% higher mortality rate than other UK cities.
             </p>
             <p className='book-intro-md text-dark-wood-800'>
               Glasgow’s existing urban nature plays a critical role in mitigating these risks, but
               with much of its urban forest ageing and dying – it is at a critical phase. The city
-              aims to plant 18 million trees by 2030, but requires the infrastructure to both
-              coordinate and finance its afforestation targets.{' '}
+              aims to construct a series of Nature-based Solutions projects to address these
+              climate-related risks.
             </p>
           </div>
         </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-3 mt-10 gap-x-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-3 mt-10 mb-20 gap-x-4'>
           <div className='bg-green-600 rounded-br-[100px] px-8 '>
-            <h2 className='text-white-200 pt-4'>Portfolio & Impact </h2>
-            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-2 justify-items-start'>
+            <h2 className='text-white-200 pt-4 pb-8'>Portfolio & Impact </h2>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-0 justify-items-start'>
               <div>
                 <img src={sdgs1} width='78px' />
               </div>
@@ -143,8 +139,8 @@ export default function Glasgow() {
           <div className='col-span-2 border border-green-600 sm:rounded-br-[100px] sm:rounded-tr-[100px] px-20 py-10 bg-white-200'>
             <p className='book-intro-md text-dark-wood-800 pb-4'>
               Launched at COP26, the Glasgow Pilot portfolio aims to improve stormwater retention
-              and natural flood management – reducing the cost of flooding damage and increasing
-              carbon sequestration
+              and natural flood management - reducing the cost of flooding damage and increasing
+              carbon sequestration.
             </p>
             <p className='book-intro-md text-dark-wood-800 pb-4'>
               The portfolio aims to deliver social, healthcare and economic benefits to local
@@ -154,7 +150,7 @@ export default function Glasgow() {
             <p className='book-intro-md text-dark-wood-800 pb-4'>
               The portfolio contains Street Trees, Woodland, Sustainable Urban Drainage systems
               (SUDs) and the preservation of Trees in Vacant and Derelict Land. All include
-              community-led stewardship practices
+              community-led stewardship practices.
             </p>
             <p className='book-intro-md text-dark-wood-800 pb-4'>
               The portfolio aims to raise £5M during its pilot (2022-2027), through public and
@@ -163,24 +159,20 @@ export default function Glasgow() {
           </div>
         </div>
 
-        <div className='title-box-alter mt-4 bg-dark-wood-800 py-20 px-20 mt-10'>
-          <div className='grid grid-cols-1 sm:grid-cols-3'>
-            <div>
+        <div className='title-box-alter mt-4 bg-dark-wood-800 py-20 px-20 my-10'>
+          <div className='grid grid-cols-1 sm:grid-cols-3 gap-x-4'>
+            <div className='max-w-sm'>
               <h2 className='text-white-200 pt-4'>Glasgow NbS Map </h2>
+              <p className='text-white-200 medium-intro-lg pt-5 pb-10'>
+                Explore the Glasgow NbS Portfolio, and select an NbS project to read about it in
+                detail.
+              </p>
               <Link to='/explore'>
                 <button
                   type='button'
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent  bg-white-200 my-10 py-2 px-8 text-dark-wood-800 shadow-sm hover:bg-dark-wood-700 '
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent  bg-white-200 my-10 py-2 px-12 text-dark-wood-800 shadow-sm hover:bg-dark-wood-700 '
                 >
                   NbS Map
-                </button>
-              </Link>
-              <Link to='/learn-more'>
-                <button
-                  type='button'
-                  className='ml-4 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-white-200 my-10 py-2 px-8 text-dark-wood-800 shadow-sm hover:bg-dark-wood-700 '
-                >
-                  Learn More
                 </button>
               </Link>
             </div>
@@ -192,9 +184,9 @@ export default function Glasgow() {
           </div>
         </div>
 
-        <div className='mt-10 text-center'>
+        <div className='my-20 text-center'>
           <h2 className='text-dark-wood-800'>Who’s involved: </h2>
-          <div className='title-box-alter bg-green-400 border border-green-600 mt-5 py-10 px-10'>
+          <div className='title-box-alter bg-gradient-to-r from-indigo-600 to-green-600 border border-green-600 mt-5 py-10 px-10'>
             <div className=''>
               <div className=''>
                 <div className='mt-8 flow-root self-center lg:mt-0'>
@@ -221,20 +213,21 @@ export default function Glasgow() {
           </div>
         </div>
 
-        <div className='mt-20 mb-20 '>
-          <h2 className='text-dark-wood-800 pb-5'>
-            New partners are welcome, interested in finding out more? Get involved:{' '}
+        <div className='mt-20 mb-20 text-center'>
+          <h2 className='text-dark-wood-800 pb-10'>
+            New partners are welcome, interested in finding out more?
+            <br /> Get involved:{' '}
           </h2>
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-4'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-0'>
-              <div className='bg-indigo-500 px-8 py-10 text-center'>
-                <h2 className='text-white-200 text-left'>Investors</h2>
+              <div className='bg-gradient-to-r from-indigo-600 to-green-600 px-8 py-10 text-center'>
+                <h2 className='text-white-200 text-left max-w-xs'>Green Urban Investors</h2>
                 <Link to='/invest'>
                   <button
                     type='button'
                     className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                   >
-                    Invest in a Portfolio
+                    Get in Touch
                   </button>
                 </Link>
               </div>
@@ -248,8 +241,11 @@ export default function Glasgow() {
             </div>
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-0'>
-              <div className='bg-green-500 px-8 py-10  text-center'>
-                <h2 className='text-white-200 text-left'>Project Developers </h2>
+              <div className='bg-gradient-to-r from-green-600 to-indigo-600  px-8 py-10  text-center'>
+                <h2 className='text-white-200 text-left max-w-xs'>
+                  Project
+                  <br /> Developers{' '}
+                </h2>
                 <Link to='/develop'>
                   <button
                     type='button'
@@ -268,9 +264,8 @@ export default function Glasgow() {
             </div>
           </div>
         </div>
-
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 }
