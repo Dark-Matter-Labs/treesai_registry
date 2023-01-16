@@ -184,7 +184,7 @@ export const get_saf_runs_by_projectID = async (project_id) => {
 };
 
 export const get_projects_summary = async (user_id) => {
-  let url = API_ENDPOINT + 'saf/summary/' +'?user_id=' + user_id ;
+  let url = API_ENDPOINT + 'saf/summary/' + '?user_id=' + user_id;
 
   return await axios
     .get(url, getConfig)

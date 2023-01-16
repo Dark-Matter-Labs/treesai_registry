@@ -223,7 +223,6 @@ export default function Develop(props) {
   }
 
   const postSAFRun = async (formData) => {
-
     // Define payload based on maintenance scope
     let payload = {
       title: formData.projectName,

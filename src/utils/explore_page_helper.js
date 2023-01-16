@@ -9,7 +9,7 @@ const swrOptions = {
 };
 
 export function useProjects() {
-  const { data, error } = useSWR({} ,get_explore_summary, swrOptions);
+  const { data, error } = useSWR({}, get_explore_summary, swrOptions);
 
   return {
     dBprojects: data,
