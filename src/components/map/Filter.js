@@ -110,8 +110,8 @@ export default function Filter(props) {
                       let filteredData = [];
                       e.map((selection) => {
                         let filteredDataRow = [];
-                        filteredDataRow = props.projects.filter((item) =>
-                          item.project_dev.includes(selection.value), // TODO: update to community council when change made in DB
+                        filteredDataRow = props.projects.filter(
+                          (item) => item.project_dev.includes(selection.value), // TODO: update to community council when change made in DB
                         );
                         filteredDataRow.map((element) => filteredData.push(element));
                       });
