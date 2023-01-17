@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /* --- Components --- */
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { ArrowCircleUpIcon, ArrowCircleDownIcon } from '@heroicons/react/outline';
@@ -11,11 +12,11 @@ import { useProjects } from '../../utils/explore_page_helper';
 import { getExploreTableColumns } from '../../utils/table_helper';
 
 /* --- Main --- */
-export default function FilterMapTable() {
+export default function FilterMapTable({ mapLayer, setMapLayer }) {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
   const [projects, setProjects] = useState();
-  const [mapDataLayer, setMapDataLayer] = useState('Basic');
+
   const [mapHeight, setMapHeight] = useState('65vh');
   const [tableHeight, setTableHeight] = useState('35vh');
 
@@ -43,14 +44,14 @@ export default function FilterMapTable() {
       <div className='overflow-hidden h-screen m-0'>
         <div className=''>
           <Filter projects={projects} setData={setProjects} />
-          <DataLayerSelector setMapDataLayer={setMapDataLayer} />
+          <DataLayerSelector setMapDataLayer={setMapLayer} />
           <NbSMap
             mapRef={mapRef}
             data={projects}
             selectProject={selectProject}
             popupInfo={popupInfo}
             setPopupInfo={setPopupInfo}
-            mapDataLayer={mapDataLayer}
+            mapDataLayer={mapLayer}
             height={mapHeight}
           />
         </div>
@@ -96,3 +97,8 @@ export default function FilterMapTable() {
     return <div>Loading...</div>;
   }
 }
+
+FilterMapTable.propTypes = {
+  setMapLayer: PropTypes.func,
+  mapLayer: PropTypes.string,
+};
