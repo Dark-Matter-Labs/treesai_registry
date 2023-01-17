@@ -7,6 +7,7 @@ import InfoPanel from '../components/map/InfoPanel';
 
 export default function Explore(props) {
   const [showInfoPanel, setShowInfoPanel] = useState(true);
+  const [mapDataLayer, setMapDataLayer] = useState('Basic');
 
   return (
     <div className='overflow-hidden h-screen m-0'>
@@ -14,9 +15,9 @@ export default function Explore(props) {
       {showInfoPanel ? (
         <div className='relative'>
           <div className='absolute z-20'>
-            <InfoPanel show={showInfoPanel} setShowPanel={setShowInfoPanel} />
+            <InfoPanel layer={mapDataLayer} show={showInfoPanel} setShowPanel={setShowInfoPanel} />
           </div>
-          <FilterMapTable />
+          <FilterMapTable mapLayer={mapDataLayer} setMapLayer={setMapDataLayer} />
         </div>
       ) : (
         <div className='relative'>
@@ -27,7 +28,7 @@ export default function Explore(props) {
               </button>
             </div>
           </div>
-          <FilterMapTable />
+          <FilterMapTable mapLayer={mapDataLayer} setMapLayer={setMapDataLayer} />
         </div>
       )}
     </div>
