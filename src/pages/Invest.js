@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import waterImg from '../images/water.png';
@@ -21,12 +22,12 @@ export default function Invest() {
     <div className='bg-white-300 '>
       <NavBar current='invest' />
       <div className='global-margin '>
-        <div className='bg-investor mt-4 grid grid-cols-2 py-40 justify-items-center content-center place-content-center place-items-center gap-x-0'>
-          <div className='bg-white-200 rounded-br-[100px] px-4 py-10 max-w-sm '>
+        <div className='bg-investor mt-4 grid grid-cols-1 lg:grid-cols-2 py-40 justify-items-center content-center place-content-center place-items-center gap-x-0'>
+          <div className='bg-white-200 rounded-br-[100px] px-4 lg:py-10 max-w-sm '>
             <h1 className='text-center text-indigo-600'>Green Urban Investors</h1>
           </div>
           <div className='max-w-sm'>
-            <h3 className='text-white-200'>
+            <h3 className='text-indigo-600 lg:text-white-200'>
               Providing green investors with the tools to invest in urban nature to reduce
               climate-related risks.
             </h3>
@@ -98,12 +99,14 @@ export default function Invest() {
               </p>
             </div>
             <div className='py-20'>
-              <button
-                type='button'
-                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-              >
-                Explore
-              </button>
+              <Link to='/explore'>
+                <button
+                  type='button'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                >
+                  Explore
+                </button>
+              </Link>
             </div>
           </div>
           <hr className='mx-40 border-8 border-indigo-600' />
@@ -124,12 +127,14 @@ export default function Invest() {
               </p>
             </div>
             <div className='py-20'>
-              <button
-                type='button'
-                className='mt-14 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-              >
-                Get in touch
-              </button>
+              <Link to='/contact'>
+                <button
+                  type='button'
+                  className='mt-14 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                >
+                  Get in touch
+                </button>
+              </Link>
             </div>
           </div>
           <hr className='mx-40 border-8 border-indigo-600' />
@@ -170,12 +175,14 @@ export default function Invest() {
               the context of different map data sets (from canopy cover to social deprivation) and
               explore investment opportunities.
             </p>
-            <button
-              type='button'
-              className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-            >
-              Explore
-            </button>
+            <Link to='/explore'>
+              <button
+                type='button'
+                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+              >
+                Explore
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -191,12 +198,14 @@ export default function Invest() {
                   Public agencies, corporates and financial institutions are launching a pilot to
                   co-finance the delivery of projects that reduce Glasgow’s flood risks.
                 </p>
-                <button
-                  type='button'
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-white-200 my-10 py-2 px-8 text-dark-wood-800 shadow-sm hover:bg-dark-wood-700 '
-                >
-                  Learn More
-                </button>
+                <Link to='/glasgow-nbs-portfolio'>
+                  <button
+                    type='button'
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-white-200 my-10 py-2 px-8 text-dark-wood-800 shadow-sm hover:bg-dark-wood-700 '
+                  >
+                    Learn More
+                  </button>
+                </Link>
               </div>
               <div className='col-span-2'>
                 <img className='rounded-r-[60px]' src={glasgowImg} alt='Glasgow city' />

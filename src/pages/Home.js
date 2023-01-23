@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import GCCLogo from '../images/partner_logos/GCC.png';
@@ -21,13 +22,13 @@ export default function Home(props) {
       <NavBar loggedIn={props.loggedIn} current='home' />
       <div className=''>
         <main className='bg-white-300 pb-20 global-margin'>
-          <div className='bg-header py-20 flex flex-col items-center justify-center rounded-tl-[160px] my-10'>
+          <div className='bg-header py-10 md:py-20 flex flex-col items-center justify-center rounded-tl-[160px] my-10'>
             <div className='max-w-2xl text-center'>
-              <div className='pt-24'>
-                <img className='' src={fullLogo} alt='TreesAI logo' />
+              <div className=''>
+                <img className='hidden lg:block' src={fullLogo} alt='TreesAI logo' />
               </div>
               <div>
-                <h2 className=' text-white-200'>Revaluing nature as urban infrastructure</h2>
+                <h2 className='text-white-200'>Revaluing nature as urban infrastructure</h2>
               </div>
             </div>
           </div>
@@ -43,13 +44,13 @@ export default function Home(props) {
               </p>
             </div>
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-0 my-10 mx-auto w-11/12'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-x-0 my-10 mx-auto w-11/12'>
               <div className='bg-green-400 rounded-l-[60px]'>
                 <div className='flex items-center justify-center py-16'>
                   <img src={pdIcon} alt='project developer icon'></img>
                 </div>
               </div>
-              <div className='bg-pd py-14 pl-40 m-over '>
+              <div className='bg-pd py-4 xl:py-14 pl-40 m-over '>
                 <div className=''>
                   <div className=' max-w-lg'>
                     <h1 className='text-white-200'>Project developers</h1>
@@ -59,12 +60,14 @@ export default function Home(props) {
                       Nature-based Solutions (NbS) into investable portfolios.
                     </h3>
                     <div className='flex items-center justify-center'>
-                      <button
-                        type='button'
-                        className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 mt-14 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-                      >
-                        Explore
-                      </button>
+                      <Link to='/explore'>
+                        <button
+                          type='button'
+                          className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 mt-14 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                        >
+                          Explore
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -91,12 +94,14 @@ export default function Home(props) {
                 </p>
               </div>
               <div>
-                <button
-                  type='button'
-                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-                >
-                  Develop
-                </button>
+                <Link to='/develop'>
+                  <button
+                    type='button'
+                    className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                  >
+                    Develop
+                  </button>
+                </Link>
                 <p className='text-dark-wood-800 book-intro-sm pt-10'>KEY ACTIONS</p>
                 <ul className='text-dark-wood-800 bold-intro-sm list-disc pt-5'>
                   <li>Upload your project data</li>
@@ -129,7 +134,7 @@ export default function Home(props) {
               <div>
                 <button
                   type='button'
-                  className='mt-14 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-600 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                  className='disabled mt-14 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-600 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                 >
                   Contract
                 </button>
@@ -164,7 +169,7 @@ export default function Home(props) {
               <div>
                 <button
                   type='button'
-                  className='mt-14 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-600 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                  className='disabled mt-14 bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-600 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                 >
                   Report
                 </button>
@@ -178,7 +183,7 @@ export default function Home(props) {
             </div>
           </div>
 
-          <div className='my-10 grid grid-cols-1 sm:grid-cols-3 gap-x-0'>
+          <div className='my-10 grid grid-cols-1 lg:grid-cols-3 gap-x-0'>
             <div className='max-w-lg px-20 py-20'>
               <h3 className='text-dark-wood-800'>
                 A platform registry to evaluate the impact of your projects.
@@ -187,19 +192,21 @@ export default function Home(props) {
                 Through our registry, you can access our Develop tool. By filling in a form with
                 your project data you’ll be able to quickly estimate the impacts of your project.
               </p>
-              <button
-                type='button'
-                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-              >
-                Develop
-              </button>
+              <Link to='/develop'>
+                <button
+                  type='button'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                >
+                  Develop
+                </button>
+              </Link>
             </div>
             <div className='mx-auto max-w-2xl col-span-2'>
               <img src={impactScreen} alt='Impact screenshot' />
             </div>
           </div>
 
-          <div className='my-10 grid grid-cols-1 sm:grid-cols-2 gap-x-0'>
+          <div className='my-10 grid grid-cols-1 lg:grid-cols-2 gap-x-0'>
             <div className='max-w-2xl'>
               <img src={mapScreen} alt='Map screenshot' />
             </div>
@@ -210,12 +217,14 @@ export default function Home(props) {
                 context of different map data sets (from canopy cover to social deprivation) as well
                 as other Nature-based Solutions projects.
               </p>
-              <button
-                type='button'
-                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-              >
-                Explore
-              </button>
+              <Link to='/explore'>
+                <button
+                  type='button'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                >
+                  Explore
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -225,19 +234,27 @@ export default function Home(props) {
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-0 justify-items-center  '>
               <div className=''>
-                <div className='title-text-container plan-background-shape py-28 px-28'>
-                  <h3 className='text-center text-white-200'>Quick Demo!</h3>
-                </div>
+                <Link to='/demo'>
+                  <div className='title-text-container plan-background-shape py-28 px-28'>
+                    <h3 className='text-center text-white-200'>Quick Demo!</h3>
+                  </div>
+                </Link>
               </div>
+
               <div className=''>
-                <div className='title-text-container measure-background-shape py-28 px-28'>
-                  <h3 className='text-center text-white-200'>Upload a project</h3>
-                </div>
+                <Link to='/develop'>
+                  <div className='title-text-container measure-background-shape py-28 px-28'>
+                    <h3 className='text-center text-white-200'>Upload a project</h3>
+                  </div>
+                </Link>
               </div>
+
               <div className=''>
-                <div className='title-text-container list-background-shape py-28 px-28'>
-                  <h3 className='text-center text-white-200'>Explore the NbS map</h3>
-                </div>
+                <Link to='/explore'>
+                  <div className='title-text-container list-background-shape py-28 px-28'>
+                    <h3 className='text-center text-white-200'>Explore the NbS map</h3>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -281,12 +298,14 @@ export default function Home(props) {
               <h3 className='text-white-200'>Curious about how TreesAI works with investors?</h3>
             </div>
             <div>
-              <button
-                type='button'
-                className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-              >
-                Investors
-              </button>
+              <Link to='/invest'>
+                <button
+                  type='button'
+                  className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+                >
+                  Investors
+                </button>
+              </Link>
             </div>
           </div>
         </main>
