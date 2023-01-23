@@ -12,6 +12,9 @@ import BudgetBarChart from '../components/charts/BudgetBarChart';
 import RibaStageChart from '../components/charts/RibaStageChart';
 import SDGList from '../components/SDGList';
 import InfoPopup from '../components/form/InfoPopup';
+import CarbSeqIcon from '../images/CarbSeqIcon.png';
+import CarbStorageIcon from '../images/CarbStorageIcon.png';
+import ComingSoonIcon from '../images/ComingSoonIcon.png';
 
 /* Hooks */
 
@@ -93,22 +96,58 @@ export default function Account(props) {
                 <InfoPopup label='efficiency' />
               </div>
 
-              <div className='grid grid-cols-6 gap-12 mx-5 my-5'>
-                <div className='flex-col justify-center items-center'>
-                  <div className='medium-intro-sm rounded-full bg-green-600 px-8 py-9 text-white text-center'>
-                    {getTotalCarbonStorage(userProjectList)}
-                  </div>
-                  <div className='text-center text-green-600 medium-intro-md'>
-                    Cumulative Carbon Sequestration (Kgs)
+              <div className='grid grid-cols-4 gap-4 mx-5 my-5'>
+                <div className='flex justify-center items-center '>
+                  <div className=' rounded-2xl border-2 border-green-600 bg-white-300   '>
+                    <div className='text-center text-green-600 medium-intro-md m-5'>
+                      Cumulative Carbon Sequestration (Kgs)
+                    </div>
+                    <img className='h-40 aspect-square object-center mx-auto' src={CarbSeqIcon} />
+                    <div className='medium-intro-sm rounded-full text-green-600 px-8 py-9 text-center'>
+                      {getTotalCarbonStorage(userProjectList)}
+                    </div>
                   </div>
                 </div>
-
                 <div className='flex-col justify-center items-center'>
-                  <div className='medium-intro-sm rounded-full bg-green-600 px-8 py-9 text-white text-center'>
-                    {getTotalCarbonSeq(userProjectList)}
+                  <div className=' rounded-2xl border-2 border-green-600 bg-white-300  '>
+                    <div className='text-center text-green-600 medium-intro-md m-5'>
+                      Carbon Storage (Kgs)
+                    </div>
+                    <img
+                      className='h-40 aspect-square object-center mx-auto'
+                      src={CarbStorageIcon}
+                    />
+                    <div className='medium-intro-sm rounded-full text-green-600 px-8 py-9 text-center'>
+                      {getTotalCarbonSeq(userProjectList)}
+                    </div>
                   </div>
-                  <div className='text-center text-green-600 medium-intro-md'>
-                    Carbon Storage (Kgs)
+                </div>
+                <div className='flex-col justify-center items-center'>
+                  <div className=' rounded-2xl border-2 border-gray-600 bg-white-300  '>
+                    <div className='text-center text-gray-600 medium-intro-md m-5'>
+                      Total Stormwater Retention (1000L/m2)
+                    </div>
+                    <img
+                      className='h-40 aspect-square object-center mx-auto'
+                      src={ComingSoonIcon}
+                    />
+                    <div className='medium-intro-sm rounded-full text-grray-600 px-8 py-9 text-center'>
+                      -
+                    </div>
+                  </div>
+                </div>
+                <div className='flex-col justify-center items-center'>
+                  <div className=' rounded-2xl border-2 border-gray-600 bg-white-300  '>
+                    <div className='text-center text-gray-600 medium-intro-md m-5'>
+                      Improvement on Stormwater Retention (1000L/m2)
+                    </div>
+                    <img
+                      className='h-40 aspect-square object-center mx-auto'
+                      src={ComingSoonIcon}
+                    />
+                    <div className='medium-intro-sm rounded-full text-grray-600 px-8 py-9 text-center'>
+                      -
+                    </div>
                   </div>
                 </div>
               </div>

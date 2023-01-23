@@ -41,7 +41,8 @@ export function getTotalTrees(projectList) {
   const totalTrees = projectList.reduce((accumulator, project) => {
     return accumulator + project.number_of_trees;
   }, 0);
-  return totalTrees;
+
+  return processNumbersForDisplay(totalTrees);
 }
 
 export function getTotalCarbonSeq(projectList) {
@@ -49,7 +50,7 @@ export function getTotalCarbonSeq(projectList) {
   for (let i = 0; i < projectList.length; i++) {
     totalCarbonSeq += projectList[i].Seq;
   }
-  return totalCarbonSeq.toFixed(2);
+  return processNumbersForDisplay(totalCarbonSeq);
 }
 
 export function getTotalCarbonStorage(projectList) {
@@ -57,7 +58,8 @@ export function getTotalCarbonStorage(projectList) {
   for (let i = 0; i < projectList.length; i++) {
     totalCarbonStorage += projectList[i].Storage;
   }
-  return totalCarbonStorage.toFixed(2);
+
+  return processNumbersForDisplay(totalCarbonStorage);
 }
 
 function renameTypology(typology) {
@@ -158,4 +160,23 @@ export function listSDGsFromProjects(projectList) {
   // Flatten array of arrays and remove duplicates
   const uniqueSDGIds = getUniqueElements(SDGIds.flat());
   return uniqueSDGIds;
+}
+
+export function processNumbersForDisplay(numberString) {
+  // Add ' and commas and round to 2 decimal places
+
+  const number = parseFloat(numberString);
+  const roundedNumber = number.toFixed(2);
+  const numberArray = roundedNumber.split('.');
+  const integerPart = numberArray[0];
+  const decimalPart = numberArray[1];
+
+  const integerPartWithCommas = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const numberWithCommas = integerPartWithCommas + '.' + decimalPart;
+
+  if (decimalPart === '00') {
+    return integerPartWithCommas;
+  } else {
+    return numberWithCommas;
+  }
 }
