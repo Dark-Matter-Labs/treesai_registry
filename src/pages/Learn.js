@@ -229,7 +229,7 @@ export default function Learn() {
           </div>
         </div>
 
-        <div className='grid grid-cols-2 sm:grid-cols-5 py-5 mx-auto max-w-[90rem] place-items-center'>
+        <div className='grid grid-cols-1 sm:grid-cols-5 py-5 mx-auto max-w-[90rem] place-items-center gap-y-4'>
           <div>
             <button
               type='button'
