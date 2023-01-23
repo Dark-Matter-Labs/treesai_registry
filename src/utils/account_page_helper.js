@@ -95,15 +95,19 @@ export function processForBudgetChart(projectList) {
   return budgetData;
 }
 
-const stages = get_stages();
+/* RIBA Chart */
+const RIBAStages = get_stages();
+
+function compareLowerCaseStrings(a, b) {
+  return a.toLowerCase() === b.toLowerCase();
+}
 
 function ribaNameToID(ribaName) {
-  const stage = stages.find((stage) => stage.label === ribaName);
+  const stage = RIBAStages.find((stage) => compareLowerCaseStrings(stage.label, ribaName));
   return stage ? stage.id : undefined;
 }
 
-export function processRibaChart(projectList) {
-  // export function to count how many projects are in each RIBA stage
+function countProjectbyRIBAStage(projectList) {
   const RIBACount = projectList.reduce((accumulator, project) => {
     const stage = project.stage;
     if (accumulator[stage]) {
@@ -113,6 +117,12 @@ export function processRibaChart(projectList) {
     }
     return accumulator;
   }, {});
+  return RIBACount;
+}
+
+export function processRibaChart(projectList) {
+  // export function to count how many projects are in each RIBA stage
+  const RIBACount = countProjectbyRIBAStage(projectList);
 
   // export function to convert RIBA count object to array of objects, remove undefined
   const RIBAData = Object.keys(RIBACount)
@@ -130,7 +140,10 @@ export function processRibaChart(projectList) {
     })
     .filter((item) => item !== undefined);
 
-  return RIBAData;
+  // sort object by RIBA stage
+  const sortedRIBAData = RIBAData.sort((a, b) => a.RIBAid - b.RIBAid);
+
+  return sortedRIBAData;
 }
 
 export function listSDGsFromProjects(projectList) {
