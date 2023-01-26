@@ -46,8 +46,12 @@ export default function Home(props) {
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-x-0 my-10 mx-auto w-11/12'>
               <div className='bg-green-400 rounded-l-[60px]'>
-                <div className='flex items-center justify-center py-16'>
-                  <img src={pdIcon} alt='project developer icon'></img>
+                <div className='flex items-center justify-center py-16 '>
+                  <img
+                    className='object-contain h-[300px] aspect-square'
+                    src={pdIcon}
+                    alt='project developer icon'
+                  ></img>
                 </div>
               </div>
               <div className='bg-pd py-4 xl:py-14 pl-40 m-over '>
@@ -82,7 +86,7 @@ export default function Home(props) {
 
             <div className='grid grid-cols-1 sm:grid-cols-4 bg-white-200 rounded-[140px] border border-green-600 pt-14 px-16 justify-items-center place-items-baseline'>
               <div>
-                <img className='h-48' src={devIcon} />
+                <img className='h-48 object-contain aspect-square' src={devIcon} />
                 <hr width='1' className='h-32 mx-auto  border border-green-600' />
               </div>
               <div className='col-span-2'>
@@ -115,7 +119,7 @@ export default function Home(props) {
             <div className='grid grid-cols-1 sm:grid-cols-4 bg-white-200 rounded-[140px] border border-green-600 px-16 justify-items-center place-items-baseline'>
               <div>
                 <hr width='1' className='h-20 mx-auto border border-green-600' />
-                <img className='h-48' src={recIcon} />
+                <img className='h-48 object-contain aspect-square' src={recIcon} />
                 <hr width='1' className='h-32 mx-auto  border border-green-600' />
               </div>
               <div className='col-span-2 pt-14'>
@@ -151,7 +155,7 @@ export default function Home(props) {
             <div className='grid grid-cols-1 sm:grid-cols-4 bg-white-200 rounded-[140px] border border-green-600 pb-20 px-16 justify-items-center place-items-baseline'>
               <div>
                 <hr width='1' className='h-20 mx-auto border border-green-600' />
-                <img className='h-48' src={implementIcon} />
+                <img className='h-48 object-contain aspect-square' src={implementIcon} />
               </div>
               <div className='col-span-2 pt-14'>
                 <h2 className='text-dark-wood-600'>
@@ -292,7 +296,7 @@ export default function Home(props) {
 
           <div className='bg-curious px-20 py-10 mx-auto max-w-6xl my-20  grid grid-cols-4 justify-items-center content-center place-content-center place-items-center'>
             <div>
-              <img src={curiousIcon} alt='curious investor icon' />
+              <img className='h-[166px] object-scale-down aspect-square' src={curiousIcon} alt='curious investor icon' />
             </div>
             <div className='col-span-2'>
               <h3 className='text-white-200'>Curious about how TreesAI works with investors?</h3>
