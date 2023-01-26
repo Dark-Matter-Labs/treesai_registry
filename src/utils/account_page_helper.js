@@ -41,7 +41,8 @@ export function getTotalTrees(projectList) {
   const totalTrees = projectList.reduce((accumulator, project) => {
     return accumulator + project.number_of_trees;
   }, 0);
-  return totalTrees;
+
+  return processNumbersForDisplay(totalTrees);
 }
 
 export function getTotalCarbonSeq(projectList) {
@@ -49,7 +50,7 @@ export function getTotalCarbonSeq(projectList) {
   for (let i = 0; i < projectList.length; i++) {
     totalCarbonSeq += projectList[i].Seq;
   }
-  return totalCarbonSeq.toFixed(2);
+  return processNumbersForDisplay(totalCarbonSeq);
 }
 
 export function getTotalCarbonStorage(projectList) {
@@ -57,7 +58,8 @@ export function getTotalCarbonStorage(projectList) {
   for (let i = 0; i < projectList.length; i++) {
     totalCarbonStorage += projectList[i].Storage;
   }
-  return totalCarbonStorage.toFixed(2);
+
+  return processNumbersForDisplay(totalCarbonStorage);
 }
 
 function renameTypology(typology) {
@@ -95,15 +97,19 @@ export function processForBudgetChart(projectList) {
   return budgetData;
 }
 
-const stages = get_stages();
+/* RIBA Chart */
+const RIBAStages = get_stages();
+
+function compareLowerCaseStrings(a, b) {
+  return a.toLowerCase() === b.toLowerCase();
+}
 
 function ribaNameToID(ribaName) {
-  const stage = stages.find((stage) => stage.label === ribaName);
+  const stage = RIBAStages.find((stage) => compareLowerCaseStrings(stage.label, ribaName));
   return stage ? stage.id : undefined;
 }
 
-export function processRibaChart(projectList) {
-  // export function to count how many projects are in each RIBA stage
+function countProjectbyRIBAStage(projectList) {
   const RIBACount = projectList.reduce((accumulator, project) => {
     const stage = project.stage;
     if (accumulator[stage]) {
@@ -113,6 +119,12 @@ export function processRibaChart(projectList) {
     }
     return accumulator;
   }, {});
+  return RIBACount;
+}
+
+export function processRibaChart(projectList) {
+  // export function to count how many projects are in each RIBA stage
+  const RIBACount = countProjectbyRIBAStage(projectList);
 
   // export function to convert RIBA count object to array of objects, remove undefined
   const RIBAData = Object.keys(RIBACount)
@@ -130,7 +142,10 @@ export function processRibaChart(projectList) {
     })
     .filter((item) => item !== undefined);
 
-  return RIBAData;
+  // sort object by RIBA stage
+  const sortedRIBAData = RIBAData.sort((a, b) => a.RIBAid - b.RIBAid);
+
+  return sortedRIBAData;
 }
 
 export function listSDGsFromProjects(projectList) {
@@ -145,4 +160,23 @@ export function listSDGsFromProjects(projectList) {
   // Flatten array of arrays and remove duplicates
   const uniqueSDGIds = getUniqueElements(SDGIds.flat());
   return uniqueSDGIds;
+}
+
+export function processNumbersForDisplay(numberString) {
+  // Add ' and commas and round to 2 decimal places
+
+  const number = parseFloat(numberString);
+  const roundedNumber = number.toFixed(2);
+  const numberArray = roundedNumber.split('.');
+  const integerPart = numberArray[0];
+  const decimalPart = numberArray[1];
+
+  const integerPartWithCommas = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const numberWithCommas = integerPartWithCommas + '.' + decimalPart;
+
+  if (decimalPart === '00') {
+    return integerPartWithCommas;
+  } else {
+    return numberWithCommas;
+  }
 }

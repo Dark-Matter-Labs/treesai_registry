@@ -60,9 +60,9 @@ export default function NbSMap(props) {
       }
       style={Object.assign({ width: '100vw', overflowY: 'hidden' }, { height: props.height })}
     >
+      <GeocoderControl mapboxAccessToken={MAPBOX_TOKEN} position='top-left' />
       <NavigationControl position='bottom-right' />
       <FullscreenControl position='bottom-right' />
-      <GeocoderControl mapboxAccessToken={MAPBOX_TOKEN} position='bottom-right' />
       {props.mapDataLayer === 'Social Deprivation' && (
         <Source type='geojson' data={SocialDeprivation}>
           <Layer {...SocialDeprivationStyles} />
