@@ -1,3 +1,4 @@
+import { Link as ScrollLink } from 'react-scroll';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import teamImage from '../images/team.jpg';
@@ -231,36 +232,44 @@ export default function Learn() {
 
         <div className='grid grid-cols-1 sm:grid-cols-5 py-5 mx-auto max-w-[90rem] place-items-center gap-y-4'>
           <div>
-            <button
-              type='button'
-              className='medium-intro-lg inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-4 px-16 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-            >
-              About Us
-            </button>
+            <ScrollLink to='about' smooth={true}>
+              <button
+                type='button'
+                className='medium-intro-lg inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-4 px-16 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+              >
+                About Us
+              </button>
+            </ScrollLink>
           </div>
           <div>
-            <button
-              type='button'
-              className='medium-intro-lg inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-4 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-            >
-              Publications
-            </button>
+            <ScrollLink to='publication' smooth={true}>
+              <button
+                type='button'
+                className='medium-intro-lg inline-flex justify-center rounded-full border border-transparent bg-indigo-600 py-4 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+              >
+                Publications
+              </button>
+            </ScrollLink>
           </div>
           <div>
-            <button
-              type='button'
-              className='medium-intro-lg inline-flex justify-center rounded-full border border-transparent bg-indigo-500 py-4 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-            >
-              Press
-            </button>
+            <ScrollLink to='press' smooth={true}>
+              <button
+                type='button'
+                className='medium-intro-lg inline-flex justify-center rounded-full border border-transparent bg-indigo-500 py-4 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+              >
+                Press
+              </button>
+            </ScrollLink>
           </div>
           <div>
-            <button
-              type='button'
-              className='medium-intro-lg inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-4 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
-            >
-              Videos
-            </button>
+            <ScrollLink to='videos' smooth={true}>
+              <button
+                type='button'
+                className='medium-intro-lg inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-4 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
+              >
+                Videos
+              </button>
+            </ScrollLink>
           </div>
           <div>
             <button
@@ -273,7 +282,7 @@ export default function Learn() {
         </div>
 
         <div className='my-20'>
-          <div className='rounded-[60px] mt-4 bg-dark-wood-800 py-20 px-20 mt-10'>
+          <div className='rounded-[60px] mt-4 bg-dark-wood-800 py-20 px-20 mt-10' name='about'>
             <div className='grid grid-cols-1 sm:grid-cols-3'>
               <div className='max-w-sm'>
                 <h2 className='text-white-200 pt-4'>
@@ -297,74 +306,78 @@ export default function Learn() {
             <h2 className='pb-8 text-dark-wood-800'>Our team leaders</h2>
           </div>
 
-          <div className='bg-team-bg grid grid-cols-1 sm:grid-cols-3 px-20 py-12 gap-x-8 gap-y-10'>
-            <div className='flex flex-col justify-center items-center'>
-              <img className='h-40' src={carlottaImg} />
-              <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
-                CO-FOUNDER
-              </p>
-              <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
-                <h3 className='text-center'>Carlotta Conte-Billant</h3>
-                <p className='book-intro-md py-4'>
-                  Nature-based Solutions, project manager, Speaker and Lecturer, Urban Planner,
-                  UNDP, Entrepreneur
+          <div className='bg-gradient-to-r from-indigo-500 to-green-600 px-20 py-12 rounded-[30px] border border-black'>
+            <div className='grid grid-cols-1 lg:grid-cols-3  gap-x-8 gap-y-10'>
+              <div className='flex flex-col justify-center items-center'>
+                <img className='h-40' src={carlottaImg} />
+                <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
+                  CO-FOUNDER
                 </p>
+                <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
+                  <h3 className='text-center'>Carlotta Conte-Billant</h3>
+                  <p className='book-intro-md py-4'>
+                    Nature-based Solutions, project manager, Speaker and Lecturer, Urban Planner,
+                    UNDP, Entrepreneur
+                  </p>
+                </div>
+              </div>
+
+              <div className='flex flex-col justify-center items-center'>
+                <img className='h-40' src={ozImg} />
+                <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
+                  CO-FOUNDER
+                </p>
+                <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
+                  <h3 className='text-center'>Oguzhan Yayla</h3>
+                  <p className='book-intro-md py-4'>
+                    Capitalise digital systems architect and Engineer with Experience in building
+                    scalable Data infrastructures for startups
+                  </p>
+                </div>
+              </div>
+
+              <div className='flex flex-col justify-center items-center'>
+                <img className='h-40' src={kostaImg} />
+                <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
+                  CO-FOUNDER
+                </p>
+                <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
+                  <h3 className='text-center'>Konstantina Koulouri</h3>
+                  <p className='book-intro-md'>
+                    Natural Capital expert driving innovation in the financialization of Nature,
+                    valuation of ecosystem services and Natural Capital Markets
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className='flex flex-col justify-center items-center'>
-              <img className='h-40' src={ozImg} />
-              <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
-                CO-FOUNDER
-              </p>
-              <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
-                <h3 className='text-center'>Oguzhan Yayla</h3>
-                <p className='book-intro-md py-4'>
-                  Capitalise digital systems architect and Engineer with Experience in building
-                  scalable Data infrastructures for startups
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-10 pt-10 justify-items-center'>
+              <div className='flex flex-col justify-center items-center max-w-lg'>
+                <img className='h-40' src={rajImg} />
+                <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
+                  FINANCIAL STRUCTURING
                 </p>
+                <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
+                  <h3 className='text-center'>Raj Kalia</h3>
+                  <p className='book-intro-md py-4'>
+                    25+ years of International experience in Senior Capital markets and asset
+                    management roles at global bank
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div className='flex flex-col justify-center items-center'>
-              <img className='h-40' src={kostaImg} />
-              <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
-                CO-FOUNDER
-              </p>
-              <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
-                <h3 className='text-center'>Konstantina Koulouri</h3>
-                <p className='book-intro-md'>
-                  Natural Capital expert driving innovation in the financialization of Nature,
-                  valuation of ecosystem services and Natural Capital Markets
+              <div className='flex flex-col justify-center items-center max-w-lg'>
+                <img className='h-40' src={roniImg} />
+                <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
+                  SCENARIO ANALYSIS EXPERT
                 </p>
-              </div>
-            </div>
-
-            <div className='flex flex-col justify-center items-center'>
-              <img className='h-40' src={rajImg} />
-              <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
-                FINANCIAL STRUCTURING
-              </p>
-              <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
-                <h3 className='text-center'>Raj Kalia</h3>
-                <p className='book-intro-md py-4'>
-                  25+ years of International experience in Senior Capital markets and asset
-                  management roles at global bank
-                </p>
-              </div>
-            </div>
-
-            <div className='flex flex-col justify-center items-center'>
-              <img className='h-40' src={roniImg} />
-              <p className='medium-intro-sm text-white-200 bg-black rounded-[30px] text-center px-8 py-2'>
-                SCENARIO ANALYSIS EXPERT
-              </p>
-              <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
-                <h3 className='text-center'>Bulent Ozel</h3>
-                <p className='book-intro-md'>
-                  Capitalise Complex system scientific focused on agend-based modelling, simulation,
-                  social network analysis, machine learning, lecturer
-                </p>
+                <div className=' bg-white text-black border border-black rounded-[30px] px-4 py-4'>
+                  <h3 className='text-center'>Bulent Ozel</h3>
+                  <p className='book-intro-md'>
+                    Capitalise Complex system scientific focused on agend-based modelling,
+                    simulation, social network analysis, machine learning, lecturer
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -375,43 +388,43 @@ export default function Learn() {
             <h2 className='pb-8 text-dark-wood-800'>Collaborators - list</h2>
           </div>
 
-          <div className='bg-team-bg grid grid-cols-1 sm:grid-cols-4 px-20 py-10 gap-x-8 gap-y-10 text-center'>
-            <div className='rounded-[68px] bg-dark-wood-800 px-2 py-2'>
+          <div className='bg-gradient-to-r from-indigo-500 to-green-600 border border-black rounded-[30px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-20 py-10 gap-x-8 gap-y-10 text-center'>
+            <div className='rounded-[68px] bg-dark-wood-800 px-8 py-8 sm:px-2 sm:py-2'>
               <p className='medium-intro-md text-white-200'>Arianna Smaron</p>
               <p className='medium-intro-md text-white-200'>Product and visual design</p>
             </div>
 
-            <div className='rounded-[68px] bg-dark-wood-800 px-2 py-2'>
+            <div className='rounded-[68px] bg-dark-wood-800 px-8 py-8 sm:px-2 sm:py-2'>
               <p className='medium-intro-md text-white-200'>Axel Nilsson</p>
               <p className='medium-intro-md text-white-200'>Data science & Fullstack dev</p>
             </div>
 
-            <div className='rounded-[68px] bg-dark-wood-800 px-2 py-2'>
+            <div className='rounded-[68px] bg-dark-wood-800 px-8 py-8 sm:px-2 sm:py-2'>
               <p className='medium-intro-md text-white-200'>Carolina Christiansen</p>
               <p className='medium-intro-md text-white-200'>Financial analysis</p>
             </div>
 
-            <div className='rounded-[68px] bg-dark-wood-800 px-2 py-2'>
+            <div className='rounded-[68px] bg-dark-wood-800 px-8 py-8 sm:px-2 sm:py-2'>
               <p className='medium-intro-md text-white-200'>Chloe Treger</p>
               <p className='medium-intro-md text-white-200'>Natural Capital research</p>
             </div>
 
-            <div className='rounded-[68px] bg-dark-wood-800 px-2 py-2'>
+            <div className='rounded-[68px] bg-dark-wood-800 px-8 py-8 sm:px-2 sm:py-2'>
               <p className='medium-intro-md text-white-200'>Gurden Batra</p>
               <p className='medium-intro-md text-white-200'>Frontend dev</p>
             </div>
 
-            <div className='rounded-[68px] bg-dark-wood-800 px-2 py-2'>
+            <div className='rounded-[68px] bg-dark-wood-800 px-8 py-8 sm:px-2 sm:py-2'>
               <p className='medium-intro-md text-white-200'>Lorenza Agosti</p>
               <p className='medium-intro-md text-white-200'>Biz dev & Reserach</p>
             </div>
 
-            <div className='rounded-[68px] bg-dark-wood-800 px-2 py-2'>
+            <div className='rounded-[68px] bg-dark-wood-800 px-8 py-8 sm:px-2 sm:py-2'>
               <p className='medium-intro-md text-white-200'>Marko Petrovic</p>
               <p className='medium-intro-md text-white-200'>Impact modelling</p>
             </div>
 
-            <div className='rounded-[68px] bg-dark-wood-800 px-2 py-2'>
+            <div className='rounded-[68px] bg-dark-wood-800 px-8 py-8 sm:px-2 sm:py-2'>
               <p className='medium-intro-md text-white-200'>Sofia Valentini</p>
               <p className='medium-intro-md text-white-200'>Portfolio Structuring</p>
             </div>
@@ -424,7 +437,10 @@ export default function Learn() {
           </div>
 
           <SectionHeader title='Publications' />
-          <div className='bg-white-200 rounded-[50px] border border-indigo-600 px-20 py-10 mb-10'>
+          <div
+            className='bg-white-200 rounded-[50px] border border-indigo-600 px-20 py-10 mb-10'
+            name='publication'
+          >
             <div className='mt-12 mx-auto max-w-md px-4 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl'>
               {publications.map((post) => (
                 <div key={post.id} className='flex flex-col rounded-lg shadow-md overflow-hidden'>
@@ -474,7 +490,10 @@ export default function Learn() {
           </div>
 
           <SectionHeader title='Press' />
-          <div className='bg-white-200 rounded-[50px] border border-indigo-600 px-20 py-10 mb-10'>
+          <div
+            className='bg-white-200 rounded-[50px] border border-indigo-600 px-20 py-10 mb-10'
+            name='press'
+          >
             <div className='mt-12 mx-auto max-w-md px-4 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl'>
               {press.map((post) => (
                 <div key={post.title}>
@@ -506,7 +525,10 @@ export default function Learn() {
           </div>
 
           <SectionHeader title='Podcasts/ Videos' />
-          <div className='bg-white-200 rounded-[50px] border border-indigo-600 px-20 py-10'>
+          <div
+            className='bg-white-200 rounded-[50px] border border-indigo-600 px-20 py-10'
+            name='videos'
+          >
             <div className='mt-12 mx-auto max-w-md px-4 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl'>
               {videos.map((post) => (
                 <div key={post.id} className='flex flex-col rounded-lg shadow-lg overflow-hidden'>

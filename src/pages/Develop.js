@@ -615,6 +615,8 @@ export default function Develop(props) {
                       </div>
                     </div>
 
+                    <div className='col-span-3'></div>
+
                     <NumberInput
                       span='sm:col-span-3'
                       label='projectLength'
@@ -733,7 +735,7 @@ export default function Develop(props) {
                           placeholder='100'
                           type='typology'
                           unit='trees'
-                          min={5}
+                          min={10}
                           max={1000}
                           required={true}
                           onChange={onChange}
