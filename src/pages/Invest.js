@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import waterImg from '../images/water.png';
@@ -17,10 +18,10 @@ import TerraLogo from '../images/partner_logos/terra.png';
 
 import curiousIcon from '../images/curious2.png';
 
-export default function Invest() {
+export default function Invest({ loggedIn }) {
   return (
     <div className='bg-white-300 '>
-      <NavBar current='invest' />
+      <NavBar loggedIn={loggedIn} current='invest' />
       <div className='global-margin '>
         <div className='bg-investor mt-4 grid grid-cols-1 lg:grid-cols-2 py-40 justify-items-center content-center place-content-center place-items-center gap-x-0'>
           <div className='bg-white-200 rounded-br-[100px] px-4 lg:py-10 max-w-sm '>
@@ -267,3 +268,7 @@ export default function Invest() {
     </div>
   );
 }
+
+Invest.propTypes = {
+  loggedIn: PropTypes.bool,
+};

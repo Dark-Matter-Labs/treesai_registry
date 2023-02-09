@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 
-export default function NotFound() {
+export default function NotFound({ loggedIn }) {
   return (
     <div className='bg-white-300 '>
-      <NavBar current='invest' />
+      <NavBar coggedIn={loggedIn} current='invest' />
       <div className='global-margin'>
         <div className='title-box mt-5 py-20 bg-learn'>
           <div className='py-5'>
@@ -50,3 +51,7 @@ export default function NotFound() {
     </div>
   );
 }
+
+NotFound.propTypes = {
+  loggedIn: PropTypes.bool,
+};

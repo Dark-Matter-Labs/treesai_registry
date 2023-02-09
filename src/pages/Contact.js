@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import teamImage from '../images/team.jpg';
 
-export default function Contact() {
+export default function Contact({ loggedIn }) {
   return (
     <div className='font-favorit bg-white-200 bg-pattern '>
-      <NavBar current='learn' />
+      <NavBar loggedIn={loggedIn} current='learn' />
       <div className='bg-white-200 global-margin bg-pattern '>
         <div className='title-box mt-5 bg-dark-wood-800 py-20'>
           <h1 className='text-center text-white-200'>Get in contact</h1>
@@ -30,3 +31,7 @@ export default function Contact() {
     </div>
   );
 }
+
+Contact.propTypes = {
+  loggedIn: PropTypes.bool,
+};

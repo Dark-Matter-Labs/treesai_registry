@@ -1,4 +1,5 @@
 import { Link as ScrollLink } from 'react-scroll';
+import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import teamImage from '../images/team.jpg';
@@ -214,10 +215,10 @@ const press = [
   },
 ];
 
-export default function Learn() {
+export default function Learn({ loggedIn }) {
   return (
     <div className='bg-white-300 '>
-      <NavBar current='learn' />
+      <NavBar loggedIn={loggedIn} current='learn' />
       <div className='global-margin'>
         <div className='title-box mt-5 py-20 bg-learn'>
           <div className='py-5'>
@@ -580,3 +581,7 @@ export default function Learn() {
     </div>
   );
 }
+
+Learn.propTypes = {
+  loggedIn: PropTypes.bool,
+};

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import sdgs1 from '../images/sdgs_1.png';
 import sdgs2 from '../images/sdgs_2.png';
@@ -15,10 +16,10 @@ import Footer from '../components/Footer';
 import MapVideo from '../images/NbSMap.webm';
 import loadingPlaceholder from '../images/loadingPlaceholder.png';
 
-export default function Glasgow() {
+export default function Glasgow({ loggedIn }) {
   return (
     <div className='bg-white-300'>
-      <NavBar current='invest' />
+      <NavBar loggedIn={loggedIn} current='invest' />
       <div className='global-margin'>
         <div className='title-box mt-5 bg-dark-wood-800 py-20'>
           <h1 className='text-center text-white-200'>Glasgow NbS Portfolio</h1>
@@ -269,3 +270,7 @@ export default function Glasgow() {
     </div>
   );
 }
+
+Glasgow.propTypes = {
+  loggedIn: PropTypes.bool,
+};
