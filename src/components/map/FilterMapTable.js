@@ -12,7 +12,7 @@ import { useProjects } from '../../utils/explore_page_helper';
 import { getExploreTableColumns } from '../../utils/table_helper';
 
 /* --- Main --- */
-export default function FilterMapTable({ mapLayer, setMapLayer }) {
+export default function FilterMapTable({ mapLayer, setMapLayer, setShowPanel }) {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
   const [projects, setProjects] = useState();
@@ -65,6 +65,7 @@ export default function FilterMapTable({ mapLayer, setMapLayer }) {
                 onClick={() => {
                   setMapHeight('20vh');
                   setTableHeight('80vh');
+                  setShowPanel(false);
                 }}
               >
                 <ArrowCircleUpIcon className='text-white-200 w-7 h-7' />
@@ -101,4 +102,5 @@ export default function FilterMapTable({ mapLayer, setMapLayer }) {
 FilterMapTable.propTypes = {
   setMapLayer: PropTypes.func,
   mapLayer: PropTypes.string,
+  setShowPanel: PropTypes.func,
 };

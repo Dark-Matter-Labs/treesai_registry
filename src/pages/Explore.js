@@ -17,7 +17,11 @@ export default function Explore(props) {
           <div className='absolute z-20'>
             <InfoPanel layer={mapDataLayer} show={showInfoPanel} setShowPanel={setShowInfoPanel} />
           </div>
-          <FilterMapTable mapLayer={mapDataLayer} setMapLayer={setMapDataLayer} />
+          <FilterMapTable
+            mapLayer={mapDataLayer}
+            setMapLayer={setMapDataLayer}
+            setShowPanel={setShowInfoPanel}
+          />
         </div>
       ) : (
         <div className='relative'>
@@ -28,7 +32,11 @@ export default function Explore(props) {
               </button>
             </div>
           </div>
-          <FilterMapTable mapLayer={mapDataLayer} setMapLayer={setMapDataLayer} />
+          <FilterMapTable
+            mapLayer={mapDataLayer}
+            setMapLayer={setMapDataLayer}
+            setShowPanel={setShowInfoPanel}
+          />
         </div>
       )}
     </div>
