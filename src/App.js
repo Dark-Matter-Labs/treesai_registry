@@ -12,6 +12,7 @@ import Learn from './pages/Learn';
 import Contact from './pages/Contact';
 import Demo from './pages/Demo';
 import Account from './pages/Account';
+import NotFound from './pages/NotFound';
 import ScrollToTop from './utils/ScrollToTop';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route exact path='/contact' element={<Contact />} />
         <Route exact path='/demo' element={<Demo />} />
         <Route exact path='/account' element={<Account loggedIn={loggedIn} />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );
