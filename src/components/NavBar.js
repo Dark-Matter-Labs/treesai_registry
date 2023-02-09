@@ -148,16 +148,6 @@ export default function NavBar(props) {
                         </Transition>
                       </Menu>
                     </div>
-                    <span
-                      className={classNames(
-                        props.current === 'demo'
-                          ? 'border-green-600 text-dark-wood-800'
-                          : 'border-transparent text-gray-500',
-                        'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
-                      )}
-                    >
-                      <Link to='/demo'>Demo</Link>
-                    </span>
                   </div>
                 </div>
                 <div
@@ -327,13 +317,6 @@ export default function NavBar(props) {
                   className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
                 >
                   Glasgow Pilot
-                </Disclosure.Button>
-                <Disclosure.Button
-                  as='a'
-                  href='/demo'
-                  className='block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700'
-                >
-                  Demo
                 </Disclosure.Button>
                 <Disclosure.Button
                   as='a'

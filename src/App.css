@@ -95,46 +95,6 @@ html {
   background-size: cover;
 }
 
-.header-background {
-  background: url(images/header-background.png) no-repeat center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100vw;
-  height: 80vh;
-}
-
-.center-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.center-content {
-  flex: 0 0 60vw;
-}
-
-.saf-demo {
-  background: url(images/SAF-preview.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
-  padding: 20%;
-}
-
-.tooltip {
-  position: absolute;
-  margin: 8px;
-  padding: 4px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  max-width: 300px;
-  font-size: 10px;
-  z-index: 9;
-  pointer-events: none;
-}
-
 .control-panel {
   position: absolute;
   top: 0;
@@ -143,11 +103,6 @@ html {
   padding: 12px 24px;
   margin: 20px;
   text-transform: uppercase;
-}
-
-.onMap {
-  position: absolute;
-  max-width: 400px;
 }
 
 .title-text-container {
@@ -210,13 +165,6 @@ html {
 
 .rounded-30 {
   border-radius: 30px;
-}
-
-.vertical-row {
-  float: left;
-  height: 100px;
-  width: 1px;
-  background-color: your color;
 }
 
 .styled-scrollbars {

@@ -238,11 +238,9 @@ export default function Home(props) {
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-0 justify-items-center  '>
               <div className=''>
-                <Link to='/demo'>
                   <div className='title-text-container plan-background-shape py-28 px-28'>
                     <h3 className='text-center text-white-200'>Quick Demo!</h3>
                   </div>
-                </Link>
               </div>
 
               <div className=''>
@@ -296,7 +294,11 @@ export default function Home(props) {
 
           <div className='bg-curious px-20 py-10 mx-auto max-w-6xl my-20  grid grid-cols-4 justify-items-center content-center place-content-center place-items-center'>
             <div>
-              <img className='h-[166px] object-scale-down aspect-square' src={curiousIcon} alt='curious investor icon' />
+              <img
+                className='h-[166px] object-scale-down aspect-square'
+                src={curiousIcon}
+                alt='curious investor icon'
+              />
             </div>
             <div className='col-span-2'>
               <h3 className='text-white-200'>Curious about how TreesAI works with investors?</h3>
