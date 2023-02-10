@@ -232,16 +232,11 @@ export default function Home(props) {
             </div>
           </div>
 
-          <div className='my-10'>
+          <div className='my-20'>
             <div className='max-w-2xl m-auto text-center'>
               <h2 className='pb-8 text-dark-wood-800'>Get started!</h2>
             </div>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-0 justify-items-center  '>
-              <div className=''>
-                  <div className='title-text-container plan-background-shape py-28 px-28'>
-                    <h3 className='text-center text-white-200'>Quick Demo!</h3>
-                  </div>
-              </div>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-x-0 justify-items-center'>
 
               <div className=''>
                 <Link to='/develop'>

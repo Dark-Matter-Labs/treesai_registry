@@ -29,7 +29,7 @@ function App() {
         <Route exact path='/explore' element={<Explore loggedIn={loggedIn} />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/login' element={<Login />} />
-        <Route exact path='/glasgow-nbs-portfolio' element={<Glasgow />} />
+        <Route exact path='/glasgow-nbs-portfolio' element={<Glasgow loggedIn={loggedIn} />} />
         <Route exact path='/invest' element={<Invest loggedIn={loggedIn} />} />
         <Route exact path='/learn-more' element={<Learn loggedIn={loggedIn} />} />
         <Route exact path='/contact' element={<Contact loggedIn={loggedIn} />} />
