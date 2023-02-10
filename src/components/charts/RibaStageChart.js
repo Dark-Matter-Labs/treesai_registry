@@ -1,4 +1,4 @@
-import { ResponsiveBar } from '@nivo/bar';
+import { ResponsiveBarCanvas } from '@nivo/bar';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -11,7 +11,7 @@ const BarChart = (props) => {
 
   return (
     <div className='px-4 py-4 rounded-[30px]' style={{ height: '400px' }}>
-      <ResponsiveBar
+      <ResponsiveBarCanvas
         data={data}
         keys={['projectsNumber']}
         indexBy='RIBAid'

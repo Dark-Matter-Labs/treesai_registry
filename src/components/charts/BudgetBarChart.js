@@ -1,4 +1,4 @@
-import { ResponsiveBar } from '@nivo/bar';
+import { ResponsiveBarCanvas } from '@nivo/bar';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,7 +10,7 @@ const BarChart = (props) => {
   }, [props.data]);
 
   return (
-    <div>
+    <div className='my-5 mx-5'>
       <div className='flex items-center gap-5 pb-4'>
         <div className='px-5 py-4 bg-green-600 rounded-full'></div>
         <div>
@@ -31,7 +31,7 @@ const BarChart = (props) => {
       </div>
 
       <div className='px-4 py-4 rounded-[30px]' style={{ height: '400px' }}>
-        <ResponsiveBar
+        <ResponsiveBarCanvas
           data={data}
           keys={['budget']}
           indexBy='typology'
@@ -51,7 +51,7 @@ const BarChart = (props) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: '£',
+            legend: 'number of trees',
             legendPosition: 'middle',
             legendOffset: -60,
           }}

@@ -96,8 +96,8 @@ export default function Account(props) {
                 <InfoPopup label='efficiency' />
               </div>
 
-              <div className='grid grid-cols-4 gap-4 mx-5 my-5'>
-                <div className='flex justify-center items-center '>
+              <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mx-5 my-5'>
+                <div className='flex-col justify-center items-center '>
                   <div className=' rounded-2xl border-2 border-green-600 bg-white-300   '>
                     <div className='text-center text-green-600 medium-intro-md m-5'>
                       Cumulative Carbon Sequestration (Kgs)
@@ -110,7 +110,7 @@ export default function Account(props) {
                 </div>
                 <div className='flex-col justify-center items-center'>
                   <div className=' rounded-2xl border-2 border-green-600 bg-white-300  '>
-                    <div className='text-center text-green-600 medium-intro-md m-5'>
+                    <div className='text-center text-green-600 medium-intro-md m-5 xl:pb-[3.2rem]'>
                       Carbon Storage (Kgs)
                     </div>
                     <img
@@ -124,7 +124,7 @@ export default function Account(props) {
                 </div>
                 <div className='flex-col justify-center items-center'>
                   <div className=' rounded-2xl border-2 border-gray-600 bg-white-300  '>
-                    <div className='text-center text-gray-600 medium-intro-md m-5'>
+                    <div className='text-center text-gray-600 medium-intro-md m-5 xl:pb-6'>
                       Total Stormwater Retention (1000L/m2)
                     </div>
                     <img
