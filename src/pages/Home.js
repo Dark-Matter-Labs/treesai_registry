@@ -64,14 +64,12 @@ export default function Home(props) {
                       Nature-based Solutions (NbS) into investable portfolios.
                     </h3>
                     <div className='flex items-center justify-center'>
-                      <Link to='/explore'>
                         <button
                           type='button'
                           className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 mt-14 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                         >
                           Explore
                         </button>
-                      </Link>
                     </div>
                   </div>
                 </div>
@@ -98,14 +96,12 @@ export default function Home(props) {
                 </p>
               </div>
               <div>
-                <Link to='/develop'>
                   <button
                     type='button'
                     className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                   >
                     Develop
                   </button>
-                </Link>
                 <p className='text-dark-wood-800 book-intro-sm pt-10'>KEY ACTIONS</p>
                 <ul className='text-dark-wood-800 bold-intro-sm list-disc pt-5'>
                   <li>Upload your project data</li>
@@ -196,14 +192,12 @@ export default function Home(props) {
                 Through our registry, you can access our Develop tool. By filling in a form with
                 your project data you’ll be able to quickly estimate the impacts of your project.
               </p>
-              <Link to='/develop'>
                 <button
                   type='button'
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                 >
                   Develop
                 </button>
-              </Link>
             </div>
             <div className='mx-auto max-w-2xl col-span-2'>
               <img src={impactScreen} alt='Impact screenshot' />
@@ -221,14 +215,12 @@ export default function Home(props) {
                 context of different map data sets (from canopy cover to social deprivation) as well
                 as other Nature-based Solutions projects.
               </p>
-              <Link to='/explore'>
                 <button
                   type='button'
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                 >
                   Explore
                 </button>
-              </Link>
             </div>
           </div>
 
@@ -239,19 +231,15 @@ export default function Home(props) {
             <div className='grid grid-cols-1 md:grid-cols-2 gap-x-0 justify-items-center'>
 
               <div className=''>
-                <Link to='/develop'>
                   <div className='title-text-container measure-background-shape py-28 px-28'>
                     <h3 className='text-center text-white-200'>Upload a project</h3>
                   </div>
-                </Link>
               </div>
 
               <div className=''>
-                <Link to='/explore'>
                   <div className='title-text-container list-background-shape py-28 px-28'>
                     <h3 className='text-center text-white-200'>Explore the NbS map</h3>
                   </div>
-                </Link>
               </div>
             </div>
           </div>
