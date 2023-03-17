@@ -28,22 +28,18 @@ export default function NotFound({ loggedIn }) {
                 Home
               </button>
             </Link>
-            <Link to='/explore'>
               <button
                 type='button'
                 className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
               >
                 NbS Map
               </button>
-            </Link>
-            <Link to='/develop'>
               <button
                 type='button'
                 className='bold-intro-sm ml-10 rounded-full border border-gray-300 bg-dark-wood-800 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700'
               >
                 Develop
               </button>
-            </Link>
           </div>
         </div>
         <Footer />

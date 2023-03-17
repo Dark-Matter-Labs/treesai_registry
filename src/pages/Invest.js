@@ -100,14 +100,12 @@ export default function Invest({ loggedIn }) {
               </p>
             </div>
             <div className='py-20'>
-              <Link to='/explore'>
                 <button
                   type='button'
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 py-2 px-12 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                 >
                   Explore
                 </button>
-              </Link>
             </div>
           </div>
           <hr className='mx-40 border-8 border-indigo-600' />
@@ -176,14 +174,12 @@ export default function Invest({ loggedIn }) {
               the context of different map data sets (from canopy cover to social deprivation) and
               explore investment opportunities.
             </p>
-            <Link to='/explore'>
               <button
                 type='button'
                 className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
               >
                 Explore
               </button>
-            </Link>
           </div>
         </div>
 

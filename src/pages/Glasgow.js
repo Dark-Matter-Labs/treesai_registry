@@ -168,14 +168,12 @@ export default function Glasgow({ loggedIn }) {
                 Explore the Glasgow NbS Portfolio, and select an NbS project to read about it in
                 detail.
               </p>
-              <Link to='/explore'>
                 <button
                   type='button'
                   className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent  bg-white-200 my-10 py-2 px-12 text-dark-wood-800 shadow-sm hover:bg-dark-wood-700 '
                 >
                   NbS Map
                 </button>
-              </Link>
             </div>
             <div className='col-span-2'>
               <video className='' autoPlay loop muted poster={loadingPlaceholder}>
@@ -247,14 +245,12 @@ export default function Glasgow({ loggedIn }) {
                   Project
                   <br /> Developers{' '}
                 </h2>
-                <Link to='/develop'>
                   <button
                     type='button'
                     className='bold-intro-sm inline-flex justify-center rounded-full border border-transparent bg-dark-wood-800 my-10 py-2 px-8 text-white-200 shadow-sm hover:bg-dark-wood-700 '
                   >
                     Add a Project
                   </button>
-                </Link>
               </div>
               <div className='bg-green-400 rounded-tr-[100px] px-8 py-10'>
                 <p className='text-dark-wood-800 medium-intro-md text-left px-5'>
