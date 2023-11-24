@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ReactMapboxGL, {
-  Marker,
   Popup,
   Source,
   Layer,
@@ -9,7 +8,6 @@ import ReactMapboxGL, {
 } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import PropTypes from 'prop-types';
-import Pin from './Pin';
 import GeocoderControl from './GeocoderControl';
 import {
   SocialDeprivationStyles,
@@ -80,22 +78,6 @@ export default function NbSMap(props) {
       )}
 
       <>
-        {props.data.map((city, index) => (
-          <Marker
-            key={`marker-${index}`}
-            longitude={city.lng}
-            latitude={city.lat}
-            anchor='bottom'
-            onClick={(e) => {
-              // If we let the click event propagates to the map, it will immediately close the popup
-              // with `closeOnClick: true`
-              e.originalEvent.stopPropagation();
-              props.selectProject(city);
-            }}
-          >
-            <Pin />
-          </Marker>
-        ))}
 
         {props.popupInfo && (
           <Popup

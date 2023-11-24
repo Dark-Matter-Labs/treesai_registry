@@ -1,34 +1,19 @@
 import PropTypes from 'prop-types';
 /* --- Components --- */
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { ArrowCircleUpIcon, ArrowCircleDownIcon } from '@heroicons/react/outline';
 import NbSMap from './NbSMap';
-import ProjectsTable from './ProjectsTable';
-import Filter from './Filter';
 import DataLayerSelector from './DataLayerSelector';
 
-/* --- Hooks --- */
-import { useProjects } from '../../utils/explore_page_helper';
-import { getExploreTableColumns } from '../../utils/table_helper';
 
 /* --- Main --- */
 export default function FilterMapTable({ mapLayer, setMapLayer, setShowPanel }) {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
-  const [projects, setProjects] = useState();
 
-  const [mapHeight, setMapHeight] = useState('65vh');
-  const [tableHeight, setTableHeight] = useState('35vh');
+  const [mapHeight, setMapHeight] = useState('90vh');
+  const [tableHeight, setTableHeight] = useState('0vh');
 
-  const columns = useMemo(() => getExploreTableColumns(), []);
-
-  const { dBprojects } = useProjects();
-
-  useEffect(() => {
-    if (dBprojects) {
-      setProjects(dBprojects);
-    }
-  }, [dBprojects]);
 
   const selectProject = (current) => {
     mapRef.current.flyTo({
@@ -39,15 +24,12 @@ export default function FilterMapTable({ mapLayer, setMapLayer, setShowPanel }) 
     setPopupInfo(current);
   };
 
-  if (projects) {
     return (
       <div className='overflow-hidden h-screen m-0'>
         <div className=''>
-          <Filter projects={projects} setData={setProjects} />
           <DataLayerSelector setMapDataLayer={setMapLayer} />
           <NbSMap
             mapRef={mapRef}
-            data={projects}
             selectProject={selectProject}
             popupInfo={popupInfo}
             setPopupInfo={setPopupInfo}
@@ -85,18 +67,9 @@ export default function FilterMapTable({ mapLayer, setMapLayer, setShowPanel }) 
               </button>
             </div>
           </div>
-          <ProjectsTable
-            data={projects}
-            columns={columns}
-            selectProject={selectProject}
-            height={tableHeight}
-          />
         </div>
       </div>
     );
-  } else {
-    return <div>Loading...</div>;
-  }
 }
 
 FilterMapTable.propTypes = {
