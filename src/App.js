@@ -7,6 +7,7 @@ import Invest from './pages/Invest';
 import Learn from './pages/Learn';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
+import Explore from './pages/Explore'
 import ScrollToTop from './utils/ScrollToTop';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route exact path='/invest' element={<Invest loggedIn={loggedIn} />} />
         <Route exact path='/learn-more' element={<Learn loggedIn={loggedIn} />} />
         <Route exact path='/contact' element={<Contact loggedIn={loggedIn} />} />
+        <Route exact path='/explore' element={<Explore loggedIn={loggedIn} />} />
         <Route path='*' element={<NotFound loggedIn={loggedIn} />} />
       </Routes>
     </Router>
