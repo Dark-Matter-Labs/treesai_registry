@@ -11,12 +11,14 @@ module.exports = {
         'indigo-600': '#4F46E5',
         'indigo-700': '#3922C7',
         'indigo-800': '#1A0789',
+        'green-100': '#1E1E1E',
         'green-300': '#C2F2E7',
         'green-400': '#8CE3CE',
         'green-500': '#3DCCAA',
         'green-600': '#1EB792',
         'green-700': '#0F886B',
         'green-800': '#095A47',
+        'green-900': '#182421',
         'dark-wood-300': '#DDDDDD',
         'dark-wood-400': '#CFD0CF',
         'dark-wood-500': '#ACAFAE',
@@ -29,6 +31,8 @@ module.exports = {
         'red-600': '#D04020',
         'red-700': '#AA2B10',
         'red-800': '#741D0A',
+        'beige-200': '#f9f7f6',
+        'beige-300': '#8F8C83'
       },
       fontFamily: {
         favorit: ['"ABCFavorit"', 'sans-serif'],
