@@ -46,6 +46,16 @@ export default function NavBar(props) {
                     </Link>
                   </div>
                   <div className='hidden sm:ml-6 sm:flex sm:space-x-8'>
+                  <span
+                      className={classNames(
+                        props.current === 'portfolio'
+                          ? 'border-green-600 text-dark-wood-800'
+                          : 'border-transparent text-gray-500',
+                        'medium-intro-sm inline-flex items-center border-b-2 px-1 pt-1',
+                      )}
+                    >
+                      <Link to='/explore'>Explore</Link>
+                    </span>
                     <div
                       className={classNames(
                         props.current === 'invest' ? 'border-green-600 ' : 'border-transparent ',
