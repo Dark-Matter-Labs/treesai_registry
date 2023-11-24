@@ -118,7 +118,7 @@ export const get_saf_runs_by_hash = async (run_hash) => {
   const project_id = sessionStorage.project_id;
 
   const url =
-    API_ENDPOINT + 'saf/users/' + user_id + '/projects/' + project_id + '/runs/' + run_hash;
+    API_ENDPOINT + 'gus/users/' + user_id + '/projects/' + project_id + '/runs/' + run_hash;
 
   return axios.get(url, getConfig).then((res) => res.data['runs']);
 };
@@ -127,7 +127,7 @@ export const post_saf_runs_and_get_hash = async (payload) => {
   const user_id = sessionStorage.user_id;
   const project_id = sessionStorage.project_id;
 
-  const url = API_ENDPOINT + 'saf/users/' + user_id + '/projects/' + project_id + '/runs';
+  const url = API_ENDPOINT + 'gus/users/' + user_id + '/projects/' + project_id + '/runs';
 
   let hash = await axios
     .post(url, payload, postConfig)
@@ -139,7 +139,7 @@ export const post_saf_runs_and_get_hash = async (payload) => {
 };
 
 export const create_project_and_get_ID = async (payload) => {
-  const url = API_ENDPOINT + 'saf/users/' + sessionStorage.user_id + '/projects/';
+  const url = API_ENDPOINT + 'gus/users/' + sessionStorage.user_id + '/projects/';
 
   let response = await axios
     .post(url, payload, postConfig)
@@ -156,7 +156,7 @@ export const create_project_and_get_ID = async (payload) => {
 
 export const patch_project = async (project_id, payload) => {
   const url =
-    API_ENDPOINT + 'saf/users/' + sessionStorage.user_id + '/projects/' + project_id + '/';
+    API_ENDPOINT + 'gus/users/' + sessionStorage.user_id + '/projects/' + project_id + '/';
 
   return axios
     .patch(url, payload, patchConfig)
@@ -168,7 +168,7 @@ export const patch_project = async (project_id, payload) => {
 
 /* ------------------- Account ------------------- */
 export const get_user_projects = async (user_id) => {
-  const url = API_ENDPOINT + 'saf/users/' + user_id + '/projects/';
+  const url = API_ENDPOINT + 'gus/users/' + user_id + '/projects/';
 
   return await axios
     .get(url, getConfig)
@@ -178,13 +178,13 @@ export const get_user_projects = async (user_id) => {
 
 export const get_saf_runs_by_projectID = async (project_id) => {
   const user_id = sessionStorage.user_id;
-  const url = API_ENDPOINT + 'saf/users/' + user_id + '/projects/' + project_id + '/runs';
+  const url = API_ENDPOINT + 'gus/users/' + user_id + '/projects/' + project_id + '/runs';
 
   return await axios.get(url, getConfig).then((res) => res.data['runs']);
 };
 
 export const get_projects_summary = async (user_id) => {
-  let url = API_ENDPOINT + 'saf/summary/' + '?user_id=' + user_id;
+  let url = API_ENDPOINT + 'gus/summary/' + '?user_id=' + user_id;
 
   return await axios
     .get(url, getConfig)
@@ -195,7 +195,7 @@ export const get_projects_summary = async (user_id) => {
 /* ------------------- Explore ------------------- */
 
 export const get_projects = async (queryArgs) => {
-  let url = API_ENDPOINT + 'saf/projects/';
+  let url = API_ENDPOINT + 'gus/projects/';
 
   if (queryArgs) {
     url += '?';
@@ -213,7 +213,7 @@ export const get_projects = async (queryArgs) => {
 };
 
 export const get_explore_summary = async () => {
-  let url = API_ENDPOINT + 'saf/summary/';
+  let url = API_ENDPOINT + 'gus/summary/';
 
   return await axios
     .get(url, getConfig)
